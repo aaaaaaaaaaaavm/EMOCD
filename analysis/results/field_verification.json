@@ -1,0 +1,25 @@
+{
+  "convention_probe": {
+    "1": {
+      "gap_side_T": 0.0359,
+      "back_side_T": 0.3514
+    },
+    "-1": {
+      "gap_side_T": 0.3514,
+      "back_side_T": 0.0359
+    }
+  },
+  "step_strong_toward_gap": -1,
+  "analytic_B0_surface_T": 0.7714,
+  "analytic_single_midgap_T": 0.3517,
+  "magpylib_single_midgap_T": 0.3514,
+  "double_midgap_peak_T": 0.6942,
+  "analytic_double_peak_T": 0.7034,
+  "winding_mean_absB_T": 0.5518,
+  "winding_mean_absBy_T": 0.4827,
+  "stray_field": {
+    "10mm_mT": 22.7,
+    "20mm_mT": 4.3,
+    "50mm_mT": 0.4
+  }
+}

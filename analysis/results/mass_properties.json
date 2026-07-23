@@ -1,0 +1,93 @@
+{
+  "dry_kg": 72.3,
+  "loaded_kg": 120.3,
+  "cg_m": 0.46,
+  "sled_kg": 4.86,
+  "parts": [
+    [
+      "Track longerons (2x Al box section)",
+      6.83,
+      0.75
+    ],
+    [
+      "Stator copper (1.3 m, 60% fill)",
+      6.29,
+      0.65
+    ],
+    [
+      "Stator formers / potting (PEEK eq.)",
+      0.97,
+      0.65
+    ],
+    [
+      "Sled Halbach magnets (2 faces)",
+      3.67,
+      0.15
+    ],
+    [
+      "Sled Ti chassis (shell equivalent)",
+      0.74,
+      0.15
+    ],
+    [
+      "Sled rollers / latch / backstop",
+      0.45,
+      0.15
+    ],
+    [
+      "Eddy brake magnets + yoke",
+      1.68,
+      1.42
+    ],
+    [
+      "Brake Cu fin + ring spring",
+      1.2,
+      1.4
+    ],
+    [
+      "Cassette shells (2x Al sheet eq.)",
+      8.85,
+      0.35
+    ],
+    [
+      "Followers, gates, escapements (2x)",
+      2.6,
+      0.3
+    ],
+    [
+      "Supercapacitor cells + busbars",
+      6.5,
+      0.1
+    ],
+    [
+      "PPU (SiC bridge, filters)",
+      4.0,
+      0.1
+    ],
+    [
+      "Battery + avionics + IMU",
+      5.5,
+      0.12
+    ],
+    [
+      "Harness",
+      2.5,
+      0.6
+    ],
+    [
+      "Thermal (pipes, radiator, MLI)",
+      6.0,
+      0.7
+    ],
+    [
+      "ESPA bracket + fasteners",
+      9.0,
+      0.35
+    ],
+    [
+      "Panels / closeouts",
+      5.5,
+      0.75
+    ]
+  ]
+}
