@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Provenance and ground rules
+    url: https://github.com/aaaaaaaaaaaavm/EMOCD/blob/main/CONTRIBUTING.md
+    about: Before filing, read how this repository treats provenance — the scripts are the source of truth, and no generated number may pass as a measured one.

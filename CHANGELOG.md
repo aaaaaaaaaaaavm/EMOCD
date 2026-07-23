@@ -108,7 +108,11 @@ Repository presentation (owner-requested professional pass): set description; ad
 topics (cubesat, electromagnetic-launch, halbach-array, linear-synchronous-motor,
 astrodynamics, …); disabled wiki and projects, kept issues; added honest static README
 badges (MIT license, Python 3.9+, TRL 2–3, "model only, unverified"). No CI or fake
-status badges were added.
+status badges were added. Added `CONTRIBUTING.md` (provenance-first: scripts are the
+source of truth, mark verification status, no reconstruction) and a GitHub issue template
+for reporting reproduction discrepancies, both matching the repo's existing P-item
+discipline. Tagged **v0.1.0** (annotated) and published a matching GitHub release, with
+notes stating the design-study / unverified status up front.
 
 ---
 
