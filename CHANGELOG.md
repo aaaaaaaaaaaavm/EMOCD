@@ -87,12 +87,28 @@ delivered at the bank terminals). **The value is correct; no edit was made.**
 `numpy` + `magpylib` (matplotlib/scipy pulled transitively). Run from `analysis/`.
 No CI, tests, or other tooling was added.
 
-### Phase 4 — Git and GitHub
+### Phase 4 — Git and GitHub (completed 2026-07-23)
 
-**Not started.** Pending the license decision and the owner's explicit review. When
-started: `git init`, phase-separated commits, `gh repo create` **PRIVATE by default**
-(the analysis scripts disclose the design operating point and no provisional patent is
-filed — `OPEN_PROBLEMS.md` E14), push, then stop for the owner to confirm the URL.
+`git init` with a repo-local identity (Adityavardhan Mishra
+<adityavardhanmishr@gmail.com>). History was built as four logically separable commits:
+
+1. `Baseline: EMOCD design-study repo as exported` — 47 files, pre-audit state (original
+   paper with the P1–P4 defects intact, so the corrections show as real diffs).
+2. `fix(paper): correct P1-P4 and current density against the scripts` — 3 files
+   (paper.tex, regenerated F06, rebuilt PDF).
+3. `chore(repo): license, citation, audit log, gitignore, doc sync` — 8 files.
+4. `docs: add status badges to README`.
+
+Pushed to **https://github.com/aaaaaaaaaaaavm/EMOCD**, created **PRIVATE** and confirmed
+private via API (`"private": true`) — the analysis scripts disclose the design operating
+point and no provisional patent is filed (`OPEN_PROBLEMS.md` E14). **Visibility remains
+the owner's decision.**
+
+Repository presentation (owner-requested professional pass): set description; added 15
+topics (cubesat, electromagnetic-launch, halbach-array, linear-synchronous-motor,
+astrodynamics, …); disabled wiki and projects, kept issues; added honest static README
+badges (MIT license, Python 3.9+, TRL 2–3, "model only, unverified"). No CI or fake
+status badges were added.
 
 ---
 
