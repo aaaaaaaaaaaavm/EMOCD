@@ -42,7 +42,7 @@ magpylib, agreeing to three digits) and orbital decay (orbit-averaged vs Cowell 
 ```bash
 pip install -r requirements.txt
 cd analysis
-python3 verify_field.py && python3 mass_properties.py && python3 motor_model.py && python3 astro.py
+python3 verify_field.py && python3 mass_properties.py && python3 motor_model.py && python3 sizing.py && python3 astro.py
 ```
 
 Results land in `analysis/results/*.json`.
@@ -61,10 +61,13 @@ Results land in `analysis/results/*.json`.
 
 ## Known issues
 
-The published paper contains four numbers its own scripts do not reproduce: the
-conjunction minimum, peak current, far-field stray values, and the brake fin temperature
-rise. See `OPEN_PROBLEMS.md` P1–P4 before citing it. All four were found by
-reconstructing the analysis from scratch.
+The published paper previously contained four numbers its own scripts did not reproduce
+(conjunction minimum, peak current, far-field stray values, brake fin temperature rise),
+all found by reconstructing the analysis from scratch. **All four were corrected in
+`paper/paper.tex` on 2026-07-23 to match the scripts**, and the conjunction claim was
+additionally reframed because that minimum is not a robust quantity. Full record with
+cause, before/after, and references is in `CHANGELOG.md`; the original defects remain
+documented in `OPEN_PROBLEMS.md` P1–P4 for the audit trail.
 
 ## Author
 

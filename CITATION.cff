@@ -1,0 +1,20 @@
+cff-version: 1.2.0
+message: "If you reference this work, please cite it as below. This is a design study at TRL 2-3 produced with heavy AI assistance and with no experimental, FEA, or third-party validation; see PROVENANCE.md."
+title: "EMOCD: A Linear-Motor Electromagnetic Deployment System for Deterministic CubeSat Orbit Seeding from Small Launch Vehicles"
+abstract: "EMOCD is a magazine-fed electromagnetic deployer concept that ejects unmodified CubeSats at a programmable velocity in the tens-of-m/s regime between spring deployers and propulsive transfer vehicles. This repository contains the analysis scripts, the IEEE conference paper, and the full provenance record. Design study only: no hardware, CAD, or FEA."
+type: software
+authors:
+  - family-names: Mishra
+    given-names: Adityavardhan
+    affiliation: "Department of Mechanical Engineering, Symbiosis Institute of Technology, Symbiosis International (Deemed University), Pune, India"
+    email: adityavardhanmishr@gmail.com
+version: "0.1.0"
+date-released: "2026-07-23"
+keywords:
+  - CubeSat deployment
+  - electromagnetic launch
+  - Halbach array
+  - linear synchronous motor
+  - rideshare
+  - constellation phasing
+license: MIT

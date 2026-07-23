@@ -7,8 +7,8 @@ Reproduces (paper Secs. IV-C, V-B, V-C) at the final rated velocity of 20.37 m/s
     Cowell vs orbit-averaged    99.4 % agreement on 30-day decay
     drift seeding 2/5/10 m/s    30 deg in 6.9 / 2.8 / 1.4 days
     differential drag (3:1)     30 deg in 25.0 days  <- the comparison baseline
-    conjunction min (12 shots)  45.3 km sat-stage, resolved at 0.25 s
-    phase realignment           8.1 days
+    conjunction (screening)     4.6 km min / 12.3 km median at 20.37 m/s -- fragile
+    phase realignment           8.1 days (the robust quantity; see OPEN_PROBLEMS P1)
 
 MODEL LIMITATION: static exponential atmosphere (Vallado-class table, mean solar
 activity). Absolute lifetimes carry severalfold uncertainty across the solar cycle;

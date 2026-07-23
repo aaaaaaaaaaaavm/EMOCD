@@ -7,7 +7,14 @@ fixed first. **E-items are genuinely unsolved engineering.**
 
 ## P — Errors found while building this repo (paper does not match its own scripts)
 
+> **STATUS (2026-07-23): P1–P4 all RESOLVED in `paper/paper.tex`.** Fixes, causes and
+> before/after values are logged in `CHANGELOG.md` (entries P2-01–P2-04). The items are
+> kept in full below for the audit record. Two related defects found in the process were
+> also fixed: the F06 conjunction figure was regenerated at the rated velocity, and a
+> stale `astro.py` docstring value was corrected — both logged in `CHANGELOG.md`.
+
 ### P1. Conjunction minimum is wrong AND not a robust quantity — HIGH PRIORITY
+**RESOLVED 2026-07-23 — see CHANGELOG.md P2-01.**
 The paper states a 30-day minimum satellite-to-stage approach of **45.3 km**. That
 figure was computed at **20.65 m/s**, the superseded operating point. At the paper's
 own rated velocity of **20.37 m/s**, `analysis/astro.py` gives **4.6 km**.
@@ -31,12 +38,14 @@ of the host stage before the first realignment. State plainly that per-shot COLA
 mandatory because the approach geometry is sensitive to exact ejection velocity.
 
 ### P2. Peak current is stale — MEDIUM PRIORITY
+**RESOLVED 2026-07-23 — see CHANGELOG.md P2-02.**
 Paper says **323 A**. That belongs to the superseded 130 kA/m point. At the rated
 140 kA/m, `motor_model.py` gives **392 A**. Fix the paper, and check that the SiC
 device derating discussion still holds at the higher current (it should — 96 V rail,
 1200 V devices — but the current rating of the bridge and busbars needs restating).
 
 ### P3. Far-field stray values don't reproduce exactly — LOW PRIORITY
+**RESOLVED 2026-07-23 — see CHANGELOG.md P2-03.**
 Paper quotes 22.7 / 4.7 / 1.0 mT at 10 / 20 / 50 mm. `verify_field.py` reproduces
 22.7 mT at 10 mm exactly but gives 4.3 and 0.4 mT at 20 and 50 mm. Likely sensitivity
 to modelled array length (edge effects dominate the far field). The 10 mm value is the
@@ -44,6 +53,7 @@ one that sets the keep-out spec, so this is minor — but resolve it before anyo
 the 20/50 mm numbers.
 
 ### P4. Brake fin temperature rise conflates per-shot with per-campaign — MEDIUM PRIORITY
+**RESOLVED 2026-07-23 — see CHANGELOG.md P2-04.**
 The paper states the 0.86 kg copper fin sees "an adiabatic 37 K transient rise" **per
 shot**, and later refers to "the adiabatic per-shot rises (0.3 K coil, 37 K fin)".
 

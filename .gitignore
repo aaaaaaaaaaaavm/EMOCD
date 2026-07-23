@@ -1,9 +1,20 @@
+# Python
 __pycache__/
 *.pyc
+.venv/
+venv/
+
+# LaTeX build intermediates
 *.aux
 *.log
 *.out
 *.fls
 *.fdb_latexmk
 *.synctex.gz
+*.toc
+*.bbl
+*.blg
+paper.pdf          # transient latexmk/tectonic output; committed PDF is EMOCD_IEEE_Conference.pdf
+
+# OS
 .DS_Store
