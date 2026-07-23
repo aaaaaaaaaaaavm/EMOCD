@@ -70,6 +70,68 @@ radiation between shots relieves. Same correction applies to the coil: 0.28 K pe
 
 ---
 
+## P — CAD reconciliation and packaging (found in the 2026-07-23 Fusion 360 CAD build)
+
+> These arose when the parametric design was taken into CAD across nine Fusion documents.
+> The CAD is authoritative for **geometry and fit only**; `analysis/*.py` remains
+> authoritative for **mass and performance** until FEA closes the open items. All
+> geometry values below are traceable to `cad/parameters.json`. **No number in
+> `analysis/*.py` or `paper/paper.tex` has been changed** on the strength of the CAD.
+
+### P5. CAD sled mass contradicts the parametric assumption — HIGH PRIORITY
+The first-pass Fusion sled (6 mm Ti-6Al-4V chassis, stiffness-driven by the ±0.05 mm gap
+tolerance under 3.7 kN inter-array attraction, **no structural FEA behind it**) implies a
+sled mass of **~7.50 kg**. `analysis/mass_properties.py` assumes **4.86 kg**, which
+`motor_model.py` hard-codes as `M_SLED` and which sets the headline exit velocity. Both
+are estimates — one CAD-geometric, one parametric-solid — and neither is FEA-verified. Do
+not change the scripts until ANSYS analysis A4 closes the chassis. Source:
+`cad/parameters.json` (sled group, `PROVISIONAL_PENDING_FEA`).
+
+### P6. Payload seating / orientation — RESOLVED (by CAD, 2026-07-23)
+Resolved via the rail interface: the 3U payload now models the four CubeSat Design
+Specification corner rails (8.5 mm, `cad/parameters.json` `payload_3u`), which fix seating
+and orientation against the sled cradle. No further action.
+
+### P7. Brake sits past the release point — geometry / ConOps
+The eddy brake occupies **x = 1530–1740 mm**, beyond the **1500 mm** satellite release
+point, on an 1800 mm longeron. The sled runs on into the brake after the payload departs
+— consistent with the fire-then-arrest ConOps, but it forces the track and enclosure to
+extend past release, which drives the envelope length (see P9). Source:
+`cad/parameters.json` (brake, track).
+
+### P8. Exit velocity provisionally 17.88 m/s pending sled structural FEA — HIGH PRIORITY
+If the CAD sled mass (P5) holds, exit velocity falls from the script's **20.37 m/s** to a
+provisional **~17.88 m/s** (with acceleration ~12.5 g, efficiency ~24 %, recoil
+~71.5 N·s, lifetime multiplier ×1.68 — all CAD-corrected and provisional). **These values
+are NOT propagated into `analysis/*.py` or `paper/paper.tex`**; the scripts stay
+authoritative until ANSYS Mechanical (analysis A4) locks the sled mass. Do not hard-swap
+20.37 → 17.88 anywhere. Source: 2026-07-23 CAD Master Plan; see README headline note.
+
+### P9. Closed envelope exceeds ESPA Grande by ~44% — packaging / host
+The closed installed envelope is **1839 × 530 × 940 mm** (`cad/parameters.json`). The
+1839 mm length exceeds ESPA Grande's ~1270 mm longest-dimension class by ~44%, because
+the brake lives past the 1500 mm release point and the enclosure spans it. Owner decision
+(cannot be made in code): re-scope the host to POEM / custom accommodation (the paper
+already leans host-agnostic), or shorten the track / repackage the brake. This supersedes
+the earlier 1825 × 516 × ~1030 mm figure; the height change (1030 → 940) exceeds what skin
+thickness explains and is **flagged for re-verification** in `cad/parameters.json`.
+
+### P10. Enclosure, radiator, and packaged avionics absent from the mass rollup — MEDIUM (NEW)
+The ninth document (`EMOCD_Enclosure`) adds 2 mm aluminium skins, a 1600 × 200 × 3 mm
+radiator, and equipment bays for the supercapacitor bank, PPU, sequencer, and IMU. **None
+have line items in `analysis/mass_properties.py`**, so the 72.3 kg dry-mass rollup is
+incomplete. Add line items once masses are estimated (do not alter existing items without
+cause). Source: `cad/parameters.json` (`enclosure.mass_note`).
+
+### Advanced or resolved by the CAD build (not full closures)
+- **Launch restraint now exists as geometry.** The breech launch-lock blocks are modelled
+  (`cad/parameters.json` `track`: `launch_lock` at x = 30–50 mm, 2 off). This advances
+  **E10** (previously "concept-level") — the lock is drawn, though still not analysed.
+- **Payload interface now models CDS corner rails** (see P6), giving the rail contact
+  faces the interface-control drawing needs.
+
+---
+
 ## E — Unsolved engineering
 
 ### E1. Three-dimensional field closure

@@ -9,7 +9,8 @@ A magazine-fed electromagnetic deployer that ejects unmodified CubeSats from a h
 stage at programmable velocity, aimed at the unserved regime between spring deployers
 (~2 m/s) and propulsive orbital transfer vehicles (hundreds of m/s).
 
-**Status: design study, TRL 2–3. No hardware, no CAD, no FEA.**
+**Status: design study, TRL 2–3. CAD complete across 9 Fusion 360 documents with STEP
+exports committed (`cad/`); FEA and hardware still outstanding.**
 **Read `PROVENANCE.md` before citing anything here.**
 
 ## The idea
@@ -38,6 +39,16 @@ modified — the magnets ride the sled, not the payload.
 | Track first mode | 109 Hz fixed-fixed (target >70) | `analysis/sizing.py` |
 | Energy closure | 100.1 % accounted | `analysis/sizing.py` |
 
+> **⚠ CAD structural reconciliation pending (P8).** The figures above are the script
+> outputs and assume the 4.86 kg parametric sled mass from `mass_properties.py`. The
+> first-pass Fusion CAD sled (6 mm Ti-6Al-4V chassis, no structural FEA behind it) comes
+> out heavier — provisionally **~7.50 kg** — which would lower exit velocity to a
+> provisional **~17.88 m/s** and shift efficiency, recoil, and the lifetime multiplier
+> with it. **These numbers are deliberately left as the scripts compute them** until
+> ANSYS structural analysis closes the sled mass. The scripts stay authoritative; the CAD
+> is authoritative for geometry and fit only. See `OPEN_PROBLEMS.md` P5/P8 and
+> `cad/parameters.json`.
+
 Two results have independent cross-checks: the Halbach field model (analytic vs
 magpylib, agreeing to three digits) and orbital decay (orbit-averaged vs Cowell RK4,
 99.4 %). Everything else is single-sourced.
@@ -55,6 +66,8 @@ Results land in `analysis/results/*.json`.
 ## Repository layout
 
 - `analysis/` — current scripts; these reproduce the numbers above
+- `analysis/femm/` — FEMM magnetostatics package: `emocd_cross_section.dxf` + `FEMM_RUN_SHEET.md` (analysis A1, not yet run)
+- `cad/` — Fusion 360 CAD: `parameters.json` (geometry source of truth, 9 documents), `step/` exports, `renders/`
 - `legacy/` — superseded scripts, kept for history, **do not cite**
 - `paper/` — IEEE conference paper (LaTeX source, figures, PDF)
 - `docs/` — computation notes, FEMM run sheet

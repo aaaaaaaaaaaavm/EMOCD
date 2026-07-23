@@ -116,6 +116,43 @@ notes stating the design-study / unverified status up front.
 
 ---
 
+## Session 2026-07-23 — CAD integration (9 Fusion 360 documents)
+
+Since the paper-corrections session above, the Fusion 360 CAD was completed in a separate
+session (nine documents: Track, Stator, Sled, Payload_3U, Magazine_Cassette, Brake,
+Interface_ESPA, **Enclosure (new)**, Assembly). This session imports the durable CAD
+artifacts and reconciles the repository's now-stale claims.
+
+**Guardrail honoured: no number in `analysis/*.py` or `paper/paper.tex` was changed.** The
+CAD is authoritative for **geometry and fit only**; the scripts remain authoritative for
+**mass and performance** until FEA closes the open items. File-size report was reviewed
+before committing; nothing approached 50 MB, so Git LFS was not used.
+
+### Artifacts imported
+
+| ID | Path | What | Source | Size |
+|---|---|---|---|---|
+| CAD-01 | `cad/step/*.step` (9) | STEP exports of all nine documents (8 parts + `EMOCD_Assembly`) | `~/Desktop/EMOCD_figs` | 1.8 MB total (largest: Assembly 1.3 MB) |
+| CAD-02 | `cad/renders/*.png` (8) | Render set: `exterior_closed`, `exterior_aft_mounting`, `interior_open`, `exploded_view`, `seq1_stowed`…`seq4_braking` | `~/Desktop/EMOCD_figs` | 1.0 MB total |
+| CAD-03 | `cad/parameters.json` | Geometry source of truth — 9 groups incl. the new `enclosure`; ESPA rebuilt as Ø460 ring flange / Ø400 bolt circle / 24 holes / hub / 4 gussets; brake as 15 mm tapered pole plates; envelope recorded as 1839 × 530 × 940 mm | CAD session (`files.zip`) | 12 KB |
+| CAD-04 | `analysis/femm/emocd_cross_section.dxf` | 2-D magnetic cross-section (one wavelength, layers `MAG_*`/`BELT`) for FEMM analysis A1 | CAD session | 1.5 KB |
+| CAD-05 | `analysis/femm/FEMM_RUN_SHEET.md` | Run sheet for the FEMM airgap-field check (A1 — closes half of E1); distinct from and supersedes the older `docs/FEMM_Run_Sheet.md` | CAD session | 3.1 KB |
+
+All CAD artifacts are AI-generated in the CAD session and **unverified by FEA or hardware**
+(`cad/parameters.json` itself carries `PROVISIONAL_PENDING_FEA` flags and an incomplete
+final-verification note). Provenance: `[YOU]`, owner-directed.
+
+### Documentation reconciled (before → after)
+
+| ID | File | Cause | Removed → Added | Prov. |
+|---|---|---|---|---|
+| CAD-06 | `README.md` status line | "No hardware, no CAD, no FEA" is now false | → "CAD complete across 9 Fusion 360 documents with STEP exports committed (`cad/`); FEA and hardware still outstanding" | [BOTH] |
+| CAD-07 | `README.md` headline table | CAD sled mass (7.50 kg) implies a lower exit velocity than the 20.37 m/s headline, but the chassis is a first-pass 6 mm design with no FEA | Added a ⚠ note: figures assume the 4.86 kg parametric sled and are pending CAD structural reconciliation (P8; provisional ~17.88 m/s). **Computed numbers left unchanged.** | [BOTH] |
+| CAD-08 | `README.md` layout | New folders undocumented | Added `cad/` and `analysis/femm/` entries | [YOU] |
+| CAD-09 | `OPEN_PROBLEMS.md` | P5–P10 absent | Added a "CAD reconciliation" P-section: **P5** sled mass 7.50 vs 4.86 kg; **P6** RESOLVED (CDS corner rails); **P7** brake past the 1500 mm release point; **P8** provisional 17.88 m/s pending FEA; **P9** envelope 1839 mm, ~44% over ESPA Grande; **P10** enclosure/radiator/avionics absent from `mass_properties.py`. Noted launch-lock geometry now exists (advances E10) and CDS corner rails modelled. | [BOTH] |
+
+---
+
 ## Open decisions
 
 1. **LICENSE** — RESOLVED 2026-07-23: owner chose **MIT** (P3-07).
