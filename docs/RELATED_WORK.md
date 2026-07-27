@@ -58,6 +58,53 @@ that deorbited between 1961 and 2024 (arXiv 2601.02453) appeared in the same sea
 is what the abstract suggests, it is a ready-made benchmark for E6 — but only the
 search-result summary was seen, so it is a lead and nothing more.
 
+## Publication venue
+
+**IEEE International Symposium on Electromagnetic Launch Technology (EML)** — biennial,
+run under the IEEE Nuclear & Plasma Sciences Society, and the principal forum for
+electromagnetic acceleration of macroscopic objects since 1980. Selected papers are
+published as a special issue of **IEEE Transactions on Plasma Science**; earlier symposia
+also fed **IEEE Transactions on Magnetics**. This is a closer fit than a general
+conference, and more to the point, its reviewers are the people most likely to find a
+problem in the thrust-constant derivation — which is the reason to send it there.
+
+## Architectural precedent
+
+**Post & Ryutov (LLNL), "The Inductrack: A Simpler Approach to Magnetic Levitation,"** and
+**"The Design of Halbach Arrays for Inductrack Maglev Systems"** (LLNL-CONF-406791).
+The closest published ancestor of this architecture: Halbach array on the moving element,
+passive circuits in the track. Post's force scaling — of order 40 tonnes per square metre
+of Halbach array — is a useful order-of-magnitude anchor for the 120 kPa Maxwell stress in
+`sizing.py`, once the difference between levitation and inter-array attraction is stated
+explicitly rather than assumed away.
+
+**NASA MagLifter launch-assist sled work** (superconducting-magnet sleds, and a
+NASA-sponsored 10-g Inductrack model). Prior art for maglev launch assist, and the obvious
+thing a reviewer will ask EMOCD to distinguish itself from.
+
+## Flight data for validating decay
+
+**CelesTrak** and **Space-Track.org** publish TLE histories, decay predictions, and
+reentry records. `validation/A5_astro_orekit.md` currently proposes checking `astro.py`
+against another propagator — two models agreeing. Checking it instead against the
+*measured* decay of real 3U CubeSats at 450–500 km with known ballistic coefficients would
+be a stronger claim, and it is free data.
+
+Set expectations first: published guidance puts lifetime-prediction accuracy at roughly
+10 % of residual lifetime at best, driven by atmospheric density uncertainty. That is the
+realistic band for absolute lifetimes and reinforces why E6 defends the ×1.80 ratio rather
+than the years.
+
+Space-Track's **Conjunction Data Messages** are also the obvious source for a defensible
+covariance in A6, which currently has to assume one.
+
+## Power electronics
+
+**ngspice** / **PySpice** (both free) would independently check the pulse-power chain —
+the 392 A peak, the 4.9 % bank sag across a 6 F / 96 V bank at 12 mΩ, and the SiC bridge
+loading. `sizing.py` computes these analytically; a circuit simulation is a genuinely
+different method and takes an afternoon, not a lab.
+
 ## Structural and multibody
 
 **CalculiX** and **Code_Aster** (both GPL) for A4; **Elmer** (LGPL) and **GetDP** if the
