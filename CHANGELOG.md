@@ -145,13 +145,20 @@ carries `PROVISIONAL_PENDING_FEA` flags and an incomplete final-verification not
 |---|---|---|
 | ARC-01 | `paper/archive/EMOCD_submission_uncorrected.pdf` | Added an earlier compile of the paper, predating the 2026-07-23 corrections. It still carries the P1–P4 values (323 A peak current, 23 A/mm² at 140 kA/m, 37 K per-shot fin rise, 45.3 km conjunction minimum). Filed under `paper/archive/` with a README stating the deltas, so it cannot be mistaken for the current build. The canonical PDF remains `paper/EMOCD_IEEE_Conference.pdf`. |
 | ARC-02 | `cad/README.md` | Added the Fusion 360 web-view link (https://a360.co/4vSG6cb) under a "Live model" heading, noting that the committed STEP files and `parameters.json` — not the live model — are what the repository stands behind. |
+| OP-01 | `OPEN_PROBLEMS.md` | Review pass. **P11 added (NEW):** the archived build still carries all four P1–P4 values and its filename says *submission* — if that is the version of record, P1–P4 are fixed only in this repo and need a corrigendum, not a commit. Flagged UNCONFIRMED pending an answer. |
+| OP-02 | `OPEN_PROBLEMS.md` | **E3** retitled and rewritten: the "no CAD" half is closed by `cad/`, but masses are still parametric and unchecked against vendor data, and Fusion masses are proxies (solid copper / solid aluminium / steel for NdFeB) that cannot substitute. Points at P5, P8, P10. |
+| OP-03 | `OPEN_PROBLEMS.md` | **E1** updated: the magnetostatic package now exists (`analysis/femm/`, superseding `docs/FEMM_Run_Sheet.md`) but has not been run; A1 closes the 2-D half only. **E2** names the two specified-but-unexecuted analyses (A1, A4). **E10** notes the launch-lock blocks now exist as CAD geometry. |
+| OP-04 | `OPEN_PROBLEMS.md`, `CHANGELOG.md` | **E14** rewritten: the repository is public, so the disclosure decision is spent; what remains is the post-disclosure grace-period question and an explicit close-out if no filing is wanted. The stale "repo visibility stays private" open decision corrected to match. |
+| OP-05 | `README.md`, `INVENTORY.md`, `wiki/Home.md` | Open-problem summaries synced: P11 added, E1 noted as written-but-unrun, E14 reworded from "unresolved decision" to "disclosure already happened". |
 
 ---
 
 ## Open decisions
 
 1. **LICENSE** — RESOLVED 2026-07-23: owner chose **MIT** (P3-07).
-2. **Repo visibility** — stays **private** until the owner decides otherwise (E14).
+2. **Repo visibility** — RESOLVED: the repository is now **public**, which discloses the
+   scripts and the operating point. See `OPEN_PROBLEMS.md` E14 for what that costs on the
+   patent side.
 
 ## Known follow-ups not yet addressed
 

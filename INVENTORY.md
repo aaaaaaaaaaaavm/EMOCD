@@ -113,10 +113,11 @@ Reasoning is recorded in `docs/DECISION_LOG.md`.
 ## E. Open problems
 
 Full detail in `OPEN_PROBLEMS.md`. Summary: P1–P4 are errors in the published paper
-(conjunction minimum, peak current, stray far-field, fin temperature), all now corrected.
+(conjunction minimum, peak current, stray far-field, fin temperature), corrected in
+`paper.tex` — though P11 asks whether those corrections reached the submitted build.
 P5–P10 come out of the CAD build. E1–E16 are unsolved engineering, of which the
 load-bearing ones are 3-D field closure, the absence of FEA and hardware, and the
-unresolved patent/disclosure question.
+patent position now that disclosure has happened.
 
 ## F. External sources
 

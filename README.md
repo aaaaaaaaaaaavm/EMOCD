@@ -83,7 +83,9 @@ The published paper previously contained four numbers its own scripts did not re
 (conjunction minimum, peak current, far-field stray values, brake fin temperature rise),
 all found by reconstructing the analysis from scratch. **All four were corrected in
 `paper/paper.tex` on 2026-07-23 to match the scripts**, and the conjunction claim was
-additionally reframed because that minimum is not a robust quantity. Full record with
+additionally reframed because that minimum is not a robust quantity. Note that
+`paper/archive/EMOCD_submission_uncorrected.pdf` still carries the uncorrected values —
+whether that build is the one that was submitted is open (`OPEN_PROBLEMS.md` P11). Full record with
 cause, before/after, and references is in `CHANGELOG.md`; the original defects remain
 documented in `OPEN_PROBLEMS.md` P1–P4 for the audit trail.
 

@@ -135,10 +135,14 @@ Open items now, in rough order of how much they move the design:
 - **P9** — closed envelope exceeds the ESPA Grande class limit by roughly 44 %; the host
   claim must be re-scoped or the machine repackaged.
 - **P10** — enclosure, radiator, and packaged avionics are missing from the mass rollup.
+- **P11** — the archived build in `paper/archive/` still carries the uncorrected P1–P4
+  values; whether that is the version that was submitted is unconfirmed.
 - **E1** — three-dimensional field closure; the winding is resolved in 2-D, so end
-  effects of a few percent on Kt are uncomputed.
+  effects of a few percent on Kt are uncomputed. The FEMM package (A1) is written but
+  has not been run.
 - **E2 / E4** — no FEA of anything, no hardware at any level.
-- **E14** — patent and disclosure question unresolved.
+- **E14** — disclosure has already happened; the patent position needs settling or
+  closing out.
 
 Full list with detail: [`OPEN_PROBLEMS.md`](https://github.com/aaaaaaaaaaaavm/emocd/blob/main/OPEN_PROBLEMS.md).
 

@@ -3,6 +3,8 @@
 Two categories: **P-items are errors in the currently published paper** and should be
 fixed first. **E-items are genuinely unsolved engineering.**
 
+Last reviewed 2026-07-27.
+
 ---
 
 ## P — Errors found while building this repo (paper does not match its own scripts)
@@ -123,6 +125,18 @@ have line items in `analysis/mass_properties.py`**, so the 72.3 kg dry-mass roll
 incomplete. Add line items once masses are estimated (do not alter existing items without
 cause). Source: `cad/parameters.json` (`enclosure.mass_note`).
 
+### P11. The corrections may never have reached the submitted paper — UNCONFIRMED (NEW 2026-07-27)
+`paper/archive/EMOCD_submission_uncorrected.pdf` is a build of the paper that still
+carries all four P1–P4 values (323 A, 23 A/mm² at 140 kA/m, 37 K per shot, 45.3 km
+conjunction minimum). Its filename says *submission*. If that is genuinely the version
+that went to the conference, then P1–P4 are corrected **only in this repository** and the
+version of record is still wrong — which is a different situation from the STATUS block
+at the top of this file, and one that a corrigendum, not a git commit, has to fix.
+**Confirm which build was submitted.** If it was the uncorrected one, decide between
+withdrawing, submitting an erratum, or correcting at the camera-ready stage, and record
+the outcome here. If the submitted build was in fact compiled from the corrected
+`paper.tex`, delete this item and say so in `CHANGELOG.md`.
+
 ### Advanced or resolved by the CAD build (not full closures)
 - **Launch restraint now exists as geometry.** The breech launch-lock blocks are modelled
   (`cad/parameters.json` `track`: `launch_lock` at x = 30–50 mm, 2 off). This advances
@@ -134,22 +148,31 @@ cause). Source: `cad/parameters.json` (`enclosure.mass_note`).
 
 ## E — Unsolved engineering
 
-### E1. Three-dimensional field closure
+### E1. Three-dimensional field closure — half of it is now set up, not run
 `motor_model.py` resolves the winding in 2-D. End effects of a few percent on Kt remain
-uncomputed. This is the declared close-out task for the electromagnetic model. FEMM run
-sheet is in `docs/FEMM_Run_Sheet.md`; note the acceptance band there predates the
-winding-resolved model and should be updated to the current Kt.
+uncomputed. This is the declared close-out task for the electromagnetic model. The
+magnetostatic package now exists — `analysis/femm/emocd_cross_section.dxf` plus
+`analysis/femm/FEMM_RUN_SHEET.md` (analysis A1), which supersedes the older
+`docs/FEMM_Run_Sheet.md`; the acceptance band in that older sheet predates the
+winding-resolved model and should not be used. **Nothing has been run.** A1 closes the
+2-D half; the 3-D end effects still need a 3-D solver.
 
 ### E2. No FEA confirmation of anything
 The field cross-check is analytic-vs-analytic (both magpylib and the wave model assume
 ironless geometry, where superposition is exact). That is a genuine check of the wave
-model but is NOT independent confirmation from a different physical method.
+model but is NOT independent confirmation from a different physical method. Two analyses
+are specified and neither has been executed: **A1** magnetostatic (E1 above) and **A4**
+sled-chassis structural, which is what P5 and P8 are waiting on.
 
-### E3. No CAD; all masses parametric
-`mass_properties.py` uses primitive solids with shell/fill factors. No component mass
-is checked against a vendor datasheet. Estimate spread perhaps ±15 %. The sled mass
-(4.86 kg) propagates directly into the headline velocity, so CAD will move the
-performance numbers.
+### E3. Masses are parametric and unchecked against vendor data
+CAD now exists (`cad/`, nine documents), so the "no CAD" half of this item is closed —
+but the mass problem is not. `mass_properties.py` still uses primitive solids with
+shell/fill factors, and no component mass is checked against a vendor datasheet;
+estimate spread perhaps ±15 %. Fusion-computed masses are **not** a substitute: they use
+solid-copper stator, solid-aluminium CubeSats, and steel standing in for NdFeB, which is
+why they are deliberately excluded from `cad/parameters.json`. The sled mass (4.86 kg)
+propagates directly into the headline velocity — see P5 and P8 — and the enclosure,
+radiator, and avionics are still missing from the rollup entirely (P10).
 
 ### E4. No hardware at any level
 TRL 2–3. Nothing has been built, fired, or measured. The velocity, dispersion, and
@@ -177,9 +200,11 @@ correction.
 The payload family table is arithmetic from the same thrust constant. No mechanism,
 cassette, or structural design exists for larger classes.
 
-### E10. Launch restraint is concept-level
-Retention gate pin sizing exists (two D6 A-286, margin 1.2). The rest — escapement
-caging, cam lock, tolerance stack-up under vibration — is described, not analysed.
+### E10. Launch restraint is drawn but not analysed
+Retention gate pin sizing exists (two D6 A-286, margin 1.2) and the breech launch-lock
+blocks are now modelled in CAD (`cad/parameters.json` `track`: `launch_lock`, x = 30–50
+mm, 2 off). The rest — escapement caging, cam lock, tolerance stack-up under vibration —
+is drawn or described, not analysed.
 
 ### E11. No contamination or outgassing analysis
 Materials were selected against E595 limits by rule, not by analysis. No contamination
@@ -190,18 +215,21 @@ Static magnetic keep-out is computed. Induced currents from switching transients
 adjacent payloads are discussed but not calculated.
 
 ### E13. Two numbers in source documents were never traced
-- The "780 deg/s" tumble rate from an uploaded third-party document. Falsified as
+- The "780 deg/s" tumble rate from a third-party document. Falsified as
   implausible (would require a ~7.6 m line-of-action offset on a 1 m vehicle) but its
   origin was never found.
 - The "1,000+ G hardening" figure, whose context (ground-launch guns) does not apply
   to this design.
 
-### E14. Patent / disclosure question unresolved
-Concept and results are now public (LinkedIn, and this repo). No provisional
-application was filed first. Detailed mechanism design and operating point were
-deliberately withheld from public posts — but publishing this repository discloses the
-scripts and therefore the operating point. **Decide whether that is acceptable before
-making the repo public.** This is a real, irreversible consequence.
+### E14. Patent / disclosure — the disclosure has now happened
+Concept and results are public (LinkedIn, and this repository, which is now a **public**
+repo carrying the scripts and therefore the operating point). No provisional application
+was filed first, so this is done and cannot be undone. What remains is not a decision but
+a consequence to be handled: any patent route now runs on whatever post-disclosure grace
+period applies in each jurisdiction — India and the US have one, most of Europe does not
+— counted from the earliest public disclosure, not from today. **If a filing is still
+wanted, establish that earliest date and take advice quickly.** If it is not, close this
+item out explicitly so it stops reading as pending.
 
 ### E15. Sponsorship not secured
 The build is the declared next step and is unfunded.
