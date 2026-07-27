@@ -70,7 +70,9 @@ Results land in `analysis/results/*.json`.
 - `cad/` — Fusion 360 CAD: `parameters.json` (geometry source of truth, 9 documents), `step/` exports, `renders/`
 - `legacy/` — superseded scripts, kept for history, **do not cite**
 - `paper/` — IEEE conference paper (LaTeX source, figures, PDF)
-- `docs/` — computation notes, FEMM run sheet
+- `validation/` — independent cross-check plan (FEMM, CalculiX, Orekit, CARA, Chrono),
+  each with an acceptance band declared before the run; nothing run yet
+- `docs/` — computation notes, FEMM run sheet, related work and comparator sources
 - `docs/PROJECT_NOTES.md` — working context: ground rules, layout, locked decisions
 - `INVENTORY.md` — complete indexed catalogue of every calculation, decision and artifact
 - `docs/DECISION_LOG.md` — why each design change happened, including two self-corrections

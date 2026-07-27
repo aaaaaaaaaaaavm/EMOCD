@@ -16,7 +16,13 @@ Geometry file: `emocd_cross_section.dxf` (same folder). All dimensions verified 
 ## Runs & exports (300 dpi PNG screenshots + saved .ans)
 - **Run 1 (I = 0):** open-circuit Halbach field. Export at **300 dpi**: (a) **|B| colour contour** across the airgap region; (b) **flux-line plot** (View → Contour/flux lines, ~30 lines) showing closure through the arrays and the weak-side self-shielding; (c) line plot of **Bz along z = 0 across one wavelength** → compare to the analytic model's **0.694 T double-sided peak** (target: within a few %). Items (a) and (c) are the IEEE §IV-A verification figure (FEA-1).
 - **Run 2 (rated current):** force. Select the two magnet regions → Block integral → **Lorentz force (steady)** → x-force × (1300/48 wavelengths) → compare thrust from Kt = 11.22 N/(kA·m) at 140 kA/m ≈ 1571 N. Ratio = the 2-D FEA check on Kt.
-- **Run 3 (stray field, I = 0):** line plots of |B| at 10 / 20 / 50 mm beyond the array back face → compare 22.7 / 4.7 / 1.0 mT keep-out profile (FEA-3, §XII). Add a 1 mm steel sheet (silicon steel M-19) at the septum position and re-run to quantify attenuation.
+- **Run 3 (stray field, I = 0):** line plots of |B| at 10 / 20 / 50 mm beyond the array back face → compare the **22.7 / 4.3 / 0.4 mT** keep-out profile (FEA-3, §XII). (The 4.7 / 1.0 mT figures previously quoted here were the pre-P3 values; corrected 2026-07-27 against `analysis/results/field_verification.json`.) Add a 1 mm steel sheet (silicon steel M-19) at the septum position and re-run to quantify attenuation.
+
+## Acceptance band
+
+Declared in `validation/A1_field_femm.md`, not here — read it before running. In short:
+±5 % on the field quantities (0.694 T double-sided peak, 0.771 T surface, 0.552 T winding
+mean), ±10 % on thrust at the rated point, looser factors on stray field.
 
 ## Record for the paper
 Solver version, mesh element count, boundary condition, and the three comparison ratios (FEM/analytic). Any deviation >5% on Run 1 goes to the reconciliation list before the rated point is re-locked.

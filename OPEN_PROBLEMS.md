@@ -34,6 +34,11 @@ Worse, the quantity is fragile. Sweeping ejection velocity:
 This is a near-resonant beat sample, not a design property. A ±2.5 % velocity change
 moves it by more than an order of magnitude.
 
+**Follow-up:** `validation/A6_conjunction_cara.md` specifies the quantitative version —
+probability of collision via NASA's CARA tools, which integrates over the covariance
+instead of sampling one geometry. The test is whether Pc stays stable across the velocity
+sweep that moves minimum distance by an order of magnitude.
+
 **Fix:** stop quoting a specific minimum distance as a safety result. Reframe around
 what IS robust: the ~8.1-day phase realignment period, and the mitigation of disposing
 of the host stage before the first realignment. State plainly that per-shot COLA is
@@ -86,7 +91,9 @@ tolerance under 3.7 kN inter-array attraction, **no structural FEA behind it**) 
 sled mass of **~7.50 kg**. `analysis/mass_properties.py` assumes **4.86 kg**, which
 `motor_model.py` hard-codes as `M_SLED` and which sets the headline exit velocity. Both
 are estimates — one CAD-geometric, one parametric-solid — and neither is FEA-verified. Do
-not change the scripts until ANSYS analysis A4 closes the chassis. Source:
+not change the scripts until analysis A4 closes the chassis — specified with a
+pre-declared decision rule in `validation/A4_sled_structural.md` (CalculiX or
+Code_Aster, both free, both read `cad/step/EMOCD_Sled.step`). Source:
 `cad/parameters.json` (sled group, `PROVISIONAL_PENDING_FEA`).
 
 ### P6. Payload seating / orientation — RESOLVED (by CAD, 2026-07-23)
@@ -106,7 +113,8 @@ If the CAD sled mass (P5) holds, exit velocity falls from the script's **20.37 m
 provisional **~17.88 m/s** (with acceleration ~12.5 g, efficiency ~24 %, recoil
 ~71.5 N·s, lifetime multiplier ×1.68 — all CAD-corrected and provisional). **These values
 are NOT propagated into `analysis/*.py` or `paper/paper.tex`**; the scripts stay
-authoritative until ANSYS Mechanical (analysis A4) locks the sled mass. Do not hard-swap
+authoritative until analysis A4 locks the sled mass (`validation/A4_sled_structural.md`,
+which fixes in advance which of the two estimates wins at which mass). Do not hard-swap
 20.37 → 17.88 anywhere. Source: 2026-07-23 CAD Master Plan; see README headline note.
 
 ### P9. Closed envelope exceeds ESPA Grande by ~44% — packaging / host
@@ -155,14 +163,16 @@ magnetostatic package now exists — `analysis/femm/emocd_cross_section.dxf` plu
 `analysis/femm/FEMM_RUN_SHEET.md` (analysis A1), which supersedes the older
 `docs/FEMM_Run_Sheet.md`; the acceptance band in that older sheet predates the
 winding-resolved model and should not be used. **Nothing has been run.** A1 closes the
-2-D half; the 3-D end effects still need a 3-D solver.
+2-D half; the 3-D end effects still need a 3-D solver (Elmer or GetDP are the free
+options). Acceptance band declared in `validation/A1_field_femm.md`.
 
 ### E2. No FEA confirmation of anything
 The field cross-check is analytic-vs-analytic (both magpylib and the wave model assume
 ironless geometry, where superposition is exact). That is a genuine check of the wave
 model but is NOT independent confirmation from a different physical method. Two analyses
 are specified and neither has been executed: **A1** magnetostatic (E1 above) and **A4**
-sled-chassis structural, which is what P5 and P8 are waiting on.
+sled-chassis structural, which is what P5 and P8 are waiting on. Both, plus A5–A7, are
+written up with pre-declared acceptance bands in `validation/`.
 
 ### E3. Masses are parametric and unchecked against vendor data
 CAD now exists (`cad/`, nine documents), so the "no CAD" half of this item is closed —
@@ -185,11 +195,15 @@ stage publishes its mass and control authority. Cannot be closed from public dat
 ### E6. Absolute orbital lifetimes are uncertain
 Static exponential atmosphere at mean solar activity. Absolute lifetimes swing
 severalfold across the solar cycle. The ×1.80 ratio is invariant and is the defensible
-claim; absolute years are not.
+claim; absolute years are not. `validation/A5_astro_orekit.md` specifies an independent
+re-run under Orekit or GMAT — different codebases, independently implemented force
+models — with the band on the ratio and explicitly not on the absolutes.
 
 ### E7. Velocity dispersion rests on assumed sensor noise
 The 0.027 m/s (3σ) result is a closed-loop simulation using an assumed 8 mm/s sensor
 sigma and assumed tolerance distributions. No sensor has been selected or characterised.
+The separation side of this is specified in `validation/A7_separation_chrono.md`, whose
+tip-off band is taken from a flown deployer (NRCSD-E, < 5 °/s/axis) rather than chosen.
 
 ### E8. Brake energy is thrown away
 ~1.0 kJ per shot dissipated in the fin. Whether any of it is worth recovering (and what
@@ -237,4 +251,8 @@ The build is the declared next step and is unfunded.
 ### E16. Reference hygiene
 Three references in `paper/paper.tex` were flagged verify-before-submission and have
 not been fully verified: eddy-damper heritage [15], Yudintsev separation dynamics [17],
-and the vibro-impact deployment paper [18].
+and the vibro-impact deployment paper [18]. `docs/RELATED_WORK.md` adds a further list of
+comparator sources and tooling — **none of it retrieved and read either**, and it carries
+the same rule: fetch before citing. The differential-drag comparator (Foster et al., flown
+Planet Labs results) is the one worth chasing first, since the paper's 25-day baseline is
+currently a model output rather than a measurement.

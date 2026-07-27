@@ -98,7 +98,8 @@ These were argued out and should not be silently reopened; reasoning is in
 | [`cad/`](https://github.com/aaaaaaaaaaaavm/emocd/tree/main/cad) | `parameters.json` (geometry source of truth), `step/` exports, `renders/` |
 | [`paper/`](https://github.com/aaaaaaaaaaaavm/emocd/tree/main/paper) | IEEE conference paper — LaTeX source, figures, PDF |
 | [`legacy/`](https://github.com/aaaaaaaaaaaavm/emocd/tree/main/legacy) | superseded scripts, kept for history — **do not cite** |
-| [`docs/`](https://github.com/aaaaaaaaaaaavm/emocd/tree/main/docs) | computation notes C1–C10, FEMM run sheet, decision log |
+| [`docs/`](https://github.com/aaaaaaaaaaaavm/emocd/tree/main/docs) | computation notes C1–C10, FEMM run sheet, decision log, related work |
+| [`validation/`](https://github.com/aaaaaaaaaaaavm/emocd/tree/main/validation) | cross-check plan — FEMM, CalculiX, Orekit, CARA, Chrono — with acceptance bands declared before the runs; nothing run yet |
 | [`INVENTORY.md`](https://github.com/aaaaaaaaaaaavm/emocd/blob/main/INVENTORY.md) | indexed catalogue of every calculation, decision, and artifact |
 | [`OPEN_PROBLEMS.md`](https://github.com/aaaaaaaaaaaavm/emocd/blob/main/OPEN_PROBLEMS.md) | known paper errors and unsolved engineering |
 | [`CHANGELOG.md`](https://github.com/aaaaaaaaaaaavm/emocd/blob/main/CHANGELOG.md) | what changed, when, and why |

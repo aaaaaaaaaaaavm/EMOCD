@@ -153,6 +153,20 @@ carries `PROVISIONAL_PENDING_FEA` flags and an incomplete final-verification not
 
 ---
 
+## 2026-07-27 — validation plan
+
+| ID | Item | Detail |
+|---|---|---|
+| VAL-01 | `validation/` (new) | Cross-check plan: **A1** airgap field (FEMM), **A4** sled chassis structural (CalculiX/Code_Aster), **A5** lifetime and seeding (Orekit/GMAT), **A6** conjunction probability (NASA CARA), **A7** separation and tip-off (Project Chrono). Each names the P/E item it closes, its inputs from already-committed files, and its output JSON. **Nothing has been run** — this is a specification. |
+| VAL-02 | `validation/README.md` | Sets the governing rule: the acceptance band is declared before the analysis runs, and every band traces to a current value in `analysis/results/*.json`. A missed band opens a P-item; it does not get widened. Licence note: GPL solvers stay external to this MIT repo. |
+| VAL-03 | `validation/A4_sled_structural.md` | Highest-leverage item. Frames P5 as "what is the lightest chassis that holds the airgap to ±0.05 mm under 3.68 kN" rather than "what does the sled weigh", and fixes the decision rule in advance: ≤5.35 kg the parametric model stands; 5.35–6.80 kg both estimates are wrong and the scripts move; ≥6.80 kg **17.88 m/s becomes the headline** and the paper changes. |
+| VAL-04 | `analysis/femm/FEMM_RUN_SHEET.md` | **Stale comparison targets corrected.** Run 3 told the operator to compare stray field against 22.7 / 4.7 / 1.0 mT — the 4.7 and 1.0 are pre-P3 values. Now 22.7 / 4.3 / 0.4 mT per `analysis/results/field_verification.json`. A run sheet carrying superseded targets is worse than none: it would have "confirmed" the wrong numbers. |
+| VAL-05 | `docs/FEMM_Run_Sheet.md` | Marked **SUPERSEDED** at the top. Its ⟨B⟩ ≈ 0.62 T winding-gap target predates the winding-resolved model, which computes 0.552 T, so the sheet can no longer function as a test (this is what E1 flagged). Kept for the record. |
+| VAL-06 | `docs/RELATED_WORK.md` (new) | Comparator literature and tooling, **explicitly marked as not retrieved and not read** — leads under the E16 rule, not citations. Flags Foster et al. (differential-drag phasing, flown Planet Labs results) as the one worth chasing first, since the paper's 25-day baseline is currently a model output rather than a measurement. |
+| VAL-07 | `OPEN_PROBLEMS.md`, `README.md`, `docs/PROJECT_NOTES.md`, `wiki/Home.md` | Cross-references wired: P1→A6, P5/P8→A4, E1/E2→A1, E6→A5, E7→A7, E16→`docs/RELATED_WORK.md`. Layout sections updated for `validation/`. |
+
+---
+
 ## Open decisions
 
 1. **LICENSE** — RESOLVED 2026-07-23: owner chose **MIT** (P3-07).

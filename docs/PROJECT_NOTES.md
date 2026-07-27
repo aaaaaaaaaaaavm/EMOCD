@@ -47,7 +47,8 @@ cad/               Fusion 360 CAD: parameters.json (geometry truth), STEP, rende
 legacy/            SUPERSEDED scripts. They produce older numbers (e.g. 22.4 m/s).
                    Kept for history. Do not cite them.
 paper/             paper.tex (IEEEtran), figures, compiled PDF
-docs/              computation notes, FEMM run sheet, decision log, these notes
+docs/              computation notes, FEMM run sheet, decision log, related work, these notes
+validation/        cross-check plan with pre-declared acceptance bands (nothing run yet)
 PROVENANCE.md      what stands behind each claim, and what was never verified
 INVENTORY.md       complete indexed catalogue of the work
 OPEN_PROBLEMS.md   unsolved items, known errors (P1-P10), and the fix list
@@ -92,4 +93,6 @@ See `OPEN_PROBLEMS.md`. **P1–P4 (conjunction minimum, peak current, stray far-
 brake fin temperature) were fixed in the paper on 2026-07-23 — see `CHANGELOG.md`.** The
 open items now are P5/P8 (sled mass and exit velocity pending structural FEA), P9 (the
 envelope exceeds ESPA Grande), P10 (enclosure and radiator absent from the mass rollup),
-E1 (3-D field closure), E2 (no FEA), and E4 (hardware).
+E1 (3-D field closure), E2 (no FEA), and E4 (hardware). `validation/` specifies the
+cross-checks that would close the first three — A4 (sled structural) is the one that
+moves the headline number, so run that first.

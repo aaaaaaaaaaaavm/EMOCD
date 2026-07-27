@@ -1,0 +1,51 @@
+# A6 — Conjunction probability (NASA CARA tools)
+
+**Closes:** `OPEN_PROBLEMS.md` P1, properly this time.
+
+P1 was closed in the paper by *removing* a claim: the 45.3 km minimum was wrong, and the
+quantity itself turned out to be a near-resonant beat sample that swings from 4.6 to
+63.4 km over a ±2.5 % velocity change. The paper now rests on the 8.1-day realignment
+period plus mandatory per-shot COLA. That is honest, but it leaves the safety case
+qualitative.
+
+Probability of collision is the quantity that does not fall apart under a small velocity
+change, because it integrates over the covariance instead of sampling a single geometry.
+Computing it turns "we cannot quote a minimum distance" into a defensible statement.
+
+## Inputs
+
+- Ephemerides: the 12-shot fleet plus host stage from `astro.py` `propagate()` /
+  `boosted_elements()`, exported as ephemeris rather than summary statistics
+- Screening window: 30 days, matching the current analysis
+- Covariance: **this is the hard input.** No covariance exists for a satellite that has
+  never flown. Use a documented assumption — e.g. a diagonal RIC covariance scaled from
+  typical post-deployment tracking uncertainty — and state that the result inherits it.
+
+## Tool
+
+`https://github.com/nasa/CARA_Analysis_Tools` — MATLAB, NASA open-source agreement. The
+2-D Pc and Monte-Carlo-from-covariance routines are the relevant ones. Parts run under
+Octave; check before assuming.
+
+## Acceptance band (declared 2026-07-27, before running)
+
+There is deliberately **no band on minimum distance** — P1 established that it is not a
+robust quantity, and re-adopting it as a criterion would repeat the original error.
+
+| Quantity | Criterion |
+|---|---|
+| Max per-pair Pc, 30 days, rated 20.37 m/s | report; flag if > 1e-4 |
+| Pc stability across the velocity sweep 20.0–21.0 m/s | **order of magnitude or less** variation |
+| Realignment period | 8.1 days ± 10 % (`astro_results.json` `conjunction.realign_days`) |
+
+The middle row is the real test. If Pc swings as violently as minimum distance did, then
+the conjunction geometry is genuinely chaotic at this operating point and the paper needs
+to say so plainly rather than lean on COLA as a mitigation. If Pc is stable while distance
+is not, the reframing in P2-01 is vindicated and the paper gains a quantitative safety
+statement.
+
+## Output
+
+`validation/results/A6_conjunction.json` — per-pair Pc at the rated point, Pc across the
+velocity sweep, realignment period, plus `covariance_assumption` (stated explicitly),
+`tool_version`, `screening_window_days`, `pc_method`.

@@ -1,5 +1,12 @@
 # FEMM Run Sheet — EMOCD Halbach Airgap Verification (Fig. 6)
 
+> **SUPERSEDED (2026-07-27). Do not run against the targets in this sheet.** Its ⟨B⟩ ≈
+> 0.62 T winding-gap target predates the winding-resolved motor model, which computes
+> **0.552 T** (`analysis/results/field_verification.json`, `winding_mean_absB_T`), so this
+> sheet can no longer function as a test. Use `analysis/femm/FEMM_RUN_SHEET.md` for the
+> procedure and `validation/A1_field_femm.md` for the acceptance band. Kept for the record
+> only.
+
 Goal: verify the analytic airgap field (⟨B⟩ ≈ 0.62 T across the winding gap, B₀ ≈ 0.76 T at array surface) with a 2-D magnetostatic FEA, and export the two figures the report needs. Budget: one lab session.
 
 ## 1. Problem setup
