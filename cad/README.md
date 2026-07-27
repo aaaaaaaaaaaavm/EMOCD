@@ -26,4 +26,12 @@ are open — see `../OPEN_PROBLEMS.md`.
 - `step/` — STEP exports of every document (durable, diffable-by-metadata; `.f3d` is not)
 - `renders/` — exterior, interior, exploded, and firing-sequence PNG renders
 
+## Live model
+
+The Fusion 360 model can be viewed in the browser: https://a360.co/4vSG6cb
+
+The share link is a convenience for inspection only. The committed STEP files and
+`parameters.json` are what this repository stands behind — the live model can move
+without them, so check the two against each other before relying on a dimension.
+
 The 2-D magnetic cross-section and its FEMM run sheet live in `../analysis/femm/`.

@@ -139,6 +139,15 @@ carries `PROVISIONAL_PENDING_FEA` flags and an incomplete final-verification not
 
 ---
 
+## 2026-07-27 — archived paper build, live CAD link
+
+| ID | Item | Detail |
+|---|---|---|
+| ARC-01 | `paper/archive/EMOCD_submission_uncorrected.pdf` | Added an earlier compile of the paper, predating the 2026-07-23 corrections. It still carries the P1–P4 values (323 A peak current, 23 A/mm² at 140 kA/m, 37 K per-shot fin rise, 45.3 km conjunction minimum). Filed under `paper/archive/` with a README stating the deltas, so it cannot be mistaken for the current build. The canonical PDF remains `paper/EMOCD_IEEE_Conference.pdf`. |
+| ARC-02 | `cad/README.md` | Added the Fusion 360 web-view link (https://a360.co/4vSG6cb) under a "Live model" heading, noting that the committed STEP files and `parameters.json` — not the live model — are what the repository stands behind. |
+
+---
+
 ## Open decisions
 
 1. **LICENSE** — RESOLVED 2026-07-23: owner chose **MIT** (P3-07).
