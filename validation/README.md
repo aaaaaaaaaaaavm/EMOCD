@@ -18,6 +18,7 @@ Each analysis below closes a specific named item.
 | A5 | Orbital lifetime and seeding | Orekit or GMAT | E6, hardens ×1.80 | specified, not run |
 | A6 | Conjunction probability | NASA CARA tools | P1 (properly) | specified, not run |
 | A7 | Separation and tip-off | Project Chrono | E7-adjacent | specified, not run |
+| A8 | Pulse-power chain | ngspice / PySpice | E17 | specified, not run |
 
 A2 (3-D field, end effects) and A3 are not specified here; A1 closes only the 2-D half of
 E1, and the 3-D end effects still need a 3-D solver.

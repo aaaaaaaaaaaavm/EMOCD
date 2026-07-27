@@ -193,8 +193,9 @@ The field cross-check is analytic-vs-analytic (both magpylib and the wave model 
 ironless geometry, where superposition is exact). That is a genuine check of the wave
 model but is NOT independent confirmation from a different physical method. Two analyses
 are specified and neither has been executed: **A1** magnetostatic (E1 above) and **A4**
-sled-chassis structural, which is what P5 and P8 are waiting on. Both, plus A5–A7, are
-written up with pre-declared acceptance bands in `validation/`.
+sled-chassis structural, which is what P5 and P8 are waiting on. Both, plus A5–A8, are
+written up with pre-declared acceptance bands in `validation/`. A8 (pulse-power, E17) is
+the cheapest of them and needs no CAD, no mesh, and no licence.
 
 ### E3. Masses are parametric and unchecked against vendor data
 CAD now exists (`cad/`, nine documents), so the "no CAD" half of this item is closed —
@@ -219,7 +220,10 @@ Static exponential atmosphere at mean solar activity. Absolute lifetimes swing
 severalfold across the solar cycle. The ×1.80 ratio is invariant and is the defensible
 claim; absolute years are not. `validation/A5_astro_orekit.md` specifies an independent
 re-run under Orekit or GMAT — different codebases, independently implemented force
-models — with the band on the ratio and explicitly not on the absolutes.
+models — with the band on the ratio and explicitly not on the absolutes. It now also
+carries a second leg: reproduce the **measured** decay of 3–5 non-manoeuvring 3U CubeSats
+from CelesTrak / Space-Track TLE histories, band 15 % on time-to-decay. Two models
+agreeing is weaker than a model reproducing a flown decay, and the flight data is free.
 
 ### E7. Velocity dispersion rests on assumed sensor noise
 The 0.027 m/s (3σ) result is a closed-loop simulation using an assumed 8 mm/s sensor
@@ -278,3 +282,25 @@ comparator sources and tooling — **none of it retrieved and read either**, and
 the same rule: fetch before citing. The differential-drag comparator (Foster et al., flown
 Planet Labs results) is the one worth chasing first, since the paper's 25-day baseline is
 currently a model output rather than a measurement.
+
+### E17. The pulse-power chain has never left the analytic model — NEW 2026-07-27
+The supercapacitor bank, the SiC bridge, and the winding exist only as lumped resistances
+and ideal switching inside `motor_model.py` and `sizing.py`. Three numbers depend on that
+model and nothing else: the **392 A peak current** (which sets the device rating and the
+paper's derating discussion), the **4.9 % bank sag** (which underwrites the servo headroom
+behind the 0.027 m/s dispersion claim), and the **672 J copper loss** (which carries the
+32 % efficiency figure). No transient overshoot at commutation has been computed, and the
+`Q_esr = 160 J` default in `sizing.py` — flagged as unsourced during the P2 review before
+being traced to the script's own default — has no second number against it.
+
+Specified as **A8** in `validation/A8_pulse_spice.md` (ngspice or PySpice, both free).
+This is the least expensive analysis in the plan: no geometry, no mesh, no licence, and it
+attacks three headline-adjacent numbers at once.
+
+### E18. Conjunction covariance is invented — NEW 2026-07-27
+Any probability-of-collision result (A6) inherits whatever covariance it is given, and no
+covariance exists for a satellite that has never flown. Space-Track **Conjunction Data
+Messages** carry real post-deployment covariances for comparable objects and are the
+defensible source; `validation/A6_conjunction_cara.md` now names them as the preferred
+input, with an explicitly documented assumption as the fallback. Until that is done, no Pc
+figure from this project should be quoted as anything but conditional on its assumption.

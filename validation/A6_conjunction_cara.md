@@ -18,8 +18,11 @@ Computing it turns "we cannot quote a minimum distance" into a defensible statem
   `boosted_elements()`, exported as ephemeris rather than summary statistics
 - Screening window: 30 days, matching the current analysis
 - Covariance: **this is the hard input.** No covariance exists for a satellite that has
-  never flown. Use a documented assumption — e.g. a diagonal RIC covariance scaled from
-  typical post-deployment tracking uncertainty — and state that the result inherits it.
+  never flown. Preferred source: **Space-Track Conjunction Data Messages**, which carry
+  real post-deployment covariances for comparable objects — a CDM-derived covariance is
+  defensible where an invented one is not. Fall back to a documented assumption (diagonal
+  RIC scaled from typical post-deployment tracking uncertainty) only if CDM access is not
+  available, and state either way that the result inherits it.
 
 ## Tool
 

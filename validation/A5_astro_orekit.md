@@ -33,6 +33,24 @@ falsify anything. The *ratio* is the claim, and the ratio is what the band appli
 The ±20 % on seeding is wide on purpose: those numbers depend on the along-track drift
 model and the definition of "phased", which will not match between codes exactly.
 
+## Second leg: check against flown decay, not just another model
+
+Orekit agreeing with `astro.py` means two models agree. Reproducing a **measured** decay is
+a stronger claim and the data is free: CelesTrak and Space-Track publish TLE histories and
+reentry records for 3U CubeSats at 450–500 km with estimable ballistic coefficients.
+
+Procedure: pick 3–5 non-manoeuvring 3U objects with clean TLE histories from deployment to
+decay, estimate BC from the observed decay, and run the same integration `astro.py` uses.
+
+| Quantity | Band |
+|---|---|
+| Predicted vs observed time-to-decay | within 15 % over the last year of life |
+
+Published guidance puts lifetime prediction at roughly **10 % of residual lifetime** at
+best, driven by density uncertainty, so 15 % is the honest band and anything tighter would
+be luck. This leg validates the propagation machinery in absolute terms; the ratio band
+above remains the claim EMOCD actually defends (E6).
+
 ## If the multiplier band is missed
 
 The ×1.80 appears in the abstract, the README headline table, and the paper's central

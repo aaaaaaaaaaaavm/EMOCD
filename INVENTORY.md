@@ -116,7 +116,7 @@ Full detail in `OPEN_PROBLEMS.md`. Summary: P1–P4 are errors in the published 
 (conjunction minimum, peak current, stray far-field, fin temperature), corrected in
 `paper.tex` — though P11 asks whether those corrections reached the submitted build.
 P5–P10 come out of the CAD build, and P12 records two places where the paper's prose
-contradicts it — including an ESPA-Grande envelope claim the CAD does not support. E1–E16 are unsolved engineering, of which the
+contradicts it — including an ESPA-Grande envelope claim the CAD does not support. E1–E18 are unsolved engineering, of which the
 load-bearing ones are 3-D field closure, the absence of FEA and hardware, and the
 patent position now that disclosure has happened.
 

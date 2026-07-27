@@ -191,6 +191,23 @@ mode); the README and wiki headline tables against `motor_results.json` and
 
 ---
 
+## 2026-07-27 — validation plan, second pass
+
+| ID | Item | Detail |
+|---|---|---|
+| VAL-08 | `validation/A8_pulse_spice.md` (new) | Pulse-power chain under ngspice/PySpice. Bands: 391.7 A ±10 %, 4.88 % sag ±1.5 pts, 2634 J drawn ±5 %, 672 J copper ±15 %, 127.7 ms ±10 %, energy closure 98–102 %. Cheapest analysis in the plan — no geometry, no mesh, no licence — and it attacks three headline-adjacent numbers at once. |
+| VAL-09 | `OPEN_PROBLEMS.md` **E17** (new) | The pulse-power chain has never left the analytic model. The 392 A peak, the 4.9 % sag, and the 672 J copper loss all rest on lumped R and ideal switching; no commutation overshoot has been computed, and the `Q_esr = 160 J` default has no second number against it. |
+| VAL-10 | `OPEN_PROBLEMS.md` **E18** (new) | Conjunction covariance is invented. Any Pc result inherits it, so no Pc figure may be quoted except as conditional on its assumption until a real covariance is used. |
+| VAL-11 | `validation/A5_astro_orekit.md` | Second leg added: reproduce the **measured** decay of 3–5 non-manoeuvring 3U CubeSats from CelesTrak / Space-Track TLE histories, band 15 % on time-to-decay. Two models agreeing is weaker than a model reproducing a flown decay. The 15 % follows published guidance that lifetime prediction tops out near 10 % of residual life. |
+| VAL-12 | `validation/A6_conjunction_cara.md` | Covariance input changed from "documented assumption" to **Space-Track CDMs preferred**, assumption as explicit fallback. |
+| VAL-13 | `validation/README.md`, `INVENTORY.md`, `OPEN_PROBLEMS.md` E2/E6 | A8 added to the plan table; E-range updated to E1–E18; E2 and E6 cross-referenced to the new legs. |
+
+**Checked, no item raised:** the paper already cites Inductrack (Post & Ryutov, IEEE Trans.
+Appl. Supercond. 2000) in both the related-work section and the bibliography, so the
+architectural prior art is covered and no E-item was needed for it.
+
+---
+
 ## Open decisions
 
 1. **LICENSE** — RESOLVED 2026-07-23: owner chose **MIT** (P3-07).
