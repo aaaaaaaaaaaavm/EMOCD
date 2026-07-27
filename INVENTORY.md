@@ -99,10 +99,10 @@ Reasoning is recorded in `docs/DECISION_LOG.md`.
 | D2 | Verification report, consolidated docx | not in repo |
 | D3 | Verification of strategy document | not in repo |
 | D4 | Launch-ecosystem research report | not in repo |
-| D5 | Computation results C1–C10 | `docs/` |
+| D5 | Computation results C1–C10 | `docs/` — **superseded**, old operating point |
 | D6 | PBL-2 skeleton (19 pp, Annexure format) | not in repo |
 | D7 | Figure pack | `paper/figures/` |
-| D8 | FEMM run sheet | `docs/` — needs update, see E1 |
+| D8 | FEMM run sheet | `analysis/femm/FEMM_RUN_SHEET.md` (current); `docs/FEMM_Run_Sheet.md` superseded; band in `validation/A1_field_femm.md` |
 | D9 | IEEE showcase paper (5 pp, text-only) | superseded |
 | D10 | IEEE conference paper (10 pp) | `paper/` |
 | D11 | LaTeX source | `paper/paper.tex` |
@@ -115,7 +115,8 @@ Reasoning is recorded in `docs/DECISION_LOG.md`.
 Full detail in `OPEN_PROBLEMS.md`. Summary: P1–P4 are errors in the published paper
 (conjunction minimum, peak current, stray far-field, fin temperature), corrected in
 `paper.tex` — though P11 asks whether those corrections reached the submitted build.
-P5–P10 come out of the CAD build. E1–E16 are unsolved engineering, of which the
+P5–P10 come out of the CAD build, and P12 records two places where the paper's prose
+contradicts it — including an ESPA-Grande envelope claim the CAD does not support. E1–E16 are unsolved engineering, of which the
 load-bearing ones are 3-D field closure, the absence of FEA and hardware, and the
 patent position now that disclosure has happened.
 

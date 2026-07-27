@@ -138,6 +138,8 @@ Open items now, in rough order of how much they move the design:
 - **P10** — enclosure, radiator, and packaged avionics are missing from the mass rollup.
 - **P11** — the archived build in `paper/archive/` still carries the uncorrected P1–P4
   values; whether that is the version that was submitted is unconfirmed.
+- **P12** — the paper claims an ESPA-Grande-class envelope, which the CAD contradicts by
+  ~44 %, and its limitations section still says masses are not from detailed CAD.
 - **E1** — three-dimensional field closure; the winding is resolved in 2-D, so end
   effects of a few percent on Kt are uncomputed. The FEMM package (A1) is written but
   has not been run.

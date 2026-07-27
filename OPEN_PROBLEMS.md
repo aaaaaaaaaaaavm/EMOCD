@@ -145,6 +145,28 @@ withdrawing, submitting an erratum, or correcting at the camera-ready stage, and
 the outcome here. If the submitted build was in fact compiled from the corrected
 `paper.tex`, delete this item and say so in `CHANGELOG.md`.
 
+### P12. The paper contradicts the CAD in two places — NEW 2026-07-27
+Found while sweeping the repository for stale values. Both are prose claims, not computed
+numbers, and neither has been changed in `paper/paper.tex`:
+
+1. **Limitations (Sec. XV) says "Masses derive from a parametric solid model, not detailed
+   CAD."** That was true when written and is now false — nine Fusion documents exist in
+   `cad/`. The honest replacement is not "CAD exists" but the sharper statement: two mass
+   estimates exist, they disagree by 54 %, and neither is FEA-verified (P5, P8).
+2. **The paper claims an "ESPA-Grande-class envelope and mass allocation"** (abstract-level
+   requirement, the Fig. 2 caption, and again in the accommodation section). The CAD closed
+   envelope is 1839 mm against the ~1270 mm class limit — **P9, ~44 % over**. As written,
+   the paper asserts a compatibility the geometry does not support.
+
+Item 2 is the serious one: it is a capability claim, not a caveat, and it is the kind of
+thing a reviewer with an ESPA user's guide open would catch immediately.
+
+**Why this is not fixed yet.** Editing `paper.tex` without rebuilding the PDF would put the
+source and the committed build out of step, and no TeX engine is available in the working
+environment. It is also entangled with **P11** — until it is known which build is the
+version of record, it is not clear whether this is a camera-ready edit or a corrigendum.
+Resolve P11 first, then fix both items in one pass and rebuild.
+
 ### Advanced or resolved by the CAD build (not full closures)
 - **Launch restraint now exists as geometry.** The breech launch-lock blocks are modelled
   (`cad/parameters.json` `track`: `launch_lock` at x = 30–50 mm, 2 off). This advances

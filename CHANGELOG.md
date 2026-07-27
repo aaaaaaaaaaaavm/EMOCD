@@ -167,6 +167,30 @@ carries `PROVISIONAL_PENDING_FEA` flags and an incomplete final-verification not
 
 ---
 
+## 2026-07-27 — repository-wide consistency sweep
+
+Swept every committed `.md`, `.tex` and `.json` for values superseded by A27 (efficiency),
+A28 (winding-resolved Kt), A29 (servo Monte Carlo), A30 (mass properties) and the P1–P4
+corrections. Files that quote old values *deliberately* — `CHANGELOG.md`,
+`OPEN_PROBLEMS.md`, `PROVENANCE.md`, `paper/archive/`, `legacy/` — were left alone.
+
+| ID | Item | Detail |
+|---|---|---|
+| FIX-01 | `docs/EMOCD_Computation_Results_C1-C10.md` | **Marked SUPERSEDED with an old→current mapping table.** It was presented as current computation notes while quoting a 4 kg sled at K = 45 kA/m: 22.4 m/s at 19.7 g, 463 A peak, 3σ 0.054 m/s → ±0.19 km, ⟨B⟩ 0.62 T. Worse, its efficiency line (52 %, crediting 55 % of sled KE as regeneration) is the **falsified** double-count that A25/A27 corrected to 32 %. Nothing deleted; the header states each delta and why. |
+| FIX-02 | `INVENTORY.md` | D5 flagged superseded; D8 repointed from `docs/FEMM_Run_Sheet.md` (superseded) to `analysis/femm/FEMM_RUN_SHEET.md` (current) with the band in `validation/A1_field_femm.md`. |
+| FIX-03 | `.github/ISSUE_TEMPLATE/reproduction_discrepancy.md` | The worked example cited "paper/paper.tex Sec. V-A → 323 A" — a defect fixed in P2-02, so the template implied the paper still carried it. Replaced with a neutral placeholder. |
+| FIX-04 | `OPEN_PROBLEMS.md` | **P12 added.** The paper's Limitations section still says masses are "not detailed CAD", and the paper claims an ESPA-Grande-class envelope that P9 contradicts by ~44 %. Prose, not computed values; deliberately **not** edited in `paper.tex` — see the item for why (PDF/source drift, and P11 is unresolved). |
+| FIX-05 | `INVENTORY.md`, `wiki/Home.md` | Summaries synced for P11 and P12. |
+
+**Checked and found consistent** (no action): the paper's field values against
+`field_verification.json` (0.351 / 0.694 / 0.702 T, 22.7 / 4.3 / 0.4 mT, 0.55 T winding
+mean); the paper's mechanical values against `sizing.json` (3.7 kN inter-array, 33 MPa,
+9.5 kN arrest, 0.76 kN roller pair, 0.64 kN abort latch, 0.12 MPa bond, 109 Hz first
+mode); the README and wiki headline tables against `motor_results.json` and
+`astro_results.json`; every file path referenced in the docs.
+
+---
+
 ## Open decisions
 
 1. **LICENSE** — RESOLVED 2026-07-23: owner chose **MIT** (P3-07).

@@ -15,7 +15,7 @@ labels: discrepancy
 <!-- Which script, and the value it prints. e.g. motor_model.py -> I_peak = 391.7 A -->
 
 **Document value**
-<!-- Where the differing value appears. e.g. paper/paper.tex Sec. V-A -> 323 A -->
+<!-- Where the differing value appears, with section or line. e.g. paper/paper.tex Sec. V-A -->
 
 **Is the document value traceable to any script?**
 - [ ] Yes — to: `analysis/<script>.py`

@@ -1,5 +1,26 @@
 # EMOCD — Computation Results C1–C10
 
+> **SUPERSEDED (marked 2026-07-27). Do not cite any number in this file.** It records the
+> C1–C10 computations at an operating point that no longer exists — a 4 kg sled at
+> K = 45 kA/m — and it predates both the winding-resolved motor model (A28) and the
+> efficiency correction (A27). Current values live in `analysis/results/*.json` and the
+> README headline table. Kept for the audit trail, as the P-items are.
+>
+> | Quantity | This file | Current | Why it moved |
+> |---|---|---|---|
+> | Exit velocity, 3U | 22.4 m/s at 19.7 g | **20.37 m/s at 16.3 g** | winding-resolved Kt (A28), 4.86 kg sled |
+> | Sled mass | 4 kg | **4.86 kg** parametric (7.50 kg in CAD — P5) | `mass_properties.py` |
+> | Winding mean field | ⟨B⟩ ≈ 0.62 T | **0.552 T** | winding-resolved model |
+> | Peak current | 463 A | **392 A** | rated point moved to 140 kA/m |
+> | Closed-loop 3σ | 0.054 m/s → ±0.19 km | **0.027 m/s → ±0.10 km** | servo Monte Carlo (A29) |
+> | Efficiency | 52 %, crediting 55 % regen | **32 %, no regen credit** | see below |
+>
+> **The efficiency line is not merely stale, it is the falsified claim.** Crediting 55 %
+> of the sled's kinetic energy as regeneration was double-counting: the arrest
+> architecture dissipates that energy in the eddy brake by design. Recorded as A25/A27 in
+> `INVENTORY.md` and in `docs/DECISION_LOG.md`. The C10 payload-family table below is
+> superseded by the family table in `analysis/results/motor_results.json`.
+
 All values computed numerically (Python). SI units. Baseline configuration: ironless double-sided Halbach LSM, 4 kg reusable sled, 1.5 m track (1.3 m acceleration zone + 0.2 m coast-trim zone), 12× 3U/4 kg manifest, PS4/POEM host at ~450 km, 51.6°.
 
 ---
