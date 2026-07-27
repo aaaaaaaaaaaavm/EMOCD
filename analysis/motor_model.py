@@ -22,7 +22,7 @@ IMPORTANT: the sled field must TRANSLATE with the sled (np.roll on the field arr
 An early version held the field fixed while commutating the current, which produced
 a near-zero mean thrust. If Kt comes out ~0, check that first.
 
-Provenance: written by Claude (chat session), not independently re-derived.
+Provenance: model output, not independently re-derived.
 Efficiency figure is electrical-to-payload; the sled's kinetic energy is dissipated
 in the arrest brake by design and is NOT recovered (an earlier draft wrongly credited
 55 % regeneration, giving 40 %; corrected to 32 %).

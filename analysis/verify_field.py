@@ -14,7 +14,7 @@ CONVENTION WARNING: the Halbach rotation sense is determined EMPIRICALLY by
 probing a single array on both faces. Two sign errors were made and caught
 this way during development. Do not assert the convention; measure it.
 
-Provenance: written by Claude (chat session), not independently re-derived.
+Provenance: model output, not independently re-derived.
 """
 import numpy as np
 import magpylib as magpy

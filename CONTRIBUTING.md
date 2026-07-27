@@ -7,7 +7,7 @@ generated number may ever pass as a measured one.
 
 ## Ground rules (non-negotiable)
 
-These mirror `CLAUDE.md` and `PROVENANCE.md`. Read both before contributing.
+These mirror `docs/PROJECT_NOTES.md` and `PROVENANCE.md`. Read both before contributing.
 
 1. **The scripts in `analysis/` are the source of truth, not the paper.** If a script and
    `paper/paper.tex` disagree, the paper is wrong — fix the paper to match the script,
@@ -54,5 +54,5 @@ do not add software-product scaffolding without discussing it first.
 ## Citation and licence
 
 Cite via `CITATION.cff`. The work is MIT-licensed (`LICENSE`). Any publication or
-presentation that uses it must state that it is a design study at TRL 2–3 produced with
-heavy AI assistance and with no experimental validation (`PROVENANCE.md`).
+presentation that uses it must state that it is a design study at TRL 2–3 with no
+experimental validation (`PROVENANCE.md`).

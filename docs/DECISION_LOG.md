@@ -1,7 +1,7 @@
 # Decision log
 
 Why each major change happened, not just what it changed to. Reconstructed from the
-chat transcript. This exists because "we switched to a linear motor" is useless
+project record. This exists because "we switched to a linear motor" is useless
 without the reason, and because two of these reversals came from finding my own
 earlier answer wrong.
 

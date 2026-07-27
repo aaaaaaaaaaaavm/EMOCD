@@ -71,7 +71,7 @@ Results land in `analysis/results/*.json`.
 - `legacy/` — superseded scripts, kept for history, **do not cite**
 - `paper/` — IEEE conference paper (LaTeX source, figures, PDF)
 - `docs/` — computation notes, FEMM run sheet
-- `CLAUDE.md` — context for AI-assisted development sessions
+- `docs/PROJECT_NOTES.md` — working context: ground rules, layout, locked decisions
 - `INVENTORY.md` — complete indexed catalogue of every calculation, decision and artifact
 - `docs/DECISION_LOG.md` — why each design change happened, including two self-corrections
 - `PROVENANCE.md` — what came from where, and what was never verified

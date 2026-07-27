@@ -16,7 +16,7 @@ LIMITATION: these are parametric primitives with shell/fill factors, NOT CAD.
 Treat as estimates with perhaps +/-15 % spread until real geometry exists.
 Inertia tensor is NOT computed here (only mass and CG along the track axis).
 
-Provenance: written by Claude (chat session), not independently re-derived.
+Provenance: model output, not independently re-derived.
 No component mass has been checked against a vendor datasheet.
 """
 import json

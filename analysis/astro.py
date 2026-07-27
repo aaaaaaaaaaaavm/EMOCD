@@ -16,7 +16,7 @@ the RATIO is what survives that uncertainty and is what the paper claims.
 
 Conjunction results are SCREENING LEVEL. They do not replace per-shot COLA products.
 
-Provenance: written by Claude (chat session), not independently re-derived.
+Provenance: model output, not independently re-derived.
 No result here has been checked against GMAT, STK, or any external propagator.
 """
 import numpy as np

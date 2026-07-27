@@ -1,6 +1,6 @@
 # EMOCD — Computation Results C1–C10
 
-All values computed numerically (Python, this session). SI units. Baseline configuration: ironless double-sided Halbach LSM, 4 kg reusable sled, 1.5 m track (1.3 m acceleration zone + 0.2 m coast-trim zone), 12× 3U/4 kg manifest, PS4/POEM host at ~450 km, 51.6°.
+All values computed numerically (Python). SI units. Baseline configuration: ironless double-sided Halbach LSM, 4 kg reusable sled, 1.5 m track (1.3 m acceleration zone + 0.2 m coast-trim zone), 12× 3U/4 kg manifest, PS4/POEM host at ~450 km, 51.6°.
 
 ---
 

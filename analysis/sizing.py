@@ -21,7 +21,7 @@ Reproduces:
     campaign thermal            23.6 kJ, 1.7 K bulk, 37 K fin adiabatic
     energy closure              2633 J accounted vs 2630 J drawn
 
-Provenance: written by Claude (chat session), not independently re-derived.
+Provenance: model output, not independently re-derived.
 No margin here has been checked by a structural analyst or by FEA.
 """
 import math

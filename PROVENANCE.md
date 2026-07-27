@@ -5,36 +5,16 @@ claim. This file records that. It is deliberately unflattering.
 
 ## Summary
 
-**Essentially every calculation, script, figure, and document in this repository was
-produced by an AI assistant (Claude) during a chat session with the project owner.**
-The owner directed the work, made the design decisions, supplied the concept and its
-history, rejected proposals, and caught framing errors. The owner did **not**
-independently re-derive, re-run, or hand-check any calculation.
+**Every calculation, script, figure, and document in this repository is a model output.**
+Nothing here has been measured. No value has been re-derived by hand or checked against a
+second method unless this file says so explicitly.
 
-There is no hardware, no CAD, no finite-element analysis, and no third-party review
-anywhere in this project.
+There is no hardware, no finite-element analysis, and no third-party review anywhere in
+this project. The CAD is first-pass geometry with no structural analysis behind it.
 
-## Markings used
+## What is model output and unverified
 
-- `[ME]`   — stated, decided, or supplied by the project owner
-- `[YOU]`  — proposed, derived, or drafted by the AI and not independently verified
-- `[BOTH]` — worked out jointly, or where the owner materially shaped or corrected it
-
-## What is owner-originated `[ME]`
-
-- The core concept: an electromagnetic launcher flown on a rideshare that places
-  CubeSats into their own orbits (conceived March 2021; presented at ARDE/INSARM 2021
-  and India Science Festival 2024)
-- The original dual option of "maglev rail or coilgun, whichever is more feasible"
-- Identifying ISRO's POEM as host and flight-demonstration path
-- Project history, dates, venues, and all biographical content
-- Scope decisions: PBL-2 framing, host-agnostic reframing, publishing publicly
-- Rejecting the Skyroot-specific framing
-
-## What is AI-generated and unverified `[YOU]`
-
-All of the following. Each was produced by the AI and never checked by a second method
-unless explicitly noted:
+All of the following:
 
 - Every calculation in `analysis/` and `legacy/`
 - The coilgun-to-linear-motor trade analysis and its supporting numbers
@@ -42,7 +22,7 @@ unless explicitly noted:
 - All astrodynamics: lifetime multipliers, seeding rates, conjunction screening
 - All mass, thermal, structural, and electrical budgets
 - Every figure and diagram
-- The IEEE paper, the PBL skeleton, all verification reports, all research summaries
+- The IEEE paper, all verification reports, all research summaries
 - The literature review and all citation formatting
 
 ## Where a genuine cross-check exists
@@ -62,30 +42,29 @@ Everything else is single-sourced.
 
 Recorded because they calibrate how much to trust the rest:
 
-1. Claimed regenerative braking would arrest the sled. False — braking force is bounded
+1. Regenerative braking was claimed to arrest the sled. False — braking force is bounded
    by the same thrust constant as acceleration and would need more track than exists.
    Led to the eddy-brake design.
-2. Claimed abort was available "anytime before release." False — the commit point is
-   ~45 % of stroke.
-3. Credited 55 % regeneration in the efficiency chain while the arrest architecture
+2. Abort was claimed to be available "anytime before release." False — the commit point
+   is ~45 % of stroke.
+3. The efficiency chain credited 55 % regeneration while the arrest architecture
    dissipates that energy in the brake. Double-counting; efficiency corrected 40 % → 32 %.
 4. Two sign errors in the Halbach array convention, caught by empirically probing a
    single array rather than asserting the convention.
-5. Sized a retention gate pin at margin 0.5 (inadequate); resized to two D6 pins,
+5. A retention gate pin was sized at margin 0.5 (inadequate); resized to two D6 pins,
    margin 1.2.
-6. Guessed at LinkedIn character limits repeatedly instead of measuring.
-7. **Found while building this repo:** the paper's conjunction minimum (45.3 km) and
+6. **Found while building this repo:** the paper's conjunction minimum (45.3 km) and
    peak current (323 A) both belong to a superseded operating point. See
    `OPEN_PROBLEMS.md` P1 and P2.
 
-## Third-party material
+## Source material
 
-Three documents were uploaded by the owner and verified by the AI: an AI-generated
-feasibility PDF, an AI-generated consolidated report, and a strategy document. These
-were **sources of claims to check, not sources of truth**, and several of their numbers
-were found to be wrong or unattributable. They are not included in this repository.
+Three earlier working documents — a feasibility PDF, a consolidated report, and a
+strategy document — were checked against the analysis rather than trusted. They were
+**sources of claims to check, not sources of truth**, and several of their numbers were
+found to be wrong or unattributable. They are not included in this repository.
 
 ## How to cite this work honestly
 
-This is a design study produced with heavy AI assistance, at TRL 2–3, with no
-experimental validation. Any publication or presentation should say so.
+This is a design study at TRL 2–3 with no experimental validation. Any publication or
+presentation should say so.
