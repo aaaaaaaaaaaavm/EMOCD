@@ -33,6 +33,33 @@ falsify anything. The *ratio* is the claim, and the ratio is what the band appli
 The ±20 % on seeding is wide on purpose: those numbers depend on the along-track drift
 model and the definition of "phased", which will not match between codes exactly.
 
+## Implementation: GMAT (primary), Orekit (alternative)
+
+The toolkit lives in `validation/gmat/`. `build_scripts.py` fills two templates from
+`analysis/results/astro_results.json` and **imports `boosted_elements()` and `_kepE()`
+from `analysis/astro.py`** rather than reimplementing them, so the orbit definition cannot
+fork between the two codes. It runs with no GMAT installed; `parse_reports.py` turns the
+GMAT output into `validation/results/A5_astro.json` with an explicit pass/fail per band.
+
+```bash
+cd validation/gmat
+python3 build_scripts.py                       # writes output/*.script
+<gmat-console-binary> -r output/emocd_lifetime_mean.script
+python3 parse_reports.py --invocation '<the command that worked>'
+```
+
+Force models are recorded in the results JSON, not left implicit in the script: MSISE90
+atmosphere, 20×20 gravity, RK89, Luna and Sun as point masses, SRP on.
+
+One modelling gap is documented rather than papered over: `astro.py` scales *density* by
+0.5 / 1.0 / 2.5, GMAT takes *solar flux* (F10.7 = 70 / 150 / 250 here), and the two are not
+equivalent. That affects absolute lifetimes, which are not the claim. The invariance band
+applies to the spread of the multiplier, which should survive either parameterisation — and
+if it does not, that is a genuine finding about the ×1.80.
+
+Orekit remains a valid substitute for the same bands; nothing above depends on GMAT beyond
+the script syntax.
+
 ## Second leg: check against flown decay, not just another model
 
 Orekit agreeing with `astro.py` means two models agree. Reproducing a **measured** decay is

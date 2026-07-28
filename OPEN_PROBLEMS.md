@@ -194,7 +194,8 @@ ironless geometry, where superposition is exact). That is a genuine check of the
 model but is NOT independent confirmation from a different physical method. Two analyses
 are specified and neither has been executed: **A1** magnetostatic (E1 above) and **A4**
 sled-chassis structural, which is what P5 and P8 are waiting on. Both, plus A5–A8, are
-written up with pre-declared acceptance bands in `validation/`. A8 (pulse-power, E17) is
+written up with pre-declared acceptance bands in `validation/`, and A5's GMAT toolkit is
+built (`validation/gmat/`) though not yet run. A8 (pulse-power, E17) is
 the cheapest of them and needs no CAD, no mesh, and no licence.
 
 ### E3. Masses are parametric and unchecked against vendor data
@@ -219,8 +220,8 @@ stage publishes its mass and control authority. Cannot be closed from public dat
 Static exponential atmosphere at mean solar activity. Absolute lifetimes swing
 severalfold across the solar cycle. The ×1.80 ratio is invariant and is the defensible
 claim; absolute years are not. `validation/A5_astro_orekit.md` specifies an independent
-re-run under Orekit or GMAT — different codebases, independently implemented force
-models — with the band on the ratio and explicitly not on the absolutes. It now also
+re-run under GMAT (toolkit built in `validation/gmat/`, Orekit an equally valid
+substitute) — different codebases, independently implemented force models — with the band on the ratio and explicitly not on the absolutes. It now also
 carries a second leg: reproduce the **measured** decay of 3–5 non-manoeuvring 3U CubeSats
 from CelesTrak / Space-Track TLE histories, band 15 % on time-to-decay. Two models
 agreeing is weaker than a model reproducing a flown decay, and the flight data is free.

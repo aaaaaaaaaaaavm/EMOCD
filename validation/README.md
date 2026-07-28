@@ -15,7 +15,7 @@ Each analysis below closes a specific named item.
 |---|---|---|---|---|
 | A1 | Airgap field, 2-D magnetostatic | FEMM 4.2 | E1 (2-D half), E2 (partly) | specified, not run |
 | A4 | Sled chassis structural | CalculiX or Code_Aster | **P5, P8** | specified, not run |
-| A5 | Orbital lifetime and seeding | Orekit or GMAT | E6, hardens ×1.80 | specified, not run |
+| A5 | Orbital lifetime and seeding | GMAT (Orekit alt.) | E6, hardens ×1.80 | **toolkit built** in `gmat/`, not run |
 | A6 | Conjunction probability | NASA CARA tools | P1 (properly) | specified, not run |
 | A7 | Separation and tip-off | Project Chrono | E7-adjacent | specified, not run |
 | A8 | Pulse-power chain | ngspice / PySpice | E17 | specified, not run |
@@ -41,7 +41,8 @@ When a band is missed, the outcome is a new P-item, not a quietly widened band.
 ## Conventions
 
 - Inputs come from what is already committed: `cad/step/*.step`, `cad/parameters.json`,
-  `analysis/femm/emocd_cross_section.dxf`.
+  `analysis/femm/emocd_cross_section.dxf`. Where a check needs an orbit or a constant, it
+  imports from `analysis/*.py` rather than restating the value — see `gmat/build_scripts.py`.
 - Outputs land in `validation/results/<analysis>.json` alongside the solver version,
   mesh size, and boundary conditions — the same way `analysis/results/*.json` works.
 - A completed run gets a `CHANGELOG.md` entry with cause, before/after, and the P/E item

@@ -208,6 +208,23 @@ architectural prior art is covered and no E-item was needed for it.
 
 ---
 
+## 2026-07-27 — GMAT toolkit for A5 (and the A6 ephemeris input)
+
+| ID | Item | Detail |
+|---|---|---|
+| GM-01 | `validation/gmat/` (new) | Script templates, a builder, and a parser for analysis A5. `emocd_lifetime.script.tmpl` propagates a baseline 450 km circular orbit against the boosted ellipse to a 120 km perigee under MSISE90 / 20×20 gravity / RK89, one script per solar-activity level. `emocd_fleet.script.tmpl` propagates the 12-shot fleet plus host stage for 30 days and writes one CCSDS OEM per object. **Nothing has been run.** |
+| GM-02 | `validation/gmat/build_scripts.py` | Fills the templates from `analysis/results/astro_results.json` and **imports `boosted_elements()` and `_kepE()` from `analysis/astro.py`** rather than reimplementing them, so the orbit definition cannot fork between the two codes. Asserts the generated orbit equals `astro.py`'s exactly. Runs with no GMAT installed. Verified: a = 6864.790 km, e = 0.005339269, perigee back at the 450 km injection altitude. |
+| GM-03 | `validation/gmat/parse_reports.py` | GMAT `ReportFile` → `validation/results/A5_astro.json`, applying the bands already declared in `validation/A5_astro_orekit.md` (multiplier ±5 %, invariance spread ≤5 %) with an explicit verdict. Exits non-zero on a miss, and the failure text says to open a P-item rather than edit `astro.py`. Absolute lifetimes are recorded but never judged (E6). |
+| GM-04 | `validation/gmat/README.md` | Install and headless invocation, with the warning to **verify the run flags against the installed User Guide** rather than assume them, and to record the working command in the results JSON. Documents one real modelling gap: `astro.py` scales density 0.5/1.0/2.5 while GMAT takes F10.7 = 70/150/250, which are not equivalent — it affects the absolutes, not the ratio the band is on. |
+| GM-05 | `validation/A6_conjunction_cara.md` | Ephemeris input changed from "export from `astro.py`" to the GMAT-generated OEMs, which replaces Kepler + secular J2 with a real integrator for the conjunction geometry. |
+| GM-06 | `validation/A5_astro_orekit.md`, `validation/README.md`, `OPEN_PROBLEMS.md` E2/E6, `.gitignore` | GMAT named as the primary implementation with Orekit as substitute; A5 status now "toolkit built, not run"; `validation/gmat/output/` ignored as regenerable. |
+
+**Scope note.** GMAT closes E6 and feeds A6. It does nothing for P5/P8 or E4 — it validates
+the consequences of a Δv, not the Δv itself — so A4 remains the highest-leverage analysis
+in `validation/`.
+
+---
+
 ## Open decisions
 
 1. **LICENSE** — RESOLVED 2026-07-23: owner chose **MIT** (P3-07).
