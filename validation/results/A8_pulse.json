@@ -1,0 +1,59 @@
+{
+  "analysis": "A8",
+  "tool": "ngspice 42",
+  "netlist": "validation/spice/emocd_shot.cir",
+  "bands_declared_in": "validation/A8_pulse_spice.md",
+  "method": "Analogue-computer form: node voltages carry mechanical state, so SPICE integrates the same shot ODE with a different integrator (trapezoidal) than motor_model.py's forward Euler at dt=1e-4. The electrical side is a real circuit: 6 F bank, 96 V, series ESR, load drawing P/V at the terminal.",
+  "esr_assumption_ohm": 0.012,
+  "esr_source": "12 mohm appears only in docs/EMOCD_Computation_Results_C1-C10.md, which is SUPERSEDED. No current script defines a bank ESR.",
+  "comparisons": {
+    "v_exit_m_s": {
+      "script": 20.372,
+      "spice": 20.366,
+      "dev_pct": -0.03,
+      "band_pct": 10,
+      "within_band": true
+    },
+    "pulse_ms": {
+      "script": 127.7,
+      "spice": 127.66,
+      "dev_pct": -0.03,
+      "band_pct": 10,
+      "within_band": true
+    },
+    "i_peak_A": {
+      "script": 391.74,
+      "spice": 415.17,
+      "dev_pct": 5.98,
+      "band_pct": 10,
+      "within_band": true
+    },
+    "bank_sag_pct": {
+      "script": 4.88,
+      "spice": 5.06,
+      "dev_pts": 0.18,
+      "band_pts": 1.5,
+      "within_band": true
+    },
+    "e_drawn_J": {
+      "script": 2634.5,
+      "spice": 2729.1,
+      "dev_pct": 3.59,
+      "band_pct": 5,
+      "within_band": true
+    }
+  },
+  "findings": [
+    {
+      "id": "A8-F1",
+      "severity": "medium",
+      "finding": "motor_model.py reports capacitor state-of-charge sag (4.88 %), not the terminal voltage the drive sees. With 12 mohm ESR the terminal droops to 86.16 V at end of stroke -- a 10.25 % total sag, more than double the quoted figure. The servo headroom argument behind the 0.027 m/s dispersion claim is stated against the smaller number."
+    },
+    {
+      "id": "A8-F2",
+      "severity": "low",
+      "finding": "Integral of I^2 dt over the shot is 8008 A^2 s. At 12 mohm that is 96 J of ESR loss, against the Q_esr = 160 J default in sizing.py thermal_campaign(). The two are consistent only if the real ESR is about 20 mohm. E17 flagged that 160 J had no second number against it; this is the second number."
+    }
+  ],
+  "verdict": "pass -- all five declared bands met; two findings raised, neither falsifies a headline number"
+}

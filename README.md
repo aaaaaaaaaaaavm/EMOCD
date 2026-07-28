@@ -108,6 +108,15 @@ Results land in `analysis/results/*.json`.
 </tr>
 </table>
 
+## Validation
+
+**[`VALIDATION_REPORT.md`](VALIDATION_REPORT.md)** — every claim, independently checked where
+possible. Headlines: the scripts reproduce themselves exactly (173/173 values); GMAT
+confirms the ×1.80 lifetime multiplier to within 4 % and its invariance to 2.55 %; ngspice
+confirms the shot model but finds the quoted bank sag is state-of-charge, not terminal
+voltage; and the Gen3 sled measures **9.45 kg**, above both existing estimates, which puts
+exit velocity at 16.5 m/s rather than 20.37 (**P15**).
+
 ## Charts
 
 Full set in **[`RESULTS.md`](RESULTS.md)** — all drawn by GitHub from text, no image files.

@@ -288,6 +288,30 @@ by running the tool, not by estimating what it would have said.
 
 ---
 
+## 2026-07-28 — validation run against every claim
+
+Four analyses actually executed; three could not be. Full account in
+[`VALIDATION_REPORT.md`](VALIDATION_REPORT.md).
+
+| ID | Item | Detail |
+|---|---|---|
+| VAL2-01 | **Reproducibility — passes** | All five `analysis/` scripts re-run from a clean copy with an empty `results/`, output compared field by field against the committed JSON: **173 values, 173 identical, 0 differing.** The reproducibility claim (D12) holds today. |
+| VAL2-02 | **A5 GMAT — the x1.80 claim holds** | Mean activity 1.7750 (−1.39 %), high activity 1.7302 (−3.88 %), both inside the ±5 % band declared before the run. **Invariance spread 2.55 %**, inside ≤5 %. An independently implemented force model reproduces the claim the paper actually defends. Low activity still propagating — and early state (4.1 years elapsed, still at 401 km, against `astro.py`'s 2.61-year total) suggests GMAT decays *slower* there, opposite to the other two levels. Not a result until it finishes. |
+| VAL2-03 | **A5 — absolute lifetimes do not agree, as E6 predicted** | GMAT 144.5 days against `astro.py`'s 190 at high activity. The bounded 30-day window measured the same 1.33× rate difference independently, and 190 ÷ 1.33 ≈ 143 reconciles the two. |
+| VAL2-04 | **A8 ngspice — all bands met, two findings** | Exit velocity and pulse duration agree to 0.03 % across two different integrators. **Finding:** `motor_model.py` reports capacitor state-of-charge sag (4.88 %) and models no ESR; terminal voltage droops to 86.16 V, a 10.25 % total sag, and the dispersion claim's headroom argument is stated against the smaller figure. **Finding:** ∫I²dt = 8008 A²s gives 96 J of ESR loss at 12 mohm against the `Q_esr = 160 J` default — consistent only at ~20 mohm. E17 updated; original text kept. |
+| VAL2-05 | **P15 (new, HIGH) — the sled is heavier than either estimate** | Exact OCC solid volumes from `EMOCD_Sled_Gen3.step` times material densities give **9.445 kg**, against 4.86 kg parametric and the 7.50 kg quoted in P5. Exit velocity falls to **16.53 m/s**. The method reproduces P8's 17.88 m/s exactly when fed 7.50 kg, so the discrepancy is in the mass, not the method. Not the structural FEA A4 specifies — plates are drawn solid, pocketing would reduce it — but past A4's own 6.80 kg threshold either way. |
+| VAL2-06 | Tooling committed | `validation/spice/emocd_shot.cir` (A8 netlist), `validation/results/A5_astro.json`, `validation/results/A8_pulse.json`. |
+
+**Not run, and recorded as not run:** A1 (FEMM is Windows-only; no magnetostatic solver was
+set up, so Kt = 11.22 N per kA/m remains single-method), A4's structural half, A6 (needs a
+covariance that does not exist, E18), A7 (Project Chrono unavailable here). Nothing in this
+block is inferred from an analysis that did not happen.
+
+**No script or paper value was changed.** The standing rule applies: record the discrepancy,
+run the analysis, then propagate once.
+
+---
+
 ## Open decisions
 
 1. **LICENSE** — RESOLVED 2026-07-23: owner chose **MIT** (P3-07).

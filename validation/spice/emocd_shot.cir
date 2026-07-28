@@ -1,0 +1,38 @@
+* EMOCD analysis A8 -- pulse-power chain, independent of motor_model.py's integrator
+* Analogue-computer form: node voltages carry mechanical state.
+*   V(vel) = sled velocity [m/s]   (capacitor of m farads charged by F amps)
+*   V(pos) = position [m]
+* Electrical side is real: 6 F bank at 96 V with series ESR, load draws P/V.
+* Constants below are computed BY motor_model.py, not re-derived here:
+*   F   = 0.9*Kt*K_rated                       = 1413.448 N
+*   Pcu = RHO_CU * J^2 * vol_cu                = 5263 W   (672 J over 127.7 ms)
+*   m   = M_SAT + M_SLED = 4.0 + 4.86          = 8.86 kg
+.param F=1413.448 m=8.86 Pcu=5263 Paux=200 eta=0.95 Resr=0.012
+
+* --- mechanical integrators ---
+Cvel vel 0 {m} ic=0
+Bvel 0 vel I={F}
+Cpos pos 0 1 ic=0
+Bpos 0 pos I=V(vel)
+
+* --- electrical: bank, ESR, commanded-power load ---
+Cbank bank 0 6 ic=96
+Resr bank mid {Resr}
+Vsense mid term 0
+Bload term 0 I=(F*V(vel)/eta + Pcu + Paux)/max(V(term),40)
+
+.tran 2e-5 0.2 uic
+.control
+run
+meas tran t_rel when v(pos)=1.30 rise=1
+meas tran v_exit find v(vel) when v(pos)=1.30 rise=1
+meas tran i_pk max i(Vsense) from=0 to=0.1277
+meas tran v_term find v(term) at=0.1277
+meas tran v_bank find v(bank) at=0.1277
+let i2 = i(Vsense)*i(Vsense)
+meas tran i2dt integ i2 from=0 to=0.1277
+let pin = i(Vsense)*v(bank)
+meas tran e_drawn integ pin from=0 to=0.1277
+print i2dt
+.endc
+.end

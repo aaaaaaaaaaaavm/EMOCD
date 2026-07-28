@@ -220,6 +220,30 @@ and left in place there with a note rather than edited:
 The sled fix **is** verifiable: Gen2 chassis half-length measures 180 mm (360 mm plate),
 Gen3 measures 244 mm (488 mm plate), so G2-D1 is genuinely closed.
 
+### P15. The Gen3 sled as drawn is 9.45 kg, above BOTH existing estimates — HIGH, NEW 2026-07-28
+Measured on 2026-07-28 from `cad/step/gen3/EMOCD_Sled_Gen3.step`: exact solid volumes from
+the OpenCASCADE kernel, times material densities (NdFeB 7500 kg/m3 is this repo's own value,
+from `sizing.py`).
+
+| Estimate | Sled mass | Exit velocity |
+|---|---|---|
+| `mass_properties.py` parametric | 4.86 kg | 20.37 m/s |
+| P5's CAD figure | 7.50 kg | 17.87 m/s |
+| **Gen3 geometry, measured** | **9.445 kg** | **16.53 m/s** at 10.7 g, 19.6 % efficiency |
+
+The method reproduces P8 exactly when fed 7.50 kg — it returns 17.87 m/s against P8's stated
+17.88 — so the discrepancy is in the mass, not the method. Dominated by two chassis plates
+(3.63 kg of titanium) and the magnet arrays (3.67 kg of NdFeB).
+
+**What it does not settle.** This is geometry times density, not the structural FEA that A4
+specifies. The plates are drawn solid with no lightening pockets, and a real design would
+pocket them; the stiffness constraint (airgap held to ±0.05 mm) is still unevaluated. But
+A4's pre-declared rule already says a mass at or above 6.80 kg makes 17.88 m/s the headline,
+and this is well past that. **Whichever way the FEA goes, the 20.37 m/s headline is not
+supported by the geometry that currently exists.**
+
+Do not edit `analysis/*.py` on the strength of this. Run A4, then propagate once.
+
 ### Advanced or resolved by the CAD build (not full closures)
 - **Launch restraint now exists as geometry.** The breech launch-lock blocks are modelled
   (`cad/parameters.json` `track`: `launch_lock` at x = 30–50 mm, 2 off). This advances
@@ -337,7 +361,25 @@ the same rule: fetch before citing. The differential-drag comparator (Foster et 
 Planet Labs results) is the one worth chasing first, since the paper's 25-day baseline is
 currently a model output rather than a measurement.
 
-### E17. The pulse-power chain has never left the analytic model — NEW 2026-07-27
+### E17. The pulse-power chain — PARTIALLY CLOSED 2026-07-28 by A8, with two findings
+**A8 has been run** (ngspice 42, `validation/spice/emocd_shot.cir`). All five declared bands
+were met — exit velocity and pulse duration agree to 0.03 % across two different integrators,
+peak current +5.98 %, sag +0.18 points, energy +3.59 %. Two findings came out of it anyway:
+
+1. **Quoted sag is state-of-charge, not terminal voltage.** `motor_model.py` models no ESR
+   at all; it reports the capacitor's charge depletion, 4.88 %. With a 12 mohm ESR the
+   terminal droops to 86.16 V — a **10.25 % total sag**. The servo-headroom argument behind
+   the 0.027 m/s dispersion claim is stated against the smaller number.
+2. **The `Q_esr = 160 J` default does not reconcile with 12 mohm.** Integral of I^2 dt over
+   the shot is 8008 A^2 s, giving 96 J at 12 mohm. The two agree only at about 20 mohm. This
+   item asked for a second number against the 160 J; here it is.
+
+The 12 mohm itself appears only in `docs/EMOCD_Computation_Results_C1-C10.md`, which is
+superseded — **no current script defines a bank ESR**, which is the underlying gap.
+
+Original item follows.
+
+### E17 (as originally written). The pulse-power chain has never left the analytic model
 The supercapacitor bank, the SiC bridge, and the winding exist only as lumped resistances
 and ideal switching inside `motor_model.py` and `sizing.py`. Three numbers depend on that
 model and nothing else: the **392 A peak current** (which sets the device rating and the
