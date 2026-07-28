@@ -86,6 +86,12 @@ radiation between shots relieves. Same correction applies to the coil: 0.28 K pe
 > `analysis/*.py` or `paper/paper.tex` has been changed** on the strength of the CAD.
 
 ### P5. CAD sled mass contradicts the parametric assumption — HIGH PRIORITY
+> **UPDATE 2026-07-28 — A4 structural leg has RUN (CalculiX).** The as-drawn 6 mm plate
+> passes every declared band: 0.0194 mm airgap closure against a 0.025 mm per-plate budget,
+> 33.7 MPa against 587 allowable, first mode 3408 Hz against >200. So there is **no
+> structural argument for the chassis being lighter than drawn** — a lighter one has to be
+> designed (rib-stiffened), not assumed. Combined with P15's measured 9.445 kg, the decision
+> rule's ≥6.80 kg branch stands and the machine as it exists delivers **16.53 m/s**.
 The first-pass Fusion sled (6 mm Ti-6Al-4V chassis, stiffness-driven by the ±0.05 mm gap
 tolerance under 3.7 kN inter-array attraction, **no structural FEA behind it**) implies a
 sled mass of **~7.50 kg**. `analysis/mass_properties.py` assumes **4.86 kg**, which

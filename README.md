@@ -67,7 +67,7 @@ electrical-to-payload and carries no regeneration credit.
 | Quantity | Value | Source |
 |---|---|---|
 | Thrust constant | 11.22 N per kA/m, ±1.26 % ripple | `analysis/motor_model.py` |
-| Exit velocity, 3U | 20.37 m/s at 16.3 g | `analysis/motor_model.py` |
+| Exit velocity, 3U | 20.37 m/s at 16.3 g ⚠ see below | `analysis/motor_model.py` |
 | Electrical→payload efficiency | 32 % (2.63 kJ drawn, 830 J delivered) | `analysis/motor_model.py` |
 | Closed-loop dispersion | 0.027 m/s (3σ) → ±0.10 km apogee | `analysis/motor_model.py` |
 | Orbital lifetime multiplier | ×1.80, invariant across BC and solar activity | `analysis/astro.py` |
@@ -77,15 +77,31 @@ electrical-to-payload and carries no regeneration credit.
 | Track first mode | 109 Hz fixed-fixed (target >70) | `analysis/sizing.py` |
 | Energy closure | 100.1 % accounted | `analysis/sizing.py` |
 
-> **⚠ CAD structural reconciliation pending (P8).** The figures above are the script
-> outputs and assume the 4.86 kg parametric sled mass from `mass_properties.py`. The
-> first-pass Fusion CAD sled (6 mm Ti-6Al-4V chassis, no structural FEA behind it) comes
-> out heavier — provisionally **~7.50 kg** — which would lower exit velocity to a
-> provisional **~17.88 m/s** and shift efficiency, recoil, and the lifetime multiplier
-> with it. **These numbers are deliberately left as the scripts compute them** until
-> ANSYS structural analysis closes the sled mass. The scripts stay authoritative; the CAD
-> is authoritative for geometry and fit only. See `OPEN_PROBLEMS.md` P5/P8 and
-> `cad/parameters.json`.
+> ### ⚠ Read this before quoting the exit velocity
+>
+> **The table above assumes a 4.86 kg sled. The sled that is actually drawn weighs 9.45 kg,
+> and at that mass this machine delivers 16.5 m/s, not 20.37.**
+>
+> Measured 2026-07-28 from the Gen3 CAD: exact solid volumes from the OpenCASCADE kernel
+> times material densities — 3.63 kg of titanium in two chassis plates, 3.67 kg of NdFeB in
+> the magnet arrays (`OPEN_PROBLEMS.md` P15, method and numbers in
+> [`VALIDATION_REPORT.md`](VALIDATION_REPORT.md)).
+>
+> | Sled mass | Exit velocity | Where it comes from |
+> |---|---|---|
+> | 4.86 kg | 20.37 m/s | `mass_properties.py` parametric solids — **the headline above** |
+> | 7.50 kg | 17.88 m/s | P5's CAD estimate, evidently already assuming lightening |
+> | **9.45 kg** | **16.53 m/s** | **the Gen3 geometry as drawn, measured** |
+>
+> The numbers in the table are left exactly as the scripts compute them, because the rule
+> in this repository is that a discrepancy gets recorded and analysed before anything is
+> propagated — not patched on discovery. Structural FEA (A4) decides which mass is real; a
+> pocketed chassis will land somewhere between. **Until it runs, treat 20.37 m/s as an
+> upper bound that the current geometry does not support.**
+>
+> Options for recovering the velocity — pocketing, magnet thickness, sheet current, stroke
+> length, and a two-layer stator — are costed in
+> [`docs/DESIGN_OPTIONS_exit_velocity.md`](docs/DESIGN_OPTIONS_exit_velocity.md).
 
 Two results have independent cross-checks: the Halbach field model (analytic vs
 magpylib, agreeing to three digits) and orbital decay (orbit-averaged vs Cowell RK4,
@@ -156,11 +172,11 @@ answer proves nothing.
 | Analysis | Tool | Closes | Status |
 |---|---|---|---|
 | A1 airgap field | FEMM | E1 (2-D half), E2 | specified |
-| **A4 sled chassis** | CalculiX / Code_Aster | **P5, P8 — the headline number** | specified |
+| **A4 sled chassis** | CalculiX ccx 2.21 | **P5, P8** | **run** — as-drawn plate passes; mass unchanged |
 | A5 lifetime & seeding | GMAT R2022a | E6 | **run** — see [`RESULTS.md`](RESULTS.md) |
 | A6 conjunction Pc | NASA CARA | P1 | specified |
 | A7 separation & tip-off | Project Chrono | E7 | specified |
-| A8 pulse-power chain | ngspice | E17 | specified |
+| A8 pulse-power chain | ngspice 42 | E17 | **run** — bands met, 2 findings |
 
 ## Repository layout
 

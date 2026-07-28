@@ -1,0 +1,72 @@
+{
+  "analysis": "A4 (structural leg)",
+  "tool": "CalculiX ccx 2.21, mesh by gmsh (quadratic tets)",
+  "model": "one 488x140x6 mm chassis plate extracted from cad/step/gen3/EMOCD_Sled_Gen3.step",
+  "mesh": {
+    "nodes": 29312,
+    "elements": 143930,
+    "type": "C3D10"
+  },
+  "material": {
+    "name": "Ti-6Al-4V",
+    "E_MPa": 113800,
+    "nu": 0.342,
+    "rho_tonne_mm3": 4.43e-09
+  },
+  "load": {
+    "source": "analysis/results/sizing.json inter_array",
+    "pressure_MPa": 0.12,
+    "footprint_mm": [
+      340,
+      90
+    ],
+    "total_N": 3672,
+    "note": "Maxwell attraction between the two Halbach arrays, one plate's share"
+  },
+  "support_bracket": "webs at |y|=48..54 mm; pinned = out-of-plane only (lower bound on stiffness), clamped = all DOF (upper bound). The real joint is between.",
+  "results": {
+    "pinned": {
+      "max_deflection_mm": 0.0194,
+      "peak_von_mises_MPa": 30.0
+    },
+    "clamped": {
+      "max_deflection_mm": 0.016,
+      "peak_von_mises_MPa": 33.7
+    },
+    "first_mode_Hz": 3408.4
+  },
+  "bands": {
+    "airgap_closure": {
+      "budget_mm_total": 0.05,
+      "budget_mm_per_plate": 0.025,
+      "worst_case_mm": 0.0194,
+      "used_pct": 78,
+      "verdict": "pass"
+    },
+    "stress": {
+      "allowable_MPa": 587,
+      "peak_MPa": 33.7,
+      "margin_x": 17.4,
+      "verdict": "pass"
+    },
+    "first_mode": {
+      "requirement_Hz": 200,
+      "computed_Hz": 3408.4,
+      "verdict": "pass"
+    }
+  },
+  "conclusion": "The chassis plate AS DRAWN meets every declared constraint: 78 % of the deflection budget in the conservative support case, 17x margin on stress, first local mode 17x the requirement. The plate is not strength-driven and is only moderately stiffness-driven.",
+  "what_this_does_not_settle": [
+    "A4 asked for the LIGHTEST chassis meeting the stiffness constraint. This run answers the easier question -- whether the drawn one meets it -- and it does.",
+    "Uniform thinning is nearly worthless: deflection scales as 1/t^3, so the budget is exhausted at about 5.5 mm, saving ~0.30 kg of the 9.445 kg sled and moving exit velocity from 16.53 to about 16.7 m/s.",
+    "Real mass reduction needs a rib-stiffened redesign, where section depth enters as the square. That is design work this analysis does not evaluate, and it means the 60 % pocketing row in docs/DESIGN_OPTIONS_exit_velocity.md is NOT supported by anything yet."
+  ],
+  "idealisations": [
+    "One plate in isolation, not the assembled box.",
+    "Web attachment idealised as two support lines; the bracket is pinned vs clamped.",
+    "Load applied as equal nodal forces over the footprint rather than the consistent quadratic-face load vector. Total force is exact; local distribution is approximate.",
+    "Magnets bonded to the plate would stiffen it locally -- not modelled, conservative.",
+    "Static Maxwell attraction only. No launch loads, no arrest event, no thermal."
+  ],
+  "verdict": "pass on all three declared bands for the as-drawn plate. The sled mass question stays open, and the decision rule's >=6.80 kg branch stands: at 9.445 kg the machine delivers 16.53 m/s."
+}

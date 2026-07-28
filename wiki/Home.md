@@ -88,13 +88,13 @@ Payload family (`motor_model.py`): 1U 24.4 m/s at 23.4 g · 3U 20.4 m/s at 16.3 
 6U 16.9 m/s at 11.2 g · 12U 14.8 m/s at 8.5 g. The 6U and 12U cases are force-limited
 consequences of the 3U design, not designed variants (see E9).
 
-> **CAD structural reconciliation is pending (P5/P8).** The table assumes the 4.86 kg
-> parametric sled from `mass_properties.py`. The first-pass Fusion sled (6 mm Ti-6Al-4V
-> chassis, no structural FEA behind it) comes out heavier — provisionally ~7.50 kg —
-> which would drop exit velocity to a provisional ~17.88 m/s and move efficiency, recoil,
-> and the lifetime multiplier with it. The numbers above are left as the scripts compute
-> them until ANSYS closes the sled mass. Scripts stay authoritative for performance; CAD
-> is authoritative for geometry and fit only.
+> **⚠ The table assumes a 4.86 kg sled. The sled as drawn weighs 9.45 kg, and at that mass
+> the machine delivers 16.5 m/s, not 20.37.** Measured from the Gen3 CAD on 2026-07-28 —
+> exact solid volumes times material densities (P15). 7.50 kg, the earlier CAD estimate,
+> gives 17.88 m/s. The numbers above are left as the scripts compute them until structural
+> FEA (A4) decides which mass is real, because a discrepancy gets recorded and analysed
+> before it is propagated. **Treat 20.37 m/s as an upper bound the current geometry does
+> not support.**
 
 Two results have independent cross-checks: the Halbach airgap field (analytic wave model
 vs magpylib, agreeing to three digits) and orbital decay (orbit-averaged Gauss vs Cowell

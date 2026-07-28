@@ -325,6 +325,22 @@ No script or paper value changed.
 
 ---
 
+## 2026-07-28 — A4 structural run, and the front pages corrected to match
+
+| ID | Item | Detail |
+|---|---|---|
+| A4-01 | **A4 structural leg RUN** (CalculiX ccx 2.21) | Quadratic-tet FE of one 488×140×6 chassis plate taken straight from `cad/step/gen3/EMOCD_Sled_Gen3.step` — 29,312 nodes, 143,930 C3D10 — under the 3672 N Maxwell attraction from `sizing.json`. Support bracketed pinned vs clamped because the real web joint is between. **All three declared bands pass: 0.0194 mm airgap closure against a 0.025 mm per-plate budget (78 %), 33.7 MPa against 587 allowable (17× margin), first mode 3408 Hz against >200.** |
+| A4-02 | What A4 did *not* settle | It answers "does the drawn chassis meet the constraint" (yes) rather than "what is the lightest chassis that does". Uniform thinning is nearly worthless — deflection goes as 1/t³, budget spent at ~5.5 mm for 0.30 kg, moving exit velocity 16.53 → ~16.7 m/s. Real reduction needs a rib-stiffened redesign that nothing has evaluated, so the 60 % pocketing row in `docs/DESIGN_OPTIONS_exit_velocity.md` is **unsupported**. The decision rule's ≥6.80 kg branch stands. |
+| A4-03 | Deck bug worth recording | First run failed with `nonpositive jacobian` on every element: gmsh's tet10 edge order is `{0,1},{1,2},{2,0},{3,0},{3,2},{3,1}` and CalculiX C3D10 wants nodes 9 and 10 the other way round. `build_deck.py` carries the mapping and a comment so the next person does not lose an hour to it. |
+| A4-04 | `validation/fea/` (new) | `build_deck.py` regenerates both decks from the STEP; results in `validation/results/A4_sled_structural.json` with mesh, material, load, bands, and five stated idealisations. Run artifacts gitignored. |
+| DOC-01 | **README, wiki and the Pages site now lead with the real number** | All three previously headlined 20.37 m/s with a caveat about a provisional 17.88, while `VALIDATION_REPORT.md` said 16.5. A reader finding that gap themselves reads it as overclaiming; the front page saying it first reads as rigour. Each now carries the three-row mass/velocity table and the sentence "treat 20.37 m/s as an upper bound the current geometry does not support". The computed values are still left exactly as the scripts produce them. |
+
+The standing rule held throughout: **no script or paper value was changed.** Discrepancy
+recorded, analysis run, and the propagation into `analysis/*.py` still waits on a decision
+about the chassis and the stator layer count.
+
+---
+
 ## Open decisions
 
 1. **LICENSE** — RESOLVED 2026-07-23: owner chose **MIT** (P3-07).

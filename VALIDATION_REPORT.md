@@ -114,12 +114,43 @@ stiffness question — the lightest chassis that holds the airgap to ±0.05 mm �
 
 ---
 
+## 4b. Sled chassis structural — CalculiX (A4)
+
+Quadratic-tet FE of one 488×140×6 mm chassis plate lifted straight out of the Gen3 STEP,
+29,312 nodes, loaded with the 3672 N Maxwell attraction over the 340×90 mm magnet footprint
+from `sizing.json`. Support at the web lines is bracketed — pinned (lower bound on
+stiffness) and clamped (upper bound) — because the real joint is between the two and
+reporting one number would be a choice dressed as a result.
+
+| Band, declared before the run | Result | |
+|---|---|---|
+| Airgap closure ≤ 0.025 mm per plate | **0.0194 mm** pinned, 0.0160 clamped | pass, 78 % of budget |
+| Von Mises ≤ 587 MPa | **33.7 MPa** | pass, **17× margin** |
+| First mode > 200 Hz | **3408 Hz** | pass, 17× |
+
+**The chassis as drawn is sound.** It is nowhere near strength-limited and comfortably
+inside the deflection budget.
+
+**And that is why the velocity problem does not go away.** A4 was supposed to decide whether
+the sled could be lighter. The answer it gives is that the drawn plate already meets the
+constraint, so nothing structural forces it to be heavier — but equally, nothing here makes
+it lighter. Uniform thinning is nearly worthless: deflection scales as 1/t³, so the budget
+is spent at about 5.5 mm, which saves 0.30 kg of 9.445 and moves exit velocity from 16.53 to
+roughly 16.7 m/s. Genuine reduction needs a rib-stiffened redesign — section depth enters as
+the square — and **no analysis anywhere has evaluated one.** The 60 % pocketing row in
+`docs/DESIGN_OPTIONS_exit_velocity.md` is unsupported until someone does.
+
+Idealisations, stated because they bound the result: one plate rather than the assembled
+box; web attachment as two support lines; load applied as equal nodal forces (total exact,
+local distribution approximate); bonded magnets not modelled, which is conservative; static
+attraction only, no launch or arrest loads.
+
 ## 5. Not run, and why
 
 | Analysis | Status |
 |---|---|
 | **A1** airgap field, magnetostatic FEA | **Not run.** FEMM is Windows-only and no open-source magnetostatic solver was set up here. The field remains checked only analytic-vs-analytic (wave model vs magpylib), which E2 already says is not confirmation by a different physical method. **K<sub>t</sub> = 11.22 N per kA/m is therefore still single-method.** |
-| **A4** sled structural | **Partially run** — mass measured (above), stiffness and stress not. CalculiX is installed; the analysis was not performed. |
+| **A4** sled structural | **Run** — see section 4b. Mass measured, stiffness/stress/modal computed. What remains is the optimisation question: the lightest chassis meeting the constraint, which needs a rib-stiffened study. |
 | **A6** conjunction P<sub>c</sub> | **Not run.** Needs a covariance that does not exist for an unflown satellite (E18), and the CARA tools are MATLAB. |
 | **A7** separation and tip-off | **Not run.** Project Chrono is not installable here. Tip-off remains a model output with no multibody model behind it. |
 | Thermal, contamination, EMC, host stage | Unchanged — E5, E11, E12 stand. |

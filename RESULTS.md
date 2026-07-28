@@ -186,7 +186,7 @@ Six analyses, each with its acceptance band declared before the run. Progress so
 | Analysis | Status |
 |---|---|
 | A1 airgap field | `░░░░░░░░░░` specified |
-| A4 sled chassis | `███░░░░░░░` mass measured (**9.45 kg**, P15); stiffness not run |
+| A4 sled chassis | `████████░░` **run — as-drawn plate passes all 3 bands**; lightest-chassis question open |
 | A5 lifetime & seeding | `████████░░` **GMAT: ×1.73 vs ×1.80, within band** (high activity); mean/low running |
 | A6 conjunction Pc | `░░░░░░░░░░` specified |
 | A7 separation & tip-off | `░░░░░░░░░░` specified |

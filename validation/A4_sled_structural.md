@@ -1,5 +1,24 @@
 # A4 — Sled chassis structural (CalculiX or Code_Aster)
 
+> ## RUN 2026-07-28 — CalculiX ccx 2.21, structural leg complete
+>
+> | Band (declared below, before the run) | Result | |
+> |---|---|---|
+> | Airgap closure ≤ 0.025 mm per plate | **0.0194 mm** (pinned) / 0.0160 (clamped) | pass, 78 % of budget |
+> | Von Mises ≤ 587 MPa | **33.7 MPa** | pass, 17× margin |
+> | First mode > 200 Hz | **3408 Hz** | pass, 17× |
+>
+> The plate **as drawn** meets every constraint. It is not strength-driven and only
+> moderately stiffness-driven. Full record, mesh, idealisations and caveats:
+> [`../validation/results/A4_sled_structural.json`](../validation/results/A4_sled_structural.json);
+> decks and logs in [`../validation/fea/`](../validation/fea/).
+>
+> **This does not close the mass question.** The run answers "does the drawn chassis meet
+> the constraint" (yes) rather than "what is the lightest chassis that does". Uniform
+> thinning is nearly worthless — deflection goes as 1/t³, so the budget is spent at ~5.5 mm
+> for a 0.30 kg saving. Real reduction needs a rib-stiffened redesign, which nothing has
+> evaluated. **The decision rule's ≥ 6.80 kg branch therefore stands: 16.53 m/s.**
+
 **Closes:** `OPEN_PROBLEMS.md` **P5** (sled mass 4.86 vs 7.50 kg) and **P8** (exit
 velocity 20.37 vs provisional 17.88 m/s).
 
