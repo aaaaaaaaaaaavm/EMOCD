@@ -43,7 +43,7 @@ entries are kept only so the record of what changed stays legible.
 | A29 | Closed-loop servo Monte Carlo (3σ = 0.027 m/s) | `analysis/motor_model.py` |
 | A30 | Parametric solid mass properties (72.3 kg dry, sled 4.86 kg) | `analysis/mass_properties.py` |
 | A31 | Cowell RK4 cross-validation (99.4 %) | `analysis/astro.py` |
-| A32 | Solar-activity UQ, ×1.80 invariance | `analysis/astro.py` |
+| A32 | Solar-activity UQ, ×1.80 invariance | `analysis/astro.py` — **invariance falsified by GMAT, see P16** |
 | A33 | Refined conjunction at final velocity | `analysis/astro.py` — see P1 |
 | A34 | Strategy-doc verification (recoil, propellant, capacitor, trim tables) | verification only |
 | A35 | Mechanical/thermal/electrical sizing anchors | `analysis/sizing.py` |

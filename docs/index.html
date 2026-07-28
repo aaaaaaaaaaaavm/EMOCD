@@ -141,7 +141,7 @@ code{font-family:var(--mono);font-size:.92em;background:var(--panel);
     <tr><td>Exit velocity, 3U</td><td class="num">20.37 m/s at 16.3 g</td><td><code>motor_model.py</code></td></tr>
     <tr><td>Electrical→payload efficiency</td><td class="num">32 %</td><td><code>motor_model.py</code></td></tr>
     <tr><td>Closed-loop dispersion</td><td class="num">0.027 m/s (3σ) → ±0.10 km apogee</td><td><code>motor_model.py</code></td></tr>
-    <tr><td>Orbital lifetime multiplier</td><td class="num">×1.80</td><td><code>astro.py</code></td></tr>
+    <tr><td>Orbital lifetime multiplier</td><td class="num">×1.80 at mean activity — <b>invariance falsified, P16</b></td><td><code>astro.py</code></td></tr>
     <tr><td>Constellation seeding, 30°</td><td class="num">1.4–6.9 days vs 25 by differential drag</td><td><code>astro.py</code></td></tr>
     <tr><td>Dry / loaded mass</td><td class="num">72.3 kg / 120.3 kg</td><td><code>mass_properties.py</code></td></tr>
     <tr><td>Recoil per shot</td><td class="num">81.5 N·s</td><td><code>astro.py</code></td></tr>
@@ -191,20 +191,32 @@ code{font-family:var(--mono);font-size:.92em;background:var(--panel);
 </section>
 
 <section>
-  <h2>GMAT cross-check — the first external result</h2>
-  <p class="sub">GMAT R2022a, run headless with MSISE90 / 20×20 gravity / RK89. Over a
-  bounded 30-day window the fitted decay rates are −0.1618 km/day (GMAT) against
-  −0.1216 km/day (<code>astro.py</code>) — GMAT decays 1.33× faster. That is expected: a
-  static exponential atmosphere is not MSIS, and this project defends the lifetime
-  <em>ratio</em>, not the absolute years. Full decay runs are in progress.</p>
+  <h2>GMAT cross-check — the first external result, and it found something</h2>
+  <p class="sub">GMAT R2022a, run headless with MSISE90 / 20×20 gravity / RK89, propagated to
+  the 120 km floor at three solar-activity levels. The ×1.80 lifetime multiplier reproduces
+  at mean and high activity. At low activity it does not, and the <em>invariance</em> the
+  paper nominates as its defensible result is falsified.</p>
   <div class="chart">
-    <div class="row"><span class="lbl">GMAT MSISE90</span><span class="track"><span class="fill warn" style="width:100%"></span></span><span class="val">0.1618 km/d</span></div>
-    <div class="row"><span class="lbl">astro.py</span><span class="track"><span class="fill" style="width:75.2%"></span></span><span class="val">0.1216 km/d</span></div>
+    <div class="row"><span class="lbl">High, F10.7 250</span><span class="track"><span class="fill" style="width:83.4%"></span></span><span class="val">×1.7302</span></div>
+    <div class="row"><span class="lbl">Mean, F10.7 150</span><span class="track"><span class="fill" style="width:85.6%"></span></span><span class="val">×1.7750</span></div>
+    <div class="row"><span class="lbl">Low, F10.7 70</span><span class="track"><span class="fill warn" style="width:100%"></span></span><span class="val">×2.0739</span></div>
+    <div class="row"><span class="lbl">astro.py claim</span><span class="track"><span class="fill dim" style="width:86.8%"></span></span><span class="val">×1.80</span></div>
   </div>
   <p></p>
-  <div class="note">Reported SMA is osculating, and its short-period variation runs 12.2 km
-  peak to peak — several times the decay across the window. The comparison is therefore a
-  least-squares rate over 31 daily samples, not a difference of endpoints.</div>
+  <div class="note"><b>Spread 18.48 % against a ≤5 % band declared before the run — A5's
+  verdict is FAIL.</b> The mechanism was tested, not guessed: <code>astro.py</code> models
+  solar activity as a uniform multiplicative scale on density, and sweeping that scale over a
+  <b>40× range</b> moves the multiplier only 1.7992 → 1.7968. A uniform density factor
+  divides both lifetimes by the same number, so the ratio is invariant <em>by construction of
+  the model</em>. MSIS instead changes the shape of the density–altitude profile with F10.7,
+  the boosted orbit's apogee sits ~37 km higher, and the ratio then moves. Written up as
+  <b>P16</b>.</div>
+  <p></p>
+  <p class="sub">Separately, over a bounded 30-day window the fitted decay rates are
+  −0.1618 km/day (GMAT) against −0.1216 km/day (<code>astro.py</code>) — GMAT decays
+  1.33× faster. Reported SMA is osculating and its short-period variation runs 12.2 km peak
+  to peak, several times the decay across the window, so the comparison is a least-squares
+  rate over 31 daily samples rather than a difference of endpoints.</p>
 </section>
 
 <section>
@@ -212,16 +224,17 @@ code{font-family:var(--mono);font-size:.92em;background:var(--panel);
   <p class="sub">Two results have a genuine independent cross-check: the Halbach airgap
   field (analytic wave model vs magpylib, agreeing to three digits) and orbital decay
   (orbit-averaged Gauss vs an independent Cowell RK4, 99.4 %). Nothing has been validated by
-  hardware, FEA, or third-party review. The cross-checks below are specified with acceptance
-  bands declared <em>before</em> the run — and none has been run.</p>
+  hardware, FEA, or third-party review. Each cross-check below carries an acceptance band
+  declared <em>before</em> its run. Three have now been run, and one of the three failed —
+  which is the point of declaring the band first.</p>
   <table>
     <tr><th>Analysis</th><th>Tool</th><th>Closes</th><th>Status</th></tr>
     <tr><td>A1 airgap field</td><td>FEMM</td><td>E1, E2</td><td>specified</td></tr>
-    <tr><td><b>A4 sled chassis</b></td><td>CalculiX / Code_Aster</td><td><b>P5, P8</b></td><td>specified</td></tr>
-    <tr><td>A5 lifetime &amp; seeding</td><td>GMAT R2022a</td><td>E6</td><td><b>run</b></td></tr>
+    <tr><td><b>A4 sled chassis</b></td><td>CalculiX ccx 2.21</td><td><b>P5, P8</b></td><td><b>run — all 3 bands pass</b></td></tr>
+    <tr><td>A5 lifetime &amp; seeding</td><td>GMAT R2022a</td><td>E6, <b>P16</b></td><td><b>run — FAIL, invariance falsified</b></td></tr>
     <tr><td>A6 conjunction P<sub>c</sub></td><td>NASA CARA</td><td>P1</td><td>specified</td></tr>
     <tr><td>A7 separation &amp; tip-off</td><td>Project Chrono</td><td>E7</td><td>specified</td></tr>
-    <tr><td>A8 pulse-power chain</td><td>ngspice</td><td>E17</td><td>specified</td></tr>
+    <tr><td>A8 pulse-power chain</td><td>ngspice</td><td>E17</td><td><b>run — bands met, 2 findings</b></td></tr>
   </table>
   <p></p>
   <div class="note">The paper once carried four numbers its own scripts did not reproduce.

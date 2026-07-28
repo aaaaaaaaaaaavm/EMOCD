@@ -77,7 +77,7 @@ All figures are script outputs, not measurements.
 | Exit velocity, 3U | 20.37 m/s at 16.3 g | `motor_model.py` |
 | Electrical→payload efficiency | 32 % (2.63 kJ drawn, 830 J delivered) | `motor_model.py` |
 | Closed-loop dispersion | 0.027 m/s (3σ) → ±0.10 km apogee | `motor_model.py` |
-| Orbital lifetime multiplier | ×1.80, invariant across BC and solar activity | `astro.py` |
+| Orbital lifetime multiplier | ×1.80 at mean activity — **invariance falsified, see P16** | `astro.py` |
 | Constellation seeding | 30° in 1.4–6.9 days vs 25 days by differential drag | `astro.py` |
 | Dry / loaded mass | 72.3 kg / 120.3 kg | `mass_properties.py` |
 | Recoil per shot | 81.5 N·s | `astro.py` |

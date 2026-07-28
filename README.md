@@ -70,7 +70,7 @@ electrical-to-payload and carries no regeneration credit.
 | Exit velocity, 3U | 20.37 m/s at 16.3 g ⚠ see below | `analysis/motor_model.py` |
 | Electrical→payload efficiency | 32 % (2.63 kJ drawn, 830 J delivered) | `analysis/motor_model.py` |
 | Closed-loop dispersion | 0.027 m/s (3σ) → ±0.10 km apogee | `analysis/motor_model.py` |
-| Orbital lifetime multiplier | ×1.80, invariant across BC and solar activity | `analysis/astro.py` |
+| Orbital lifetime multiplier | ×1.80 at mean activity — **invariance falsified, see P16** | `analysis/astro.py` |
 | Constellation seeding | 30° in 1.4–6.9 days vs 25 days by differential drag | `analysis/astro.py` |
 | Dry / loaded mass | 72.3 kg / 120.3 kg | `analysis/mass_properties.py` |
 | Recoil per shot | 81.5 N·s | `analysis/astro.py` |
@@ -126,12 +126,21 @@ Results land in `analysis/results/*.json`.
 
 ## Validation
 
-**[`VALIDATION_REPORT.md`](VALIDATION_REPORT.md)** — every claim, independently checked where
-possible. Headlines: the scripts reproduce themselves exactly (173/173 values); GMAT
-confirms the ×1.80 lifetime multiplier to within 4 % and its invariance to 2.55 %; ngspice
-confirms the shot model but finds the quoted bank sag is state-of-charge, not terminal
-voltage; and the Gen3 sled measures **9.45 kg**, above both existing estimates, which puts
-exit velocity at 16.5 m/s rather than 20.37 (**P15**).
+**[`VALIDATION_REPORT.md`](VALIDATION_REPORT.md)** — every claim, independently checked
+where possible. Four analyses were actually run; three could not be.
+
+- **Reproducibility holds exactly** — 173 values re-computed from clean, 173 identical.
+- **GMAT confirms ×1.80 at mean and high solar activity** (1.775 and 1.730) — but
+  **falsifies its invariance**: at low activity the multiplier is 2.074, an 18.5 % spread
+  against a ≤5 % band. `astro.py` varies solar activity by scaling density uniformly, which
+  preserves a ratio *by construction* — the sweep that claims to demonstrate invariance
+  cannot test it (**P16**).
+- **CalculiX** clears the chassis on all three structural bands, and the sled still measures
+  **9.45 kg**, putting exit velocity at 16.5 m/s rather than 20.37 (**P15**).
+- **ngspice** confirms the shot model to 0.03 % but finds the quoted bank sag is
+  state-of-charge, not the terminal voltage the drive sees.
+- **Not run:** A1, so K<sub>t</sub> = 11.22 N per kA/m remains checked only
+  analytic-against-analytic; A6; A7.
 
 ## Charts
 

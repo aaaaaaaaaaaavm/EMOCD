@@ -176,6 +176,7 @@ flowchart LR
     A4 --> P5["P5 · sled mass"]
     A4 --> P8["P8 · exit velocity"]
     A5 --> E6["E6 · absolute lifetimes"]
+    A5 --> P16["P16 · invariance falsified"]
     A6 --> P1["P1 · conjunction claim"]
     A7 --> E7["E7 · dispersion assumptions"]
     A8 --> E17["E17 · pulse chain unmodelled"]
@@ -187,7 +188,7 @@ Six analyses, each with its acceptance band declared before the run. Progress so
 |---|---|
 | A1 airgap field | `░░░░░░░░░░` specified |
 | A4 sled chassis | `████████░░` **run — as-drawn plate passes all 3 bands**; lightest-chassis question open |
-| A5 lifetime & seeding | `████████░░` **GMAT: ×1.73 vs ×1.80, within band** (high activity); mean/low running |
+| A5 lifetime & seeding | `██████████` **run — FAIL. The ×1.80 point value survives at mean and high activity; its claimed invariance does not (P16)** |
 | A6 conjunction Pc | `░░░░░░░░░░` specified |
 | A7 separation & tip-off | `░░░░░░░░░░` specified |
 | A8 pulse-power chain | `██████████` **run — ngspice, all bands met, 2 findings** |
@@ -229,35 +230,67 @@ An internal consistency check fell out of it: a 1.33× faster decay predicts the
 high-activity case reaching 120 km at 190 / 1.33 ≈ 143 days. GMAT's full run gives
 **144.5 days**. The bounded window and the full decay agree with each other.
 
-### Full decay runs — the ×1.80 claim, checked
+### Full decay runs — the ×1.80 claim, checked, and the invariance falsified
 
-High solar activity (F10.7 = 250), propagated to the 120 km floor:
+All three activity levels propagated to the 120 km floor. Two pass. The third does not, and
+it takes the abstract's claim with it.
 
 ```mermaid
 xychart-beta
-    title "Lifetime multiplier: does the boost buy 1.8x? (high activity)"
-    x-axis ["astro.py claim", "GMAT R2022a", "band lower", "band upper"]
-    y-axis "Multiplier" 1.5 --> 2.0
-    bar [1.80, 1.73, 1.71, 1.89]
+    title "Lifetime multiplier by solar activity — band is 1.71 to 1.89"
+    x-axis ["High F10.7 250", "Mean F10.7 150", "Low F10.7 70", "astro.py claim"]
+    y-axis "Multiplier" 1.5 --> 2.2
+    bar [1.7302, 1.7750, 2.0739, 1.80]
 ```
 
-| | Baseline | Boosted | Multiplier |
-|---|---|---|---|
-| GMAT R2022a, MSISE90 | 144.5 days | 250.0 days | **1.7302** |
-| `astro.py` | 190 days (0.52 yr) | — | 1.80 |
-| | | Deviation | **−3.88 %** |
+| Solar activity | Baseline | Boosted | Multiplier | vs ×1.80 | Band ±5 % |
+|---|---|---|---|---|---|
+| High (F10.7 = 250) | 144.5 d | 250.0 d | **1.7302** | −3.88 % | pass |
+| Mean (F10.7 = 150) | 429.9 d | 763.1 d | **1.7750** | −1.39 % | pass |
+| **Low (F10.7 = 70)** | 2359.1 d | 4892.4 d | **2.0739** | **+15.21 %** | **FAIL** |
 
-**Inside the ±5 % band declared before the run.** An independently implemented force model —
-different atmosphere, 20×20 gravity, lunisolar third bodies, SRP, RK89 — reproduces the
-project's headline astrodynamics claim to within 4 %.
+**Spread across the three: 18.48 %, against the ≤5 % invariance band declared before the
+run. A5's verdict is `FAIL`.**
 
-Note what did *not* agree: the absolute baseline lifetime, 144.5 days against 190. That is
-the 1.33× rate difference again, and E6 predicted it in advance. The ratio survives what the
-absolutes do not, which is the entire argument for quoting the ratio.
+The point value is not what died here. At mean and high activity an independently
+implemented force model — MSISE90, 20×20 gravity, lunisolar third bodies, SRP, RK89 —
+reproduces ×1.80 to within 4 %. What died is the claim that the ratio is *invariant* across
+solar activity, which is the property the paper's Limitations section nominates as "the
+defensible result" and the abstract states outright.
 
-Mean and low activity are still propagating (2.6 years of orbit at low activity takes a
-while). Live verdict, force models and run metadata:
-[`validation/results/A5_astro.json`](validation/results/A5_astro.json).
+### Why `astro.py` could never have found this
+
+The reason the project believed the ratio was invariant is visible in one sweep. `astro.py`
+models solar activity as a uniform multiplicative scale on density. Drive that scale over a
+**40× range** and the multiplier does not move:
+
+```mermaid
+xychart-beta
+    title "astro.py multiplier vs density scale — invariant by construction"
+    x-axis "Density scale factor" [0.25, 0.5, 1.0, 2.5, 5.0, 10.0]
+    y-axis "Multiplier" 1.79 --> 1.81
+    line [1.7992, 1.7991, 1.7989, 1.7982, 1.7971, 1.7968]
+```
+
+Constant to 0.1 % across a factor of forty. That is not a physical result — a uniform
+density factor divides both lifetimes by the same number, so the ratio cancels. The model
+cannot report anything else. MSIS instead changes the *shape* of the density–altitude
+profile with F10.7, and because the boosted orbit's apogee sits some 37 km above the
+baseline's, the two orbits sample that changed shape differently. The ratio then moves:
+1.73 at high activity, 2.07 at low.
+
+Reproducible from `analysis/astro.py` `lifetime()` with no edits to the script.
+
+### What else did not agree
+
+The absolute lifetimes, and **the error changes sign across the range** — GMAT is 2.5×
+longer than `astro.py` at low activity, 9 % shorter at mean, 23 % shorter at high. E6
+predicted absolute disagreement in advance; it did not predict a sign change, which is the
+same profile-shape effect seen from the other side.
+
+Verdict, force models, per-level numbers and run metadata:
+[`validation/results/A5_astro.json`](validation/results/A5_astro.json). Full write-up as
+[`OPEN_PROBLEMS.md`](OPEN_PROBLEMS.md) **P16**.
 
 > **The parser earned its keep here.** Its first run read a decay file GMAT was still
 > writing, took the partial decay as final, and produced a confident `FAIL`. It now refuses

@@ -24,7 +24,14 @@
   },
   "levels": {
     "low": {
-      "status": "in progress -- 120 km floor not reached"
+      "baseline_days": 2359.05,
+      "boosted_days": 4892.35,
+      "baseline_years": 6.459,
+      "boosted_years": 13.395,
+      "astro_baseline_years": 2.61,
+      "multiplier": 2.0739,
+      "deviation_pct": 15.21,
+      "within_band": false
     },
     "mean": {
       "baseline_days": 429.94,
@@ -59,8 +66,8 @@
     "note": "Rates, not endpoints: reported SMA is osculating and its short-period variation exceeds the decay over this window. A rate difference is expected -- static exponential atmosphere vs MSIS -- and is not a failure. E6 defends the ratio, not the absolutes."
   },
   "invariance": {
-    "spread_pct": 2.55,
-    "within_band": true
+    "spread_pct": 18.48,
+    "within_band": false
   },
-  "verdict": "partial -- 2 of 3 activity levels complete, within band so far"
+  "verdict": "FAIL -- open a P-item; do not edit analysis/astro.py"
 }

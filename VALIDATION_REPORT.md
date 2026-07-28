@@ -34,17 +34,45 @@ GMAT was installed and run headless: MSISE90 atmosphere, 20×20 gravity, Luna an
 point masses, SRP on, RK89. Independently implemented force models, not a second pass of
 the same code.
 
-### The ×1.80 lifetime multiplier — **holds**
+### The ×1.80 multiplier holds at two activity levels. **Its invariance does not.**
+
+All three runs are complete.
 
 | Solar activity | GMAT baseline | GMAT boosted | Multiplier | vs ×1.80 | Band ±5 % |
 |---|---|---|---|---|---|
 | High (F10.7 250) | 144.5 d | 250.0 d | **1.7302** | −3.88 % | pass |
-| Mean (F10.7 150) | — | — | **1.7750** | −1.39 % | pass |
-| Low (F10.7 70) | still propagating | | | | |
+| Mean (F10.7 150) | 429.9 d | 763.1 d | **1.7750** | −1.39 % | pass |
+| **Low (F10.7 70)** | **2359.1 d** | **4892.3 d** | **2.0739** | **+15.21 %** | **FAIL** |
 
-**Invariance across activity: 2.55 % spread, inside the ≤5 % band.** The claim that the
-multiplier is invariant — the thing the paper actually defends — survives an independent
-propagator.
+**Invariance spread across the three: 18.48 % against a ≤5 % band. A5's verdict is FAIL.**
+
+An earlier version of this section reported 2.55 % and called the invariance confirmed. That
+was computed from the two levels that had finished at the time, and it was wrong — recorded
+here rather than quietly replaced.
+
+### Why the two codes disagree, tested rather than guessed
+
+`astro.py` models solar activity as a **uniform multiplicative scale on density**. Sweep
+that scale over a factor of forty and the multiplier does not move:
+
+| density scale | 0.25 | 0.5 | 1.0 | 2.5 | 5.0 | 10.0 |
+|---|---|---|---|---|---|---|
+| multiplier | 1.7992 | 1.7991 | 1.7989 | 1.7982 | 1.7971 | 1.7968 |
+
+Constant to 0.1 % across 40×. **That is not a physical result — it is arithmetic.** A
+uniform density factor divides both lifetimes by the same number, so the ratio survives by
+construction of the model. The invariance was never tested by the sweep that claims to
+demonstrate it.
+
+MSIS changes the *shape* of the density-altitude profile as F10.7 varies, not just its
+magnitude. The boosted orbit carries apogee about 37 km higher than the baseline, so the two
+orbits sample the profile differently and the ratio moves: 1.73 at high activity, 2.07 at
+low.
+
+**What survives:** the ×1.80 point value at mean and high activity, comfortably. **What does
+not:** the claim that it is invariant across solar activity — which is stated in the paper's
+abstract and which the paper's own Limitations section nominates as "the defensible result".
+Recorded as P16.
 
 ### Absolute lifetimes — **not confirmed, as expected**
 
@@ -56,10 +84,16 @@ each other: 190 ÷ 1.33 ≈ 143 days.
 E6 said absolute lifetimes carry severalfold uncertainty and that only the ratio is
 defensible. That is now demonstrated rather than asserted.
 
-**Early indication from the unfinished low-activity run: GMAT is at 4.1 years and still at
-401 km, where `astro.py` predicts 2.61 years total.** At low activity GMAT appears to decay
-*slower*, the opposite direction to the other two levels. If that holds, the invariance
-spread will widen. The run is unfinished and this is not yet a result.
+The disagreement changes sign with activity, which is the same story from another angle:
+
+| | `astro.py` | GMAT | |
+|---|---|---|---|
+| Low activity | 2.61 yr | **6.46 yr** | GMAT 2.5× longer |
+| Mean | 1.30 yr | 1.18 yr | GMAT 9 % shorter |
+| High | 0.52 yr | 0.40 yr | GMAT 23 % shorter |
+
+A model whose error changes sign across its input range is not off by a calibration factor —
+it has the wrong shape.
 
 Detail: [`validation/results/A5_astro.json`](validation/results/A5_astro.json).
 
@@ -190,9 +224,11 @@ superseded. No current script defines a bank ESR at all — which is part of the
 
 ## What this changes
 
-The astrodynamics claim is in better shape than it was this morning: the ×1.80 multiplier
-and its invariance now have an independent propagator behind them, and the absolutes are
-demonstrably the weak part, exactly as E6 predicted.
+The astrodynamics claim is now half-confirmed and half-broken. The ×1.80 multiplier itself
+stands up at mean and high solar activity, checked by an independently implemented
+propagator. Its **invariance** does not survive, and the reason is that `astro.py`'s
+invariance sweep varies density by a uniform factor, which cannot move a ratio. The paper
+nominates that invariance as its defensible result.
 
 The performance claim is in worse shape. The headline 20.37 m/s rests on a 4.86 kg sled that
 the drawn geometry does not support, and the electrical margin is quoted against a voltage

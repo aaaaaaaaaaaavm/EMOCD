@@ -250,6 +250,71 @@ supported by the geometry that currently exists.**
 
 Do not edit `analysis/*.py` on the strength of this. Run A4, then propagate once.
 
+### P16. The lifetime-multiplier INVARIANCE claim is falsified — HIGH, NEW 2026-07-28
+GMAT R2022a, run headless against the bands declared in `validation/A5_astro_orekit.md`
+before the run:
+
+| Solar activity | GMAT multiplier | vs ×1.80 | Band ±5 % |
+|---|---|---|---|
+| High (F10.7 250) | 1.7302 | −3.88 % | pass |
+| Mean (F10.7 150) | 1.7750 | −1.39 % | pass |
+| **Low (F10.7 70)** | **2.0739** | **+15.21 %** | **FAIL** |
+
+Spread across the three: **18.48 %** against a ≤5 % band.
+
+**The mechanism, and it is not subtle.** `analysis/astro.py` represents solar activity as a
+uniform multiplicative scale on density (`rho(h, scale)`). Sweeping that scale across a
+factor of **forty** moves the multiplier from 1.7992 to 1.7968 — 0.1 %. A uniform density
+factor divides both lifetimes by the same number, so **the ratio is preserved by
+construction**. The sweep that the paper cites as demonstrating invariance cannot, in
+principle, do so.
+
+MSIS varies the *shape* of the density-altitude profile with F10.7, not only its magnitude.
+The boosted orbit's apogee sits ~37 km above the baseline's, the two sample the profile
+differently, and the ratio moves. Corroboration from the same runs: the absolute-lifetime
+error changes **sign** across the range — GMAT is 2.5× longer at low activity, 9 % shorter
+at mean, 23 % shorter at high. An error that changes sign is a wrong shape, not a
+miscalibration.
+
+**What survives:** ×1.80 as a point value at mean and high activity, checked independently
+and comfortably inside band. **What does not:** invariance.
+
+Reproduce the sweep in six lines, no edit to any script:
+
+```python
+from analysis.astro import lifetime, boosted_elements, RE
+a0 = RE + 450e3
+ab, eb = boosted_elements(450e3, 20.37)
+for s in (0.25, 0.5, 1.0, 2.5, 5.0, 10.0):
+    print(s, lifetime(ab, eb, scale=s) / lifetime(a0, 0.0, scale=s))
+```
+
+**Where the claim appears:**
+
+| Location | Text | Status |
+|---|---|---|
+| `paper/paper.tex` **abstract** | "a ratio shown invariant across ballistic coefficient and a fivefold solar-activity density range" | **not corrected** — batched with P11/P12 |
+| `paper/paper.tex` Sec. V-B | "invariant to two decimal places" | **not corrected** |
+| `paper/paper.tex` sensitivity section | "a multiplier invariant across a fivefold density range" | **not corrected** |
+| `paper/paper.tex` **Limitations** | "the demonstrated invariance of the ratio is the defensible result" — the paper leans on this specific claim | **not corrected** |
+| `README.md`, `wiki/Home.md` headline tables | "×1.80, invariant across BC and solar activity" | corrected 2026-07-28 → "×1.80 at mean activity — invariance falsified, see P16" |
+| `RESULTS.md` A5 section and status bar | "GMAT: ×1.73 vs ×1.80, within band" | corrected 2026-07-28 — three-level table, per-activity chart, 40×-sweep chart, status FAIL |
+| `docs/index.html` (Pages site) | headline row and GMAT section | corrected 2026-07-28 |
+| `VALIDATION_REPORT.md` §2 | "2.55 % spread, inside the ≤5 % band" | corrected 2026-07-28, retraction stated in place |
+| `INVENTORY.md` A32 | "Solar-activity UQ, ×1.80 invariance" | flagged against P16 |
+| `CHANGELOG.md` VAL2-02 | "Invariance spread 2.55 %, inside ≤5 %" | marked SUPERSEDED, text left intact as audit record |
+
+The paper is the one place still carrying the falsified claim, and it is the place that
+matters most.
+
+**Ballistic-coefficient invariance is untested and now suspect.** The BC half of the claim
+was demonstrated by the same kind of sweep. Nobody has checked it against a real atmosphere.
+
+**Do not edit `analysis/astro.py`.** Its arithmetic is not wrong; its atmosphere
+parameterisation cannot express the effect being claimed. The fix is either a variable-shape
+atmosphere in the script or dropping the invariance claim and keeping the point value —
+that is a judgement, not a patch. Paper edits batch with P11/P12.
+
 ### Advanced or resolved by the CAD build (not full closures)
 - **Launch restraint now exists as geometry.** The breech launch-lock blocks are modelled
   (`cad/parameters.json` `track`: `launch_lock` at x = 30–50 mm, 2 off). This advances
@@ -301,8 +366,9 @@ stage publishes its mass and control authority. Cannot be closed from public dat
 
 ### E6. Absolute orbital lifetimes are uncertain
 Static exponential atmosphere at mean solar activity. Absolute lifetimes swing
-severalfold across the solar cycle. The ×1.80 ratio is invariant and is the defensible
-claim; absolute years are not. `validation/A5_astro_orekit.md` specifies an independent
+severalfold across the solar cycle. The ×1.80 ratio was believed invariant and defensible;
+**P16 has since falsified the invariance** — GMAT gives 1.73 / 1.78 / 2.07 across low to high
+activity. The point value at mean and high activity survives; the invariance does not. `validation/A5_astro_orekit.md` specifies an independent
 re-run under GMAT (toolkit built in `validation/gmat/`, Orekit an equally valid
 substitute) — different codebases, independently implemented force models — with the band on the ratio and explicitly not on the absolutes. It now also
 carries a second leg: reproduce the **measured** decay of 3–5 non-manoeuvring 3U CubeSats

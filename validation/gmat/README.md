@@ -69,3 +69,10 @@ This matters for the absolute lifetimes and not for the claim: the invariance ba
 the *spread of the multiplier* across activity levels, which should hold under either
 parameterisation. If it does not, that is a real finding about the ×1.80 and belongs in a
 P-item.
+
+> **Outcome (2026-07-28): it did not hold, and the P-item is `OPEN_PROBLEMS.md` P16.**
+> Spread 18.48 % against the ≤5 % band. The paragraph above is left exactly as written
+> before the run — it is the record of what was expected, and the fact that the failure mode
+> it names in advance is the one that occurred is the reason the run sheet was written first.
+
+
