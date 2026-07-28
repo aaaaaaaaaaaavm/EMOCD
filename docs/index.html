@@ -55,6 +55,16 @@ td.num{font-family:var(--mono)}
 footer{padding:34px 0 60px;color:var(--dim);font-size:14px;border-top:1px solid var(--line)}
 code{font-family:var(--mono);font-size:.92em;background:var(--panel);
   border:1px solid var(--line);border-radius:4px;padding:1px 5px}
+.chart{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:18px}
+.chart h3{margin:0 0 14px;font-size:15px;font-weight:600}
+.row{display:grid;grid-template-columns:minmax(120px,190px) 1fr auto;gap:12px;
+  align-items:center;margin:7px 0;font-size:13.5px}
+.row .lbl{color:var(--dim);text-align:right}
+.track{background:rgba(127,127,127,.16);border-radius:5px;height:20px;overflow:hidden}
+.fill{height:100%;border-radius:5px;background:linear-gradient(90deg,var(--accent),#7cc4ff)}
+.fill.warn{background:linear-gradient(90deg,var(--warn),#ffd08a)}
+.fill.dim{background:rgba(127,127,127,.45)}
+.val{font-family:var(--mono);font-size:12.5px;color:var(--ink);min-width:64px}
 </style>
 </head>
 <body>
@@ -80,6 +90,7 @@ code{font-family:var(--mono);font-size:.92em;background:var(--panel);
       <a class="pill" href="https://github.com/aaaaaaaaaaaavm/EMOCD">Repository</a>
       <a class="pill" href="https://github.com/aaaaaaaaaaaavm/EMOCD/blob/main/paper/EMOCD_IEEE_Conference.pdf">Paper (PDF)</a>
       <a class="pill" href="https://github.com/aaaaaaaaaaaavm/EMOCD/blob/main/cad/stl/EMOCD_Assembly_Gen3.stl">Spin the 3D model</a>
+      <a class="pill" href="https://github.com/aaaaaaaaaaaavm/EMOCD/blob/main/RESULTS.md">All charts</a>
       <a class="pill" href="https://github.com/aaaaaaaaaaaavm/EMOCD/blob/main/OPEN_PROBLEMS.md">Open problems</a>
     </div>
   </div>
@@ -152,6 +163,50 @@ code{font-family:var(--mono);font-size:.92em;background:var(--panel);
 </section>
 
 <section>
+  <h2>Where the energy goes</h2>
+  <p class="sub">2630 J leaves the capacitor bank per shot and 830 J reaches the payload —
+  the 32 %. No regeneration credit: the sled's 1008 J is dissipated in the eddy brake by
+  design. Source <code>sizing.py</code> <code>energy_closure</code>; 100.1 % accounted.</p>
+  <div class="chart">
+    <div class="row"><span class="lbl">Sled KE (brake)</span><span class="track"><span class="fill dim" style="width:100%"></span></span><span class="val">1008 J</span></div>
+    <div class="row"><span class="lbl">Payload KE</span><span class="track"><span class="fill" style="width:82.3%"></span></span><span class="val">830 J</span></div>
+    <div class="row"><span class="lbl">Copper loss</span><span class="track"><span class="fill dim" style="width:66.7%"></span></span><span class="val">672 J</span></div>
+    <div class="row"><span class="lbl">Converter loss</span><span class="track"><span class="fill dim" style="width:9.6%"></span></span><span class="val">97 J</span></div>
+    <div class="row"><span class="lbl">Auxiliary</span><span class="track"><span class="fill dim" style="width:2.6%"></span></span><span class="val">26 J</span></div>
+  </div>
+</section>
+
+<section>
+  <h2>Seeding, against the alternative</h2>
+  <p class="sub">Days to spread a constellation 30° apart. The differential-drag comparator
+  is itself a model output, not a measurement — replacing it with published flown results is
+  an open task.</p>
+  <div class="chart">
+    <div class="row"><span class="lbl">EMOCD, 10 m/s</span><span class="track"><span class="fill" style="width:5.6%"></span></span><span class="val">1.4 d</span></div>
+    <div class="row"><span class="lbl">EMOCD, 5 m/s</span><span class="track"><span class="fill" style="width:11.2%"></span></span><span class="val">2.8 d</span></div>
+    <div class="row"><span class="lbl">EMOCD, 2 m/s</span><span class="track"><span class="fill" style="width:27.6%"></span></span><span class="val">6.9 d</span></div>
+    <div class="row"><span class="lbl">Differential drag</span><span class="track"><span class="fill warn" style="width:100%"></span></span><span class="val">25.0 d</span></div>
+  </div>
+</section>
+
+<section>
+  <h2>GMAT cross-check — the first external result</h2>
+  <p class="sub">GMAT R2022a, run headless with MSISE90 / 20×20 gravity / RK89. Over a
+  bounded 30-day window the fitted decay rates are −0.1618 km/day (GMAT) against
+  −0.1216 km/day (<code>astro.py</code>) — GMAT decays 1.33× faster. That is expected: a
+  static exponential atmosphere is not MSIS, and this project defends the lifetime
+  <em>ratio</em>, not the absolute years. Full decay runs are in progress.</p>
+  <div class="chart">
+    <div class="row"><span class="lbl">GMAT MSISE90</span><span class="track"><span class="fill warn" style="width:100%"></span></span><span class="val">0.1618 km/d</span></div>
+    <div class="row"><span class="lbl">astro.py</span><span class="track"><span class="fill" style="width:75.2%"></span></span><span class="val">0.1216 km/d</span></div>
+  </div>
+  <p></p>
+  <div class="note">Reported SMA is osculating, and its short-period variation runs 12.2 km
+  peak to peak — several times the decay across the window. The comparison is therefore a
+  least-squares rate over 31 daily samples, not a difference of endpoints.</div>
+</section>
+
+<section>
   <h2>What has actually been verified</h2>
   <p class="sub">Two results have a genuine independent cross-check: the Halbach airgap
   field (analytic wave model vs magpylib, agreeing to three digits) and orbital decay
@@ -162,7 +217,7 @@ code{font-family:var(--mono);font-size:.92em;background:var(--panel);
     <tr><th>Analysis</th><th>Tool</th><th>Closes</th><th>Status</th></tr>
     <tr><td>A1 airgap field</td><td>FEMM</td><td>E1, E2</td><td>specified</td></tr>
     <tr><td><b>A4 sled chassis</b></td><td>CalculiX / Code_Aster</td><td><b>P5, P8</b></td><td>specified</td></tr>
-    <tr><td>A5 lifetime &amp; seeding</td><td>GMAT</td><td>E6</td><td>toolkit built</td></tr>
+    <tr><td>A5 lifetime &amp; seeding</td><td>GMAT R2022a</td><td>E6</td><td><b>run</b></td></tr>
     <tr><td>A6 conjunction P<sub>c</sub></td><td>NASA CARA</td><td>P1</td><td>specified</td></tr>
     <tr><td>A7 separation &amp; tip-off</td><td>Project Chrono</td><td>E7</td><td>specified</td></tr>
     <tr><td>A8 pulse-power chain</td><td>ngspice</td><td>E17</td><td>specified</td></tr>

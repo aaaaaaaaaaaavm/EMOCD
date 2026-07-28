@@ -8,7 +8,10 @@ reimplemented, so the orbit definition cannot fork between the two codes.
 Bands are NOT restated here. They live in validation/A5_astro_orekit.md and are applied
 by parse_reports.py.
 
-Usage:  python3 build_scripts.py [--epoch '01 Jan 2027 00:00:00.000']
+GMAT resolves relative ReportFile paths against its own bin/../output directory, not the
+working directory, so every output path written into a script here is absolute.
+
+Usage:  python3 build_scripts.py [--epoch '01 Jan 2027 00:00:00.000'] [--days 30]
 Writes: output/emocd_lifetime_{low,mean,high}.script, output/emocd_fleet.script
 """
 import argparse
@@ -72,6 +75,11 @@ def fill(template, mapping):
     leftover = [tok for tok in out.split('@@') if tok.isupper() and '_' in tok]
     if leftover:
         raise SystemExit('unfilled placeholders: %s' % sorted(set(leftover)))
+    # GMAT's interpreter rejects any script containing non-ASCII characters outright,
+    # with an error that does not name the offending line. Catch it here instead.
+    bad = sorted(set(ch for ch in out if ord(ch) > 127))
+    if bad:
+        raise SystemExit('non-ASCII characters in generated script: %s' % bad)
     return out
 
 
@@ -79,6 +87,8 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('--epoch', default='01 Jan 2027 00:00:00.000',
                     help='UTCGregorian epoch; fixed so runs are reproducible')
+    ap.add_argument('--days', type=int, default=30,
+                    help='window for the bounded SMA-decay leg (full decay takes ~1.3 yr)')
     args = ap.parse_args()
 
     outdir = os.path.join(HERE, 'output')
@@ -121,12 +131,26 @@ def main():
             'REF_BASE_YR': life_ref[key]['base_yr'],
             'CAP_YR': CAP_YR,
             'CAP_DAYS': int(CAP_YR * 365.25),
-            'OUT_BASELINE': 'output/lifetime_%s_baseline.txt' % tag,
-            'OUT_BOOSTED': 'output/lifetime_%s_boosted.txt' % tag,
+            'OUT_BASELINE': os.path.join(outdir, 'lifetime_%s_baseline.txt' % tag),
+            'OUT_BOOSTED': os.path.join(outdir, 'lifetime_%s_boosted.txt' % tag),
         })
         path = os.path.join(outdir, 'emocd_lifetime_%s.script' % tag)
         open(path, 'w').write(fill(tmpl, mapping))
         print('wrote %s' % os.path.relpath(path, REPO))
+
+    # --- A5 bounded leg: SMA decay over a fixed window ---------------------------------
+    tmpl = open(os.path.join(HERE, 'emocd_sma_window.script.tmpl')).read()
+    f107, f107a, kp = ACTIVITY['mean']
+    mapping = dict(common)
+    mapping.update({
+        'F107': f107, 'F107A': f107a, 'KP': kp,
+        'DV': DV,
+        'DAYS': args.days,
+        'OUT_SMA': os.path.join(outdir, 'sma_window_%dd.txt' % args.days),
+    })
+    path = os.path.join(outdir, 'emocd_sma%dd.script' % args.days)
+    open(path, 'w').write(fill(tmpl, mapping))
+    print('wrote %s' % os.path.relpath(path, REPO))
 
     # --- A6 input: fleet ephemerides ---------------------------------------------------
     sc_blocks, eph_blocks, names = [], [], ['stage']
@@ -158,7 +182,7 @@ def main():
         eph_blocks.append('\n'.join([
             'Create EphemerisFile eph%s;' % name,
             'GMAT eph%s.Spacecraft = %s;' % (name, name),
-            "GMAT eph%s.Filename = 'output/ephemeris/%s.oem';" % (name, name),
+            "GMAT eph%s.Filename = '%s/%s.oem';" % (name, os.path.join(outdir, 'ephemeris'), name),
             'GMAT eph%s.FileFormat = CCSDS-OEM;' % name,
             'GMAT eph%s.CoordinateSystem = EarthMJ2000Eq;' % name,
             'GMAT eph%s.StepSize = %s;' % (name, EPH_STEP_S),
@@ -175,7 +199,7 @@ def main():
         'STAGE_MASS_KG': STAGE_MASS,
         'STAGE_DRAG_AREA_M2': round(drag_area(STAGE_MASS, STAGE_BC), 6),
         'EPH_STEP_S': EPH_STEP_S,
-        'OUT_DIR': 'output/ephemeris',
+        'OUT_DIR': os.path.join(outdir, 'ephemeris'),
         'SPACECRAFT_BLOCK': '\n'.join(sc_blocks),
         'EPHEMERIS_BLOCK': '\n'.join(eph_blocks),
         'PROP_LIST': ', '.join(names),

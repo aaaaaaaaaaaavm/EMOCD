@@ -108,17 +108,47 @@ Results land in `analysis/results/*.json`.
 </tr>
 </table>
 
+## Charts
+
+Full set in **[`RESULTS.md`](RESULTS.md)** — all drawn by GitHub from text, no image files.
+Two that carry the argument:
+
+```mermaid
+pie showData
+    title Energy per shot (J) - sizing.py energy_closure
+    "Sled KE, dissipated in the brake" : 1008
+    "Payload KE, the useful output" : 830
+    "Copper loss" : 672
+    "Converter loss" : 97
+    "Auxiliary" : 26
+```
+
+830 J of 2630 J drawn reaches the payload. That is the 32 %, and it carries no regeneration
+credit because the sled's 1008 J is thrown away in the brake by design.
+
+```mermaid
+xychart-beta
+    title "Minimum approach vs ejection velocity - not a robust quantity"
+    x-axis "Ejection velocity (m/s)" [20.00, 20.37, 20.50, 20.65, 21.00]
+    y-axis "Minimum approach (km)" 0 --> 70
+    line [37.5, 4.6, 56.1, 45.3, 63.4]
+```
+
+A ±2.5 % velocity change moves the conjunction minimum from 4.6 km to 63.4 km. That is why
+the paper's safety claim was reframed onto the 8.1-day realignment period instead of a
+single distance (P1).
+
 ## Validation status
 
-Nothing below has been run. Each analysis has its acceptance band declared **before** the
-run, in [`validation/`](validation/) — a cross-check whose target is chosen after seeing the
+Each analysis has its acceptance band declared **before** the run, in
+[`validation/`](validation/). A5 has now been run under GMAT; the rest have not — a cross-check whose target is chosen after seeing the
 answer proves nothing.
 
 | Analysis | Tool | Closes | Status |
 |---|---|---|---|
 | A1 airgap field | FEMM | E1 (2-D half), E2 | specified |
 | **A4 sled chassis** | CalculiX / Code_Aster | **P5, P8 — the headline number** | specified |
-| A5 lifetime & seeding | GMAT | E6 | toolkit built (`validation/gmat/`) |
+| A5 lifetime & seeding | GMAT R2022a | E6 | **run** — see [`RESULTS.md`](RESULTS.md) |
 | A6 conjunction Pc | NASA CARA | P1 | specified |
 | A7 separation & tip-off | Project Chrono | E7 | specified |
 | A8 pulse-power chain | ngspice | E17 | specified |

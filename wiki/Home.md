@@ -100,6 +100,29 @@ Two results have independent cross-checks: the Halbach airgap field (analytic wa
 vs magpylib, agreeing to three digits) and orbital decay (orbit-averaged Gauss vs Cowell
 RK4, 99.4 %). Everything else is single-sourced and correspondingly weaker.
 
+## Charts
+
+```mermaid
+pie showData
+    title Energy per shot (J)
+    "Sled KE, dissipated in the brake" : 1008
+    "Payload KE, the useful output" : 830
+    "Copper loss" : 672
+    "Converter loss" : 97
+    "Auxiliary" : 26
+```
+
+```mermaid
+xychart-beta
+    title "Minimum approach vs ejection velocity - not a robust quantity"
+    x-axis "Ejection velocity (m/s)" [20.00, 20.37, 20.50, 20.65, 21.00]
+    y-axis "Minimum approach (km)" 0 --> 70
+    line [37.5, 4.6, 56.1, 45.3, 63.4]
+```
+
+Full set, including the GMAT cross-check, in
+[`RESULTS.md`](https://github.com/aaaaaaaaaaaavm/emocd/blob/main/RESULTS.md).
+
 ## Design decisions that are locked
 
 These were argued out and should not be silently reopened; reasoning is in

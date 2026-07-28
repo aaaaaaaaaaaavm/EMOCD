@@ -271,6 +271,23 @@ prettier page must not become a more confident one.
 
 ---
 
+## 2026-07-28 — GMAT actually run, and native charts everywhere
+
+| ID | Item | Detail |
+|---|---|---|
+| A5-01 | **GMAT R2022a installed and run headless** | `GmatConsole` on Linux, no missing libraries. Two script bugs fixed on the way: GMAT rejects any script containing non-ASCII characters with an error that does not name the line (an em dash in a comment), and it resolves relative `ReportFile` paths against `bin/../output`, not the working directory. `build_scripts.py` now guards the first and emits absolute paths for the second. |
+| A5-02 | **Bounded 30-day leg** | Fitted decay rate −0.1618 km/day (GMAT) vs −0.1216 km/day (`astro.py`) — GMAT decays **1.33× faster**. Expected: static exponential atmosphere vs MSISE90 at F10.7 = 150. Reported SMA is osculating with 12.2 km peak-to-peak short-period variation, several times the decay across the window, so the comparison is a least-squares rate over 31 daily samples, **not** a difference of endpoints. New template `emocd_sma_window.script.tmpl`. |
+| A5-03 | **Full decay, high activity — the ×1.80 claim holds** | Baseline 144.51 days, boosted 250.03 days, multiplier **1.7302**, deviation **−3.88 %** against the ±5 % band declared before the run. An independently implemented force model reproduces the headline astrodynamics claim. The absolute baseline lifetime does *not* agree (144.5 days vs 190) — exactly the 1.33× rate difference, and exactly what E6 says to expect. Mean and low activity still propagating. |
+| A5-04 | Parser hardened | `parse_reports.py` read a decay file GMAT was still writing, treated the partial decay as final, and emitted a confident `FAIL`. It now requires the 120 km floor (or the 40-year cap) to have been reached before reporting a multiplier, and distinguishes "not run" from "in progress". Also handles GMAT re-emitting headers mid-file. |
+| VIS-09 | `RESULTS.md` (new) | Chart hub, everything drawn by GitHub from text: energy budget (Mermaid `pie`), conjunction fragility, payload family, seeding, stray field, sled-mass decision thresholds, validation dependency graph, and the GMAT comparison. Each chart names the JSON field behind it. |
+| VIS-10 | `README.md`, `wiki/Home.md`, `docs/index.html`, `validation/README.md` | Energy pie and conjunction fragility inlined on README and wiki; the Pages site gets pure CSS/HTML bar charts (no images, no JS); validation status tables updated to show A5 as run. |
+
+**No number was invented.** Charts for unrun analyses show an explicit "specified" state; no
+placeholder curves, no "expected" lines. The one genuinely new result — GMAT — was produced
+by running the tool, not by estimating what it would have said.
+
+---
+
 ## Open decisions
 
 1. **LICENSE** — RESOLVED 2026-07-23: owner chose **MIT** (P3-07).

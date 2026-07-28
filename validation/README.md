@@ -15,7 +15,7 @@ Each analysis below closes a specific named item.
 |---|---|---|---|---|
 | A1 | Airgap field, 2-D magnetostatic | FEMM 4.2 | E1 (2-D half), E2 (partly) | specified, not run |
 | A4 | Sled chassis structural | CalculiX or Code_Aster | **P5, P8** | specified, not run |
-| A5 | Orbital lifetime and seeding | GMAT (Orekit alt.) | E6, hardens ×1.80 | **toolkit built** in `gmat/`, not run |
+| A5 | Orbital lifetime and seeding | GMAT R2022a | E6, hardens ×1.80 | **RUN** — window leg done, full decay running. See [`../RESULTS.md`](../RESULTS.md) |
 | A6 | Conjunction probability | NASA CARA tools | P1 (properly) | specified, not run |
 | A7 | Separation and tip-off | Project Chrono | E7-adjacent | specified, not run |
 | A8 | Pulse-power chain | ngspice / PySpice | E17 | specified, not run |
