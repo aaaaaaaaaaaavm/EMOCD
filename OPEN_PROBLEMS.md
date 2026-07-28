@@ -93,7 +93,7 @@ sled mass of **~7.50 kg**. `analysis/mass_properties.py` assumes **4.86 kg**, wh
 are estimates — one CAD-geometric, one parametric-solid — and neither is FEA-verified. Do
 not change the scripts until analysis A4 closes the chassis — specified with a
 pre-declared decision rule in `validation/A4_sled_structural.md` (CalculiX or
-Code_Aster, both free, both read `cad/step/EMOCD_Sled.step`). Source:
+Code_Aster, both free, both read `cad/step/gen3/EMOCD_Sled_Gen3.step`). Source:
 `cad/parameters.json` (sled group, `PROVISIONAL_PENDING_FEA`).
 
 ### P6. Payload seating / orientation — RESOLVED (by CAD, 2026-07-23)
@@ -166,6 +166,57 @@ source and the committed build out of step, and no TeX engine is available in th
 environment. It is also entangled with **P11** — until it is known which build is the
 version of record, it is not clear whether this is a camera-ready edit or a corrigendum.
 Resolve P11 first, then fix both items in one pass and rebuild.
+
+### P13. The committed STEP set was mixed-generation, with two stubs — RESOLVED 2026-07-28
+Found while importing `EMOCD_figs.zip`. The nine files in `cad/step/` matched no single CAD
+generation, and two of them were single solids:
+
+| Document | Was committed | Gen1 | Gen3 |
+|---|---|---|---|
+| Stator | **1 body** | 324 | 162 conductors |
+| Interface_ESPA | **1 body** | 6 | 6 + bolt holes |
+| Sled | 12 | 5 | 16 |
+| Payload_3U | 5 | 5 | 1 |
+| Track | 6 | 8 | 4 |
+| Assembly | 225 | 43 | 227 |
+
+The stator export therefore contained no winding at all, while `cad/README.md` claimed
+"STEP exports of every document" and the paper's §IV-B rests on a winding-resolved model.
+Anyone opening the committed stator to check the conductor layout would have found a block.
+
+**Resolved** by replacing the set with `cad/step/gen1|gen2|gen3/`, the three audited
+generations. Body counts measured on import with `grep -c MANIFOLD_SOLID_BREP`, not copied
+from the source changelog.
+
+### P14. Gen3 CAD defects not previously tracked — NEW 2026-07-28
+From the Gen3 audit in `cad/CHANGELOG_CAD.md`, verified against the exports where possible.
+None of these were in this file before.
+
+| ID | Defect | Consequence |
+|---|---|---|
+| G3-D1 | Cassette height **640 mm** in Gen2 and Gen3 against `parameters.json` `magazine.cassette_height_z = 690` | 50 mm short. Either the CAD or the parameter is wrong; `parameters.json` wins by rule, so the CAD needs correcting |
+| G3-D2 | Track is longerons and launch locks only — **no roller channels, guide flanges, or cross-tie outriggers**, all of which `parameters.json` specifies | The 205 mm overall track width exists only as a parameter. The rollers on the sled have nothing modelled to run in |
+| G3-D4 | **Stator layer count still open.** Gen1 built two layers (324 conductors), Gen2 and Gen3 one (162) | `parameters.json` flags the decision open. Roughly ×2 force for the same sheet current against ×2 copper mass — never computed. This sits upstream of Kt and therefore of the headline velocity |
+| G3-D5 | Halbach arrays **not re-centred** after the chassis grew 360 → 488 mm | `sled.halbach_array_x_start = 230 mm` is inherited from the shorter chassis. Array position relative to the winding is what Kt depends on |
+| G3-D6 | **No payload-on-sled rigid joint** in any generation | `parameters.json` `documents.EMOCD_Assembly` specifies one. Without it the assembly cannot express the payload riding the sled, which is the thing being modelled |
+
+**Resolved and recorded:** ESPA bolt holes (24× M9 on Ø400 mm BCD) were absent in Gen1 and
+Gen2 and are modelled in Gen3 — G1-D5 closed.
+
+**Two discrepancies between `cad/CHANGELOG_CAD.md` and its own exports**, found on import
+and left in place there with a note rather than edited:
+
+- **The Gen3 brake-placement fix is not in the exports.** G2-D4 says the Gen2 brake sat at
+  the local origin and Gen3 moved it to x = 1530 mm. `EMOCD_Brake_Gen2.step` and
+  `EMOCD_Brake_Gen3.step` are geometrically identical — 3 bodies each, 79 points each,
+  differing only in file name and time stamp — and **both** already place the brake at
+  1530–1740 mm. The fix may have been applied to the Fusion document before the Gen2 export
+  was taken; either way the export does not show the defect it is said to have.
+- Body counts: `EMOCD_Payload_3U_Gen1.step` measures 5 solids where the inventory says 1,
+  and `EMOCD_Sled_Gen1b.step` measures 11 where it says ~16.
+
+The sled fix **is** verifiable: Gen2 chassis half-length measures 180 mm (360 mm plate),
+Gen3 measures 244 mm (488 mm plate), so G2-D1 is genuinely closed.
 
 ### Advanced or resolved by the CAD build (not full closures)
 - **Launch restraint now exists as geometry.** The breech launch-lock blocks are modelled

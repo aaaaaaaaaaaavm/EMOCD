@@ -225,6 +225,29 @@ in `validation/`.
 
 ---
 
+## 2026-07-28 — CAD generations imported, mixed/stubbed STEP set replaced
+
+Source: `EMOCD_figs.zip` (three Fusion generations plus a 543-line `CHANGELOG_CAD.md`
+auditing all three by direct Fusion API read). Body counts below were **measured on import**
+with `grep -c MANIFOLD_SOLID_BREP`, not copied from the source changelog.
+
+| ID | Item | Detail |
+|---|---|---|
+| CAD2-01 | `cad/step/` | **The committed set was replaced wholesale.** It matched no single generation and two files were stubs: the stator STEP held **1 solid** where Gen3 holds 162 conductors, and the ESPA interface held **1** where Gen3 holds 6 plus bolt holes. Others were mid-generation (sled 12, track 6, payload 5, assembly 225). Anyone opening the committed stator to check the winding layout would have found a block. Logged as **P13**, marked resolved by this import. |
+| CAD2-02 | `cad/step/gen3/` | Current generation: 9 component files plus `EMOCD_Gen3.step`, the monolithic single-file model (395 solids, all nine sub-systems). Stator 162, sled 16, cassette 24, assembly 227. |
+| CAD2-03 | `cad/step/gen2/`, `cad/step/gen1/` | Heritage, superseded, kept for the record as `legacy/` already is. Gen1 includes the pre-split `EMOCD_Deployer_Assembly_Gen1.step` and a second sled revision (`Sled_Gen1b`). ~11 MB across all three generations; no LFS needed. |
+| CAD2-04 | `cad/CHANGELOG_CAD.md` | Imported verbatim, with a repository verification note added at the top recording what was checked against the exports on import. Nothing in the body was edited. |
+| CAD2-05 | `OPEN_PROBLEMS.md` **P14** (new) | Five Gen3 defects that were never tracked here: cassette height 640 mm vs the 690 mm spec (G3-D1); track has no roller channels or guide flanges though `parameters.json` specifies them (G3-D2); stator layer count still open — Gen1 built two layers, Gen2/Gen3 one, and the ×2 force vs ×2 copper trade is uncomputed (G3-D4); Halbach arrays not re-centred after the chassis grew 360 → 488 mm (G3-D5); no payload-on-sled rigid joint in any generation (G3-D6). ESPA bolt holes recorded as **resolved** in Gen3 (G1-D5). |
+| CAD2-06 | Verification findings | **Sled length fix confirmed:** Gen2 chassis half-length measures 180 mm (360 mm plate), Gen3 measures 244 mm (488 mm plate). **Brake placement fix not visible in the exports:** `EMOCD_Brake_Gen2.step` and `_Gen3.step` are geometrically identical — 3 bodies and 79 points each, differing only in file name and time stamp — and *both* already place the brake at x = 1530–1740 mm, so the G2-D4 defect is not present in the file said to have it. Minor count deltas: Gen1 payload measures 5 solids where the inventory says 1; `Sled_Gen1b` measures 11 where it says ~16. |
+| CAD2-07 | `cad/README.md` | Rewritten: three generations with status, what is authoritative, the six before-use rules, and the stub finding stated plainly rather than quietly fixed. |
+| CAD2-08 | `validation/A4_sled_structural.md`, `A7_separation_chrono.md`, `validation/README.md`, `OPEN_PROBLEMS.md` P5 | Inputs repointed to `cad/step/gen3/*`. A4 gains an explicit note that Gen3 is the dimensionally corrected sled — meshing Gen2 would size a chassis that no longer exists. |
+| CAD2-09 | `README.md`, `INVENTORY.md` (C6, new C8), `docs/PROJECT_NOTES.md`, `wiki/Home.md` | Summaries synced to three generations with Gen3 current. |
+
+The CAD-01 row in the 2026-07-23 block above described the set committed that day and is
+left as written; this block supersedes it.
+
+---
+
 ## Open decisions
 
 1. **LICENSE** — RESOLVED 2026-07-23: owner chose **MIT** (P3-07).

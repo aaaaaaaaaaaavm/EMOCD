@@ -14,7 +14,9 @@ open to ±0.05 mm under load?** Mass is the output of that constraint, not an in
 
 ## Inputs (all committed)
 
-- Geometry: `cad/step/EMOCD_Sled.step`
+- Geometry: `cad/step/gen3/EMOCD_Sled_Gen3.step` — **Gen3, not an earlier generation.**
+  Gen3 is the dimensionally corrected sled: 488 × 140 mm chassis, where Gen2 was 360 × 110.
+  Meshing the Gen2 sled would size a chassis that no longer exists
 - Dimensions and material: `cad/parameters.json`, sled group (6 mm Ti-6Al-4V chassis,
   flagged `PROVISIONAL_PENDING_FEA`)
 - Loads, from `analysis/results/sizing.json`:

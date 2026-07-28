@@ -40,7 +40,8 @@ When a band is missed, the outcome is a new P-item, not a quietly widened band.
 
 ## Conventions
 
-- Inputs come from what is already committed: `cad/step/*.step`, `cad/parameters.json`,
+- Inputs come from what is already committed: `cad/step/gen3/*.step` (Gen3 is current —
+  see `cad/README.md`), `cad/parameters.json`,
   `analysis/femm/emocd_cross_section.dxf`. Where a check needs an orbit or a constant, it
   imports from `analysis/*.py` rather than restating the value — see `gmat/build_scripts.py`.
 - Outputs land in `validation/results/<analysis>.json` alongside the solver version,

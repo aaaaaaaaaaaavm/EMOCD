@@ -88,8 +88,9 @@ Reasoning is recorded in `docs/DECISION_LOG.md`.
 | C3 | Figure set v1 (11 figures) | superseded, `legacy/make_figs.py` |
 | C4 | Figure set v2 at final numbers | `paper/figures/` |
 | C5 | Concept illustration | `legacy/concept.py` |
-| C6 | **CAD assembly** | `cad/` — 9 Fusion 360 documents, STEP exports |
+| C6 | **CAD assembly** | `cad/` — 9 Fusion 360 documents in 3 generations; Gen3 current, plus a monolithic `EMOCD_Gen3.step` |
 | C7 | **FEMM / FEA field maps** | does not exist — run sheet only |
+| C8 | CAD generation history and defect audit | `cad/CHANGELOG_CAD.md` |
 
 ## D. Documents
 

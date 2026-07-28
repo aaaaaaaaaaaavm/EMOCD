@@ -8,7 +8,8 @@ deployers have flown thousands of times and their tip-off performance is publish
 
 ## Inputs
 
-- Geometry and masses: `cad/step/EMOCD_Sled.step`, `cad/step/EMOCD_Payload_3U.step`,
+- Geometry and masses: `cad/step/gen3/EMOCD_Sled_Gen3.step`,
+  `cad/step/gen3/EMOCD_Payload_3U_Gen3.step`,
   `cad/parameters.json` (payload CDS corner rails, sled cradle, release at x = 1500 mm)
 - Release conditions: exit velocity 20.37 m/s at 16.3 g (or the A4 outcome, if A4 has run)
 - Contact: rail-on-cradle friction, coefficient stated as an assumption

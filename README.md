@@ -9,8 +9,9 @@ A magazine-fed electromagnetic deployer that ejects unmodified CubeSats from a h
 stage at programmable velocity, aimed at the unserved regime between spring deployers
 (~2 m/s) and propulsive orbital transfer vehicles (hundreds of m/s).
 
-**Status: design study, TRL 2–3. CAD complete across 9 Fusion 360 documents with STEP
-exports committed (`cad/`); FEA and hardware still outstanding.**
+**Status: design study, TRL 2–3. CAD complete across 9 Fusion 360 documents in three
+generations, STEP exports committed (`cad/`, Gen3 current); FEA and hardware still
+outstanding.**
 **Read `PROVENANCE.md` before citing anything here.**
 
 ## The idea
@@ -67,7 +68,9 @@ Results land in `analysis/results/*.json`.
 
 - `analysis/` — current scripts; these reproduce the numbers above
 - `analysis/femm/` — FEMM magnetostatics package: `emocd_cross_section.dxf` + `FEMM_RUN_SHEET.md` (analysis A1, not yet run)
-- `cad/` — Fusion 360 CAD: `parameters.json` (geometry source of truth, 9 documents), `step/` exports, `renders/`
+- `cad/` — Fusion 360 CAD: `parameters.json` (geometry source of truth, 9 documents),
+  `step/gen1|gen2|gen3/` exports (**Gen3 current**), `renders/`, `CHANGELOG_CAD.md`
+  (generation history and per-file defect list)
 - `legacy/` — superseded scripts, kept for history, **do not cite**
 - `paper/` — IEEE conference paper (LaTeX source, figures, PDF)
 - `validation/` — independent cross-check plan (FEMM, CalculiX, Orekit, CARA, Chrono),

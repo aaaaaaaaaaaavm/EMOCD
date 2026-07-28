@@ -30,7 +30,7 @@ transfer vehicles (hundreds of m/s).
 |---|---|
 | TRL | 2–3 |
 | Analysis | 5 Python scripts, reproducible, outputs committed as JSON |
-| CAD | 9 Fusion 360 documents, STEP exports committed ([`cad/`](https://github.com/aaaaaaaaaaaavm/emocd/tree/main/cad)) |
+| CAD | 9 Fusion 360 documents in 3 generations, Gen3 current, STEP exports committed ([`cad/`](https://github.com/aaaaaaaaaaaavm/emocd/tree/main/cad)) |
 | FEA | none |
 | Hardware | none |
 | Independent review | none |
@@ -95,7 +95,7 @@ These were argued out and should not be silently reopened; reasoning is in
 | [`analysis/`](https://github.com/aaaaaaaaaaaavm/emocd/tree/main/analysis) | current scripts; these reproduce the numbers above |
 | `analysis/femm/` | FEMM magnetostatics package: cross-section DXF + run sheet (analysis A1, not yet run) |
 | `analysis/results/` | script outputs as JSON |
-| [`cad/`](https://github.com/aaaaaaaaaaaavm/emocd/tree/main/cad) | `parameters.json` (geometry source of truth), `step/` exports, `renders/` |
+| [`cad/`](https://github.com/aaaaaaaaaaaavm/emocd/tree/main/cad) | `parameters.json` (geometry source of truth), `step/gen1\|gen2\|gen3/` exports (Gen3 current), `renders/`, `CHANGELOG_CAD.md` |
 | [`paper/`](https://github.com/aaaaaaaaaaaavm/emocd/tree/main/paper) | IEEE conference paper — LaTeX source, figures, PDF |
 | [`legacy/`](https://github.com/aaaaaaaaaaaavm/emocd/tree/main/legacy) | superseded scripts, kept for history — **do not cite** |
 | [`docs/`](https://github.com/aaaaaaaaaaaavm/emocd/tree/main/docs) | computation notes C1–C10, FEMM run sheet, decision log, related work |
