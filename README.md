@@ -1,5 +1,9 @@
 # EMOCD — Electromagnetic Orbital CubeSat Deployer
 
+<p align="center">
+  <img src="cad/renders/exterior_closed.png" alt="EMOCD deployer, closed, mounted on its ESPA interface" width="100%">
+</p>
+
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Python 3.9+](https://img.shields.io/badge/Python-3.9%2B-blue.svg)](requirements.txt)
 [![Maturity: TRL 2–3](https://img.shields.io/badge/maturity-TRL%202--3-orange.svg)](OPEN_PROBLEMS.md)
@@ -24,6 +28,39 @@ EMOCD replaces the spring with an ironless double-sided Halbach linear synchrono
 motor driving a reusable magnetic sled along a 1.5 m track. Twelve 3U CubeSats feed
 from two transverse cassettes and are fired one at a time. The satellite is never
 modified — the magnets ride the sled, not the payload.
+
+<table>
+<tr>
+<td width="50%"><a href="cad/renders/interior_open.png"><img src="cad/renders/interior_open.png" alt="Interior, enclosure open"></a><br><sub><b>Interior.</b> Track, stator belts, sled, and both cassettes with the enclosure open.</sub></td>
+<td width="50%"><a href="cad/renders/exploded_view.png"><img src="cad/renders/exploded_view.png" alt="Exploded view of the nine documents"></a><br><sub><b>Exploded.</b> The nine documents: track, stator, sled, cassettes, brake, ESPA interface, enclosure, payload.</sub></td>
+</tr>
+<tr>
+<td width="50%"><a href="cad/renders/exterior_aft_mounting.png"><img src="cad/renders/exterior_aft_mounting.png" alt="Aft ESPA mounting interface"></a><br><sub><b>Aft mounting.</b> Ø460 mm ring flange, Ø400 mm bolt circle, 24 holes, four gussets.</sub></td>
+<td width="50%"><a href="cad/renders/seq2_midstroke.png"><img src="cad/renders/seq2_midstroke.png" alt="Sled at mid-stroke"></a><br><sub><b>Mid-stroke.</b> Sled under thrust, payload still cradled, 127.7 ms from breech to release.</sub></td>
+</tr>
+</table>
+
+**Spin it in the browser:** [`cad/stl/EMOCD_Assembly_Gen3.stl`](cad/stl/EMOCD_Assembly_Gen3.stl)
+and [`cad/stl/EMOCD_Sled_Gen3.stl`](cad/stl/EMOCD_Sled_Gen3.stl) — GitHub renders STL
+natively, so click either and drag. They are derived meshes; `cad/step/gen3/` is the master
+geometry ([why](cad/stl/README.md)).
+
+## How a shot works
+
+```mermaid
+flowchart LR
+    A["Cassette feed<br/>12 x 3U, two cassettes"] --> B["Retention gate<br/>preload into structure"]
+    B --> C["Accelerate<br/>1.3 m, 16.3 g, 127.7 ms"]
+    C --> D["Coast &amp; trim<br/>0.2 m"]
+    D --> E["Release at 1500 mm<br/>20.37 m/s"]
+    E --> F["Eddy brake<br/>1530-1740 mm"]
+    F --> G["Sled recovered<br/>reusable, next shot"]
+    E -.->|"payload departs"| H["Own orbit<br/>x1.80 lifetime"]
+```
+
+The satellite is never modified: the magnets ride the sled, not the payload. The sled's
+kinetic energy is dissipated in the brake by design, which is why efficiency is quoted
+electrical-to-payload and carries no regeneration credit.
 
 ## Headline results (all model outputs, not measurements)
 
@@ -64,13 +101,35 @@ python3 verify_field.py && python3 mass_properties.py && python3 motor_model.py 
 
 Results land in `analysis/results/*.json`.
 
+<table>
+<tr>
+<td width="50%"><img src="paper/figures/F01_shot.png" alt="Shot simulation: force, velocity, current"><br><sub><b>The shot.</b> Force, velocity and current through the 127.7 ms stroke (<code>motor_model.py</code>).</sub></td>
+<td width="50%"><img src="paper/figures/F04_life.png" alt="Orbital lifetime with and without the boost"><br><sub><b>Lifetime.</b> Boosted vs unboosted decay — the x1.80 multiplier is the claim, not the absolute years (<code>astro.py</code>).</sub></td>
+</tr>
+</table>
+
+## Validation status
+
+Nothing below has been run. Each analysis has its acceptance band declared **before** the
+run, in [`validation/`](validation/) — a cross-check whose target is chosen after seeing the
+answer proves nothing.
+
+| Analysis | Tool | Closes | Status |
+|---|---|---|---|
+| A1 airgap field | FEMM | E1 (2-D half), E2 | specified |
+| **A4 sled chassis** | CalculiX / Code_Aster | **P5, P8 — the headline number** | specified |
+| A5 lifetime & seeding | GMAT | E6 | toolkit built (`validation/gmat/`) |
+| A6 conjunction Pc | NASA CARA | P1 | specified |
+| A7 separation & tip-off | Project Chrono | E7 | specified |
+| A8 pulse-power chain | ngspice | E17 | specified |
+
 ## Repository layout
 
 - `analysis/` — current scripts; these reproduce the numbers above
 - `analysis/femm/` — FEMM magnetostatics package: `emocd_cross_section.dxf` + `FEMM_RUN_SHEET.md` (analysis A1, not yet run)
 - `cad/` — Fusion 360 CAD: `parameters.json` (geometry source of truth, 9 documents),
-  `step/gen1|gen2|gen3/` exports (**Gen3 current**), `renders/`, `CHANGELOG_CAD.md`
-  (generation history and per-file defect list)
+  `step/gen1|gen2|gen3/` exports (**Gen3 current**), `stl/` (browser-viewable meshes),
+  `renders/`, `CHANGELOG_CAD.md` (generation history and per-file defect list)
 - `legacy/` — superseded scripts, kept for history, **do not cite**
 - `paper/` — IEEE conference paper (LaTeX source, figures, PDF)
 - `validation/` — independent cross-check plan (FEMM, CalculiX, Orekit, CARA, Chrono),

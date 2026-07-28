@@ -8,6 +8,10 @@ what exists and points at it; when the two disagree, the repository is right.
 before citing anything here.** Every quantity on this page is a model output. None of it
 has been measured, tested, or reviewed by a third party.
 
+<p align="center">
+  <img src="https://raw.githubusercontent.com/aaaaaaaaaaaavm/EMOCD/main/cad/renders/exterior_closed.png" alt="EMOCD deployer, closed" width="100%">
+</p>
+
 ---
 
 ## What it is
@@ -23,6 +27,34 @@ the magnets ride the sled, not the payload.
 
 The target regime is the gap between spring deployers (~2 m/s) and propulsive orbital
 transfer vehicles (hundreds of m/s).
+
+<table>
+<tr>
+<td width="50%"><img src="https://raw.githubusercontent.com/aaaaaaaaaaaavm/EMOCD/main/cad/renders/interior_open.png" alt="Interior"><br><sub><b>Interior.</b> Track, stator, sled, both cassettes.</sub></td>
+<td width="50%"><img src="https://raw.githubusercontent.com/aaaaaaaaaaaavm/EMOCD/main/cad/renders/exploded_view.png" alt="Exploded view"><br><sub><b>Exploded.</b> The nine documents.</sub></td>
+</tr>
+<tr>
+<td width="50%"><img src="https://raw.githubusercontent.com/aaaaaaaaaaaavm/EMOCD/main/cad/renders/exterior_aft_mounting.png" alt="Aft mounting"><br><sub><b>Aft mounting.</b> ESPA ring flange, 24 bolt holes.</sub></td>
+<td width="50%"><img src="https://raw.githubusercontent.com/aaaaaaaaaaaavm/EMOCD/main/cad/renders/seq2_midstroke.png" alt="Mid-stroke"><br><sub><b>Mid-stroke.</b> Sled under thrust, payload cradled.</sub></td>
+</tr>
+</table>
+
+Spin the geometry in the browser:
+[`cad/stl/EMOCD_Assembly_Gen3.stl`](https://github.com/aaaaaaaaaaaavm/emocd/blob/main/cad/stl/EMOCD_Assembly_Gen3.stl)
+— GitHub renders STL natively. Derived meshes; `cad/step/gen3/` is the master geometry.
+
+## How a shot works
+
+```mermaid
+flowchart LR
+    A["Cassette feed<br/>12 x 3U"] --> B["Retention gate"]
+    B --> C["Accelerate<br/>1.3 m, 16.3 g"]
+    C --> D["Coast &amp; trim"]
+    D --> E["Release<br/>20.37 m/s"]
+    E --> F["Eddy brake"]
+    F --> G["Sled recovered"]
+    E -.->|"payload departs"| H["Own orbit<br/>x1.80 lifetime"]
+```
 
 ## Maturity
 
@@ -95,6 +127,7 @@ These were argued out and should not be silently reopened; reasoning is in
 | [`analysis/`](https://github.com/aaaaaaaaaaaavm/emocd/tree/main/analysis) | current scripts; these reproduce the numbers above |
 | `analysis/femm/` | FEMM magnetostatics package: cross-section DXF + run sheet (analysis A1, not yet run) |
 | `analysis/results/` | script outputs as JSON |
+| `cad/stl/` | browser-viewable meshes derived from the Gen3 STEP files |
 | [`cad/`](https://github.com/aaaaaaaaaaaavm/emocd/tree/main/cad) | `parameters.json` (geometry source of truth), `step/gen1\|gen2\|gen3/` exports (Gen3 current), `renders/`, `CHANGELOG_CAD.md` |
 | [`paper/`](https://github.com/aaaaaaaaaaaavm/emocd/tree/main/paper) | IEEE conference paper — LaTeX source, figures, PDF |
 | [`legacy/`](https://github.com/aaaaaaaaaaaavm/emocd/tree/main/legacy) | superseded scripts, kept for history — **do not cite** |

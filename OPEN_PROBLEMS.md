@@ -200,6 +200,8 @@ None of these were in this file before.
 | G3-D5 | Halbach arrays **not re-centred** after the chassis grew 360 → 488 mm | `sled.halbach_array_x_start = 230 mm` is inherited from the shorter chassis. Array position relative to the winding is what Kt depends on |
 | G3-D6 | **No payload-on-sled rigid joint** in any generation | `parameters.json` `documents.EMOCD_Assembly` specifies one. Without it the assembly cannot express the payload riding the sled, which is the thing being modelled |
 
+| G3-D12 | **Assembly geometry extends 156 mm aft of the recorded envelope.** `EMOCD_Assembly_Gen3.step` spans x = −188 to 1810 mm; `parameters.json` records the installed envelope as −32 to 1807 mm | Either the assembly parks the sled further aft than the envelope assumed, or the envelope was measured without it. Found on 2026-07-28 while meshing the assembly for `cad/stl/`. It makes P9 worse, not better: 1998 mm against the ~1270 mm ESPA Grande class limit is ~57 % over rather than ~44 %. Measure which component owns the −188 mm face before changing either number |
+
 **Resolved and recorded:** ESPA bolt holes (24× M9 on Ø400 mm BCD) were absent in Gen1 and
 Gen2 and are modelled in Gen3 — G1-D5 closed.
 

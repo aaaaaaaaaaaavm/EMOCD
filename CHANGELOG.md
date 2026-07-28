@@ -248,6 +248,28 @@ left as written; this block supersedes it.
 
 ---
 
+## 2026-07-28 — visual pass: renders on the front page, STL viewer, Pages site
+
+The repository had **no images anywhere** — eight 1920×1080 CAD renders and twelve result
+figures were committed and shown on no page. Fixed across three surfaces, adding no claim
+the repository does not already support and keeping every caveat intact.
+
+| ID | Item | Detail |
+|---|---|---|
+| VIS-01 | `cad/stl/` (new) | GitHub renders `.stl` natively and does **not** render STEP, so the Gen3 assembly and sled were meshed with `gmsh` (OCC STEP reader) into browser-viewable binary STLs: assembly 50,692 triangles / 2.5 MB at a 40 mm mesh, sled 23,332 / 1.1 MB at 8 mm. `cad/stl/README.md` carries the regeneration command and states plainly that these are derived, non-authoritative meshes. |
+| VIS-02 | Mesh verification | Each STL was bounding-box checked against its STEP source on generation. Sled matches exactly at 616 × 172 × 140 mm; assembly measures 1995 mm in X against a 1998 mm point-cloud bound on the STEP, the 3 mm being spline control points outside their own surface. |
+| VIS-03 | `OPEN_PROBLEMS.md` **P14 / G3-D12** (new) | Found while meshing: the Gen3 assembly spans x = −188 to 1810 mm where `parameters.json` records −32 to 1807 mm. 156 mm of geometry sits aft of the recorded envelope, which makes the ESPA overrun ~57 % rather than ~44 %. |
+| VIS-04 | `README.md` | Hero render above the badges; a 2×2 render gallery; a Mermaid ConOps flow (feed → gate → accelerate → coast/trim → release → brake → recover); two result figures beside the reproduce section; a validation-status table putting "nothing has been run" on the front page rather than three directories down; links to the spinnable STLs. |
+| VIS-05 | `wiki/Home.md` | Same hero, gallery and ConOps diagram, with absolute `raw.githubusercontent.com` image URLs, since wiki pages cannot resolve repo-relative paths. |
+| VIS-06 | `docs/index.html`, `docs/.nojekyll` (new) | A single self-contained landing page — dark/light aware, responsive, no framework, no build step and **no CI**, which keeps the "no CI by design" rule in `CONTRIBUTING.md`. Assets are referenced from `../cad/renders/` and `../paper/figures/` so nothing is duplicated. Serves from `main` → `/docs` once Pages is enabled. |
+| VIS-07 | Duplicate render found | `interior_open.png` and `seq1_stowed.png` are **byte-identical** (same MD5). The firing sequence is therefore three distinct frames, not four, and no gallery presents it as four. Worth regenerating a real stowed frame when the CAD is next opened. |
+
+Every number on the new surfaces is copied from `analysis/results/*.json` or the existing
+README table, and the P5/P8 caveat travels with the headline figures onto each one. A
+prettier page must not become a more confident one.
+
+---
+
 ## Open decisions
 
 1. **LICENSE** — RESOLVED 2026-07-23: owner chose **MIT** (P3-07).
