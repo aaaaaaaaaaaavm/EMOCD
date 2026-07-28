@@ -175,6 +175,8 @@ answer proves nothing.
   each with an acceptance band declared before the run; nothing run yet
 - `docs/` — computation notes, FEMM run sheet, related work and comparator sources
 - `docs/PROJECT_NOTES.md` — working context: ground rules, layout, locked decisions
+- `docs/LANDSCAPE.md` — how this compares with deployers that actually fly
+- `docs/DESIGN_OPTIONS_exit_velocity.md` — options for the P15 velocity shortfall, costed
 - `INVENTORY.md` — complete indexed catalogue of every calculation, decision and artifact
 - `docs/DECISION_LOG.md` — why each design change happened, including two self-corrections
 - `PROVENANCE.md` — what came from where, and what was never verified

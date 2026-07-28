@@ -312,6 +312,19 @@ run the analysis, then propagate once.
 
 ---
 
+## 2026-07-28 — exit-velocity options, and where this sits against what flies
+
+| ID | Item | Detail |
+|---|---|---|
+| OPT-01 | `docs/DESIGN_OPTIONS_exit_velocity.md` (new) | Every lever for recovering 20.37 m/s at the measured 9.445 kg sled, computed by driving `motor_model.py` with modified inputs — the repo's own field model and integrator, no new physics. **Marked exploration, not a result.** Mass reduction alone tops out at 18.68 m/s with 60 % of the titanium pocketed. **Thinning the magnets moves backwards** (6 mm gives 15.68 m/s) because the Halbach field decays as e^(-ky) faster than the mass comes off. Raising sheet current to 213 kA/m works at J = 31.9 A/mm² against 21 today. Lengthening the stroke to 1.97 m works and adds 673 mm to an envelope already 44 % over ESPA. |
+| OPT-02 | Two-layer stator costed for the first time | Doubling the winding widens the magnetic gap 12 → 22 mm and drops Kt from 11.22 to 7.46 N per kA/m, but sheet current doubles at unchanged current density: **20.61 m/s at 7.50 kg, J still 21 A/mm²**. The stator does not ride the sled, so its copper costs dry mass (P10), not velocity. Costs: copper loss doubles, peak current ~580 A against 392, which collides with the A8 ESR finding. This is the first time G3-D4's open decision has had its electromagnetic consequence computed. |
+| OPT-03 | Reconciliation hypothesis for P5 vs P15 | Pocketing 40 % of the titanium gives 7.50 kg and 17.88 m/s — **exactly** P5's and P8's figures. The 7.50 kg may never have been the as-drawn mass but an estimate with lightening assumed, in which case P15 and P5 are the same design before and after pocketing. Flagged as an inference to check against the CAD Master Plan, not as a finding. |
+| LAND-01 | `docs/LANDSCAPE.md` (new) | Comparison against fielded deployers (P-POD, ISIPOD, NRCSD, CSD, EXOpod) and transfer vehicles (ION, Vigoride). EMOCD carries **6.0 kg of deployer per 3U satellite** against roughly 2 kg per U for canisterized dispensers — the same mass class, which is the genuinely favourable result. Against that: tip-off and dispersion advantages are **unproven** (A7 unrun, E7 assumed sensor noise), springs need no power at all, and the machine does not currently deliver the velocity it advertises. Competitor figures are marked unverified under the E16 rule. |
+
+No script or paper value changed.
+
+---
+
 ## Open decisions
 
 1. **LICENSE** — RESOLVED 2026-07-23: owner chose **MIT** (P3-07).
