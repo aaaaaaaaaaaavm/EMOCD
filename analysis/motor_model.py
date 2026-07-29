@@ -85,7 +85,7 @@ def build_field(n_wave=7):
     return magpy.Collection([arr(+GAP / 2, -1), arr(-GAP / 2, +1)])
 
 
-def thrust_constant(nx=240, ny=9):
+def thrust_constant(nx=240, ny=9, profile=False):
     """Direct Lorentz integration of a 3-phase belt winding against the real field."""
     field = build_field()
     xs = np.linspace(0, LAM, nx, endpoint=False)
@@ -114,11 +114,19 @@ def thrust_constant(nx=240, ny=9):
     F_mean = Fs.mean()
     ripple = (Fs.max() - Fs.min()) / 2 / F_mean * 100
     Kt = F_mean * (SLED_ACTIVE_LEN / LAM) / 45e3     # N per (A/m)
+    if profile:
+        # thrust over one wavelength of sled travel, scaled to the rated sheet current
+        xs_prof = np.arange(0, nx, 5) * dx
+        return Kt, ripple, xs_prof, Fs * (SLED_ACTIVE_LEN / LAM) * (K_RATED * 0.9 / 45e3)
     return Kt, ripple
 
 
-def shot(Kt, K_lim=K_RATED, dt=1e-4):
-    """Integrate one shot: constant commanded force against bank sag + copper loss."""
+def shot(Kt, K_lim=K_RATED, dt=1e-4, trace=False):
+    """Integrate one shot: constant commanded force against bank sag + copper loss.
+
+    trace=True additionally returns the time series (t, x, v, Vc, I) so figures can be
+    drawn from this integrator rather than a second copy of it.
+    """
     m = M_SAT + M_SLED
     F = 0.9 * Kt * K_lim
     J = (K_lim * 0.9) / WIND_THICK / FILL                     # A/m^2 in copper
@@ -126,6 +134,7 @@ def shot(Kt, K_lim=K_RATED, dt=1e-4):
     P_cu = RHO_CU * J * J * vol_cu
     x = v = t = E = Q = 0.0
     Vc, Imax = V0, 0.0
+    hist = []
     while x < ACCEL_ZONE:
         v += F / m * dt
         x += v * dt
@@ -136,11 +145,16 @@ def shot(Kt, K_lim=K_RATED, dt=1e-4):
         Vc -= I * dt / C_BANK
         E += P * dt
         Q += P_cu * dt
-    return dict(F_cmd=F, v_exit=v, a_g=F / m / 9.81, t_ms=t * 1e3, I_peak=Imax,
+        if trace:
+            hist.append((t, x, v, Vc, I))
+    out = dict(F_cmd=F, v_exit=v, a_g=F / m / 9.81, t_ms=t * 1e3, I_peak=Imax,
                 sag_pct=(1 - Vc / V0) * 100, E_drawn=E, Q_copper=Q,
                 KE_payload=0.5 * M_SAT * v * v,
                 eff_pct=0.5 * M_SAT * v * v / E * 100,
                 J_Amm2=(K_lim * 0.9) / WIND_THICK / FILL / 1e6)
+    if trace:
+        out['trace'] = np.array(hist)          # columns: t, x, v, Vc, I
+    return out
 
 
 def closed_loop_mc(Kt, n=800, v_target=V_FLEET, seed0=0):
@@ -163,7 +177,7 @@ def closed_loop_mc(Kt, n=800, v_target=V_FLEET, seed0=0):
         v += min(max(v_target - v_meas, -0.3), 0.3) + r.normal(0, 0.004)
         out.append(v)
     a = np.array(out)
-    return dict(mean=float(a.mean()), sigma3=float(3 * a.std()))
+    return dict(mean=float(a.mean()), sigma3=float(3 * a.std()), samples=a)
 
 
 def payload_family(Kt, F_cmd):

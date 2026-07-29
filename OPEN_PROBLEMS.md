@@ -419,6 +419,30 @@ analysis has not been run".
 
 ---
 
+### P19. Every validation run predates the operating point they validate — HIGH, NEW 2026-07-29
+Adopting the measured 9.445 kg sled moved the rated velocity from 20.37 to 16.537 m/s. The
+three analyses that have actually been run were all executed at the **old** point, so none of
+them currently validates the design as it stands:
+
+| Analysis | Run at | Still valid? |
+|---|---|---|
+| **A5** GMAT lifetime | dv = 20.37 m/s | **No.** Both baseline and boosted orbits change; the multiplier the scripts now give is ×1.62, not ×1.80. The *falsification* of the invariance claim (P16) survives, because that is about the shape of the model and not the velocity — but the numbers do not. |
+| **A8** ngspice pulse chain | F = 1413.4 N, m = 8.86 kg, 2630 J | **No.** The netlist carries the old mass and energy. Peak current moved 392 → 330 A and pulse duration 128 → 157 ms, which is exactly what that analysis exists to check. |
+| **A4** CalculiX chassis | 3672 N Maxwell attraction | **Yes, structurally.** The load is magnetostatic and does not depend on sled mass or velocity. Separately 37 % high — see P17. |
+
+**What this costs.** The validation table on the front pages says three of eight analyses have
+run. Strictly, three have run *against a superseded design*. That is not the same claim, and
+the difference is exactly the kind a reviewer notices.
+
+**Cheapest closure first.** A8 is minutes — the netlist is `validation/spice/emocd_shot.cir`
+and only its `.param` line needs the new operating point, though the declared bands must be
+re-read before the run rather than after. A5 is days of wall time for the low-activity leg.
+Neither should be re-run until the sled mass is settled, or the same staleness recurs; that
+argues for closing the rib-stiffened-chassis question (P5, E2) **first**.
+
+**Do not quietly restate the old results as if they still applied.** Every place the repo
+quotes A5 or A8 numbers now needs the velocity they were obtained at stated alongside.
+
 ## E — Unsolved engineering
 
 ### E1. Three-dimensional field closure — half of it is now set up, not run

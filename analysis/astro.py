@@ -123,7 +123,8 @@ def propagate(a, e, inc, argp, M0, t):
                      (sw * si) * xo + (cw * si) * yo], -1)
 
 
-def conjunction(dv=16.537, alt_m=450e3, inc_deg=51.6, n_shots=12, spacing_s=1200.0, days=30):
+def conjunction(dv=16.537, alt_m=450e3, inc_deg=51.6, n_shots=12, spacing_s=1200.0,
+                days=30, trace=False):
     r0 = RE + alt_m
     inc = math.radians(inc_deg)
     a1, e1 = boosted_elements(alt_m, dv)
@@ -145,8 +146,16 @@ def conjunction(dv=16.537, alt_m=450e3, inc_deg=51.6, n_shots=12, spacing_s=1200
         mins.append(df.min())
     T0 = 2 * np.pi / n0
     T1 = 2 * np.pi / n1
-    return dict(min_km=round(min(mins) / 1e3, 1), median_km=round(float(np.median(mins)) / 1e3, 1),
-                realign_days=round(T0 / (T1 - T0) * T0 / 86400, 1))
+    out = dict(min_km=round(min(mins) / 1e3, 1), median_km=round(float(np.median(mins)) / 1e3, 1),
+               realign_days=round(T0 / (T1 - T0) * T0 / 86400, 1))
+    if trace:
+        # coarse range history of the first satellite, for the conjunction figure
+        s0 = propagate(a1, e1, inc, 0, 0, t)
+        m0 = t > 3600
+        out['trace_days'] = t[m0] / 86400
+        out['trace_km'] = np.linalg.norm(s0[m0] - stage[m0], axis=1) / 1e3
+        out['mins_km'] = np.array(mins) / 1e3
+    return out
 
 
 def seeding(alt_m=450e3, splits=(2, 5, 10), target_deg=30):
