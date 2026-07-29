@@ -68,6 +68,29 @@ velocity from 20.37 to 16.54 m/s. All of it is in `CHANGELOG.md` and `OPEN_PROBL
 
 ---
 
+## Publishing the tags and releases
+
+The reconstructed commits are on GitHub. **The six milestone tags are not** — the environment
+this was built in has a git proxy that permits pushes to `refs/heads/*` and returns 403 for
+`refs/tags/*`, and its network policy intercepts the GitHub REST API. Neither is a property of
+the repository; both are properties of that sandbox.
+
+Everything needed is committed. From any machine with ordinary GitHub access:
+
+```bash
+gh auth login          # once
+./tools/publish_releases.sh
+```
+
+That pushes the six tags, re-points `v0.1.0` (whose existing GitHub release references a
+commit the reconstruction removed), and creates a Release for each tag with notes taken from
+the annotated tag message, so the tag and the release cannot drift apart.
+
+**One thing that cannot be backdated:** GitHub stamps its own creation date on a Release and
+the API offers no way to set it. The *tag* dates carry the design periods; the Release
+creation dates will all read whenever the script is run. Do not let the Release dates be read
+as the work dates — that is what this file is for.
+
 ## Why the reconstruction is labelled
 
 This repository's argument for being trusted is that its record can be audited — bands

@@ -21,7 +21,7 @@ for closing them. This is that plan.
 | Rated performance | **16.5 m/s at 10.7 g**, from a sled mass measured in CAD, not estimated |
 | Validations run | 3 of 8 — **but all three predate the current operating point** (P19) |
 | Biggest single gap | K<sub>t</sub> = 11.22 N per kA/m is checked only analytic-against-analytic. Every headline number is downstream of it |
-| Paper | Source current as of 2026-07-29; committed PDF needs a rebuild |
+| Paper | Source and PDF both current as of 2026-07-29 — rebuilt, 10 pages, zero undefined references |
 
 ---
 
