@@ -75,11 +75,10 @@ this was built in has a git proxy that permits pushes to `refs/heads/*` and retu
 `refs/tags/*`, and its network policy intercepts the GitHub REST API. Neither is a property of
 the repository; both are properties of that sandbox.
 
-The same applies to the three companion repositories: they exist as of 2026-07-29 but are
-still empty, because that sandbox serves only the flagship. `tools/bootstrap_repos.sh` fills
-them.
+The three companion repositories are **live** as of 2026-07-29 — `EMOCD-paper` (84 files),
+`EMOCD-thesis` (148) and `EMOCD-lab` (3), all generated from flagship `c927df9`.
 
-Everything needed is committed. From any machine with ordinary GitHub access:
+Everything needed for the tags is committed. From any machine with ordinary GitHub access:
 
 ```bash
 gh auth login          # once

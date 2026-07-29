@@ -508,6 +508,17 @@ programme board), and the Issues toggle in repository settings.
 
 ---
 
+## 2026-07-29 (companions live) — all four repositories now carry content
+
+| ID | Item | Detail |
+|---|---|---|
+| REPO-06 | **The three companions are published** | `EMOCD-paper` at `8c80f78` (84 files), `EMOCD-thesis` at `fe6756d` (148), `EMOCD-lab` at `2ebb6a3` (3). The two generated ones were built by `tools/export_companion.py` against flagship `c927df9` and carry that commit in their banner, so a reader can tell exactly which flagship state they are a copy of. |
+| REPO-07 | What actually unblocked it | REPO-03 recorded this as blocked on session repository scope. The real cause was narrower and was found by testing rather than assumed: the **GitHub App installation was scoped to `EMOCD` alone**, because the other three were created after it was installed. Widening the installation's repository access made the scope extension succeed on the first attempt. The earlier diagnosis was correct about the symptom and wrong about the cause. |
+| REPO-08 | The paper companion was verified **before** publishing, not after | `analysis/` was run from the clean pushed tree with an empty `results/`, and returned `v_exit = 16.537 m/s` — identical to the flagship. The rest of the tree then diffed byte-identical against the export. For a reproducibility package this is the only check that matters, and it precedes the push rather than trailing it. |
+| REPO-09 | Still blocked, retested rather than assumed | `refs/tags/*` still fails (the proxy drops the connection mid-push) and `api.github.com/repos/*` still returns `403 GitHub access is not enabled for this session`. Both were re-tested after the App scope widened, on the chance that fixed them too. It did not — they are proxy behaviour, not permissions. The six tags, their releases, the descriptions and topics, and the programme board all still need `tools/publish_releases.sh` and `tools/setup_project.sh` run from an ordinary machine. |
+
+---
+
 ## Open decisions
 
 1. **LICENSE** — RESOLVED 2026-07-23: owner chose **MIT** (P3-07).

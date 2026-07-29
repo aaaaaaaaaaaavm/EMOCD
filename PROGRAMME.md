@@ -50,27 +50,22 @@ correct response is to delete and regenerate it, not to reconcile the two.
 
 ## Status of the four
 
-| Repo | Exists | Populated |
-|---|---|---|
-| **EMOCD** | yes | yes — this one |
-| `EMOCD-paper` | **yes**, created 2026-07-29 | pending — run `tools/bootstrap_repos.sh` |
-| `EMOCD-thesis` | **yes**, created 2026-07-29 | pending |
-| `EMOCD-lab` | **yes**, created 2026-07-29 | pending |
+| Repo | Populated | Files | Generated from |
+|---|---|---|---|
+| **EMOCD** | live — this one | — | — |
+| [`EMOCD-paper`](https://github.com/aaaaaaaaaaaavm/EMOCD-paper) | **live** 2026-07-29 | 84 | flagship `c927df9` |
+| [`EMOCD-thesis`](https://github.com/aaaaaaaaaaaavm/EMOCD-thesis) | **live** 2026-07-29 | 148 | flagship `c927df9` |
+| [`EMOCD-lab`](https://github.com/aaaaaaaaaaaavm/EMOCD-lab) | **live** 2026-07-29 | 3 | seeded, then hand-written |
 
-The three companions were created but are still empty. They cannot be pushed from the
-environment the content was generated in: its git proxy serves only this repository, and
-extending that scope needs an approval that environment could not grant. Nothing about that is
-a property of the repositories — one command from any machine with `gh` fills all three:
+`EMOCD-paper` was checked before it was published, in the only way that means anything for a
+reproducibility package: its `analysis/` was run from the clean pushed tree and returned
+`v_exit = 16.537 m/s`, matching the flagship.
 
-```bash
-gh auth login
-./tools/bootstrap_repos.sh
-```
-
-Also still outstanding there, for the same class of reason: the six milestone tags and their
-releases (`tools/publish_releases.sh`), repository descriptions and topics, and the
-programme board (`tools/setup_project.sh`). Issues are disabled on this repository — that one
-is a settings toggle, Settings → General → Features.
+**Still outstanding**, all of it needing ordinary GitHub access rather than anything this
+repository can fix: the six milestone tags and their releases (`tools/publish_releases.sh`),
+repository descriptions and topics, and the programme board (`tools/setup_project.sh`). Issues
+are disabled on this repository — that one is a settings toggle, Settings → General →
+Features.
 
 ## Where redesign goes
 
