@@ -36,6 +36,16 @@ command -v gh >/dev/null || { echo "gh CLI not found. https://cli.github.com/"; 
 gh auth status >/dev/null 2>&1 || { echo "Run: gh auth login"; exit 1; }
 git rev-parse --git-dir >/dev/null 2>&1 || { echo "Run from the repository root."; exit 1; }
 
+# A fresh clone has NONE of the milestone tags -- they are not on GitHub as tag objects a
+# clone would fetch, and v0.1.0 arrives pointing at a commit the reconstruction removed.
+# Verified by cloning and looking. Without this, the loop below skips all six and creates
+# nothing, which is exactly the failure mode this guard exists to prevent.
+if ! git rev-parse -q --verify refs/tags/v0.0-concept >/dev/null; then
+  echo "== 0. milestone tags absent -- restoring =="
+  "$(dirname "$0")/restore_tags.sh"
+  echo
+fi
+
 echo "== 1. pushing milestone tags =="
 for t in "${TAGS[@]}"; do
   if git rev-parse -q --verify "refs/tags/$t" >/dev/null; then

@@ -61,11 +61,15 @@ correct response is to delete and regenerate it, not to reconcile the two.
 reproducibility package: its `analysis/` was run from the clean pushed tree and returned
 `v_exit = 16.537 m/s`, matching the flagship.
 
+The **six milestone tags are also live** as of 2026-07-29, carrying their 2021–2026 design
+periods — read [`HISTORY.md`](HISTORY.md) before citing any of those dates, since four of the
+six are approximate and it says which.
+
 **Still outstanding**, all of it needing ordinary GitHub access rather than anything this
-repository can fix: the six milestone tags and their releases (`tools/publish_releases.sh`),
-repository descriptions and topics, and the programme board (`tools/setup_project.sh`). Issues
-are disabled on this repository — that one is a settings toggle, Settings → General →
-Features.
+repository can fix: the six **Releases** and the `v0.1.0` re-point
+(`tools/publish_releases.sh`), repository descriptions and topics, and the programme board
+(`tools/setup_project.sh`). Issues are disabled on this repository — that one is a settings
+toggle, Settings → General → Features.
 
 ## Where redesign goes
 

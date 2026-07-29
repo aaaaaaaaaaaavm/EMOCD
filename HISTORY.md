@@ -70,24 +70,52 @@ velocity from 20.37 to 16.54 m/s. All of it is in `CHANGELOG.md` and `OPEN_PROBL
 
 ## Publishing the tags and releases
 
-The reconstructed commits are on GitHub. **The six milestone tags are not** — the environment
-this was built in has a git proxy that permits pushes to `refs/heads/*` and returns 403 for
-`refs/tags/*`, and its network policy intercepts the GitHub REST API. Neither is a property of
-the repository; both are properties of that sandbox.
+The reconstructed commits and **all six milestone tags are now on GitHub** (pushed
+2026-07-29). What is still missing is the **Releases** — the GitHub REST API is intercepted in
+the environment this was built in, so no Release can be created from there. That is a property
+of that sandbox, not of the repository.
+
+Two things remain:
+
+- **`v0.1.0` still points at `cb6e8855`**, a tag object referencing a commit the history
+  reconstruction removed. It needs a force-update to `62b0b2c`. `restore_tags.sh` prepares the
+  corrected tag; pushing it needs a force-push, which that sandbox declines to perform.
+- **Six Releases**, one per milestone tag.
 
 The three companion repositories are **live** as of 2026-07-29 — `EMOCD-paper` (84 files),
 `EMOCD-thesis` (148) and `EMOCD-lab` (3), all generated from flagship `c927df9`.
 
-Everything needed for the tags is committed. From any machine with ordinary GitHub access:
+Everything needed is committed. From any machine with ordinary GitHub access:
 
 ```bash
-gh auth login          # once
+git clone https://github.com/aaaaaaaaaaaavm/EMOCD.git   # full clone, not --depth
+cd EMOCD
+gh auth login              # once
 ./tools/publish_releases.sh
 ```
 
-That pushes the six tags, re-points `v0.1.0` (whose existing GitHub release references a
-commit the reconstruction removed), and creates a Release for each tag with notes taken from
-the annotated tag message, so the tag and the release cannot drift apart.
+`publish_releases.sh` re-points `v0.1.0` and creates a Release for each tag, with notes taken
+from the annotated tag message so the tag and the release cannot drift apart. Tags already
+pushed are reported as such and left alone.
+
+### Why a fresh clone needs `restore_tags.sh` first
+
+**A clone does not fetch these tags.** The six were pushed as refs, but `v0.1.0` on GitHub is
+still the stale object, and a clone made before the push has none of them. Checked by cloning
+and looking: a fresh clone arrives with exactly one tag, `v0.1.0`, pointing at the wrong
+commit.
+
+`tools/restore_tags.sh` rebuilds all seven **annotated** tags — original message, original
+tagger date, original tagger identity — from data embedded in the script plus the commits
+already in the clone. Every tagged commit is an ancestor of the default branch, so a full clone
+has everything needed. It was verified by cloning fresh, running it, and comparing: **all seven
+tag objects reproduce bit-for-bit**, identical SHAs. `publish_releases.sh` calls it
+automatically when the tags are missing.
+
+Two things it has to get right, both found by testing rather than assumption: the tagger
+identity must be **pinned** rather than inherited, or a clone whose git config names someone
+else silently restamps every milestone; and `v0.1.0` must be **force-rewritten rather than
+skipped**, or the re-point step pushes the stale pointer and changes nothing.
 
 **One thing that cannot be backdated:** GitHub stamps its own creation date on a Release and
 the API offers no way to set it. The *tag* dates carry the design periods; the Release

@@ -519,6 +519,19 @@ programme board), and the Issues toggle in repository settings.
 
 ---
 
+## 2026-07-29 (tags) — the six milestones are on GitHub, and the publish path was found broken
+
+| ID | Item | Detail |
+|---|---|---|
+| TAG-01 | **Six milestone tags pushed** | `v0.0-concept` (2021-03-22) through `v1.0` (2026-07-29), annotated, carrying their design-period tagger dates. Verified against the remote by SHA: all six tag objects on GitHub are the objects built here. Supersedes the "tags cannot be pushed" note in REPO-09 for `refs/heads`-adjacent reasons — the block was the *proxy's* credential path, not GitHub. |
+| TAG-02 | **`publish_releases.sh` would have silently created nothing** | Found by actually cloning the repository and running it, rather than reading it. The script pushes tags **if they exist locally** — and they existed only in the environment they were built in. They were never on GitHub, so **no clone has them**. A fresh clone arrives with one tag, `v0.1.0`, pointing at a commit the reconstruction removed. The script would have printed `MISSING locally -- skipped` six times, created zero releases, and exited 0. A defect that reports success is worse than one that fails. |
+| TAG-03 | `tools/restore_tags.sh` added | Rebuilds all seven annotated tags — message, tagger date and tagger identity — from data embedded in the script plus commits already in the clone. Every tagged commit is an ancestor of the default branch, so a full clone suffices. **Verified by cloning fresh, running it, and comparing tag objects: all seven reproduce bit-for-bit.** `publish_releases.sh` now invokes it when the tags are absent, so the failure in TAG-02 cannot recur. |
+| TAG-04 | Two bugs in that script, both found by testing it | **(a)** The tagger identity was inherited from git config, so in a fresh clone whose config named someone else, every milestone was silently restamped with that identity and the tag objects stopped matching. Now pinned, overridable via `TAGGER_NAME`/`TAGGER_EMAIL`. **(b)** `v0.1.0` was treated like the others and skipped when already present — but a clone always has it, pointing at the wrong commit, so the re-point step would have force-pushed a stale pointer and changed nothing. It is now always rewritten. Neither bug was visible by reading the script. |
+| TAG-05 | Identity audit across all four repositories | Every commit author, committer and tag tagger in the flagship history and in all three companions: a single identity, `Adityavardhan Mishra <adityavardhanmishr@gmail.com>`. No stray identity anywhere. |
+| TAG-06 | **Still outstanding: the `v0.1.0` re-point and the six Releases** | The re-point needs a force-push, which the working environment declines to perform, and Releases need the REST API, which it intercepts. Both are one `tools/publish_releases.sh` run from an ordinary machine. Reported rather than worked around. |
+
+---
+
 ## Open decisions
 
 1. **LICENSE** — RESOLVED 2026-07-23: owner chose **MIT** (P3-07).
