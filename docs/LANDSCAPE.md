@@ -14,7 +14,7 @@ last-mile transfer vehicles at the other end of the market.
 
 | | **Spring deployers** | **EMOCD** | **Orbital transfer vehicles** |
 |---|---|---|---|
-| Examples | P-POD, ISIPOD, NRCSD, CSD, EXOpod | this design study | D-Orbit ION, Momentus Vigoride |
+| Examples | P-POD, ISIPOD, NRCSD, CSD, EXOpod, **Dhruva DSOD** | this design study | D-Orbit ION, Momentus Vigoride |
 | Δv imparted | **1–2 m/s** | **16.5–20.4 m/s** (model) | hundreds of m/s upward, propulsive |
 | Mechanism | compressed spring | linear synchronous motor, reusable sled | chemical or electric propulsion |
 | Programmable per satellite | no | **yes** — the distinguishing claim | yes, by manoeuvre |
@@ -37,9 +37,42 @@ Two caveats that cut against EMOCD: the 72.3 kg **excludes** the enclosure, radi
 avionics (P10, open), and springs need no power, no capacitor bank, no thermal system and no
 sequencer.
 
+**The closest comparator is Indian, and it flies.** Dhruva Space's DSOD family (1U / 3U /
+6U / 12U / 16U) was space-qualified on ISRO's PSLV-C55 on 22 April 2023, having flown
+earlier on PSLV-C53. It uses a **non-pyrotechnic hold-down and release mechanism** and
+carries **onboard telemetry for deployment confirmation and ejection-velocity measurement**.
+Published ejection velocity is **< 2 m/s** across the whole family.
+
+Three things follow, and none of them are comfortable:
+
+- **It is the exact product EMOCD argues against**, built by the Indian company whose
+  business this design study is closest to. Any reader from that part of the industry will
+  know it. Omitting it would read as either not having looked or having looked and avoided
+  it.
+- **They measure their ejection velocity on orbit.** EMOCD's entire differentiator is
+  velocity *accuracy*, and the incumbent already flies the instrumentation that would
+  settle such a claim. This project's 0.027 m/s (3σ) is a model output; theirs is telemetry.
+- **Non-pyrotechnic release is not a differentiator.** It is already the fielded standard,
+  so EMOCD's contactless release has to compete on velocity and programmability alone.
+
+What EMOCD still has against it is the thing the DSOD cannot do: **> 2 m/s, programmable per
+satellite**. That is the whole argument, and it is narrower than "electromagnetic beats
+springs".
+
+*Sources: Dhruva Space product pages and the PSLV-C55 qualification announcement, retrieved
+2026-07-29. Deployer dry mass per unit was not obtainable — the specification pages return
+403 to automated retrieval — so no mass-per-satellite comparison against DSOD is made here.
+Marked unverified under the E16 rule.*
+
 **Tip-off is where the incumbents are strong and EMOCD is unproven.** The NRCSD-E interface
-document targets **< 5 °/s per axis**, and that number is backed by flight heritage plus
-microgravity and drop-tower test campaigns. EMOCD's tip-off is a model output with no
+document is cited here and in `validation/A7_separation_chrono.md` as targeting
+**< 5 °/s per axis**, backed by flight heritage plus microgravity and drop-tower test
+campaigns. **That number is now in doubt**: search snippets of the sibling NRCSD ICD
+(NR-SRD-029) give "less than two (2) deg/sec/axis" verbatim, and the NRCSD-E document itself
+403s to automated retrieval so the "-E" variant could not be confirmed either way. If the
+real target is 2 °/s, the bar EMOCD has to clear is 2.5x harder than the pre-declared A7
+band assumes. **This must be checked by hand in a browser before A7 runs** — see
+`OPEN_PROBLEMS.md` E16. EMOCD's tip-off is a model output with no
 multibody model behind it — A7 is specified and unrun. Claiming a gentler release than a
 spring is not yet supported by anything.
 
@@ -87,6 +120,7 @@ than a physics one.
 | Gentler tip-off than a spring | **unproven** — A7 not run |
 | Dispersion better than a spring | **unproven** — rests on assumed sensor noise (E7) |
 | Anything built or measured | **no** |
+| Closest fielded competitor identified and compared | **yes** — Dhruva DSOD, flown on PSLV-C53/C55 |
 
 Against a P-POD, EMOCD is a hundred times more complex and delivers ten times the velocity —
 programmably. Against an OTV it is far cheaper and far less capable. Both of those are

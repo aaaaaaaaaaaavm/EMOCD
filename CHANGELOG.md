@@ -359,6 +359,37 @@ what happened.
 
 ---
 
+## 2026-07-29 — review sweep: two falsifications, one new lever, four missing model terms
+
+Three independent reviews of the repository, each verified against the code rather than the
+prose before anything was written down. Every number below was recomputed here.
+
+| ID | Item | Detail |
+|---|---|---|
+| REV-01 | **P16 extended — the BC half of the abstract is the same tautology** | The abstract claims the ratio is invariant across ballistic coefficient **and** solar activity. In `lifetime()` the drag term is `ft = -0.5 * rho(h, scale) * v**2 / BC`, so `scale` and `1/BC` are the **same multiplicative slot**. Reciprocal test: BC=61/scale=2.0 gives 1.7987 and BC=30.5/scale=1.0 gives **1.7987**; BC=122/scale=1.0 gives 1.7991 and BC=61/scale=0.5 gives **1.7991**. Plain BC sweep 30→150 kg/m²: spread **0.05 %**. So the position is not "one half falsified, one half untested" — **neither half was ever tested by a method that could fail**, and the half that was independently checked did fail. |
+| REV-02 | **P17 (new, HIGH) — the A4 load input is 37 % high** | `sizing.py::inter_array_attraction()` gives 3672 N from a flat-plate Maxwell-stress formula; that number was the applied load in the CalculiX run. `magpylib.getFT()` on the repo's own `build_field()` geometry converges to **2686.6 N** (mesh (14,14,14), deltas −8.3/−4.3/−2.5 N, step-size independent 1e-5→1e-8). Mechanism: Maxwell stress needs mean(B²), the formula uses mean(B)², and mean(B²) ≥ mean(B)² by Jensen — so the analytic form must overestimate a non-uniform Halbach face. **A4's conclusions do not reverse** (the real load is lighter, margins widen); what fails is the claim that A4's inputs were checked. |
+| REV-03 | `validation/magpylib/check_inter_array_force.py` (new) | Reproduces P17 in one command, no new dependency — magpylib 5.2.3 is already in `requirements.txt`. Documents the 3672 vs 3680 N provenance (`build_deck.py` multiplied the rounded 120.0 kPa by the footprint). |
+| REV-04 | **Momentum-transfer release costed — a lever absent from the options table** | Every option costed so far accelerates sled and payload as one rigid mass. They need not separate at the same speed. A momentum-conserving spring push recovers the full headline shortfall for **41.8 J against a 2630 J shot (1.6 %)**, and brake duty *falls* 1291 → 1050 J. The binding constraint is the payload's 25 g qualification limit, not energy: at 25 g the kick is **15.6 ms over 42.7 mm of relative stroke at 981 N** — an ordinary spring, not a shock event. Against the stroke-lengthening row, which needs **673 mm** more envelope on a machine already 44 % over ESPA, this needs **43 mm** of guided rail. Written up as **exploration, not a result**; the tip-off objection is real and makes A7 load-bearing. |
+| REV-05 | Mission-value framing added to the re-scope option | A **23 % velocity shortfall costs 9.7 % of the lifetime multiplier** — ×1.624 at the as-drawn 16.54 m/s against ×1.799 at 20.37. The re-scope case had been argued only in m/s, where it looks like a collapse. |
+| REV-06 | **E19–E22 (new) — four terms no script contains** | Distinct from "analysis not yet run". **E19** eddy-current heating *inside* the NdFeB blocks (`magnet_temperature()` models only reversible Br drift; the risk is irreversible knee-point demagnetisation, and it grows with the current-density option). **E20** the brake's force–time profile does not exist anywhere — only a 200 g cap used for bond sizing; a first-order estimate puts the average near 6 kN over 8–20 ms, ~4× the acceleration force, 24 load reversals per campaign through the ESPA joint. **E21** no vacuum tribology anywhere in the repo — four rollers at ~763 N per pair, reused twelve times, cold welding and galling unaddressed. **E22** parasitic eddy drag on track structure during acceleration; `thrust_constant()` models eddy coupling only where it is wanted. P18 added so these are visible from the P-list. |
+| REV-07 | **Dhruva Space added to `docs/LANDSCAPE.md`** | The closest fielded comparator is Indian and was absent. DSOD family space-qualified on PSLV-C55 (22 Apr 2023), non-pyrotechnic HDRM, **< 2 m/s**, and — pointedly — **onboard telemetry for ejection-velocity measurement**, which is the quantity EMOCD claims as its differentiator and currently has only as a model output. Deployer unit mass could not be retrieved (403), so no mass comparison is made; marked unverified under E16. |
+| REV-08 | **A7's pre-declared acceptance band may be mis-sourced** | `validation/A7_separation_chrono.md` declares ≤5 °/s citing NRCSD-E. Snippets of the sibling NRCSD ICD (NR-SRD-029) give "less than two (2) deg/sec/axis" verbatim; the NRCSD-E PDF 403s so the variant is unconfirmed. **Flagged, not asserted** — but a band declared before a run is no protection if the band itself misquotes its source. To be checked by hand before A7 runs. |
+| REV-09 | Two "blocked" verdicts corrected as overstated | **A1:** FEMM 4.2 runs under Wine (documented by the FEMM project; `py2femm` automates it), and Elmer / GetDP+Gmsh are native-Linux meshed FEM — a not-yet, not a cannot. **A7:** `pychrono` ships on conda-forge, not PyPI, so `pip install pychrono` fails by design; linux-64 is supported. Both corrected in `VALIDATION_REPORT.md`. Recorded against them: for an *ironless* geometry magpylib's analytic superposition is essentially exact and already 3-D, so the weak link was never the field model — it was the closed-form expressions on top of it, which is exactly what P17 caught. **Radia is not worth pursuing** for A1; same solver family, no independence gained. |
+| REV-10 | References upgraded from lead to verified | Foster et al. — **both companion preprints are open-access** (arXiv 1806.01218, 1509.03270), so the highest-value modelled→measured swap has no paywall. Shambaugh, arXiv 2601.02453 (Jan 2026), verified: backtests lifetime prediction against **934 non-manoeuvring decayed satellites, 1961–2024**, reporting 12.4 % median error under fully predictive conditions. That supplies the accuracy band **E6 never had** — GMAT and `astro.py` differing 9–23 % on absolutes is near the state-of-the-art floor, not evidence either is broken — and it independently corroborates P16's mechanism by naming solar-cycle forecast error as dominant after ballistic coefficient. |
+| REV-11 | A6 tooling risk removed | The 2-D Pc algorithm is a published closed-form integral, ~50 lines against the already-installed `scipy`, applied to the OEM ephemerides `validation/gmat/` already emits. No MATLAB, no Octave port. E18's covariance problem is untouched either way. |
+
+**No value in `analysis/`, `cad/` or `paper/` was changed.** P17 in particular is logged as a
+discrepancy rather than a correction, and it carries an explicit instruction not to edit
+`sizing.py` on the strength of it — adopting a corrected formula would move the plate stress,
+the retention-gate sizing and the A4 load together, and that is a propagation decision, not a
+patch.
+
+**Stated plainly because it inverts this project's own rule:** the P17 force was computed
+*before* an acceptance band was declared for it. That is the wrong order, it is recorded as
+such in the P-item, and proper closure still needs a run sheet with a band fixed in advance.
+
+---
+
 ## Open decisions
 
 1. **LICENSE** — RESOLVED 2026-07-23: owner chose **MIT** (P3-07).

@@ -307,13 +307,93 @@ for s in (0.25, 0.5, 1.0, 2.5, 5.0, 10.0):
 The paper is the one place still carrying the falsified claim, and it is the place that
 matters most.
 
-**Ballistic-coefficient invariance is untested and now suspect.** The BC half of the claim
-was demonstrated by the same kind of sweep. Nobody has checked it against a real atmosphere.
+**Ballistic-coefficient invariance is not "suspect" — it is the identical tautology, proved
+2026-07-29.** The abstract's sentence has two halves: invariant across *ballistic
+coefficient* **and** across a *fivefold solar-activity density range*. Both rest on the same
+construction. In `lifetime()` the drag term is
+
+```python
+ft = -0.5 * rho(h, scale) * v ** 2 / BC
+```
+
+`scale` and `1/BC` are the **same multiplicative slot**. Scaling one is mathematically
+indistinguishable from scaling the other, so a BC sweep is a density sweep wearing a
+different label. The reciprocal test confirms it exactly:
+
+| Configuration | Multiplier |
+|---|---|
+| BC = 61, scale = 2.0 | 1.7987 |
+| BC = 30.5, scale = 1.0 | **1.7987** |
+| BC = 122, scale = 1.0 | 1.7991 |
+| BC = 61, scale = 0.5 | **1.7991** |
+
+And the plain sweep across a 5× BC range, 30 → 150 kg/m²: 1.7983 → 1.7992, spread
+**0.05 %**.
+
+So the position is worse than "one half falsified, one half untested". **Neither half of the
+claim was ever tested by a method capable of falsifying it**, and the half that was
+independently checked failed. Closing the BC half needs the same medicine as the solar half —
+GMAT runs at BC 40 and 90 — because MSIS's response to ballistic coefficient is not a uniform
+rescale, for the same profile-shape reason found above.
 
 **Do not edit `analysis/astro.py`.** Its arithmetic is not wrong; its atmosphere
 parameterisation cannot express the effect being claimed. The fix is either a variable-shape
 atmosphere in the script or dropping the invariance claim and keeping the point value —
 that is a judgement, not a patch. Paper edits batch with P11/P12.
+
+### P17. The inter-array attraction feeding the A4 FEA is 37 % high — HIGH, NEW 2026-07-29
+`analysis/sizing.py::inter_array_attraction()` computes the force between the two opposed
+Halbach faces from a flat-plate Maxwell-stress formula — a uniform pressure
+`B_face**2 / (2*mu0)` at a mean face field of 0.55 T over the 340 x 90 mm footprint —
+giving **3672 N**. That number was the applied load in the CalculiX A4 structural run
+(`validation/results/A4_sled_structural.json`), and it had never been checked against
+anything.
+
+`magpylib.getFT()` meshes each magnet block and integrates the field gradient in three
+dimensions. Driven by the repo's own array geometry (`build_field()`), so the two methods
+cannot disagree about the magnets themselves:
+
+| Mesh per block | Force |
+|---|---|
+| (2,2,2) | 2909.4 N |
+| (4,4,4) | 2773.0 N |
+| (6,6,6) | 2720.8 N |
+| (8,8,8) | 2701.6 N |
+| (10,10,10) | 2693.3 N |
+| (12,12,12) | 2689.0 N |
+| **(14,14,14)** | **2686.6 N** |
+
+Converged — successive deltas halve (-8.3, -4.3, -2.5 N) — and insensitive to the
+finite-difference step across four orders of magnitude (1e-5 to 1e-8, identical to 0.1 N).
+**The analytic formula is high by 36.7 %.**
+
+**The mechanism is understood, which is why this is a defect and not a disagreement.**
+Maxwell stress needs the mean of `B**2`; the analytic form uses the square of the mean `B`;
+and `mean(B**2) >= mean(B)**2` for any non-uniform field, by Jensen. A Halbach face field is
+strongly non-uniform along the wavelength, so the analytic form must overestimate. It does.
+
+**What this does and does not damage.** The real force is *lower*, so A4's structural
+results are conservative, not wrong: 0.0194 mm airgap closure and 33.7 MPa were computed
+against a load 37 % heavier than the field model supports, and all three bands still passed.
+No A4 conclusion reverses. What is damaged is the claim that A4's inputs were checked — they
+were not, and this is the first time anyone looked.
+
+**Reproduce:** `python3 validation/magpylib/check_inter_array_force.py` (no new dependency;
+magpylib 5.2.3 is already in `requirements.txt`).
+
+**Procedural note, stated rather than hidden.** This was computed *before* an acceptance band
+was declared for it, which inverts this project's own rule. It is therefore logged as a
+discrepancy, not as a validated result. Proper closure needs a run sheet with a band declared
+in advance, and a decision about whether `sizing.py` adopts a corrected formula — which would
+move `plate_stress_MPa`, the retention-gate sizing, and the A4 load together. **Do not edit
+`sizing.py` on the strength of this entry.**
+
+### P18. Four physical effects are absent from the model, not merely unvalidated — MEDIUM, NEW 2026-07-29
+Distinct from the E-items, which record analyses not yet run. These are terms that no script
+contains, found by reading `sizing.py` and `motor_model.py` rather than the prose. Each is
+carried as an E-item below (E19-E22); this entry exists so they are visible from the P-list,
+because "the model does not contain this term" is a different class of gap from "this
+analysis has not been run".
 
 ### Advanced or resolved by the CAD build (not full closures)
 - **Launch restraint now exists as geometry.** The breech launch-lock blocks are modelled
@@ -472,3 +552,70 @@ Messages** carry real post-deployment covariances for comparable objects and are
 defensible source; `validation/A6_conjunction_cara.md` now names them as the preferred
 input, with an explicitly documented assumption as the fallback. Until that is done, no Pc
 figure from this project should be quoted as anything but conditional on its assumption.
+
+### E19. Eddy-current heating inside the magnet blocks is not modelled — NEW 2026-07-29
+`sizing.py::magnet_temperature()` models exactly one thermal effect on the magnets:
+reversible remanence drift with ambient temperature, `alpha = -0.11 %/K`. NdFeB is a
+conductor (roughly 1.4-1.6 uOhm*m, some 80-90x copper's resistivity but far from an
+insulator), and the blocks sweep past the winding at up to 20 m/s through the field's
+spatial harmonics — the belt winding's own 6th-harmonic ripple, slot-like content, and
+whatever switching harmonics the SiC bridge puts on the current. That drives eddy currents
+in the magnet bulk.
+
+This is not the same failure mode as reversible drift. Local heating risks crossing the
+knee point and causing **irreversible** demagnetisation, which no amount of cooling
+recovers, and it is worst where the field harmonics are strongest rather than where the
+bulk temperature sensor would sit.
+
+No number is offered here because nothing in the repo computes one, and inventing an
+order of magnitude for a loss that depends on harmonic content the model does not resolve
+would be worse than recording the gap. What can be said without computation: this term
+grows with current density, so it works directly against the "raise sheet current to
+213 kA/m" option in `docs/DESIGN_OPTIONS_exit_velocity.md`, which that document already
+calls thermally hard for the winding alone.
+
+### E20. The brake's force-time profile does not exist — NEW 2026-07-29
+`sizing.py` asserts a 200 g deceleration **cap**, used to size the magnet bond. No script
+anywhere simulates the arrest: there is no force against velocity, no force against
+position, no peak, and no duration. `legacy/c3_c4_em.py` sizes the brake by energy, not by
+transient.
+
+A first-order estimate from the sled's own kinetic energy across the 210 mm arrest zone
+puts the **average** force near 6 kN over roughly 8-20 ms — some 4x the 1413 N
+acceleration force, over a tenth of the duration, and with a peak that nothing bounds. The
+host therefore sees two oppositely-signed impulses of very different shape per shot, not
+one smooth push, and a 12-shot campaign is 24 load reversals through the ESPA bolted
+interface.
+
+E5 covers the *magnitude* of the recoil budget across host mass classes. Nothing covers its
+*shape*, and A4 is a static analysis that cannot. This is a fatigue and control-bandwidth
+question, and it is the natural companion to A7.
+
+### E21. No vacuum tribology anywhere — NEW 2026-07-29
+Searching the entire repository for lubrication, tribology, cold welding or galling returns
+nothing. The sled runs on four rollers (30 mm dia x 16 mm) carrying roughly 763 N per pair
+at arrest (`sizing.py::arrest_loads()`), reused across twelve shots, in vacuum. Repeated
+metal-on-metal rolling and sliding contact in vacuum with marginal or no lubrication is a
+well-known deployable-mechanism failure class, and the reusable sled is the one part of
+this architecture that a single-shot spring deployer does not have to solve.
+
+Distinct from the neighbouring items: E10 covers the launch-restraint escapement, E11
+covers outgassing and contamination. Neither covers the roller-to-rail interface, and no
+lubricant, coating, or material pair is specified for it in `cad/parameters.json`.
+
+### E22. Parasitic eddy drag on the track structure is not in the thrust model — NEW 2026-07-29
+The eddy brake works because a moving Halbach field drags on a nearby stationary conductor.
+That is also the geometry of the entire 1.3 m acceleration zone wherever aluminium or
+titanium structure — longerons, guide rails, enclosure skins — sits within reach of the
+field. `verify_field.py` puts the stray field at 22.7 mT at 10 mm behind the array and
+4.3 mT at 20 mm, which is not negligible at plausible standoffs.
+
+`motor_model.thrust_constant()` computes Kt purely as the Lorentz force against winding
+current. It carries no term for eddy coupling into any other conductor. So the model
+accounts for eddy drag exactly where it is wanted (the brake) and nowhere it might be
+unwanted, and the sign is unfavourable: any such drag subtracts from delivered thrust and
+adds heat to the track.
+
+Not quantified here — it depends on the track-to-array standoff and the conductivity of
+whatever is actually there, and the standoff is not a single number in `cad/parameters.json`.
+The check is cheap once that geometry is pinned, and it belongs with A1.

@@ -165,6 +165,19 @@ reporting one number would be a choice dressed as a result.
 **The chassis as drawn is sound.** It is nowhere near strength-limited and comfortably
 inside the deflection budget.
 
+> **The load itself was never checked, and it is 37 % high — P17, found 2026-07-29.**
+> The 3672 N comes from a flat-plate Maxwell-stress formula in `sizing.py`: a uniform
+> `B²/2μ₀` at a 0.55 T mean face field over the footprint. Recomputing the same force with
+> `magpylib.getFT()`, which meshes the blocks and integrates the field gradient in 3-D on the
+> repo's own array geometry, converges to **2686.6 N** — deltas halving cleanly through a
+> (14,14,14) mesh and independent of the finite-difference step from 1e-5 to 1e-8. The reason
+> is structural: Maxwell stress needs mean(B²), the formula uses mean(B)², and
+> mean(B²) ≥ mean(B)² for any non-uniform field, so the analytic form must overestimate a
+> Halbach face. **This does not reverse anything above** — the real load is lighter, so every
+> band passed with more margin than reported, not less. What it does mean is that A4's input
+> was taken on trust, which is the one thing this report is supposed to stop.
+> Reproduce: `python3 validation/magpylib/check_inter_array_force.py`.
+
 **And that is why the velocity problem does not go away.** A4 was supposed to decide whether
 the sled could be lighter. The answer it gives is that the drawn plate already meets the
 constraint, so nothing structural forces it to be heavier — but equally, nothing here makes
@@ -183,10 +196,10 @@ attraction only, no launch or arrest loads.
 
 | Analysis | Status |
 |---|---|
-| **A1** airgap field, magnetostatic FEA | **Not run.** FEMM is Windows-only and no open-source magnetostatic solver was set up here. The field remains checked only analytic-vs-analytic (wave model vs magpylib), which E2 already says is not confirmation by a different physical method. **K<sub>t</sub> = 11.22 N per kA/m is therefore still single-method.** |
+| **A1** airgap field, magnetostatic FEA | **Not run.** Recorded here as blocked because FEMM is Windows-only; FEMM under Wine and native-Linux Elmer/GetDP are both live paths (`docs/RELATED_WORK.md`), so this is a not-yet, not a cannot. The field remains checked only analytic-vs-analytic (wave model vs magpylib), which E2 already says is not confirmation by a different physical method. **K<sub>t</sub> = 11.22 N per kA/m is therefore still single-method.** |
 | **A4** sled structural | **Run** — see section 4b. Mass measured, stiffness/stress/modal computed. What remains is the optimisation question: the lightest chassis meeting the constraint, which needs a rib-stiffened study. |
 | **A6** conjunction P<sub>c</sub> | **Not run.** Needs a covariance that does not exist for an unflown satellite (E18), and the CARA tools are MATLAB. |
-| **A7** separation and tip-off | **Not run.** Project Chrono is not installable here. Tip-off remains a model output with no multibody model behind it. |
+| **A7** separation and tip-off | **Not run.** Recorded here as "Project Chrono is not installable" — **that verdict is now in doubt**: `pychrono` ships on conda-forge rather than PyPI and lists linux-64, so a failed `pip install` is the likely cause. Retry before treating A7 as blocked. Tip-off remains a model output with no multibody model behind it, and the acceptance band it would be judged against may itself be mis-sourced (`docs/LANDSCAPE.md`). |
 | Thermal, contamination, EMC, host stage | Unchanged — E5, E11, E12 stand. |
 | Anything at all in hardware | **Nothing has been built, fired, or measured.** E4 stands, and no amount of this changes TRL 2–3. |
 

@@ -81,19 +81,114 @@ conflicting measurements.
 **This is an inference, not a finding.** Check it against the CAD Master Plan that produced
 the 7.50 kg before treating it as settled.
 
+## A lever that is not in the table above: let the sled and payload separate at different speeds
+
+Every option costed so far accelerates sled and payload as one rigid mass to the same exit
+velocity, then releases them. They do not have to leave together. If a spring or cam does a
+momentum-conserving push between sled and payload over the last part of the stroke, the
+lighter payload leaves faster and the heavier sled recoils slower — and the sled's kinetic
+energy is thrown away in the eddy brake by design (E8), so slowing it costs the mission
+nothing and reduces brake duty.
+
+At the as-drawn 9.445 kg sled and 4.0 kg payload, both at 16.537 m/s, total momentum is
+222.34 kg·m/s and total kinetic energy 1838.4 J. Holding momentum and solving for the
+energy the spring must add:
+
+| Target payload v | Sled recoils to | Extra energy | Share of the 2630 J shot | Sled KE into brake |
+|---|---|---|---|---|
+| 17.50 m/s | 16.13 m/s | 2.6 J | 0.10 % | 1229 J |
+| 18.00 m/s | 15.92 m/s | 6.1 J | 0.23 % | 1197 J |
+| 19.00 m/s | 15.49 m/s | 17.3 J | 0.66 % | 1133 J |
+| 20.00 m/s | 15.07 m/s | 34.1 J | 1.30 % | 1073 J |
+| **20.37 m/s** | **14.91 m/s** | **41.8 J** | **1.59 %** | **1050 J** |
+
+Recovering the entire headline shortfall costs **41.8 J against a 2630 J shot**, and brake
+duty *falls* from 1291 J to 1050 J.
+
+### The constraint that decides it is the payload's g-limit, not the energy
+
+The energy is trivial; the question is whether the push can be delivered without exceeding
+the 25 g qualification limit that "unmodified CubeSat" depends on. Delivering 3.833 m/s to
+4.0 kg is a 15.33 N·s impulse — over a 2 ms release that is 195 g and the option is dead. It
+is only the interaction *time* that decides this, and time is a design variable. Held at
+exactly 25 g:
+
+| Target payload v | Impulse | Kick duration | Relative spring stroke | Force |
+|---|---|---|---|---|
+| 18.00 m/s | 5.85 N·s | 6.0 ms | 6.2 mm | 981 N |
+| 20.00 m/s | 13.85 N·s | 14.1 ms | 34.8 mm | 981 N |
+| **20.37 m/s** | **15.33 N·s** | **15.6 ms** | **42.7 mm** | **981 N** |
+
+981 N over 43 mm is an ordinary spring, not a shock event. Across a 100 x 100 mm pusher face
+that is 98 kPa. The payload sees 10.7 g during the main stroke and 25 g during the kick,
+**sequentially rather than simultaneously**, so the peak is 25 g — at the limit, with no
+margin, which is itself a reason to target 19-20 m/s rather than the full 20.37.
+
+### Why this is worth costing properly
+
+Compare against the stroke-lengthening row in the table above. That buys the same velocity
+for **673 mm** of extra envelope on a machine already 44 % over ESPA Grande (P9). This buys
+it for **43 mm** of extra guided rail. It does not touch Kt, current density, magnet mass, or
+dry mass, so it is orthogonal to every other row — it can be combined with any of them.
+
+### What it costs, stated honestly
+
+- **Tip-off is the real objection.** A spring at separation is precisely the mechanism this
+  project's pitch claims to improve on, and 981 N is one to two orders of magnitude above a
+  standard CubeSat separation spring. The answer, if there is one, is that the payload stays
+  in the guide rails through all 43 mm of relative travel, so the guides carry any lateral
+  load and the release is still guided — but that is an assertion, not a result. **It makes
+  A7 (separation and tip-off, unrun) load-bearing rather than optional.**
+- **A cocked 42 J spring is stored energy** on a machine whose safety case is built on a
+  three-inhibit no-fire chain (B14) and a retention gate that separates preload from the
+  release path (B13). It needs a safing path for an abort after cocking.
+- **It must reset twelve times** without adjustment, inside the cassette cadence.
+- **The 25 g budget is spent.** Any later growth in payload mass or main-stroke acceleration
+  has nowhere to go.
+
+### Status
+
+**Exploration, not a result.** The momentum and energy arithmetic above is exact and
+reproducible from the repo's own masses; the mechanism does not exist in CAD, no spring has
+been sized, and the tip-off question is exactly the one thing that could kill it. Nothing in
+`analysis/` or `cad/` has been changed.
+
 ## Recommended order
 
-1. **Run A4.** Every row above is priced against a mass that is currently unverified by
-   structural analysis. CalculiX is installed; the decision rule is already declared.
-2. **Then close G3-D4** with the thermal and electrical consequences computed, not only the
+1. ~~**Run A4.**~~ **Done 2026-07-28.** The as-drawn plate passes all three declared bands,
+   so there is no structural argument for a lighter chassis — a lighter one must be
+   *designed* (rib-stiffened), which is what the 60 % pocketing row now rests on and why
+   that row is marked unsupported.
+2. **Cost the momentum-transfer release**, because it is the cheapest row in energy terms by
+   two orders of magnitude and the cheapest in envelope terms by a factor of fifteen. The
+   work it needs is mechanism design and A7, not more electromagnetics.
+3. **Then close G3-D4** with the thermal and electrical consequences computed, not only the
    magnetic ones.
-3. **Put an ESR into `motor_model.py` regardless.** At 392 A it is a rounding error; at
+4. **Put an ESR into `motor_model.py` regardless.** At 392 A it is a rounding error; at
    580 A it is not.
-4. **Then** propagate to the scripts and the paper, once, per the standing rule.
+5. **Then** propagate to the scripts and the paper, once, per the standing rule.
 
 ## The option nobody wants to say out loud
 
 Re-scope the claim to 17–18 m/s. That is still eight times what a spring deployer delivers,
 and it is what the machine as drawn will actually do. It is not free either: P8 puts the
 lifetime multiplier at ×1.68 at 17.88 m/s rather than ×1.80, so the astrodynamics headline
-moves with it — and ×1.80 is the number GMAT has just independently confirmed.
+moves with it.
+
+How much it moves is worth stating, because the velocity number and the mission number are
+not equally sensitive. Driving `astro.py` directly at 450 km:
+
+| Exit velocity | Boosted lifetime | Multiplier |
+|---|---|---|
+| 16.54 m/s (as-drawn) | 2.120 yr | **×1.624** |
+| 17.88 m/s (P8) | 2.198 yr | ×1.684 |
+| 20.37 m/s (headline) | 2.348 yr | **×1.799** |
+
+A **23 % shortfall in velocity costs 9.7 % of the lifetime multiplier.** The re-scoped
+machine still nearly doubles a propulsion-less satellite's life. That does not make the
+shortfall acceptable, but it does mean the honest number is a design point rather than a
+collapse — and it should be argued in mission terms, not only in m/s.
+
+On the ×1.80 itself: GMAT independently reproduces it at mean and high solar activity, but
+**falsified the claim that the ratio is invariant across activity** (P16), so the multiplier
+should be quoted at a stated activity level rather than as a constant.
