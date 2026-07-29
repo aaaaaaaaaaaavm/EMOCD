@@ -18,7 +18,7 @@ generations, STEP exports committed (`cad/`, Gen3 current); FEA and hardware sti
 outstanding.**
 **Read `PROVENANCE.md` before citing anything here.**
 
-**[📄 One-page summary](SUMMARY.md)** · **[🗺 Roadmap — what happens next, and when](ROADMAP.md)** · **[⚠ Open problems](OPEN_PROBLEMS.md)** · **[✓ Validation report](VALIDATION_REPORT.md)**
+**[📄 One-page summary](SUMMARY.md)** · **[🗺 Roadmap](ROADMAP.md)** · **[📅 History since 2021](HISTORY.md)** · **[⚠ Open problems](OPEN_PROBLEMS.md)** · **[✓ Validation report](VALIDATION_REPORT.md)** · **[🔬 Test plans](docs/QUALIFICATION_PLAN.md)**
 
 ## The idea
 
@@ -249,6 +249,10 @@ flown DSOD, is in [`docs/LANDSCAPE.md`](docs/LANDSCAPE.md).
 - `docs/DECISION_LOG.md` — why each design change happened, including two self-corrections
 - `PROVENANCE.md` — what came from where, and what was never verified
 - `OPEN_PROBLEMS.md` — known errors in the paper, and unsolved engineering
+- `HISTORY.md` — project timeline since 2021, and how the git history was reconstructed
+- `docs/QUALIFICATION_PLAN.md` — environmental and qualification campaign, specified not run
+- `docs/BENCHTOP_TESTS.md` — four cheap sub-scale experiments, bands declared in advance
+- `analysis/cost.py` — parametric BOM; every price assumed, structure is the deliverable
 
 ## Known issues
 

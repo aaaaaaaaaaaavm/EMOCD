@@ -48,6 +48,7 @@ entries are kept only so the record of what changed stays legible.
 | A34 | Strategy-doc verification (recoil, propellant, capacitor, trim tables) | verification only |
 | A35 | Mechanical/thermal/electrical sizing anchors | `analysis/sizing.py` |
 | A36 | Retention-gate resize (margin 0.5 → two D6 pins, 1.2) | `analysis/sizing.py` |
+| A37 | **Recurring hardware cost, parametric BOM** — all prices assumed, no quotations | `analysis/cost.py` — corrects the paper's claim that magnets dominate |
 
 ## B. Design decisions and when they changed
 
@@ -110,6 +111,9 @@ Reasoning is recorded in `docs/DECISION_LOG.md`.
 | D12 | Reproducibility package | this repo |
 | D13 | Analysis scripts | `analysis/` + `legacy/` |
 | D14 | LinkedIn announcement post | not in repo |
+| D15 | **Qualification and environmental test plan** | `docs/QUALIFICATION_PLAN.md` — specified, none run |
+| D16 | **Benchtop test protocol** (4 sub-scale experiments, bands declared) | `docs/BENCHTOP_TESTS.md` — specified, none run |
+| D17 | **Project history and milestone tags** | `HISTORY.md` — records that the git history below 2026-07-23 was reconstructed |
 
 ## E. Open problems
 

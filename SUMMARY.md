@@ -33,6 +33,7 @@ constellation phase spacing in **1.4–6.9 days** against roughly 25 for differe
 | Thrust constant | **11.22 N per kA/m** | Winding-resolved. Checked only analytic-against-analytic; a second physical method is the top roadmap item |
 | Energy per shot | **2.80 kJ**, 20 % electrical-to-payload | Under one watt-hour. No regeneration credit — the sled's energy is dissipated by design |
 | System mass | **76.9 kg dry**, 124.9 kg loaded | **6.4 kg of deployer per 3U satellite**, the same class as canisterized dispensers at ~2 kg/U |
+| Recurring hardware | ~₹1.35 M per unit, ₹112 k per satellite | **Every price assumed, no quotations.** Useful part: avionics + energy storage are ~42 % of cost and the magnet set only ~5 %, which holds even at 2× price errors |
 | Envelope | 1839 mm closed | **Exceeds the ESPA-Grande class by ~44 %.** Open packaging problem (P9) |
 
 **Maturity: TRL 2–3. Nothing has been built, fired, or measured.** Three of eight specified
@@ -78,6 +79,8 @@ claim in the paper's own abstract**, and that is recorded as P16 rather than qui
 The scripts are authoritative over the paper, never the reverse.
 
 **→ [`ROADMAP.md`](ROADMAP.md)** — what happens next, and when
+**→ [`HISTORY.md`](HISTORY.md)** — the project since 2021, and how this git history was built
+**→ [`docs/QUALIFICATION_PLAN.md`](docs/QUALIFICATION_PLAN.md)** — the test campaign, specified
 **→ [`OPEN_PROBLEMS.md`](OPEN_PROBLEMS.md)** — every known defect
 **→ [`VALIDATION_REPORT.md`](VALIDATION_REPORT.md)** — every claim, independently checked where possible
 **→ [`PROVENANCE.md`](PROVENANCE.md)** — read this before citing anything

@@ -71,27 +71,34 @@ time for the low-activity leg; schedule it, do not babysit it.
 `validation/gmat/` already emits. E18's covariance problem stands regardless, so state the
 assumption rather than pretending to a covariance that does not exist.
 
-**9. Replace the modelled comparator with flown data.** Foster et al.'s differential-drag
+**9. Run A9 — decay against flown CubeSats.** `validation/A9_tle_decay.md`, bands already
+declared, script already written (`validation/tle/fit_decay.py`). Needs only a machine with
+ordinary internet and a free Space-Track account — it is blocked here by network policy, not
+by difficulty. **This is the only analysis specified anywhere that compares the model against
+something that happened** rather than against another model.
+
+**10. Replace the modelled comparator with flown data.** Foster et al.'s differential-drag
 results for Planet Labs are open-access (arXiv 1806.01218, 1509.03270). The cheapest
 credibility improvement available: one modelled number becomes one measured number.
 
 ## Before submission — March to April 2027
 
-**10. Rebuild the paper** on Overleaf and clear `paper/README.md`'s stale-PDF notice.
-**11. Final consistency sweep** — every number in every document against
+**11. ~~Rebuild the paper~~** — done 2026-07-29; TeX Live installed and the PDF now matches source.
+**12. Final consistency sweep** — every number in every document against
 `analysis/results/*.json`, the way the 173-value reproduction check was run.
-**12. Thesis document** assembled from the paper, the CAD record and the validation
+**13. Thesis document** assembled from the paper, the CAD record and the validation
 history.
 
 ---
 
 ## What is deliberately not on this list
 
-**Hardware.** E4 records that nothing has been built, and no roadmap here changes that
-without a budget and a lab. If either becomes available, the highest-value first article is
-not the full machine but a **single benchtop Halbach pair measured with a gaussmeter against
-`analysis/verify_field.py`** — it is cheap, and it is the only category of evidence this
-project has none of.
+**Hardware.** E4 records that nothing has been built. That has not changed, but as of
+2026-07-29 the protocol exists: `docs/BENCHTOP_TESTS.md` specifies four sub-scale experiments
+with bands declared in advance, and `docs/QUALIFICATION_PLAN.md` specifies the full campaign.
+**B-1 — a Halbach pair on a gaussmeter — costs roughly the price of two magnets and is the
+single highest-value thing anyone could do to this project.** It is listed here rather than in
+the dated sequence above because it depends on a budget and a bench, not on a date.
 
 **Anything that would move a number without an analysis behind it.** The standing rule holds:
 record the discrepancy, run the analysis, propagate once.

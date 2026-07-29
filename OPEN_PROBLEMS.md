@@ -521,6 +521,14 @@ propagates directly into the headline velocity — see P5 and P8 — and the enc
 radiator, and avionics are still missing from the rollup entirely (P10).
 
 ### E4. No hardware at any level
+> **A protocol now exists, 2026-07-29.** `docs/BENCHTOP_TESTS.md` specifies four sub-scale
+> experiments, cheapest first, each closing a named claim with its acceptance band declared
+> in advance: a Halbach pair on a gaussmeter (B-1), single-coil thrust against
+> K<sub>t</sub> (B-2), capacitor discharge against the pulse model (B-3), and a drop-test
+> brake coupon against the plate-drag law (B-4). **B-1 costs roughly the price of two magnets
+> and would give this project its first measured number.** Full-scale qualification is
+> specified separately in `docs/QUALIFICATION_PLAN.md`. None of it is run — this item stays
+> open until something is measured.
 TRL 2–3. Nothing has been built, fired, or measured. The velocity, dispersion, and
 tip-off claims are all model outputs.
 
@@ -561,10 +569,18 @@ mm, 2 off). The rest — escapement caging, cam lock, tolerance stack-up under v
 is drawn or described, not analysed.
 
 ### E11. No contamination or outgassing analysis
+> **Specified 2026-07-29** as T-4 in `docs/QUALIFICATION_PLAN.md`: 8 thermal-vacuum cycles,
+> −40 to +60 °C, with ASTM E595 limits (TML ≤ 1.0 %, CVCM ≤ 0.1 %) as pass criteria. The
+> materials rule B16 already requires E595-compliant selection; T-4 is where that gets tested
+> rather than asserted. Not run.
 Materials were selected against E595 limits by rule, not by analysis. No contamination
 budget for customer optics exists.
 
 ### E12. EMC beyond stray field
+> **Specified 2026-07-29** as T-6 in `docs/QUALIFICATION_PLAN.md`: MIL-STD-461 RE102/CE102
+> class emissions during a 330 A pulse, plus static field measured at the payload envelope
+> against the 22.7 / 4.3 / 0.4 mT model. A customer flying a magnetometer or magnetorquer
+> needs that number measured, not modelled. Not run.
 Static magnetic keep-out is computed. Induced currents from switching transients in
 adjacent payloads are discussed but not calculated.
 

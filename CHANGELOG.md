@@ -430,6 +430,26 @@ wrong alone.
 
 ---
 
+## 2026-07-29 (blockers and gaps) — three blockers cleared, three gaps closed
+
+Re-checking the standing blockers found three of four had changed status. The environment,
+not the problem, had been the obstacle.
+
+| ID | Item | Detail |
+|---|---|---|
+| BLK-01 | **Git history cleaned** | `git-filter-repo` installs from PyPI, so the rewrite that was previously blocked ran. `CLAUDE.md` removed from all three commits it appeared in, and one commit message reworded. Verified: `git log --all -- CLAUDE.md` empty, no AI reference in any commit message or historical blob, 37 commits preserved, **tree hash byte-identical before and after** (`1435acc…`). Force-pushed with `--force-with-lease` against the recorded prior head. |
+| BLK-02 | **PDF rebuilt** | TeX Live 2023 installs from apt (`texlive-latex-base`, `-latex-recommended`, `-fonts-recommended`; `-latex-extra` is unnecessary and pulls a broken dependency set). `pdflatex` run twice: **10 pages, zero undefined references, zero missing figures.** Verified the build came from corrected source — the PDF reads 16.5 m/s, states the ESPA envelope as unmet, and its only mentions of 20.4 m/s and of invariance are the explicit historical ones. `paper/README.md`'s stale-PDF notice removed, which is what it existed for. |
+| BLK-03 | **Wiki push still blocked** | The wiki remote now *clones* — it holds a 1-line placeholder against the repo's 227-line `wiki/Home.md` — but pushing returns `403`. Reads permitted, writes denied. Reported, not worked around. |
+| BLK-04 | **`xychart-beta` confirmed rendering** | No chart work needed. |
+| BLK-05 | **Tag pushes blocked** | Six annotated tags created locally; `refs/tags/*` pushes return `403` while `refs/heads/*` succeed. The remote's pre-existing `v0.1.0` now points at a commit the rewrite removed and cannot be updated from here. |
+| GAP-01 | **`analysis/cost.py` (new) — and it contradicts the paper** | Parametric BOM driven by `mass_properties.py`'s own part list, imported rather than re-entered. **Every price is an assumption and the file says so in its first paragraph.** The paper claimed recurring hardware "is dominated by the magnet set and the SiC drive". It is not: **avionics 23.7 %, supercapacitors 17.8 %, SiC 13.3 %, NdFeB 4.8 %.** Doubling the magnet price still leaves it under a tenth of the total, so the ordering survives the price uncertainty even though the ₹1.35 M total does not. **This machine is an avionics and energy-storage cost problem, not a magnetics one** — the opposite of where the design effort has gone. Paper corrected and rebuilt. |
+| GAP-02 | **`docs/QUALIFICATION_PLAN.md` (new)** | Eight tests, T-1 to T-8, against GEVS and the CubeSat Design Specification, each naming the item it closes and its pass criteria. Two have no spring-deployer counterpart: T-6 measures static field at the payload envelope, and T-7 instruments a mass simulator to test whether "unmodified CubeSat" is true. Flags T-1 as the most likely failure — the track's first mode is 48 Hz pinned and 109 Hz fixed against a 70–100 Hz convention, and the as-built joint is between the two. |
+| GAP-03 | **`docs/BENCHTOP_TESTS.md` (new)** | Four sub-scale experiments, cheapest first, **bands declared in advance** as `validation/` does. B-1 (Halbach pair on a gaussmeter) costs about two magnets and would be this project's first measured number. Bands are deliberately wide where the model deserves no better — ±40 % at 20 mm stray field, order-of-magnitude at 50 mm — and B-3's ESR row carries **no** band, because declaring one around a number no script commits to would be inventing a target. |
+| GAP-04 | **`validation/A9_tle_decay.md` + `validation/tle/fit_decay.py` (new)** | Decay rate against element-set histories of real decayed 3U CubeSats — **the only analysis specified anywhere that compares the model against something that happened** rather than against another model. **Specified, not run:** CelesTrak and Space-Track return 403 on CONNECT under this environment's network policy. Script committed unrun; its offline half is verified (`model_rate` returns −121.6 m/day at 450 km, matching A5's independently measured −0.1216 km/day). Band set at ±40 % on the median because Shambaugh's backtest puts state-of-the-art at 12.4 % — holding a static exponential atmosphere tighter than that would guarantee a meaningless failure. |
+| GAP-05 | Limitation recorded rather than hidden | `fit_decay.py`'s `model_rate` runs at mean activity regardless of what each object's decay window experienced, because `cowell_sma_after()` takes no density scale. An object that decayed near solar maximum will look like a model failure when it is partly an activity mismatch. Documented in the function's own docstring. |
+
+---
+
 ## Open decisions
 
 1. **LICENSE** — RESOLVED 2026-07-23: owner chose **MIT** (P3-07).

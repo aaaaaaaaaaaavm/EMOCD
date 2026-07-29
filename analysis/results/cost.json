@@ -1,0 +1,215 @@
+{
+  "WARNING": "ALL PRICES ARE ASSUMPTIONS. No vendor quotation exists for any line item. Use the structure and the sensitivity, not the absolute total. See E16.",
+  "currency": "INR",
+  "quantity": "single unit, recurring hardware only",
+  "excludes": [
+    "non-recurring engineering",
+    "qualification test campaign",
+    "launch",
+    "ground support equipment",
+    "labour"
+  ],
+  "fabricated": [
+    {
+      "part": "Track longerons (2x Al box section)",
+      "material": "Aluminium",
+      "kg": 6.83,
+      "raw_INR": 4098,
+      "finished_INR": 12294
+    },
+    {
+      "part": "Stator copper (1.3 m, 60% fill)",
+      "material": "Copper",
+      "kg": 6.29,
+      "raw_INR": 7548,
+      "finished_INR": 18870
+    },
+    {
+      "part": "Stator formers / potting (PEEK eq.)",
+      "material": "PEEK",
+      "kg": 0.973,
+      "raw_INR": 8757,
+      "finished_INR": 26270
+    },
+    {
+      "part": "Sled Halbach magnets (2 faces)",
+      "material": "NdFeB",
+      "kg": 3.672,
+      "raw_INR": 44064,
+      "finished_INR": 44064
+    },
+    {
+      "part": "Sled Ti chassis (shell equivalent)",
+      "material": "Ti-6Al-4V",
+      "kg": 0.737,
+      "raw_INR": 3316,
+      "finished_INR": 13262
+    },
+    {
+      "part": "Sled rollers / latch / backstop",
+      "material": "Steel",
+      "kg": 0.45,
+      "raw_INR": 405,
+      "finished_INR": 810
+    },
+    {
+      "part": "Eddy brake magnets + yoke",
+      "material": "NdFeB",
+      "kg": 1.685,
+      "raw_INR": 20218,
+      "finished_INR": 20218
+    },
+    {
+      "part": "Brake Cu fin + ring spring",
+      "material": "Copper",
+      "kg": 1.2,
+      "raw_INR": 1440,
+      "finished_INR": 3600
+    },
+    {
+      "part": "Cassette shells (2x Al sheet eq.)",
+      "material": "Aluminium",
+      "kg": 8.853,
+      "raw_INR": 5312,
+      "finished_INR": 15935
+    },
+    {
+      "part": "Followers, gates, escapements (2x)",
+      "material": "Steel",
+      "kg": 2.6,
+      "raw_INR": 2340,
+      "finished_INR": 4680
+    },
+    {
+      "part": "ESPA bracket + fasteners",
+      "material": "Aluminium",
+      "kg": 9.0,
+      "raw_INR": 5400,
+      "finished_INR": 16200
+    },
+    {
+      "part": "Panels / closeouts",
+      "material": "Aluminium",
+      "kg": 5.5,
+      "raw_INR": 3300,
+      "finished_INR": 9900
+    },
+    {
+      "part": "Sled CAD reconciliation (P15, measured 9.445 kg)",
+      "material": "Ti-6Al-4V",
+      "kg": 4.586,
+      "raw_INR": 20638,
+      "finished_INR": 82552
+    }
+  ],
+  "fabricated_subtotal_INR": 268655,
+  "bought_in": {
+    "Supercapacitor cells (32 series, 190 F)": 240000,
+    "SiC bridge + gate drive": 180000,
+    "Avionics, sequencer, IMU": 320000,
+    "Position sensing (encoder + photogates)": 90000,
+    "Hybrid ceramic bearings and rails": 70000,
+    "Harness, connectors, EMC": 60000,
+    "Thermal (radiator, MLI, pipes)": 80000,
+    "Fasteners, A-286 pins, misc": 40000
+  },
+  "bought_in_subtotal_INR": 1080000,
+  "total_INR": 1348655,
+  "per_satellite_INR": 112388,
+  "sensitivity": [
+    {
+      "item": "Avionics, sequencer, IMU",
+      "share_pct": 23.7,
+      "total_if_2x_pct": 23.7
+    },
+    {
+      "item": "Supercapacitor cells (32 series, 190 F)",
+      "share_pct": 17.8,
+      "total_if_2x_pct": 17.8
+    },
+    {
+      "item": "SiC bridge + gate drive",
+      "share_pct": 13.3,
+      "total_if_2x_pct": 13.3
+    },
+    {
+      "item": "Ti-6Al-4V (material + machining)",
+      "share_pct": 7.1,
+      "total_if_2x_pct": 7.1
+    },
+    {
+      "item": "Position sensing (encoder + photogates)",
+      "share_pct": 6.7,
+      "total_if_2x_pct": 6.7
+    },
+    {
+      "item": "Thermal (radiator, MLI, pipes)",
+      "share_pct": 5.9,
+      "total_if_2x_pct": 5.9
+    },
+    {
+      "item": "Hybrid ceramic bearings and rails",
+      "share_pct": 5.2,
+      "total_if_2x_pct": 5.2
+    },
+    {
+      "item": "NdFeB (material + machining)",
+      "share_pct": 4.8,
+      "total_if_2x_pct": 4.8
+    },
+    {
+      "item": "Harness, connectors, EMC",
+      "share_pct": 4.4,
+      "total_if_2x_pct": 4.4
+    },
+    {
+      "item": "Aluminium (material + machining)",
+      "share_pct": 4.0,
+      "total_if_2x_pct": 4.0
+    },
+    {
+      "item": "Fasteners, A-286 pins, misc",
+      "share_pct": 3.0,
+      "total_if_2x_pct": 3.0
+    },
+    {
+      "item": "PEEK (material + machining)",
+      "share_pct": 1.9,
+      "total_if_2x_pct": 1.9
+    },
+    {
+      "item": "Copper (material + machining)",
+      "share_pct": 1.7,
+      "total_if_2x_pct": 1.7
+    },
+    {
+      "item": "Steel (material + machining)",
+      "share_pct": 0.4,
+      "total_if_2x_pct": 0.4
+    }
+  ],
+  "price_basis": {
+    "NdFeB": "N45SH sintered blocks, machined, coated, small qty",
+    "Ti-6Al-4V": "plate stock, grade 5, before machining",
+    "Copper": "oxygen-free bar and strip",
+    "Aluminium": "7075-T6 plate and box section",
+    "PEEK": "unfilled rod and plate stock",
+    "Steel": "440C and mild, mixed",
+    "Supercapacitor cells (32 series, 190 F)": "32 cells, space-screened, plus balancing",
+    "SiC bridge + gate drive": "1200 V modules, drivers, busbar, filters",
+    "Avionics, sequencer, IMU": "rad-tolerant SBC class, single unit",
+    "Position sensing (encoder + photogates)": "the dispersion claim depends on this chain",
+    "Hybrid ceramic bearings and rails": "440C/Si3N4, vacuum-rated",
+    "Harness, connectors, EMC": "space-grade wiring and backshells",
+    "Thermal (radiator, MLI, pipes)": "passive only",
+    "Fasteners, A-286 pins, misc": "aerospace-grade hardware"
+  },
+  "machining_factors": {
+    "NdFeB": 1.0,
+    "Ti-6Al-4V": 4.0,
+    "Copper": 2.5,
+    "Aluminium": 3.0,
+    "PEEK": 3.0,
+    "Steel": 2.0
+  }
+}
