@@ -18,6 +18,8 @@ generations, STEP exports committed (`cad/`, Gen3 current); FEA and hardware sti
 outstanding.**
 **Read `PROVENANCE.md` before citing anything here.**
 
+**[📄 One-page summary](SUMMARY.md)** · **[🗺 Roadmap — what happens next, and when](ROADMAP.md)** · **[⚠ Open problems](OPEN_PROBLEMS.md)** · **[✓ Validation report](VALIDATION_REPORT.md)**
+
 ## The idea
 
 CubeSats flown as rideshare secondaries inherit the primary customer's orbit. The
@@ -50,12 +52,12 @@ geometry ([why](cad/stl/README.md)).
 ```mermaid
 flowchart LR
     A["Cassette feed<br/>12 x 3U, two cassettes"] --> B["Retention gate<br/>preload into structure"]
-    B --> C["Accelerate<br/>1.3 m, 16.3 g, 127.7 ms"]
+    B --> C["Accelerate<br/>1.3 m, 10.7 g, 157.3 ms"]
     C --> D["Coast &amp; trim<br/>0.2 m"]
-    D --> E["Release at 1500 mm<br/>20.37 m/s"]
+    D --> E["Release at 1500 mm<br/>16.54 m/s"]
     E --> F["Eddy brake<br/>1530-1740 mm"]
     F --> G["Sled recovered<br/>reusable, next shot"]
-    E -.->|"payload departs"| H["Own orbit<br/>x1.80 lifetime"]
+    E -.->|"payload departs"| H["Own orbit<br/>x1.62 lifetime"]
 ```
 
 The satellite is never modified: the magnets ride the sled, not the payload. The sled's
@@ -67,40 +69,47 @@ electrical-to-payload and carries no regeneration credit.
 | Quantity | Value | Source |
 |---|---|---|
 | Thrust constant | 11.22 N per kA/m, ±1.26 % ripple | `analysis/motor_model.py` |
-| Exit velocity, 3U | 20.37 m/s at 16.3 g ⚠ see below | `analysis/motor_model.py` |
-| Electrical→payload efficiency | 32 % (2.63 kJ drawn, 830 J delivered) | `analysis/motor_model.py` |
-| Closed-loop dispersion | 0.027 m/s (3σ) → ±0.10 km apogee | `analysis/motor_model.py` |
-| Orbital lifetime multiplier | ×1.80 at mean activity — **invariance falsified, see P16** | `analysis/astro.py` |
+| Exit velocity, 3U | **16.54 m/s at 10.7 g** | `analysis/motor_model.py` |
+| Electrical→payload efficiency | 20 % (2.80 kJ drawn, 547 J delivered) | `analysis/motor_model.py` |
+| Closed-loop dispersion | 0.027 m/s (3σ) at a 16.2 m/s setpoint → ±0.10 km apogee | `analysis/motor_model.py` |
+| Orbital lifetime multiplier | ×1.62 at mean activity — **not invariant, see P16** | `analysis/astro.py` |
 | Constellation seeding | 30° in 1.4–6.9 days vs 25 days by differential drag | `analysis/astro.py` |
-| Dry / loaded mass | 72.3 kg / 120.3 kg | `analysis/mass_properties.py` |
-| Recoil per shot | 81.5 N·s | `analysis/astro.py` |
+| Dry / loaded mass | 76.9 kg / 124.9 kg | `analysis/mass_properties.py` |
+| Recoil per shot | 66.1 N·s | `analysis/astro.py` |
 | Track first mode | 109 Hz fixed-fixed (target >70) | `analysis/sizing.py` |
-| Energy closure | 100.1 % accounted | `analysis/sizing.py` |
+| Energy closure | 100.0 % accounted | `analysis/sizing.py` |
 
-> ### ⚠ Read this before quoting the exit velocity
+> ### These numbers moved on 2026-07-29, downward
 >
-> **The table above assumes a 4.86 kg sled. The sled that is actually drawn weighs 9.45 kg,
-> and at that mass this machine delivers 16.5 m/s, not 20.37.**
+> The headline used to read **20.37 m/s at 16.3 g**, computed against a 4.86 kg parametric
+> sled. Exact solid volumes from the Gen3 CAD give **9.445 kg** — the plates are drawn
+> solid, with no pocketing (P15).
 >
-> Measured 2026-07-28 from the Gen3 CAD: exact solid volumes from the OpenCASCADE kernel
-> times material densities — 3.63 kg of titanium in two chassis plates, 3.67 kg of NdFeB in
-> the magnet arrays (`OPEN_PROBLEMS.md` P15, method and numbers in
-> [`VALIDATION_REPORT.md`](VALIDATION_REPORT.md)).
+> That was not resolved by picking a number.
+> [`validation/A4_sled_structural.md`](validation/A4_sled_structural.md) fixed the
+> consequence of each outcome **before** the structural analysis ran:
 >
-> | Sled mass | Exit velocity | Where it comes from |
-> |---|---|---|
-> | 4.86 kg | 20.37 m/s | `mass_properties.py` parametric solids — **the headline above** |
-> | 7.50 kg | 17.88 m/s | P5's CAD estimate, evidently already assuming lightening |
-> | **9.45 kg** | **16.53 m/s** | **the Gen3 geometry as drawn, measured** |
+> | Measured mass | Declared consequence |
+> |---|---|
+> | ≤ 5.35 kg | parametric model stands, 20.37 m/s holds |
+> | 5.35 – 6.80 kg | neither estimate right |
+> | **≥ 6.80 kg** | **the headline changes and the paper changes materially** |
 >
-> The numbers in the table are left exactly as the scripts compute them, because the rule
-> in this repository is that a discrepancy gets recorded and analysed before anything is
-> propagated — not patched on discovery. Structural FEA (A4) decides which mass is real; a
-> pocketed chassis will land somewhere between. **Until it runs, treat 20.37 m/s as an
-> upper bound that the current geometry does not support.**
+> A4 has since run — the drawn plate passes all three structural bands, so nothing forces a
+> lighter chassis — and the measurement landed in the third branch. The scripts moved
+> first, then the paper. Writing the rule down in advance is what made that a procedure
+> rather than a preference.
 >
-> Options for recovering the velocity — pocketing, magnet thickness, sheet current, stroke
-> length, and a two-layer stator — are costed in
+> **What this costs and does not cost.** Exit velocity is down 19 % and efficiency from
+> 32 % to 20 %. The lifetime multiplier is down only 10 %, ×1.80 → ×1.62, because lifetime
+> is a weak function of Δv — the mission case survives better than the machine spec does.
+> 9.445 kg is the **as-drawn, unpocketed** geometry, and A4 reports a 17× stress margin, so
+> a rib-stiffened chassis would recover mass. Nobody has designed one
+> ([`ROADMAP.md`](ROADMAP.md)).
+>
+> Ways to recover the velocity — pocketing, sheet current, stroke length, a two-layer
+> stator, and a momentum-transfer release that buys it all back for 1.6 % of the shot
+> energy — are costed in
 > [`docs/DESIGN_OPTIONS_exit_velocity.md`](docs/DESIGN_OPTIONS_exit_velocity.md).
 
 Two results have independent cross-checks: the Halbach field model (analytic vs
@@ -130,15 +139,17 @@ Results land in `analysis/results/*.json`.
 where possible. Four analyses were actually run; three could not be.
 
 - **Reproducibility holds exactly** — 173 values re-computed from clean, 173 identical.
-- **GMAT confirms ×1.80 at mean and high solar activity** (1.775 and 1.730) — but
-  **falsifies its invariance**: at low activity the multiplier is 2.074, an 18.5 % spread
-  against a ≤5 % band. `astro.py` varies solar activity by scaling density uniformly, which
-  preserves a ratio *by construction* — the sweep that claims to demonstrate invariance
-  cannot test it (**P16**).
-- **CalculiX** clears the chassis on all three structural bands, and the sled still measures
-  **9.45 kg**, putting exit velocity at 16.5 m/s rather than 20.37 (**P15**).
-- **ngspice** confirms the shot model to 0.03 % but finds the quoted bank sag is
+- **GMAT falsified the invariance claim.** It reproduced the old ×1.80 multiplier at mean
+  and high solar activity but gave 2.074 at low — an 18.5 % spread against a ≤5 % band.
+  `astro.py` varies solar activity by scaling density uniformly, and ballistic coefficient
+  enters the same multiplicative slot, so *both* halves of that claim were tested by a sweep
+  that could not have detected a problem (**P16**).
+- **CalculiX** cleared the chassis on all three structural bands, which is what settled the
+  sled mass at the measured **9.445 kg** and moved the headline to 16.54 m/s (**P15**).
+- **ngspice** confirmed the shot model to 0.03 % but found the quoted bank sag is
   state-of-charge, not the terminal voltage the drive sees.
+- **All three of those runs now predate the current operating point** (**P19**). A4 survives
+  — its load is magnetostatic and velocity-independent — but A5 and A8 need re-running.
 - **Not run:** A1, so K<sub>t</sub> = 11.22 N per kA/m remains checked only
   analytic-against-analytic; A6; A7.
 
@@ -157,8 +168,11 @@ pie showData
     "Auxiliary" : 26
 ```
 
-830 J of 2630 J drawn reaches the payload. That is the 32 %, and it carries no regeneration
-credit because the sled's 1008 J is thrown away in the brake by design.
+547 J of 2796 J drawn reaches the payload. That is the 20 %, and it carries no regeneration
+credit because the sled's 1291 J is thrown away in the brake by design. Efficiency fell with
+the heavier sled twice over: more of the same mechanical work goes into a mass that is then
+braked away, and the longer 157 ms pulse accrues more copper loss at unchanged current
+density.
 
 ```mermaid
 xychart-beta
@@ -169,8 +183,10 @@ xychart-beta
 ```
 
 A ±2.5 % velocity change moves the conjunction minimum from 4.6 km to 63.4 km. That is why
-the paper's safety claim was reframed onto the 8.1-day realignment period instead of a
-single distance (P1).
+the paper's safety claim rests on the realignment period — now 9.9 days at the current
+operating point — instead of a single distance (P1). The sweep above was computed at the
+superseded 20.37 m/s point and is kept as the evidence for P1; the fragility it demonstrates
+is a property of the beat geometry, not of any one velocity.
 
 ## Validation status
 
@@ -186,6 +202,33 @@ answer proves nothing.
 | A6 conjunction Pc | NASA CARA | P1 | specified |
 | A7 separation & tip-off | Project Chrono | E7 | specified |
 | A8 pulse-power chain | ngspice 42 | E17 | **run** — bands met, 2 findings |
+
+## Host integration, worked against real vehicles
+
+The interface asks four things of any host: mass and control authority, a 150–300 W recharge
+feed, a serial command link, and an authorized firing window. Two Indian candidates are
+worked as examples in the paper because both exist today.
+
+**ISRO's POEM** is the flown precedent — a spent PS4 stage operated as a three-axis-stabilized
+hosted platform with solar power, NavIC navigation and helium attitude thrusters, retired by
+controlled reentry. It supplies everything the attached variant borrows, and its zero-debris
+closeout is the regulatory template.
+
+**Skyroot Aerospace's Vikram-1** carries a restartable liquid Orbit Adjustment Module — one
+Raman-2 engine, four Raman Mini thrusters, eight cold-gas thrusters, stage-tested through more
+than a thousand pulses — whose stated multi-orbit deployment role is functionally the PS4's.
+Against the vehicle's published 350 kg LEO capacity, a loaded EMOCD is **34 %**, falling to
+**22 %** and **13 %** on the announced 550 kg and 900 kg family members. Early flights are
+therefore dedicated demonstrations and later ones ordinary manifest items.
+
+One integration quantity cannot be closed from public data: the OAM's mass and control
+authority are undisclosed, which is why the recoil budget is parametric. Obtaining stage mass,
+thruster impulse budget and coast duration is the single data exchange that converts this
+analysis from parametric to specific — for any candidate vehicle, Indian or otherwise.
+
+Recoil is the satellite's momentum only, **66.1 N·s** per shot, nulled by a few grams of cold
+gas. Comparison against fielded deployers and transfer vehicles, including Dhruva Space's
+flown DSOD, is in [`docs/LANDSCAPE.md`](docs/LANDSCAPE.md).
 
 ## Repository layout
 
@@ -240,5 +283,11 @@ analyses not yet run).
 
 ## Author
 
-Adityavardhan Mishra — Department of Mechanical Engineering, Symbiosis Institute of
+**Adityavardhan Mishra** — Department of Mechanical Engineering, Symbiosis Institute of
 Technology, Symbiosis International (Deemed University), Pune. Project begun April 2021.
+
+📧 [adityavardhanmishr@gmail.com](mailto:adityavardhanmishr@gmail.com)
+
+Questions, corrections and reproduction attempts are all welcome — particularly reproduction
+attempts. If a number in this repository does not reproduce for you, that is a defect and I
+want to know. See [`CONTRIBUTING.md`](CONTRIBUTING.md).
