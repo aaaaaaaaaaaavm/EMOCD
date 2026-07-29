@@ -38,6 +38,10 @@ slow ones. Dependency note: `mass_properties.py` produces the sled mass that
 `motor_model.py` hard-codes as `M_SLED` — if you change the mass model, update that
 constant and re-run the motor model, then the paper.
 
+To run anything under `validation/` you also need the external solvers (gmsh,
+scikit-fem, GetDP, CalculiX, ngspice) and LaTeX. `tools/env-setup.sh` installs and
+verifies the lot on Debian/Ubuntu.
+
 ## Reporting a discrepancy
 
 If a script output does not match a value in the README or the paper, please open an issue

@@ -123,9 +123,11 @@ electrical-to-payload and carries no regeneration credit.
 > energy — are costed in
 > [`docs/DESIGN_OPTIONS_exit_velocity.md`](docs/DESIGN_OPTIONS_exit_velocity.md).
 
-Two results have independent cross-checks: the Halbach field model (analytic vs
-magpylib, agreeing to three digits) and orbital decay (orbit-averaged vs Cowell RK4,
-99.4 %). Everything else is single-sourced.
+Three results have independent cross-checks: the Halbach field model (analytic vs
+magpylib, agreeing to three digits, and again vs a meshed magnetostatic FEM — a PDE
+solve rather than another superposition — agreeing on the thrust constant to 0.07 %),
+and orbital decay (orbit-averaged vs Cowell RK4, 99.4 %). Everything else is
+single-sourced.
 
 ## Reproducing
 
@@ -136,6 +138,11 @@ python3 verify_field.py && python3 mass_properties.py && python3 motor_model.py 
 ```
 
 Results land in `analysis/results/*.json`.
+
+The analysis layer needs nothing but `requirements.txt`. The **validation** layer needs
+external solvers — gmsh and scikit-fem for the magnetostatic FEM, GetDP, CalculiX,
+ngspice, and a LaTeX install for the manuscript. `tools/env-setup.sh` installs all of
+them on a Debian/Ubuntu machine and verifies each one before exiting.
 
 <table>
 <tr>

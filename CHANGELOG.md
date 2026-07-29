@@ -497,6 +497,17 @@ programme board), and the Issues toggle in repository settings.
 
 ---
 
+## 2026-07-29 (toolchain) — the validation environment made reproducible
+
+| ID | Item | Detail |
+|---|---|---|
+| ENV-01 | **`tools/env-setup.sh` added** | Until now `requirements.txt` covered only the analysis layer. Everything under `validation/` needs external solvers, and those were installed ad hoc each time the working environment was rebuilt — which means the validation results were reproducible in principle and awkward in practice. The script installs GetDP, CalculiX, ngspice, gmsh, scikit-fem and a minimal LaTeX set, then **verifies each one and exits non-zero if any is missing**. |
+| ENV-02 | Two install failures encoded as comments, not rediscovered | `apt-get update` must run first — a stale container index makes the first `texlive` fetch 404. And `texlive-latex-extra` is deliberately excluded: nothing in `paper/` uses it and it pulls a mesa/ruby chain that fails to configure in a minimal container. Both cost time once; neither should again. |
+| ENV-03 | `README.md` cross-check count corrected 2 → 3 | The README still read "Two results have independent cross-checks", naming the magpylib field check and the orbital decay check. A1 — the meshed magnetostatic FEM confirming the thrust constant to 0.07 % — is a third, and a stronger one, since it is a PDE solve rather than another superposition. `SUMMARY.md` already said so; the README contradicted it. Same class of staleness as REPO-04, from the same propagation. |
+| ENV-04 | `README.md` and `CONTRIBUTING.md` point at the setup script | Both previously implied `pip install -r requirements.txt` was sufficient to run everything in the repository. It is sufficient for `analysis/` only, and that distinction is now stated where each instruction appears. |
+
+---
+
 ## Open decisions
 
 1. **LICENSE** — RESOLVED 2026-07-23: owner chose **MIT** (P3-07).
