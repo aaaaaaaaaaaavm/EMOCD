@@ -344,19 +344,28 @@ for s in (0.25, 0.5, 1.0, 2.5, 5.0, 10.0):
 
 | Location | Text | Status |
 |---|---|---|
-| `paper/paper.tex` **abstract** | "a ratio shown invariant across ballistic coefficient and a fivefold solar-activity density range" | **not corrected** — batched with P11/P12 |
-| `paper/paper.tex` Sec. V-B | "invariant to two decimal places" | **not corrected** |
-| `paper/paper.tex` sensitivity section | "a multiplier invariant across a fivefold density range" | **not corrected** |
-| `paper/paper.tex` **Limitations** | "the demonstrated invariance of the ratio is the defensible result" — the paper leans on this specific claim | **not corrected** |
+| `paper/paper.tex` **abstract** | "a ratio shown invariant across ballistic coefficient and a fivefold solar-activity density range" | corrected 2026-07-29 — multiplier now quoted at a stated activity level, no invariance claimed |
+| `paper/paper.tex` Sec. V-B | "invariant to two decimal places" | corrected 2026-07-29 — carries the GMAT three-level result and the mechanism |
+| `paper/paper.tex` sensitivity section | "a multiplier invariant across a fivefold density range" | corrected 2026-07-29 |
+| `paper/paper.tex` **Limitations** | "the demonstrated invariance of the ratio is the defensible result" — the paper leaned on this specific claim | corrected 2026-07-29 — no longer offered as the defensible result |
 | `README.md`, `wiki/Home.md` headline tables | "×1.80, invariant across BC and solar activity" | corrected 2026-07-28 → "×1.80 at mean activity — invariance falsified, see P16" |
 | `RESULTS.md` A5 section and status bar | "GMAT: ×1.73 vs ×1.80, within band" | corrected 2026-07-28 — three-level table, per-activity chart, 40×-sweep chart, status FAIL |
 | `docs/index.html` (Pages site) | headline row and GMAT section | corrected 2026-07-28 |
 | `VALIDATION_REPORT.md` §2 | "2.55 % spread, inside the ≤5 % band" | corrected 2026-07-28, retraction stated in place |
 | `INVENTORY.md` A32 | "Solar-activity UQ, ×1.80 invariance" | flagged against P16 |
 | `CHANGELOG.md` VAL2-02 | "Invariance spread 2.55 %, inside ≤5 %" | marked SUPERSEDED, text left intact as audit record |
+| `paper/figures/F11_uq.png` **caption** | "absolute lifetimes vary fivefold; the ×1.8 multiplier does not" — a fifth location, missed when this list was written | corrected 2026-07-29 — figure now plots `astro.py` against GMAT side by side |
 
-The paper is the one place still carrying the falsified claim, and it is the place that
-matters most.
+**All documented locations are now corrected.** What is *not* closed:
+
+1. **The BC half has still never been tested against a real atmosphere.** It is proven a
+   tautology in `astro.py`, and the paper no longer claims it — but nobody has run GMAT at
+   BC 40 and 90 to find out what the true BC dependence is. Until that happens the honest
+   position is "unknown", not "invariant".
+2. **The GMAT numbers themselves are now stale** — every run was at 20.37 m/s (P19).
+3. **The committed PDF predates the correction** (`paper/README.md`).
+
+This item stays open on (1).
 
 **Ballistic-coefficient invariance is not "suspect" — it is the identical tautology, proved
 2026-07-29.** The abstract's sentence has two halves: invariant across *ballistic
