@@ -475,8 +475,8 @@ them currently validates the design as it stands:
 | **A8** ngspice pulse chain | F = 1413.4 N, m = 8.86 kg, 2630 J | **No.** The netlist carries the old mass and energy. Peak current moved 392 → 330 A and pulse duration 128 → 157 ms, which is exactly what that analysis exists to check. |
 | **A4** CalculiX chassis | 3672 N Maxwell attraction | **Yes, structurally.** The load is magnetostatic and does not depend on sled mass or velocity. Separately 37 % high — see P17. |
 
-**What this costs.** The validation table on the front pages says three of eight analyses have
-run. Strictly, three have run *against a superseded design*. That is not the same claim, and
+**What this costs.** The validation table on the front pages says four of nine analyses have
+run (A1 added 2026-07-29, and A1 alone is at the current operating point). Strictly, three have run *against a superseded design*. That is not the same claim, and
 the difference is exactly the kind a reviewer notices.
 
 **Cheapest closure first.** A8 is minutes — the netlist is `validation/spice/emocd_shot.cir`

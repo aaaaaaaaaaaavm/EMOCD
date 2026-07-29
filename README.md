@@ -159,7 +159,8 @@ where possible. Four analyses were actually run; three could not be.
   sled mass at the measured **9.445 kg** and moved the headline to 16.54 m/s (**P15**).
 - **ngspice** confirmed the shot model to 0.03 % but found the quoted bank sag is
   state-of-charge, not the terminal voltage the drive sees.
-- **All three of those runs now predate the current operating point** (**P19**). A4 survives
+- **A1 (2026-07-29) is at the current operating point. A5 and A8 predate it** (**P19**) and
+  need re-running. A4 survives
   — its load is magnetostatic and velocity-independent — but A5 and A8 need re-running.
 - **A1 has run (2026-07-29).** A meshed 2-D magnetostatic FEM gives K<sub>t</sub> = 11.228 N
   per kA/m against the model's 11.22 — **ratio 1.0007**, ripple 1.25 % against 1.26 %. The

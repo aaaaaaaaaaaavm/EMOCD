@@ -37,8 +37,8 @@ constellation phase spacing in **1.4–6.9 days** against roughly 25 for differe
 | Envelope | 1839 mm closed | **Exceeds the ESPA-Grande class by ~44 %.** Open packaging problem (P9) |
 
 **Maturity: TRL 2–3. Nothing has been built, fired, or measured.** Four of nine specified
-validations have been run, each against an acceptance band declared *before* the run — and
-all three predate the current operating point, which is itself logged as a defect (P19).
+validations have been run, each against an acceptance band declared *before* the run. A1 is at
+the current operating point; **A5 and A8 predate it and need re-running** (P19).
 
 ## Where it sits against what flies
 

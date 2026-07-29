@@ -48,6 +48,30 @@ correct response is to delete and regenerate it, not to reconcile the two.
 
 **If you found a mistake in a companion, fix it here.**
 
+## Status of the four
+
+| Repo | Exists | Populated |
+|---|---|---|
+| **EMOCD** | yes | yes — this one |
+| `EMOCD-paper` | **yes**, created 2026-07-29 | pending — run `tools/bootstrap_repos.sh` |
+| `EMOCD-thesis` | **yes**, created 2026-07-29 | pending |
+| `EMOCD-lab` | **yes**, created 2026-07-29 | pending |
+
+The three companions were created but are still empty. They cannot be pushed from the
+environment the content was generated in: its git proxy serves only this repository, and
+extending that scope needs an approval that environment could not grant. Nothing about that is
+a property of the repositories — one command from any machine with `gh` fills all three:
+
+```bash
+gh auth login
+./tools/bootstrap_repos.sh
+```
+
+Also still outstanding there, for the same class of reason: the six milestone tags and their
+releases (`tools/publish_releases.sh`), repository descriptions and topics, and the
+programme board (`tools/setup_project.sh`). Issues are disabled on this repository — that one
+is a settings toggle, Settings → General → Features.
+
 ## Where redesign goes
 
 `EMOCD-lab` is Phase II. Anything that would improve the design rather than correct it goes

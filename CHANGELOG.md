@@ -481,6 +481,22 @@ moved number would mean something went wrong.
 
 ---
 
+## 2026-07-29 (companions) — the three repositories exist; content still to be pushed
+
+| ID | Item | Detail |
+|---|---|---|
+| REPO-01 | **`EMOCD-paper`, `EMOCD-thesis`, `EMOCD-lab` created** | By the author, 2026-07-29. All three public, `main` default, currently empty. Repository creation is not possible from the working environment at all — the GitHub App returns `403 Resource not accessible by integration`, because **GitHub Apps cannot create repositories on a personal account**; that endpoint needs a user token, not an installation token. No permission setting changes it. |
+| REPO-02 | **Content generated and verified, not yet pushed** | 84 files to `EMOCD-paper`, 148 to `EMOCD-thesis`, 3 to `EMOCD-lab`. The paper companion was verified to **reproduce standalone** — run from a clean copy it returns `v_exit = 16.537`, matching the flagship. |
+| REPO-03 | **Why the push did not happen here** | The environment's git proxy serves only `aaaaaaaaaaaavm/emocd`; `git ls-remote` fails against all three companions. Extending session scope needs `add_repo`, which required an approval the environment could not grant. Reported rather than worked around. `tools/bootstrap_repos.sh` covers it in one command from any machine with `gh`. |
+| REPO-04 | **Three stale counts fixed from the A1 propagation** | A1 moved the tally 3-of-8 → 4-of-9 and three places did not follow. `SUMMARY.md` had become **self-contradictory** — "four of nine … and all three predate the current operating point" — which was introduced in the same edit that added A1. A1 *is* at the current point; A5 and A8 are not. `README.md` and P19 carried the same stale framing. |
+| REPO-05 | `PROGRAMME.md` and `HISTORY.md` narrowed | Both described the companions as prepared-but-unpushed in general terms. They now state precisely what exists, what is empty, and which specific things remain blocked: tags and releases, descriptions and topics, the programme board, and the Issues toggle. |
+
+**Still outstanding, all of it one command each:** `bootstrap_repos.sh` (fills the three
+companions), `publish_releases.sh` (six milestone tags and releases), `setup_project.sh` (the
+programme board), and the Issues toggle in repository settings.
+
+---
+
 ## Open decisions
 
 1. **LICENSE** — RESOLVED 2026-07-23: owner chose **MIT** (P3-07).
