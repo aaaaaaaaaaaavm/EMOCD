@@ -48,12 +48,12 @@ Spin the geometry in the browser:
 ```mermaid
 flowchart LR
     A["Cassette feed<br/>12 x 3U"] --> B["Retention gate"]
-    B --> C["Accelerate<br/>1.3 m, 16.3 g"]
+    B --> C["Accelerate<br/>1.3 m, 10.7 g"]
     C --> D["Coast &amp; trim"]
-    D --> E["Release<br/>20.37 m/s"]
+    D --> E["Release<br/>16.54 m/s"]
     E --> F["Eddy brake"]
     F --> G["Sled recovered"]
-    E -.->|"payload departs"| H["Own orbit<br/>x1.80 lifetime"]
+    E -.->|"payload departs"| H["Own orbit<br/>x1.62 lifetime"]
 ```
 
 ## Maturity
@@ -74,27 +74,28 @@ All figures are script outputs, not measurements.
 | Quantity | Value | Script |
 |---|---|---|
 | Thrust constant | 11.22 N per kA/m, ±1.26 % ripple | `motor_model.py` |
-| Exit velocity, 3U | 20.37 m/s at 16.3 g | `motor_model.py` |
-| Electrical→payload efficiency | 32 % (2.63 kJ drawn, 830 J delivered) | `motor_model.py` |
-| Closed-loop dispersion | 0.027 m/s (3σ) → ±0.10 km apogee | `motor_model.py` |
-| Orbital lifetime multiplier | ×1.80 at mean activity — **invariance falsified, see P16** | `astro.py` |
+| Exit velocity, 3U | **16.54 m/s at 10.7 g** | `motor_model.py` |
+| Electrical→payload efficiency | 20 % (2.80 kJ drawn, 547 J delivered) | `motor_model.py` |
+| Closed-loop dispersion | 0.027 m/s (3σ) at a 16.2 m/s setpoint → ±0.10 km apogee | `motor_model.py` |
+| Orbital lifetime multiplier | ×1.62 at mean activity — **not invariant, see P16** | `astro.py` |
 | Constellation seeding | 30° in 1.4–6.9 days vs 25 days by differential drag | `astro.py` |
-| Dry / loaded mass | 72.3 kg / 120.3 kg | `mass_properties.py` |
-| Recoil per shot | 81.5 N·s | `astro.py` |
+| Dry / loaded mass | 76.9 kg / 124.9 kg | `mass_properties.py` |
+| Recoil per shot | 66.1 N·s | `astro.py` |
 | Track first mode | 109 Hz fixed-fixed (target >70) | `sizing.py` |
-| Energy closure | 100.1 % accounted | `sizing.py` |
+| Energy closure | 100.0 % accounted | `sizing.py` |
 
-Payload family (`motor_model.py`): 1U 24.4 m/s at 23.4 g · 3U 20.4 m/s at 16.3 g ·
-6U 16.9 m/s at 11.2 g · 12U 14.8 m/s at 8.5 g. The 6U and 12U cases are force-limited
+Payload family (`motor_model.py`): 1U 18.5 m/s at 13.4 g · 3U 16.5 m/s at 10.7 g ·
+6U 14.5 m/s at 8.3 g · 12U 13.1 m/s at 6.7 g. The 6U and 12U cases are force-limited
 consequences of the 3U design, not designed variants (see E9).
 
-> **⚠ The table assumes a 4.86 kg sled. The sled as drawn weighs 9.45 kg, and at that mass
-> the machine delivers 16.5 m/s, not 20.37.** Measured from the Gen3 CAD on 2026-07-28 —
-> exact solid volumes times material densities (P15). 7.50 kg, the earlier CAD estimate,
-> gives 17.88 m/s. The numbers above are left as the scripts compute them until structural
-> FEA (A4) decides which mass is real, because a discrepancy gets recorded and analysed
-> before it is propagated. **Treat 20.37 m/s as an upper bound the current geometry does
-> not support.**
+> **These numbers moved down on 2026-07-29.** The headline was 20.37 m/s at 16.3 g against
+> a 4.86 kg parametric sled; exact solid volumes from the Gen3 CAD give **9.445 kg** (P15).
+> The consequence of each mass band was declared in `validation/A4_sled_structural.md`
+> **before** the structural analysis ran, and the measurement landed in the ≥ 6.80 kg
+> branch — "the headline changes and the paper changes materially". A4 has since run and
+> the drawn plate passes all three bands, so nothing forces a lighter chassis. Scripts moved
+> first, then the paper. 9.445 kg is the as-drawn, unpocketed geometry and A4 reports a 17×
+> stress margin, so a rib-stiffened redesign would recover mass; nobody has designed one.
 
 Two results have independent cross-checks: the Halbach airgap field (analytic wave model
 vs magpylib, agreeing to three digits) and orbital decay (orbit-averaged Gauss vs Cowell
@@ -105,11 +106,11 @@ RK4, 99.4 %). Everything else is single-sourced and correspondingly weaker.
 ```mermaid
 pie showData
     title Energy per shot (J)
-    "Sled KE, dissipated in the brake" : 1008
-    "Payload KE, the useful output" : 830
-    "Copper loss" : 672
+    "Sled KE, dissipated in the brake" : 1291
+    "Payload KE, the useful output" : 547
+    "Copper loss" : 828
     "Converter loss" : 97
-    "Auxiliary" : 26
+    "Auxiliary" : 31
 ```
 
 ```mermaid
@@ -135,7 +136,7 @@ These were argued out and should not be silently reopened; reasoning is in
 - **Ironless double-sided Halbach stator**, reusable sled carrying the magnets.
 - **Eddy-current brake for arrest.** Motor regeneration alone cannot stop the sled —
   braking force is bounded by the same thrust constant as acceleration.
-- **Sled kinetic energy is dissipated, not recovered.** The 32 % figure is therefore
+- **Sled kinetic energy is dissipated, not recovered.** The 20 % figure is therefore
   electrical-to-payload, with no regeneration credit.
 - **No CMGs or thrusters in attached mode**; the host stage absorbs recoil.
 - **Two transverse cassettes of six**, alternating feed to keep the centre of mass

@@ -161,11 +161,11 @@ Two that carry the argument:
 ```mermaid
 pie showData
     title Energy per shot (J) - sizing.py energy_closure
-    "Sled KE, dissipated in the brake" : 1008
-    "Payload KE, the useful output" : 830
-    "Copper loss" : 672
+    "Sled KE, dissipated in the brake" : 1291
+    "Payload KE, the useful output" : 547
+    "Copper loss" : 828
     "Converter loss" : 97
-    "Auxiliary" : 26
+    "Auxiliary" : 31
 ```
 
 547 J of 2796 J drawn reaches the payload. That is the 20 %, and it carries no regeneration

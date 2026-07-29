@@ -11,26 +11,28 @@ carry an independent cross-check. See [`PROVENANCE.md`](PROVENANCE.md).
 
 ## Where the energy goes
 
-2630 J leaves the capacitor bank per shot. 830 J of it ends up as payload kinetic energy —
-that is the 32 % figure, and it is electrical-to-payload with **no regeneration credit**,
-because the sled's 1008 J is dissipated in the eddy brake by design.
+2796 J leaves the capacitor bank per shot. 547 J of it ends up as payload kinetic energy —
+that is the 20 % figure, and it is electrical-to-payload with **no regeneration credit**,
+because the sled's 1291 J is dissipated in the eddy brake by design.
 
 ```mermaid
 pie showData
     title Energy per shot (J) — sizing.py energy_closure
-    "Sled KE, dissipated in the brake" : 1008
-    "Payload KE, the useful output" : 830
-    "Copper loss" : 672
+    "Sled KE, dissipated in the brake" : 1291
+    "Payload KE, the useful output" : 547
+    "Copper loss" : 828
     "Converter loss" : 97
-    "Auxiliary" : 26
+    "Auxiliary" : 31
 ```
 
-Accounted 2633 J against 2630 J drawn — 100.1 % closure, which is the arithmetic check that
-the budget has no missing term. Source: `analysis/results/sizing.json` → `energy_closure`.
+Accounted 2795 J against 2796 J drawn — 100.0 % closure, which is the arithmetic check that
+the budget has no missing term. Efficiency was 32 % until 2026-07-29; adopting the measured
+9.445 kg sled moved it to 20 %, because more of the same mechanical work now goes into a mass
+that is braked away, and the longer 157 ms pulse accrues more copper loss. Source: `analysis/results/sizing.json` → `energy_closure`.
 
 An earlier version of this project claimed 52 % efficiency by crediting 55 % of the sled's
 energy back as regeneration. That was double-counting: the arrest architecture throws that
-energy away. The correction to 32 % is recorded as A25/A27 in
+energy away. That correction, 52 % → 32 %, is recorded as A25/A27 in
 [`INVENTORY.md`](INVENTORY.md).
 
 ---
@@ -51,8 +53,10 @@ xychart-beta
 A ±2.5 % change in velocity moves the answer by more than an order of magnitude, from
 4.6 km to 63.4 km. It is a near-resonant beat sample, not a design property. The paper
 originally quoted a single figure — 45.3 km — as a safety result. It now rests on the
-**8.1-day phase realignment period**, which is robust, plus mandatory per-shot collision
-avoidance and host-stage disposal before first realignment.
+**phase realignment period** — 9.9 days at the current operating point — which is robust,
+plus mandatory per-shot collision avoidance and host-stage disposal before first realignment.
+The sweep above was computed at the superseded 20.37 m/s point and is kept as the evidence
+for P1: the fragility is a property of the beat geometry, not of any one velocity.
 
 Source: the P1 sweep table in [`OPEN_PROBLEMS.md`](OPEN_PROBLEMS.md), computed by
 `analysis/astro.py` `conjunction()`. `validation/A6_conjunction_cara.md` specifies the
@@ -71,8 +75,8 @@ mechanism or cassette behind them (`OPEN_PROBLEMS.md` E9).
 xychart-beta
     title "Exit velocity by payload class (m/s)"
     x-axis ["1U", "3U", "6U", "12U"]
-    y-axis "Exit velocity (m/s)" 0 --> 30
-    bar [24.4, 20.4, 16.9, 14.8]
+    y-axis "Exit velocity (m/s)" 0 --> 20
+    bar [18.5, 16.5, 14.5, 13.1]
 ```
 
 ```mermaid
@@ -80,11 +84,14 @@ xychart-beta
     title "Acceleration on the satellite (g) — 25 g qualification limit"
     x-axis ["1U", "3U", "6U", "12U"]
     y-axis "Acceleration (g)" 0 --> 25
-    bar [23.4, 16.3, 11.2, 8.5]
+    bar [13.4, 10.7, 8.3, 6.7]
 ```
 
-The 1U case at 23.4 g sits close to the 25 g limit that standard qualification testing
-assumes — the ceiling is the payload's tolerance, not the motor. Source:
+Every class now sits well inside the 25 g qualification limit — the 1U case peaks at 13.4 g,
+against 23.4 g before the sled mass was measured. The machine is no longer
+acceleration-limited but **thrust-and-mass limited**, so more than half the qualification
+margin goes unused and recovering velocity means removing mass or raising current, not
+shortening the stroke. Source:
 `analysis/results/motor_results.json` → `family`.
 
 ---
@@ -129,31 +136,38 @@ differences of large numbers and remain the least trustworthy row here.
 
 ---
 
-## The sled mass conflict, and how it gets settled
+## The sled mass conflict — settled 2026-07-29
 
-Two estimates of the same part disagree by 54 %, and the headline exit velocity hangs off
-which one is right.
+Two estimates of the same part disagreed by 94 %, and the headline exit velocity hung off
+which one was right. **The measurement won, and the rule that decided it was written first.**
 
 ```mermaid
 xychart-beta
     title "Sled mass estimates (kg) against the A4 decision thresholds"
-    x-axis ["Parametric (scripts)", "A4 lower bound", "A4 upper bound", "CAD geometry"]
-    y-axis "Mass (kg)" 0 --> 8
-    bar [4.86, 5.35, 6.80, 7.50]
+    x-axis ["Parametric", "A4 lower bound", "A4 upper bound", "CAD, measured"]
+    y-axis "Mass (kg)" 0 --> 10
+    bar [4.86, 5.35, 6.80, 9.445]
 ```
 
 The two middle bars are **not measurements** — they are the decision rule declared in
 [`validation/A4_sled_structural.md`](validation/A4_sled_structural.md) before the analysis
 runs:
 
-| Outcome | Consequence |
-|---|---|
-| ≤ 5.35 kg | Parametric model stands. 20.37 m/s holds, P5 and P8 close |
-| 5.35 – 6.80 kg | Neither estimate right. Scripts move, then the paper |
-| ≥ 6.80 kg | **17.88 m/s becomes the headline** and the paper changes materially |
+| Outcome | Consequence declared in advance | |
+|---|---|---|
+| ≤ 5.35 kg | Parametric model stands. 20.37 m/s holds, P5 and P8 close | |
+| 5.35 – 6.80 kg | Neither estimate right. Scripts move, then the paper | |
+| **≥ 6.80 kg** | **The headline changes and the paper changes materially** | ← **fired** |
 
-Fixing the thresholds in advance is the point. After the run, the temptation will be to
-pick whichever threshold preserves 20.37 m/s.
+Fixing the thresholds in advance was the point, because after the run the temptation is to
+pick whichever threshold preserves the nicer number. The measurement came in at **9.445 kg**,
+well past the top band; A4 then ran and found the drawn plate passes all three structural
+bands, so nothing forces a lighter chassis either. `analysis/` moved first and the paper
+followed — the first time a script value has changed in this project.
+
+What it cost: exit velocity 20.37 → **16.54 m/s**, efficiency 32 % → **20 %**. What it did
+not cost: the lifetime multiplier fell only ×1.80 → **×1.62**, because lifetime is a weak
+function of Δv. The mission case survives considerably better than the machine spec does.
 
 ---
 
@@ -188,15 +202,23 @@ Six analyses, each with its acceptance band declared before the run. Progress so
 |---|---|
 | A1 airgap field | `░░░░░░░░░░` specified |
 | A4 sled chassis | `████████░░` **run — as-drawn plate passes all 3 bands**; lightest-chassis question open |
-| A5 lifetime & seeding | `██████████` **run — FAIL. The ×1.80 point value survives at mean and high activity; its claimed invariance does not (P16)** |
+| A5 lifetime & seeding | `████████░░` **run — FAIL (P16), and now superseded: it was propagated at 20.37 m/s (P19)** |
 | A6 conjunction Pc | `░░░░░░░░░░` specified |
 | A7 separation & tip-off | `░░░░░░░░░░` specified |
-| A8 pulse-power chain | `██████████` **run — ngspice, all bands met, 2 findings** |
+| A8 pulse-power chain | `████████░░` **run — all bands met, 2 findings; netlist still at the old operating point (P19)** |
 
 ## GMAT cross-check (A5) — first real validation output
 
 GMAT R2022a was installed and run headless. This is the first number in this project
 produced by something other than its own scripts.
+
+> **Read this section as history, not as current validation.** Every GMAT run below was
+> propagated at **20.37 m/s**, the rated velocity before the measured sled mass was adopted
+> on 2026-07-29. The current point is 16.54 m/s and the script multiplier is ×1.62, so the
+> absolute numbers here no longer describe the design. **What does survive is the
+> falsification** — P16 is about the shape of the model, not the velocity, and a uniform
+> density scale cannot move a ratio at any Δv. Re-running A5 is scheduled in
+> [`ROADMAP.md`](ROADMAP.md); the staleness is logged as P19.
 
 ### Decay rate over a bounded 30-day window
 
