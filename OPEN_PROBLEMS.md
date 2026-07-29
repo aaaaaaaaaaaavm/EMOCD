@@ -3,7 +3,7 @@
 Two categories: **P-items are errors in the currently published paper** and should be
 fixed first. **E-items are genuinely unsolved engineering.**
 
-Last reviewed 2026-07-27.
+Last reviewed 2026-07-29.
 
 ---
 

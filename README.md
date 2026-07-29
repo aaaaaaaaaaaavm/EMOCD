@@ -219,6 +219,25 @@ whether that build is the one that was submitted is open (`OPEN_PROBLEMS.md` P11
 cause, before/after, and references is in `CHANGELOG.md`; the original defects remain
 documented in `OPEN_PROBLEMS.md` P1–P4 for the audit trail.
 
+**Two issues are live rather than historical, and both sit in the paper:**
+
+- **P16 — the invariance claim in the abstract is falsified.** GMAT reproduces the ×1.80
+  lifetime multiplier at mean and high solar activity but gives ×2.074 at low, an 18.5 %
+  spread against a ≤5 % band. The reason is that `astro.py` varies solar activity by scaling
+  density uniformly, which preserves a ratio *by construction* — and the ballistic-coefficient
+  half of the same sentence is the identical construction, since `scale` and `1/BC` occupy the
+  same slot in the drag term. Neither half of that claim was ever tested by a method capable
+  of falsifying it. **`paper/paper.tex` still asserts it in five places, including the
+  abstract**, because there is no TeX engine here and editing the source without rebuilding
+  the PDF would split the two.
+- **P11 — which build was actually submitted is unresolved.** Until that is answered, it is
+  not known whether the version of record carries P1–P4 *and* the falsified abstract claim.
+
+Newest entries: **P17** (the inter-array attraction feeding the A4 FEA is 37 % high — found
+by an independent 3-D force integration, and it makes A4 more conservative rather than
+wrong), and **P18/E19–E22** (four physical terms no script contains, as distinct from
+analyses not yet run).
+
 ## Author
 
 Adityavardhan Mishra — Department of Mechanical Engineering, Symbiosis Institute of
