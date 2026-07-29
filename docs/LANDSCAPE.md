@@ -15,7 +15,7 @@ last-mile transfer vehicles at the other end of the market.
 | | **Spring deployers** | **EMOCD** | **Orbital transfer vehicles** |
 |---|---|---|---|
 | Examples | P-POD, ISIPOD, NRCSD, CSD, EXOpod, **Dhruva DSOD** | this design study | D-Orbit ION, Momentus Vigoride |
-| Δv imparted | **1–2 m/s** | **16.5–20.4 m/s** (model) | hundreds of m/s upward, propulsive |
+| Δv imparted | **1–2 m/s** | **16.5 m/s** (model) | hundreds of m/s upward, propulsive |
 | Mechanism | compressed spring | linear synchronous motor, reusable sled | chemical or electric propulsion |
 | Programmable per satellite | no | **yes** — the distinguishing claim | yes, by manoeuvre |
 | Satellite modification | none (CDS rails) | **none** — magnets ride the sled | mounting to the carrier |
@@ -27,13 +27,13 @@ unmodified CubeSat. Springs cannot, and OTVs solve a different problem at a diff
 
 ## Against the incumbents, honestly
 
-**Mass per satellite is the surprise, and it is not embarrassing.** EMOCD's 72.3 kg dry
-carries twelve 3U satellites — **6.0 kg of deployer per satellite**. Planetary Systems'
+**Mass per satellite is the surprise, and it is not embarrassing.** EMOCD's 76.9 kg dry
+carries twelve 3U satellites — **6.4 kg of deployer per satellite**. Planetary Systems'
 canisterized dispensers run about 2 kg per U (12 kg for 6U, 24 kg for 12U, 54 kg for 27U),
 so a 3U-equivalent slot is in the same 6 kg neighbourhood. A magazine-fed electromagnetic
 launcher lands in the same mass class as a canister of springs, per satellite.
 
-Two caveats that cut against EMOCD: the 72.3 kg **excludes** the enclosure, radiator and
+Two caveats that cut against EMOCD: the 76.9 kg **excludes** the enclosure, radiator and
 avionics (P10, open), and springs need no power, no capacitor bank, no thermal system and no
 sequencer.
 
@@ -116,7 +116,7 @@ than a physics one.
 | Concept occupies a genuinely unserved regime | **yes** |
 | Mass per satellite competitive with fielded dispensers | **yes**, with P10 outstanding |
 | Programmable velocity, no satellite modification | **yes**, and unique |
-| Delivers the 20.37 m/s it advertises | **not as drawn** — 16.5 m/s at the measured sled mass (P15) |
+| Delivers the velocity it advertises | **yes, since 2026-07-29** — it now advertises the 16.54 m/s the measured geometry gives |
 | Gentler tip-off than a spring | **unproven** — A7 not run |
 | Dispersion better than a spring | **unproven** — rests on assumed sensor noise (E7) |
 | Anything built or measured | **no** |

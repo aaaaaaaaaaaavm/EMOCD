@@ -85,7 +85,17 @@ radiation between shots relieves. Same correction applies to the coil: 0.28 K pe
 > geometry values below are traceable to `cad/parameters.json`. **No number in
 > `analysis/*.py` or `paper/paper.tex` has been changed** on the strength of the CAD.
 
-### P5. CAD sled mass contradicts the parametric assumption — HIGH PRIORITY
+### P5. CAD sled mass contradicts the parametric assumption — RESOLVED 2026-07-29
+> **RESOLVED.** `motor_model.M_SLED` and `sizing.M_SLED` now carry the measured **9.445 kg**
+> (P15), not the 4.86 kg parametric estimate. A4 ran, the drawn plate passed all three
+> structural bands, and the measurement fell in the decision rule's ≥ 6.80 kg branch, so the
+> rule resolved this rather than a judgement call. **Caveat carried forward:** 9.445 kg is
+> the as-drawn, unpocketed geometry and A4 reports a 17× stress margin, so a rib-stiffened
+> chassis would recover mass. Designing one is the open successor to this item
+> (`ROADMAP.md`), and it is tracked under E2 rather than here.
+
+Original item follows for the audit trail.
+
 > **UPDATE 2026-07-28 — A4 structural leg has RUN (CalculiX).** The as-drawn 6 mm plate
 > passes every declared band: 0.0194 mm airgap closure against a 0.025 mm per-plate budget,
 > 33.7 MPa against 587 allowable, first mode 3408 Hz against >200. So there is **no
@@ -114,7 +124,16 @@ point, on an 1800 mm longeron. The sled runs on into the brake after the payload
 extend past release, which drives the envelope length (see P9). Source:
 `cad/parameters.json` (brake, track).
 
-### P8. Exit velocity provisionally 17.88 m/s pending sled structural FEA — HIGH PRIORITY
+### P8. Exit velocity provisionally 17.88 m/s pending sled structural FEA — RESOLVED 2026-07-29
+> **RESOLVED, and not at 17.88 m/s.** That figure came from the 7.50 kg CAD estimate. The
+> measured mass is 9.445 kg, so the rated velocity is **16.537 m/s at 10.7 g**, now
+> propagated into `analysis/`, `paper/paper.tex`, the figures and every front page. The
+> machine is no longer acceleration-limited: at 10.7 g against a 25 g cap it is
+> thrust-and-mass limited, which changes what recovering velocity means (mass or current,
+> not stroke).
+
+Original item follows for the audit trail.
+
 If the CAD sled mass (P5) holds, exit velocity falls from the script's **20.37 m/s** to a
 provisional **~17.88 m/s** (with acceleration ~12.5 g, efficiency ~24 %, recoil
 ~71.5 N·s, lifetime multiplier ×1.68 — all CAD-corrected and provisional). **These values
@@ -166,7 +185,17 @@ withdrawing, submitting an erratum, or correcting at the camera-ready stage, and
 the outcome here. If the submitted build was in fact compiled from the corrected
 `paper.tex`, delete this item and say so in `CHANGELOG.md`.
 
-### P12. The paper contradicts the CAD in two places — NEW 2026-07-27
+### P12. The paper contradicts the CAD in two places — RESOLVED 2026-07-29
+> **RESOLVED in `paper/paper.tex`.** The Limitations section no longer says masses derive
+> from a parametric model rather than detailed CAD; it states what the CAD measured and what
+> that costs. The ESPA-Grande envelope is no longer asserted as a capability — the
+> requirement statement, the Fig. 2 caption and the accommodation section now record 1839 mm
+> against the ~1270 mm class and name it an open packaging problem (P9). The mounting-interface
+> statements were true and are unchanged. **The committed PDF still predates these edits**;
+> see `paper/README.md`.
+
+Original item follows for the audit trail.
+
 Found while sweeping the repository for stale values. Both are prose claims, not computed
 numbers, and neither has been changed in `paper/paper.tex`:
 
@@ -241,7 +270,14 @@ and left in place there with a note rather than edited:
 The sled fix **is** verifiable: Gen2 chassis half-length measures 180 mm (360 mm plate),
 Gen3 measures 244 mm (488 mm plate), so G2-D1 is genuinely closed.
 
-### P15. The Gen3 sled as drawn is 9.45 kg, above BOTH existing estimates — HIGH, NEW 2026-07-28
+### P15. The Gen3 sled as drawn is 9.45 kg, above BOTH existing estimates — RESOLVED 2026-07-29
+> **RESOLVED by adoption.** 9.445 kg is now the operating point across `analysis/`, the
+> paper and the figures. `mass_properties.py` keeps the parametric breakdown for the record
+> and carries the 4.59 kg difference as an explicit reconciliation line, so system dry mass
+> (76.9 kg, up from 72.3) no longer understates.
+
+Original item follows for the audit trail.
+
 Measured on 2026-07-28 from `cad/step/gen3/EMOCD_Sled_Gen3.step`: exact solid volumes from
 the OpenCASCADE kernel, times material densities (NdFeB 7500 kg/m3 is this repo's own value,
 from `sizing.py`).

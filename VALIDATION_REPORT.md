@@ -237,16 +237,35 @@ superseded. No current script defines a bank ESR at all — which is part of the
 
 ## What this changes
 
-The astrodynamics claim is now half-confirmed and half-broken. The ×1.80 multiplier itself
-stands up at mean and high solar activity, checked by an independently implemented
-propagator. Its **invariance** does not survive, and the reason is that `astro.py`'s
-invariance sweep varies density by a uniform factor, which cannot move a ratio. The paper
-nominates that invariance as its defensible result.
+*Updated 2026-07-29, after the propagation.*
 
-The performance claim is in worse shape. The headline 20.37 m/s rests on a 4.86 kg sled that
-the drawn geometry does not support, and the electrical margin is quoted against a voltage
-the drive never sees.
+**The performance claim has been settled, downward.** The headline 20.37 m/s rested on a
+4.86 kg sled the drawn geometry does not support. A4 ran, the plate passed all three
+structural bands, and the measured 9.445 kg fell in the decision rule's ≥ 6.80 kg branch — so
+`analysis/` moved to **16.537 m/s at 10.7 g**, and the paper and figures followed. This is
+the first script value this project has changed, and it was authorised by a rule written
+before the analysis that triggered it.
 
-Neither of those is a reason to change a script today. Both are reasons to run A4 properly
-and to put an ESR in the shot model — and, per the standing rule, to fix the paper only
-after the analysis lands, not before.
+**The astrodynamics claim is half-confirmed and half-broken, and the broken half is worse
+than first recorded.** The ×1.80 multiplier of the day stood up at mean and high solar
+activity under an independently implemented propagator. Its *invariance* did not — and the
+ballistic-coefficient half of the same claim is the identical tautology, since `scale` and
+`1/BC` occupy the same multiplicative slot in the drag term. Neither half was ever tested by
+a method that could fail. The paper nominated that invariance as its defensible result; it no
+longer does.
+
+**Three things remain open and are now scheduled rather than merely noted** (`ROADMAP.md`):
+
+1. **Every run here predates the operating point it validates** (P19). A5 and A8 were both
+   propagated at 20.37 m/s. A4 survives — its load is magnetostatic and velocity-independent
+   — but it is separately 37 % high (P17). A8 is minutes to redo; A5 is days, and neither
+   should be redone before the chassis question is settled or the staleness simply recurs.
+2. **The lightest chassis has never been designed.** A4 answers "does the drawn plate meet
+   the constraint" (yes, with 17× stress margin) and not "what is the lightest one that
+   does". Until someone evaluates a rib-stiffened redesign, 9.445 kg is the honest number and
+   the pocketing rows in `docs/DESIGN_OPTIONS_exit_velocity.md` are unsupported.
+3. **The electrical margin is still quoted against a voltage the drive never sees**, and no
+   current script defines a bank ESR at all (E17).
+
+The standing rule held throughout: the discrepancy was recorded, the analysis was run, and
+only then did anything propagate — once, in the order scripts → figures → paper.
