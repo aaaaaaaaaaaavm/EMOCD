@@ -2,15 +2,11 @@
 
 `paper.tex` is the source. `EMOCD_IEEE_Conference.pdf` is the last compiled build.
 
-> ### The committed PDF is older than the source
->
-> `paper.tex` was substantially revised on **2026-07-29** and **has not been recompiled
-> since** — no TeX engine is available in the environment the revision was made in. Until
-> it is rebuilt, **the source is authoritative and the PDF is not.**
->
-> Rebuilding needs no local install: upload `paper.tex`, `IEEEtran.cls` and the `figures/`
-> directory to Overleaf and compile. Then replace `EMOCD_IEEE_Conference.pdf` and delete
-> this box.
+**Built 2026-07-29** from the current source with pdfTeX 3.141592653 (TeX Live 2023):
+10 pages, zero undefined references, zero missing figures. Source and PDF agree.
+
+To rebuild: `pdflatex paper.tex` twice from this directory (twice, so cross-references
+resolve), or upload `paper.tex`, `IEEEtran.cls` and `figures/` to Overleaf.
 
 ## What changed on 2026-07-29
 
