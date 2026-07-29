@@ -196,7 +196,7 @@ attraction only, no launch or arrest loads.
 
 | Analysis | Status |
 |---|---|
-| **A1** airgap field, magnetostatic FEA | **Not run.** Recorded here as blocked because FEMM is Windows-only; FEMM under Wine and native-Linux Elmer/GetDP are both live paths (`docs/RELATED_WORK.md`), so this is a not-yet, not a cannot. The field remains checked only analytic-vs-analytic (wave model vs magpylib), which E2 already says is not confirmation by a different physical method. **K<sub>t</sub> = 11.22 N per kA/m is therefore still single-method.** |
+| **A1** airgap field, magnetostatic FEA | **RUN 2026-07-29 — thrust band met at ratio 1.001.** See section 5. |
 | **A4** sled structural | **Run** — see section 4b. Mass measured, stiffness/stress/modal computed. What remains is the optimisation question: the lightest chassis meeting the constraint, which needs a rib-stiffened study. |
 | **A6** conjunction P<sub>c</sub> | **Not run.** Needs a covariance that does not exist for an unflown satellite (E18), and the CARA tools are MATLAB. |
 | **A7** separation and tip-off | **Not run.** Recorded here as "Project Chrono is not installable" — **that verdict is now in doubt**: `pychrono` ships on conda-forge rather than PyPI and lists linux-64, so a failed `pip install` is the likely cause. Retry before treating A7 as blocked. Tip-off remains a model output with no multibody model behind it, and the acceptance band it would be judged against may itself be mis-sourced (`docs/LANDSCAPE.md`). |
@@ -234,6 +234,64 @@ Related: ∫I² dt over the shot is 8008 A²s. At 12 mΩ that is 96 J of ESR los
 superseded. No current script defines a bank ESR at all — which is part of the problem.)*
 
 ---
+
+## 5. Airgap field — 2-D magnetostatic FEM (A1)
+
+**The most important validation this project has run**, because K<sub>t</sub> = 11.22 N per
+kA/m sets exit velocity, efficiency and every downstream astrodynamic number — and until now
+it had only ever been checked *analytic against analytic*. The closed-form travelling-wave
+model and magpylib both superpose analytic solutions for uniformly magnetised blocks. Neither
+solves a field equation.
+
+A1 does. Vector-potential magnetostatics on a triangular mesh (scikit-fem P1, gmsh),
+**141 k elements**, 0.6 mm airgap mesh, Az = 0 on a 500 mm box. Geometry and magnetisation
+imported from `motor_model.py` so the two cannot describe different machines; sampling windows
+copied from `verify_field.py` so they are compared at the same places.
+
+| Quantity | FEM | Reference | Ratio | Band | |
+|---|---|---|---|---|---|
+| Midgap peak | 0.6947 T | 0.6942 | **1.001** | ±5 % | pass |
+| Winding mean \|B\| | 0.5523 T | 0.5518 | **1.001** | ±5 % | pass |
+| **Thrust at 140 kA/m** | **1571.9 N** | **1570.8** | **1.001** | **±10 %** | **pass** |
+| Stray at 10 mm | 26.3 mT | 22.7 | 1.160 | factor 1.5 | pass |
+| Stray at 20 mm | 4.91 mT | 4.3 | 1.142 | factor 1.5 | pass |
+| Array-surface peak | 1.4641 T | 0.7714 | 1.898 | ±5 % | **miss — P20** |
+| Stray at 50 mm | 0.929 mT | 0.4 | 2.322 | factor 2 | **miss — P21** |
+
+**K<sub>t</sub> = 11.228 N per kA/m against 11.22, and ripple 1.25 % against 1.26 %.** An
+independently implemented method — a meshed PDE solve rather than superposition — reproduces
+the number every headline in this project descends from, to **0.07 %**.
+
+### Both misses have identified causes, and neither is a model error
+
+**P20 — the run sheet's reference was wrong for that row.** The array-surface band was declared
+against `analytic_B0_surface_T` = 0.7714 T, the fundamental of a **single** array's wave. Any
+measurement at that plane in a double-sided machine includes the opposing array, worth
+`B0·exp(-k·GAP)` = 0.160 T there. Correct reference: **0.9317 T**. The FEM's fundamental is
+**0.9312 T, ratio 0.9994.** The row failed as declared and the model is right; both are
+recorded, and **the band was not widened** — `A1_field_femm.md` stands exactly as written on
+2026-07-27, because a run sheet edited after seeing results is worth nothing.
+
+**P21 — 2-D cannot test the far field.** The FEM has infinite depth; the array is 90 mm deep.
+At 10 and 20 mm the observation distance is small against that and the two agree. At 50 mm it
+is comparable, a finite source falls off faster, and 2-D necessarily overestimates. Converged,
+not noise: 0.93 mT across boxes from 0.5 to 0.8 m and meshes from 32 k to 141 k elements. The
+magpylib reference models finite blocks exactly and is the better number here.
+
+### What was checked before concluding
+
+The run sheet names air-box size as the first suspect on a miss, so it was tested first.
+Box 0.20 → 0.80 m moves midgap by 0.2 %, winding by 1.3 %, **K<sub>t</sub> by 0.07 %** — all
+converged. Mesh 32 k → 141 k elements moves K<sub>t</sub> by 0.2 %. The stray rows move with
+both, which is why their bands were declared loose and why the 50 mm row needed a physical
+explanation rather than a numerical one.
+
+Detail: [`validation/results/A1_femm.json`](validation/results/A1_femm.json). Script:
+[`validation/fem/a1_airgap_field.py`](validation/fem/a1_airgap_field.py).
+
+> **Note on the solver.** The run sheet names FEMM, which is Windows-only and was not
+> available. This is a meshed differential-FEM solve of the same 2-D problem, which is what E2
+> actually asks for — recorded as what it is rather than presented as FEMM.
 
 ## What this changes
 

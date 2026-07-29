@@ -30,13 +30,13 @@ constellation phase spacing in **1.4–6.9 days** against roughly 25 for differe
 |---|---|---|
 | Exit velocity, 3U | **16.5 m/s at 10.7 g** | Eight times a spring. From a sled mass *measured* in CAD (9.445 kg), not estimated — the earlier 4.86 kg parametric estimate gave 20.4 m/s |
 | Velocity dispersion | **0.027 m/s (3σ)** | Closed-loop, at a 16.2 m/s setpoint. Rests on *assumed* sensor noise (E7) — the differentiator, and the least validated part |
-| Thrust constant | **11.22 N per kA/m** | Winding-resolved. Checked only analytic-against-analytic; a second physical method is the top roadmap item |
+| Thrust constant | **11.22 N per kA/m** | Winding-resolved, and **confirmed 2026-07-29 by a meshed magnetostatic FEM to 0.07 %** — a PDE solve, not another superposition |
 | Energy per shot | **2.80 kJ**, 20 % electrical-to-payload | Under one watt-hour. No regeneration credit — the sled's energy is dissipated by design |
 | System mass | **76.9 kg dry**, 124.9 kg loaded | **6.4 kg of deployer per 3U satellite**, the same class as canisterized dispensers at ~2 kg/U |
 | Recurring hardware | ~₹1.35 M per unit, ₹112 k per satellite | **Every price assumed, no quotations.** Useful part: avionics + energy storage are ~42 % of cost and the magnet set only ~5 %, which holds even at 2× price errors |
 | Envelope | 1839 mm closed | **Exceeds the ESPA-Grande class by ~44 %.** Open packaging problem (P9) |
 
-**Maturity: TRL 2–3. Nothing has been built, fired, or measured.** Three of eight specified
+**Maturity: TRL 2–3. Nothing has been built, fired, or measured.** Four of nine specified
 validations have been run, each against an acceptance band declared *before* the run — and
 all three predate the current operating point, which is itself logged as a defect (P19).
 

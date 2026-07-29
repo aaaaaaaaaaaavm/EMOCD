@@ -488,9 +488,60 @@ argues for closing the rib-stiffened-chassis question (P5, E2) **first**.
 **Do not quietly restate the old results as if they still applied.** Every place the repo
 quotes A5 or A8 numbers now needs the velocity they were obtained at stated alongside.
 
+### P20. The A1 run sheet's array-surface reference is mis-specified — LOW, NEW 2026-07-29
+A1 ran and missed two of its seven declared bands. **One of the two is a defect in the run
+sheet, not in the model.**
+
+`validation/A1_field_femm.md` declares the array-surface band against
+`analytic_B0_surface_T` = 0.7714 T. That is the fundamental amplitude of a **single** array's
+ideal Halbach wave at its own surface. But any measurement at that plane in a **double-sided**
+machine inevitably includes the opposing array, whose contribution there is
+`B0·exp(-k·GAP)` = 0.160 T. The correct double-sided reference is **0.9317 T**.
+
+The FEM's fundamental at that plane is **0.9312 T — a ratio of 0.9994 against the correct
+value.** Measured as a raw peak it reads 1.4641 T, because the plane sits on the magnet face
+where block-corner harmonics dominate and the field is formally singular at the corners; a raw
+peak there is mesh-dependent and is not the same quantity as a fundamental amplitude either.
+
+**So the row failed as declared, and the model is right.** Both statements are true and both
+are recorded. The band is **not** widened — `validation/A1_field_femm.md` is left exactly as
+written on 2026-07-27, because a run sheet edited after seeing results is worth nothing. The
+correction belongs in the *next* run sheet.
+
+**Fix:** when A2 (3-D) is specified, declare the array-surface band against the double-sided
+value and against the **fundamental**, not a raw peak. Two references need naming, not one.
+
+### P21. Stray field at 50 mm: 2-D cannot test the far field — LOW, NEW 2026-07-29
+The second A1 band miss. FEM gives 0.93 mT against a 0.4 mT reference, ratio **2.32** against
+a factor-2 band.
+
+**Cause identified, and it is geometric.** The FEM is 2-D: the array is infinitely long out of
+plane. The real array is **90 mm deep**. At 10 and 20 mm behind the back face the observation
+distance is small against that depth and the two agree (ratios 1.16 and 1.14, both inside
+band). At 50 mm the distance is comparable to the depth, a finite source falls off faster than
+an infinite one, and the 2-D model necessarily overestimates.
+
+This is **converged, not noise**: the value sits at 0.93 mT across box sizes 0.5–0.8 m and
+across mesh refinements from 32 k to 141 k elements.
+
+**Consequence:** a 2-D method cannot validate this row, by construction. `A1_field_femm.md`
+already says A1 "does not close 3-D end effects" — this is that limitation showing up in the
+one row most sensitive to it. The magpylib reference, which models finite 90 mm blocks
+exactly, is the more trustworthy number here and the FEM is not evidence against it.
+
+**Do not** change `verify_field.py`. The row needs A2, a 3-D solve.
+
 ## E — Unsolved engineering
 
-### E1. Three-dimensional field closure — half of it is now set up, not run
+### E1. Three-dimensional field closure — 2-D HALF CLOSED 2026-07-29 by A1
+> **A1 has run.** A meshed 2-D magnetostatic FEM (scikit-fem P1, 141 k elements, gmsh) gives
+> **K_t = 11.228 N per kA/m against the model's 11.22 — a ratio of 1.0007** — with force
+> ripple 1.25 % against 1.26 %. Midgap peak and winding mean both land at ratio 1.001.
+> **The thrust band, the one that matters, is met.**
+>
+> What remains open is the 3-D half: end effects on a 340 mm array of finite 90 mm depth.
+> P21 is that limitation showing up directly — the 2-D model overestimates far field because
+> it has infinite depth. That needs A2.
 `motor_model.py` resolves the winding in 2-D. End effects of a few percent on Kt remain
 uncomputed. This is the declared close-out task for the electromagnetic model. The
 magnetostatic package now exists — `analysis/femm/emocd_cross_section.dxf` plus
@@ -500,7 +551,15 @@ winding-resolved model and should not be used. **Nothing has been run.** A1 clos
 2-D half; the 3-D end effects still need a 3-D solver (Elmer or GetDP are the free
 options). Acceptance band declared in `validation/A1_field_femm.md`.
 
-### E2. No FEA confirmation of anything
+### E2. No FEA confirmation of anything — PARTIALLY CLOSED
+> **Two FEA results now exist.** A4 (CalculiX, structural) ran 2026-07-28. **A1 (magnetostatic)
+> ran 2026-07-29** and is the one that matters most: K_t had only ever been checked
+> analytic-against-analytic — a closed-form wave model against magpylib, both superposing
+> analytic solutions for uniform blocks, neither solving a field equation. A1 solves the PDE on
+> a mesh and agrees to 0.07 %.
+>
+> Still open: no FEA of the track, the brake, or the cassette structure; and no 3-D
+> electromagnetic solve (E1).
 The field cross-check is analytic-vs-analytic (both magpylib and the wave model assume
 ironless geometry, where superposition is exact). That is a genuine check of the wave
 model but is NOT independent confirmation from a different physical method. Two analyses

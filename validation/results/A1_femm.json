@@ -1,0 +1,80 @@
+{
+  "analysis": "A1",
+  "method": "2-D magnetostatic FEM, vector potential, P1 Lagrange",
+  "solver": "scikit-fem 12.0.2 + gmsh 4.15.2",
+  "note_on_solver": "The run sheet names FEMM. FEMM is Windows-only and was not available; this is a meshed differential-FEM solve of the same 2-D problem, which is what E2 asks for. Recorded rather than presented as FEMM.",
+  "bands_declared_in": "validation/A1_field_femm.md",
+  "mesh_elements": 140750,
+  "airgap_mesh_mm": 0.6,
+  "box_margin_mm": 500.0,
+  "boundary": "Az = 0 on the far box",
+  "results": [
+    {
+      "quantity": "double_midgap_peak_T",
+      "fem": 0.6947,
+      "reference": 0.6942,
+      "ratio": 1.0007,
+      "band": "+/-5%",
+      "within_band": true
+    },
+    {
+      "quantity": "array_surface_peak_T",
+      "fem": 1.4641,
+      "reference": 0.7714,
+      "ratio": 1.8979,
+      "band": "+/-5%",
+      "within_band": false
+    },
+    {
+      "quantity": "winding_mean_absB_T",
+      "fem": 0.5523,
+      "reference": 0.5518,
+      "ratio": 1.001,
+      "band": "+/-5%",
+      "within_band": true
+    },
+    {
+      "quantity": "thrust_at_140kA_N",
+      "fem": 1571.9015,
+      "reference": 1570.8,
+      "ratio": 1.0007,
+      "band": "+/-10%",
+      "within_band": true
+    },
+    {
+      "quantity": "stray_10mm_mT",
+      "fem": 26.3325,
+      "reference": 22.7,
+      "ratio": 1.16,
+      "band": "factor 1.5",
+      "within_band": true
+    },
+    {
+      "quantity": "stray_20mm_mT",
+      "fem": 4.9124,
+      "reference": 4.3,
+      "ratio": 1.1424,
+      "band": "factor 1.5",
+      "within_band": true
+    },
+    {
+      "quantity": "stray_50mm_mT",
+      "fem": 0.9289,
+      "reference": 0.4,
+      "ratio": 2.3223,
+      "band": "factor 2.0",
+      "within_band": false
+    }
+  ],
+  "Kt_N_per_kA": 11.228,
+  "Kt_reference": 11.22,
+  "ripple_pct": 1.25,
+  "ripple_reference": 1.26,
+  "surface_fundamental_T": 0.9312,
+  "surface_fundamental_vs_double_sided": 0.9994,
+  "bands_missed": [
+    "array_surface_peak_T",
+    "stray_50mm_mT"
+  ],
+  "verdict": "PARTIAL -- thrust band met; see bands_missed and the write-up for causes"
+}

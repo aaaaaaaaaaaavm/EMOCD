@@ -19,21 +19,23 @@ for closing them. This is that plan.
 |---|---|
 | Maturity | TRL 2–3. Analysis and CAD complete; nothing built or measured |
 | Rated performance | **16.5 m/s at 10.7 g**, from a sled mass measured in CAD, not estimated |
-| Validations run | 3 of 8 — **but all three predate the current operating point** (P19) |
-| Biggest single gap | K<sub>t</sub> = 11.22 N per kA/m is checked only analytic-against-analytic. Every headline number is downstream of it |
+| Validations run | **4 of 9** — A1 is at the current operating point; A5 and A8 still predate it (P19) |
+| Biggest single gap | ~~K<sub>t</sub> single-method~~ **closed 2026-07-29 by A1** (FEM agrees to 0.07 %). Now: nothing has been measured at any scale (E4) |
 | Paper | Source and PDF both current as of 2026-07-29 — rebuilt, 10 pages, zero undefined references |
 
 ---
 
 ## Next — by end of August 2026
 
-**1. A1, the airgap field.** *Closes E1, E2; underwrites every other number.*
-The thrust constant has never been checked by a second physical method. FEMM 4.2 runs under
-Wine (documented at `femm.info/wiki/linuxsupport`; `py2femm` automates the Lua path), and
-Elmer or GetDP+Gmsh are native-Linux alternatives that are meshed differential FEM rather
-than integral superposition. The DXF and run sheet already exist in `analysis/femm/`, so
-this is an install problem, not a modelling one. **Do this first.** If K<sub>t</sub> is
-wrong, everything below is re-work.
+**1. ~~A1, the airgap field.~~ DONE 2026-07-29.** *Closed the 2-D half of E1; gave E2 its
+first electromagnetic FEA.*
+A meshed 2-D magnetostatic FEM (scikit-fem P1 + gmsh, 141 k elements) gives
+**K<sub>t</sub> = 11.228 N per kA/m against 11.22 — ratio 1.0007** — with ripple 1.25 %
+against 1.26 %. FEMM was not needed; a differential-FEM solve is what E2 actually asked for.
+Two of seven bands missed, both with causes identified and **neither a model error**: P20 (the
+run sheet's array-surface reference was mis-specified — against the correct double-sided value
+the FEM matches to 0.06 %) and P21 (2-D has infinite depth and cannot test far field).
+**What is now the top gap: nothing has been measured at any scale.**
 
 **2. Re-run A8.** *Closes half of P19.*
 Minutes of work — `validation/spice/emocd_shot.cir` needs its `.param` line moved to the

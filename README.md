@@ -79,7 +79,7 @@ electrical-to-payload and carries no regeneration credit.
 
 | Quantity | Value | Source |
 |---|---|---|
-| Thrust constant | 11.22 N per kA/m, ±1.26 % ripple | `analysis/motor_model.py` |
+| Thrust constant | 11.22 N per kA/m, ±1.26 % ripple — **confirmed by FEM to 0.07 %** | `analysis/motor_model.py`, A1 |
 | Exit velocity, 3U | **16.54 m/s at 10.7 g** | `analysis/motor_model.py` |
 | Electrical→payload efficiency | 20 % (2.80 kJ drawn, 547 J delivered) | `analysis/motor_model.py` |
 | Closed-loop dispersion | 0.027 m/s (3σ) at a 16.2 m/s setpoint → ±0.10 km apogee | `analysis/motor_model.py` |
@@ -161,8 +161,11 @@ where possible. Four analyses were actually run; three could not be.
   state-of-charge, not the terminal voltage the drive sees.
 - **All three of those runs now predate the current operating point** (**P19**). A4 survives
   — its load is magnetostatic and velocity-independent — but A5 and A8 need re-running.
-- **Not run:** A1, so K<sub>t</sub> = 11.22 N per kA/m remains checked only
-  analytic-against-analytic; A6; A7.
+- **A1 has run (2026-07-29).** A meshed 2-D magnetostatic FEM gives K<sub>t</sub> = 11.228 N
+  per kA/m against the model's 11.22 — **ratio 1.0007**, ripple 1.25 % against 1.26 %. The
+  number every headline descends from is no longer checked only analytic-against-analytic.
+  Two of seven bands missed, both with identified causes and neither a model error (P20, P21).
+- **Not run:** A6, A7, A9.
 
 ## Charts
 
