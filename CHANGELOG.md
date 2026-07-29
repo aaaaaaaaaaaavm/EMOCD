@@ -450,6 +450,37 @@ not the problem, had been the obstacle.
 
 ---
 
+## 2026-07-29 (governance) — the Engineering Programme adopted, four repositories stood up
+
+The Engineering Programme Dossier v1.0 and TRB Prompt v1.0 now govern this project. A review
+against both found six gaps; all are closed here. **This entry adds documents and zero
+engineering** — right once, because the dossier asks for exactly this before new concepts, but
+it must not become the pattern. The next work is A1.
+
+| ID | Item | Detail |
+|---|---|---|
+| GOV-01 | **Governing documents committed verbatim** | `docs/programme/`. They existed only as uploads; a repository whose authoritative record lacks the document governing it has a hole exactly where this project claims strength. |
+| GOV-02 | **Two amendments recorded, not buried** | `docs/programme/ADOPTION.md`. §3 designates repos 2–4 *Future* and we created them; §9 defines no Phase II promotion route and we added one. Both carry authorisation, reasoning, and the risk they create. **The dossier itself is not edited** — a governing document that quietly changes to match practice is not governing anything. |
+| GOV-03 | **`BASELINE.md` — generated, not typed** | `tools/make_baseline.py` reads 20 values from `analysis/results/*.json`. A hand-typed baseline is a set of numbers that can silently disagree with the scripts, which is the defect class this repo logs twice (P16, P19). `git diff --exit-code BASELINE.md` after regeneration is now a real check. |
+| GOV-04 | **The change-control rule** | What may move the baseline: error correction, a validation outcome against a pre-declared band, a defect that makes a deliverable wrong. What may not: anything motivated by *better* rather than *correct*. **The boundary is by type, not convenience** — the momentum-transfer release is the most interesting idea here and defers; P17 is tedious and does not. |
+| GOV-05 | **`WHY.md`** | The author's statement of intent, and the reason the programme is split in two: a named tendency to spiral into redesign, structurally constrained rather than resisted by willpower. |
+| GOV-06 | **Seventeen ADRs** | `docs/adr/`. `DECISION_LOG.md` is not superseded — its prose became the Context sections. 012–017 record decisions never written down anywhere, including the three second-order effects of the sled-mass change that were not obvious at the time. |
+| GOV-07 | **`docs/PHASE_II.md` — the gate** | Items reviewed **only at baseline boundaries**, each against an entry criterion **written when it was deferred**. Same discipline as declaring acceptance bands before a run: a criterion written afterwards is written by someone who already knows what they want the answer to be. |
+| GOV-08 | **`docs/MANUFACTURING.md` — and a finding** | Three budgets were being conflated: 1.000 mm clearance, A4's 0.025 mm deflection band, and the 0.050 mm shim *setting* spec. **The build stack had never been computed.** RSS of seven contributors is 0.101 mm; with A4's deflection bias the total is 0.121 mm → **1.58 % thrust spread against the 0.65 % claimed, 2.4×.** Not a contact risk (12 % of clearance) but the paper's open-loop spread counted the shim and not the parts. **Not propagated** — the contributors are assumptions. Ranking is the deliverable: track straightness and plate flatness dominate, and tightening the shim is nearly worthless. |
+| GOV-09 | **Halbach assembly named as the largest manufacturability unknown** | 2.69 kN closing on brittle sinter, magnetisation order undecided, and absent from cost, schedule and the qualification plan. |
+| GOV-10 | **`docs/CROSS_INDUSTRY.md` — sourced, not asserted** | **E21 substantially retires by citation** (ESA Space Tribology Handbook; MoS₂; twelve cycles is trivial). **E19 characterised** — segmentation is the standard mitigation and it costs thrust, a design option this project lacked. **E11** gains external support for ADR-004. It cuts both ways: E23's cogging half retires, but its *sweep* half appears genuinely unusual — industrial stages do not chirp through their velocity range in 157 ms. **E20 was not searched and says so** rather than padding with a plausible citation. |
+| GOV-11 | **Four repositories, two generated** | `tools/export_companion.py`. The paper companion was verified to reproduce standalone — `v_exit = 16.537`, matching the flagship. §4's divergence warning is answered mechanically, not behaviourally: if a companion is ever hand-edited, delete and regenerate rather than reconcile. |
+| GOV-12 | **Linkage prepared where it could not be pushed** | `bootstrap_repos.sh`, `seed_issues.sh` (14 issues — the roadmap and open HIGH defects, not all 42), `setup_project.sh`. **Found while testing: Issues are disabled on the repository** (API returns 410) — a settings flag, now handled by the bootstrap. |
+| GOV-13 | **Validation chain positioned honestly** | Dossier §7's eight rungs added to `ROADMAP.md`. The project is at **Simulation, one rung of eight**. **Repeatability has no rung — nothing has been run twice by anyone.** Manufacturability opened today but holds analysis *about* manufacturing, not manufacturing evidence. |
+| GOV-14 | **Literature review restructured** | `RELATED_WORK.md` was a leads list; it now carries five fields per source — claim, method, what EMOCD takes, where it differs, verification status. Status is per-source, because the old blanket "none of this has been read" became untrue and a blanket statement that is wrong is worse than none. |
+| GOV-15 | `PROJECT_NOTES.md` de-staled | It claimed 32 % efficiency and listed P5/P8 as open, both wrong since the propagation. Now defers to `BASELINE.md`, `ROADMAP.md` and `PHASE_II.md` rather than competing with them. |
+
+**No value in `analysis/` changed.** `analysis/results/cost.json` is the only file added there,
+and every existing result field is untouched — verified, because this is governance work and a
+moved number would mean something went wrong.
+
+---
+
 ## Open decisions
 
 1. **LICENSE** — RESOLVED 2026-07-23: owner chose **MIT** (P3-07).

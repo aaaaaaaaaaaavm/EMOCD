@@ -7,8 +7,10 @@ class this repository logs (P16, P19) and mechanically guards against elsewhere
 
 Run after any authorised baseline change:  python3 tools/make_baseline.py
 """
+import argparse
 import json
 import os
+import re
 import subprocess
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -20,7 +22,21 @@ def load(name):
         return json.load(f)
 
 
+def value_rows(text):
+    """Just the engineering values, without the provenance stamp.
+
+    The commit hash in the header changes on every commit, so a plain diff of this file
+    always reports a change and is therefore useless as a drift detector -- which would have
+    quietly defeated the check this file documents.
+    """
+    return [ln for ln in text.splitlines() if ln.startswith('| ') and '`' in ln]
+
+
 def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument('--check', action='store_true',
+                    help='compare values against the committed file; exit 1 on drift')
+    args = ap.parse_args()
     m, a, s = load('motor_results.json'), load('astro_results.json'), load('sizing.json')
     mp, c = load('mass_properties.json'), load('cost.json')
     sh = m['shot']
@@ -53,7 +69,24 @@ def main():
     body = HEADER.format(commit=commit)
     body += "\n".join(f"| {n} | **{v}** | `{src}` |" for n, v, src in rows)
     body += FOOTER
-    with open(os.path.join(ROOT, 'BASELINE.md'), 'w') as f:
+
+    path = os.path.join(ROOT, 'BASELINE.md')
+    if args.check:
+        if not os.path.exists(path):
+            raise SystemExit("BASELINE.md missing -- run without --check to generate it.")
+        with open(path) as f:
+            old = value_rows(f.read())
+        new = value_rows(body)
+        drift = [(o, n) for o, n in zip(old, new) if o != n]
+        if drift or len(old) != len(new):
+            print("BASELINE DRIFT -- the scripts have moved and the baseline has not.")
+            for o, n in drift:
+                print(f"  committed: {o}\n  scripts  : {n}")
+            raise SystemExit(1)
+        print(f"baseline holds: {len(new)} values match the scripts")
+        return
+
+    with open(path, 'w') as f:
         f.write(body)
     print(f"BASELINE.md written from analysis/results/ at {commit} ({len(rows)} values)")
 

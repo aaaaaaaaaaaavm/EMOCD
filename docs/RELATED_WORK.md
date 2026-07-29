@@ -1,30 +1,53 @@
-# Related work and comparator sources
+# Literature review
 
-Candidate literature and tooling for the validation plan in `../validation/`, and for the
-comparator claims in the paper.
+Dossier §6: the literature review exists to identify **better ideas, competing approaches,
+hidden assumptions, previous failures, and engineering tradeoffs** — and to preserve the
+analyses so accumulated knowledge is not lost. This file is that record. It is not a
+bibliography; the paper has one.
 
-**Verification status of this list: NONE OF IT HAS BEEN RETRIEVED AND READ.** Every entry
-below was identified from search results on 2026-07-27 and is recorded as a lead. The
-repository's standing rule applies (`OPEN_PROBLEMS.md` E16): fetch and read before
-anything here enters `paper/paper.tex` or is relied on for a number. Three references
-already in the paper are flagged for exactly this reason.
+## How to read an entry
+
+Each source below carries the same five fields, so a reader can judge it without reading the
+source:
+
+| | |
+|---|---|
+| **Claim** | what the source establishes |
+| **Method** | how, and therefore how much weight it carries |
+| **EMOCD takes** | what this project adopts from it |
+| **EMOCD differs** | where this project does not follow it, and why |
+| **Status** | `verified` — retrieved and read · `confirmed` — existence and content confirmed but not read in full · `lead` — identified from search only |
+
+> ### Verification discipline (E16)
+>
+> **A `lead` may not support a number in `paper/paper.tex`.** Retrieve and read first. Three
+> references already in the paper carry this flag, and they are the reason the rule exists.
+>
+> Status is recorded per source rather than per file, because the earlier blanket statement
+> ("none of this has been retrieved") became untrue as items were checked, and a blanket
+> statement that is wrong is worse than no statement.
+
+---
 
 ## Comparator claims — highest priority
 
-**Foster et al., "Constellation Phasing with Differential Drag on Planet Labs
-Satellites," *Journal of Spacecraft and Rockets* (2018).** Companion preprints: arXiv
-1806.01218, arXiv 1509.03270.
-Why it matters: the paper's seeding claim is stated against a differential-drag baseline
-of 25 days, which is currently a model output of `astro.py`. Foster et al. report phasing
-of the Flock 2p constellation — 12 CubeSats at 510 km SSO — with on-orbit results. A
-measured baseline is far stronger than a modelled one, and 12 satellites at ~500 km is
-close enough to the EMOCD case to be a fair comparison. **Replacing the modelled
-comparator with the flown one is the cheapest credibility improvement available to the
-paper.**
-**No paywall applies** (confirmed 2026-07-29): both companion preprints are open-access on
-arXiv, so E16's "fetch and read before citing" requirement can be discharged for this
-reference at zero cost. The 2018 preprint matches the *JSR* 55(2) pp. 473-483 content
-(DOI 10.2514/1.A33927); the 2015 one is the AAS conference version.
+### Foster et al. — differential-drag phasing, flown
+
+*"Constellation Phasing with Differential Drag on Planet Labs Satellites,"* **J. Spacecraft
+and Rockets 55(2) 2018, 473–483**, DOI 10.2514/1.A33927. Open-access preprints: arXiv
+**1806.01218** (matches the JSR content), arXiv **1509.03270** (AAS version).
+
+| | |
+|---|---|
+| **Claim** | Differential drag phased the Flock 2p constellation — 12 CubeSats at 510 km SSO — with measured on-orbit results |
+| **Method** | **Flight data.** Not a model. This is the only comparator in this review with that status |
+| **EMOCD takes** | The comparator baseline. The paper's seeding claim is currently stated against 25 days, which is an `astro.py` model output |
+| **EMOCD differs** | Not yet — the swap has not been made |
+| **Status** | **confirmed** — DOI, venue, pages and both preprint IDs verified 2026-07-29; no paywall applies. Not yet read in full |
+
+**Why this is the highest-priority item in the review:** it replaces a modelled number with a
+measured one, at zero cost, in the claim that carries the value proposition. Nothing else here
+offers that.
 
 **P-POD Mk III Rev E User Guide** (Cal Poly) and the **NanoRacks NRCSD-E Interface
 Definition Document.**
@@ -42,6 +65,50 @@ primary sources for that, and the NRCSD-E document additionally quotes a tip-off
 > catch by itself. Check in a browser at
 > `nanoracks.com/wp-content/uploads/Nanoracks-External-Cygnus-Deployer-E-NRCSD-IDD.pdf`
 > **before A7 runs.**
+
+## Cross-industry sources (added 2026-07-29)
+
+Full analysis in [`CROSS_INDUSTRY.md`](CROSS_INDUSTRY.md); recorded here so the literature
+record is in one place.
+
+### ESA Space Tribology Handbook
+
+Roberts, ESTL / AEA Technology — [ESA Bulletin 94](https://www.esa.int/esapub/bulletin/bullet94/ROB.pdf).
+
+| | |
+|---|---|
+| **Claim** | Design guidance for tribology in space mechanisms: lubricant and component selection, cold welding, rolling-element and linear bearings, testing |
+| **Method** | Handbook distilled from ESTL's accelerated life testing in thermal-vacuum |
+| **EMOCD takes** | **E21 substantially retires.** MoS₂ is the accepted solid lubricant; twelve cycles is trivial by space-mechanism standards. The task becomes selection, not research |
+| **EMOCD differs** | The 1.48 kN per roller pair must still be checked against bearing ratings — MoS₂ transfer-film behaviour is load-dependent |
+| **Status** | **confirmed** — source located and its scope verified 2026-07-29 |
+
+### Magnet eddy-current loss and segmentation
+
+[Zhang et al., *IET Power Electronics* 2021](https://ietresearch.onlinelibrary.wiley.com/doi/full/10.1049/pel2.12009);
+[partial-segmentation study for PMLSMs, UTS OPUS](https://opus.lib.uts.edu.au/bitstream/10453/140691/3/Reduction%20of%20Magnet%20Eddy%20Current%20Loss%20in%20PMSM%20by%20Using%20Partial%20Magnet%20Segment%20Method.pdf).
+
+| | |
+|---|---|
+| **Claim** | Eddy currents in PM bulk cause heating and risk **irreversible** demagnetisation; segmentation is the standard mitigation and it reduces thrust and mechanical robustness |
+| **Method** | FEA plus analytical models, overwhelmingly steady-state rotating machines |
+| **EMOCD takes** | E19 is characterised rather than unexplored, and **segmentation is a design option this project did not previously have** |
+| **EMOCD differs** | **Duty is not comparable.** A 157 ms pulse twelve times per campaign is thermally far gentler in the mean than continuous operation — but the peak drives the knee point, and nobody has computed it here. E19 stays open |
+| **Status** | **confirmed** |
+
+### Vacuum-rated ironless linear motors
+
+[Tecnotion](https://www.tecnotion.com/applications/semiconductors/) ·
+[Dover Motion](https://dovermotion.com/applications/high-vacuum-positioning-systems/) ·
+[Gorman Dynamics](https://www.gormandynamics.com/vacuum-motor-umv)
+
+| | |
+|---|---|
+| **Claim** | Vacuum-compatible ironless linear motors are catalogue products; coreless construction lowers outgassing and eliminates cogging |
+| **Method** | Vendor documentation — **marketing material.** Cited only for what a product category routinely does, never for a performance number |
+| **EMOCD takes** | External support for ADR-004: the ironless choice converges with fielded vacuum practice for a reason this project had not recorded |
+| **EMOCD differs** | **Regime.** Wafer stages run sub-m/s continuous; this runs 16.5 m/s for 157 ms. Zero-cogging retires half of E23; the *sweep* half is untouched, because industrial stages do not chirp through their velocity range |
+| **Status** | **confirmed** as vendor claims. Not independent evidence |
 
 ## Motor and electromagnetics
 
