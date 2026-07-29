@@ -84,7 +84,8 @@ constant and re-run the motor model, then the paper.
 - Eddy-current brake for arrest. Motor regeneration alone cannot stop the sled —
   braking force is bounded by the same thrust constant as acceleration.
 - Sled kinetic energy is dissipated in the brake, NOT recovered. Efficiency is
-  therefore electrical-to-payload (32 %), not a regeneration-credited number.
+  therefore electrical-to-payload (**19.6 %** at the measured sled mass; it was 32 % at the
+  superseded 4.86 kg parametric estimate), not a regeneration-credited number.
 - Attached mode carries no CMGs or thrusters; the host stage absorbs recoil.
 - Two transverse cassettes of six, alternating feed for CoM symmetry.
 - Retention gate carries ascent preload directly into structure, bypassing the release
@@ -92,10 +93,16 @@ constant and re-run the motor model, then the paper.
 
 ## Immediate work queue
 
-See `OPEN_PROBLEMS.md`. **P1–P4 (conjunction minimum, peak current, stray far-field,
-brake fin temperature) were fixed in the paper on 2026-07-23 — see `CHANGELOG.md`.** The
-open items now are P5/P8 (sled mass and exit velocity pending structural FEA), P9 (the
-envelope exceeds ESPA Grande), P10 (enclosure and radiator absent from the mass rollup),
-E1 (3-D field closure), E2 (no FEA), and E4 (hardware). `validation/` specifies the
-cross-checks that would close the first three — A4 (sled structural) is the one that
-moves the headline number, so run that first.
+> **Superseded as the authoritative list.** The frozen baseline is [`../BASELINE.md`](../BASELINE.md),
+> the sequenced plan is [`../ROADMAP.md`](../ROADMAP.md), and deferred work is
+> [`PHASE_II.md`](PHASE_II.md). This section is kept only so the file is not misleading;
+> update those three, not this.
+
+As of 2026-07-29: P1–P4 fixed in the paper; **P5, P8, P11, P12, P15 closed**; the measured
+9.445 kg sled is adopted and the rated point is 16.537 m/s (ADR-012). Live items are P9
+(envelope), P14 (Gen3 CAD defects, two of them upstream of K<sub>t</sub>), P16 (the
+ballistic-coefficient half still untested), P17 (attraction 37 % high), and P19 (all three
+completed validations predate the current operating point).
+
+**Next engineering work is A1**, the airgap field — K<sub>t</sub> is checked only
+analytic-against-analytic and every number in the baseline is downstream of it.

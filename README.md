@@ -18,7 +18,18 @@ generations, STEP exports committed (`cad/`, Gen3 current); FEA and hardware sti
 outstanding.**
 **Read `PROVENANCE.md` before citing anything here.**
 
-**[📄 One-page summary](SUMMARY.md)** · **[🗺 Roadmap](ROADMAP.md)** · **[📅 History since 2021](HISTORY.md)** · **[⚠ Open problems](OPEN_PROBLEMS.md)** · **[✓ Validation report](VALIDATION_REPORT.md)** · **[🔬 Test plans](docs/QUALIFICATION_PLAN.md)**
+**[📄 One-page summary](SUMMARY.md)** · **[❓ Why](WHY.md)** · **[🧊 Frozen baseline](BASELINE.md)** · **[🗺 Roadmap](ROADMAP.md)** · **[⚠ Open problems](OPEN_PROBLEMS.md)** · **[✓ Validation](VALIDATION_REPORT.md)** · **[🏗 Manufacturing](docs/MANUFACTURING.md)** · **[📐 ADRs](docs/adr/)**
+
+<!-- PROGRAMME-HEADER-START -->
+| Repository | Role | You are here |
+|---|---|---|
+| **[EMOCD](https://github.com/aaaaaaaaaaaavm/EMOCD)** | Flagship — authoritative engineering record, portfolio | ← |
+| [EMOCD-paper](https://github.com/aaaaaaaaaaaavm/EMOCD-paper) | IEEE companion — manuscript and reproducibility package *(generated)* | |
+| [EMOCD-thesis](https://github.com/aaaaaaaaaaaavm/EMOCD-thesis) | Thesis companion — university submission *(generated)* | |
+| [EMOCD-lab](https://github.com/aaaaaaaaaaaavm/EMOCD-lab) | Phase II — research, redesign, deliberately unstable | |
+<!-- PROGRAMME-HEADER-END -->
+
+Four repositories, one programme — see **[`PROGRAMME.md`](PROGRAMME.md)**.
 
 ## The idea
 
@@ -249,7 +260,15 @@ flown DSOD, is in [`docs/LANDSCAPE.md`](docs/LANDSCAPE.md).
 - `docs/DECISION_LOG.md` — why each design change happened, including two self-corrections
 - `PROVENANCE.md` — what came from where, and what was never verified
 - `OPEN_PROBLEMS.md` — known errors in the paper, and unsolved engineering
+- `PROGRAMME.md` — the four repositories and how they relate
+- `WHY.md` — why this programme exists, and why it is split into two phases
+- `BASELINE.md` — the frozen Phase I baseline (generated) and its change-control rule
 - `HISTORY.md` — project timeline since 2021, and how the git history was reconstructed
+- `docs/programme/` — the governing dossier, adopted verbatim, plus its amendment record
+- `docs/adr/` — seventeen architecture decision records
+- `docs/PHASE_II.md` — deferred work and the gate it must clear to return
+- `docs/MANUFACTURING.md` — tolerance stack, assembly hazard, make-vs-buy
+- `docs/CROSS_INDUSTRY.md` — which open items are actually solved elsewhere
 - `docs/QUALIFICATION_PLAN.md` — environmental and qualification campaign, specified not run
 - `docs/BENCHTOP_TESTS.md` — four cheap sub-scale experiments, bands declared in advance
 - `analysis/cost.py` — parametric BOM; every price assumed, structure is the deliverable

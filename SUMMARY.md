@@ -78,6 +78,9 @@ rebuilding its analysis from scratch. An independent propagator (GMAT) then **fa
 claim in the paper's own abstract**, and that is recorded as P16 rather than quietly dropped.
 The scripts are authoritative over the paper, never the reverse.
 
+**→ [`PROGRAMME.md`](PROGRAMME.md)** — the four repositories of this programme
+**→ [`WHY.md`](WHY.md)** — why it exists, and why it is deliberately split in two
+**→ [`BASELINE.md`](BASELINE.md)** — what is frozen, and what may move it
 **→ [`ROADMAP.md`](ROADMAP.md)** — what happens next, and when
 **→ [`HISTORY.md`](HISTORY.md)** — the project since 2021, and how this git history was built
 **→ [`docs/QUALIFICATION_PLAN.md`](docs/QUALIFICATION_PLAN.md)** — the test campaign, specified

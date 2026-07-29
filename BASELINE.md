@@ -4,7 +4,7 @@
 > Every value below is read from the scripts at generation time, so this file cannot silently
 > disagree with them. Regenerate after any authorised baseline change.
 >
-> Flagship commit at generation: `67a65cf` · Phase **I** · governed by
+> Flagship commit at generation: `db37d03` · Phase **I** · governed by
 > [`docs/programme/ENGINEERING_PROGRAMME.md`](docs/programme/ENGINEERING_PROGRAMME.md)
 
 This is the engineering baseline the Phase I deliverables — portfolio, IEEE paper, thesis —

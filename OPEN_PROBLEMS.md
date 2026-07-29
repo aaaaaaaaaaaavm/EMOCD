@@ -569,6 +569,9 @@ mm, 2 off). The rest — escapement caging, cam lock, tolerance stack-up under v
 is drawn or described, not analysed.
 
 ### E11. No contamination or outgassing analysis
+> **ADR-004 gains external support 2026-07-29:** coreless construction lowers outgassing and
+> vacuum-rated ironless linear motors are catalogue products, so this architecture converges
+> with fielded vacuum practice. Does not close the item — T-4 tests *this* material set.
 > **Specified 2026-07-29** as T-4 in `docs/QUALIFICATION_PLAN.md`: 8 thermal-vacuum cycles,
 > −40 to +60 °C, with ASTM E595 limits (TML ≤ 1.0 %, CVCM ≤ 0.1 %) as pass criteria. The
 > materials rule B16 already requires E595-compliant selection; T-4 is where that gets tested
@@ -654,6 +657,11 @@ input, with an explicitly documented assumption as the fallback. Until that is d
 figure from this project should be quoted as anything but conditional on its assumption.
 
 ### E19. Eddy-current heating inside the magnet blocks is not modelled — NEW 2026-07-29
+> **Cross-industry review 2026-07-29** (`docs/CROSS_INDUSTRY.md`): this is a named, well-studied
+> loss mechanism in PM machines, and **magnet segmentation is the standard mitigation — which
+> reduces thrust and mechanical robustness.** That is a design option this project did not
+> previously have. Item stays open: the literature is steady-state rotating machines, and
+> nobody has computed the 157 ms pulsed case here.
 `sizing.py::magnet_temperature()` models exactly one thermal effect on the magnets:
 reversible remanence drift with ambient temperature, `alpha = -0.11 %/K`. NdFeB is a
 conductor (roughly 1.4-1.6 uOhm*m, some 80-90x copper's resistivity but far from an
@@ -691,7 +699,12 @@ E5 covers the *magnitude* of the recoil budget across host mass classes. Nothing
 *shape*, and A4 is a static analysis that cannot. This is a fatigue and control-bandwidth
 question, and it is the natural companion to A7.
 
-### E21. No vacuum tribology anywhere — NEW 2026-07-29
+### E21. No vacuum tribology anywhere — SUBSTANTIALLY RETIRED BY CITATION 2026-07-29
+> **This is solved engineering with a handbook.** The ESA Space Tribology Handbook (Roberts,
+> ESTL) covers lubricant and component selection, cold welding, and rolling-element life in
+> vacuum; MoS2 is the broadly accepted solid lubricant. **Twelve cycles is a trivial life
+> requirement** by space-mechanism standards. The remaining task is a *selection calculation*
+> against the 1.48 kN per pair load, not research. See `docs/CROSS_INDUSTRY.md`.
 Searching the entire repository for lubrication, tribology, cold welding or galling returns
 nothing. The sled runs on four rollers (30 mm dia x 16 mm) carrying roughly 763 N per pair
 at arrest (`sizing.py::arrest_loads()`), reused across twelve shots, in vacuum. Repeated
@@ -703,7 +716,10 @@ Distinct from the neighbouring items: E10 covers the launch-restraint escapement
 covers outgassing and contamination. Neither covers the roller-to-rail interface, and no
 lubricant, coating, or material pair is specified for it in `cad/parameters.json`.
 
-### E22. Parasitic eddy drag on the track structure is not in the thrust model — NEW 2026-07-29
+### E22. Parasitic eddy drag on the track structure is not in the thrust model — REFRAMED 2026-07-29
+> **Reframed as a design rule rather than an analysis** (`docs/CROSS_INDUSTRY.md`): vendor
+> ironless motors keep conductive structure out of the magnet track's field. Specify a minimum
+> standoff and check the CAD against it — cheaper than the computation this item implied.
 The eddy brake works because a moving Halbach field drags on a nearby stationary conductor.
 That is also the geometry of the entire 1.3 m acceleration zone wherever aluminium or
 titanium structure — longerons, guide rails, enclosure skins — sits within reach of the
@@ -721,6 +737,11 @@ whatever is actually there, and the standoff is not a single number in `cad/para
 The check is cheap once that geometry is pinned, and it belongs with A1.
 
 ### E23. Force-ripple harmonics sweep the track's own structural modes every shot — NEW 2026-07-29
+> **The cogging half retires; the sweep half does not.** Ironless construction has zero cogging
+> by design, so the largest ripple source in an iron-core machine is absent. But E23 is about
+> the *electrical* ripple chirping through the modes, and industrial stages run at constant
+> velocity and do not chirp. **No citation found addresses this** — it appears genuinely
+> unusual (`docs/CROSS_INDUSTRY.md`).
 `sizing.py::track_first_mode()` reports 48 Hz pinned-pinned and 109 Hz fixed-fixed, and
 checks them against a single static target: above 70 Hz to clear the launch primary band.
 That is the right check for the launch environment and the wrong one for the shot.

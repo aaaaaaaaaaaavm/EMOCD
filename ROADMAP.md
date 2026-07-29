@@ -91,6 +91,32 @@ history.
 
 ---
 
+## Where this sits in the validation chain
+
+Dossier §7 defines the chain every feature must have a path along:
+
+```mermaid
+flowchart LR
+    C[Concept] --> A[Analysis] --> S[Simulation] --> P[Prototype]
+    P --> E[Experiment] --> R[Repeatability] --> M[Manufacturability] --> F[Flight qualification]
+```
+
+| Rung | Status |
+|---|---|
+| Concept | complete — `docs/adr/`, `DECISION_LOG.md` |
+| Analysis | complete — `analysis/`, 179 result fields |
+| **Simulation** | **where the project is.** 3 of 9 validations run, all predating the current operating point (P19) |
+| Prototype | **specified, none built** — `docs/BENCHTOP_TESTS.md` |
+| Experiment | specified, none run |
+| Repeatability | **no rung yet.** Nothing has been run twice by anyone |
+| Manufacturability | **opened 2026-07-29** — `docs/MANUFACTURING.md`, analysis about manufacturing rather than manufacturing evidence |
+| Flight qualification | specified, none run — `docs/QUALIFICATION_PLAN.md` |
+
+**The honest reading:** the project is one rung along a chain of eight, and the two rungs after
+it need money and a bench rather than more analysis. B-1 — a Halbach pair on a gaussmeter —
+is the cheapest step onto the next rung and would be the project's first measured number at
+any scale.
+
 ## What is deliberately not on this list
 
 **Hardware.** E4 records that nothing has been built. That has not changed, but as of
