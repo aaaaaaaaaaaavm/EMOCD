@@ -390,6 +390,16 @@ such in the P-item, and proper closure still needs a run sheet with a band fixed
 
 ---
 
+## 2026-07-29 (later) — P11 resolved, and one review finding that was missed
+
+| ID | Item | Detail |
+|---|---|---|
+| REV-12 | **P11 RESOLVED — nothing has been submitted** | Confirmed by the author. There is no version of record, so P1–P4 are not loose in any published document and no corrigendum or erratum is needed. `paper/archive/EMOCD_submission_uncorrected.pdf` is a draft whose filename overstates its status. |
+| REV-13 | **The paper edits are no longer blocked** | P12 and P16 were held out of `paper/paper.tex` because editing the source without rebuilding would split it from a published record. With nothing published, the only cost is a stale committed PDF until recompilation — a normal state for a draft. **Both should now be fixed in the source and the PDF rebuilt before any submission.** |
+| REV-14 | **E23 (new) — a review finding not covered by E19–E22** | `track_first_mode()` gives 48 Hz pinned / 109 Hz fixed and checks them only against a static launch-band target. The shot's own excitation sweeps from zero as `f = n·v/λ`, so every shot chirps through both modes: the 6th harmonic crosses 48 Hz at 3.7 ms and 0.7 mm of travel, and 109 Hz at 8.3 ms and 3.6 mm; the fundamental crosses 109 Hz at 49.8 ms. Twelve times per campaign, in the first millimetres of stroke. Probably benign — the sweep rate is ~2190 Hz/s, so transit is sub-millisecond — but that argument needs the structure's Q, and **no damping figure appears anywhere in the repository**. |
+
+---
+
 ## Open decisions
 
 1. **LICENSE** — RESOLVED 2026-07-23: owner chose **MIT** (P3-07).

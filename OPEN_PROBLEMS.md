@@ -139,7 +139,22 @@ have line items in `analysis/mass_properties.py`**, so the 72.3 kg dry-mass roll
 incomplete. Add line items once masses are estimated (do not alter existing items without
 cause). Source: `cad/parameters.json` (`enclosure.mass_note`).
 
-### P11. The corrections may never have reached the submitted paper — UNCONFIRMED (NEW 2026-07-27)
+### P11. The corrections may never have reached the submitted paper — RESOLVED 2026-07-29
+> **RESOLVED: nothing has been submitted anywhere.** Confirmed by the author 2026-07-29.
+> There is no version of record, so P1–P4 are not loose in any published document and no
+> corrigendum is needed. `paper/archive/EMOCD_submission_uncorrected.pdf` is a draft build
+> whose filename overstates its status — it was never sent.
+>
+> **This unblocks the paper edits that were batched behind it.** The reason P12 and P16 were
+> left untouched in `paper/paper.tex` was that editing the source without rebuilding the PDF
+> would split it from a published record. There is no published record. The paper is a draft,
+> the only cost of editing it is that the committed PDF goes stale until it is recompiled,
+> and that is a normal state for a draft rather than a defect. **Fix P12 and P16 in
+> `paper.tex` and rebuild before anything is submitted.**
+
+Original item follows, kept for the audit trail.
+
+
 `paper/archive/EMOCD_submission_uncorrected.pdf` is a build of the paper that still
 carries all four P1–P4 values (323 A, 23 A/mm² at 140 kA/m, 37 K per shot, 45.3 km
 conjunction minimum). Its filename says *submission*. If that is genuinely the version
@@ -619,3 +634,32 @@ adds heat to the track.
 Not quantified here — it depends on the track-to-array standoff and the conductivity of
 whatever is actually there, and the standoff is not a single number in `cad/parameters.json`.
 The check is cheap once that geometry is pinned, and it belongs with A1.
+
+### E23. Force-ripple harmonics sweep the track's own structural modes every shot — NEW 2026-07-29
+`sizing.py::track_first_mode()` reports 48 Hz pinned-pinned and 109 Hz fixed-fixed, and
+checks them against a single static target: above 70 Hz to clear the launch primary band.
+That is the right check for the launch environment and the wrong one for the shot.
+
+The electrical excitation is not at a fixed frequency. It sweeps from zero upward as
+`f = n*v/lambda` with lambda = 48 mm, so every shot chirps through the whole band below the
+running frequency. At the as-drawn 9.445 kg sled (a = 105 m/s^2):
+
+| Crossing | Speed | Time from start | Distance into the 1300 mm stroke |
+|---|---|---|---|
+| 6th harmonic through the 48 Hz pinned mode | 0.38 m/s | 3.7 ms | 0.7 mm |
+| 6th harmonic through the 109 Hz fixed mode | 0.87 m/s | 8.3 ms | 3.6 mm |
+| fundamental through 109 Hz | 5.23 m/s | 49.8 ms | 130 mm |
+
+So both modes are crossed inside the first 4-50 ms of a 127.7 ms stroke, twelve times per
+campaign, and the crossings happen in the first few millimetres of travel where the sled is
+still adjacent to the breech and the launch-lock hardware.
+
+**The likely answer is that this is benign, and the point is that nobody has shown it.** The
+sweep rate is roughly `a/lambda` ~ 2.2 kHz/s, so transit through any plausible half-power
+bandwidth takes on the order of a millisecond, which is far too fast for resonant buildup.
+But that argument depends on the structure's Q, and **no Q, damping ratio, or loss factor
+appears anywhere in the repository**. A static frequency check against a launch target does
+not settle a swept-excitation question; the analysis that would is a chirp or Campbell-style
+dwell-time check, and it does not exist.
+
+Cheap to close, and it belongs with A4's dynamic leg rather than with A1.
