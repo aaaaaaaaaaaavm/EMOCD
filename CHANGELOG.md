@@ -400,6 +400,36 @@ such in the P-item, and proper closure still needs a run sheet with a band fixed
 
 ---
 
+## 2026-07-29 (propagation) — the first time a script value has moved
+
+P11 resolved — nothing has ever been submitted — which removed the reason `paper/paper.tex`
+was frozen. The measured sled mass was then propagated in the order the standing rule
+requires: **scripts, then figures, then paper.**
+
+| ID | Item | Detail |
+|---|---|---|
+| PROP-01 | **`analysis/` adopts the measured 9.445 kg sled** | Authorised by the rule in `validation/A4_sled_structural.md` declared *before* A4 ran: at ≥ 6.80 kg the headline changes and the paper changes materially. A4 has since run, all three structural bands pass, and P15 measured 9.445 kg from the Gen3 STEP solids. **55 of 179 result fields moved.** Exit velocity 20.372 → **16.537 m/s**, acceleration 16.26 → **10.72 g**, efficiency 31.5 → **19.6 %**, energy 2634 → 2796 J, copper loss 672 → 828 J, peak current 392 → 330 A, pulse 128 → 157 ms, multiplier ×1.80 → **×1.62**, recoil 81.5 → 66.1 N·s, realignment 8.1 → 9.9 d, dry mass 72.3 → 76.9 kg. |
+| PROP-02 | **The closed-loop Monte Carlo had silently saturated** | Its 20.0 m/s setpoint now sits above the open-loop ceiling, so `Kc` pinned at `K_RATED` and the run reported a 0.267 m/s "dispersion" that was really a 2.27 m/s shortfall. The setpoint moved to **16.2 m/s — 98.2 % of the ceiling, the same fraction 20.0 held against the old 20.37** — so the headroom argument is unchanged rather than re-tuned to taste. Dispersion returns at 0.027 m/s. A guard now raises if the servo ever fails to reach its setpoint again. |
+| PROP-03 | **Loss terms were pasted literals** | `sizing.py` hard-coded 672 J copper and 26 J auxiliary, so energy closure fell to 94.2 % on the first run after the change. They now derive from the operating point; closure is back to **100.0 %**. |
+| PROP-04 | **Capacitor sizing quoted a droop the bank no longer meets** | 5.97 F was computed against a 4.9 % sag target; at 2795.6 J, holding 4.9 % needs **6.35 F**, which the selected 6 F bank does not provide. It sags 5.19 % instead. The function now derives from the sag actually reached, returns 6.0 F against 6 F selected, and reports the 6.35 F alternative rather than hiding it. |
+| PROP-05 | **A fork guard, because the operating point was duplicated** | `M_SLED`, `V_EXIT`, `E_DRAWN`, `F_CMD` lived in both `motor_model.py` and `sizing.py`. `sizing.py` now asserts agreement against `motor_model`'s own JSON on six quantities and exits with a diagnostic if they drift. `mass_properties.py` keeps the parametric sled breakdown and carries the 4.59 kg measurement delta as its own line, so system dry mass no longer understates. |
+| PROP-06 | **`paper/make_figures.py` (new)** | The committed figures had **no generator in the repository** — `legacy/make_figs.py` is at a superseded point and reimplements the physics instead of importing it, so the figures could not follow the operating point. All ten now regenerate from `analysis/`, with trace accessors added to the analysis modules (`shot(trace=True)`, `thrust_constant(profile=True)`, `conjunction(trace=True)`) rather than the physics copied into figure code. |
+| PROP-07 | **F11 reframed, F09 given both bands** | F11's caption asserted the falsified invariance; it now plots `astro.py` against GMAT side by side, which shows P16 directly — the script series is flat across the whole activity range while GMAT moves 2.07 / 1.78 / 1.73. F09 draws both the 5 °/s line the paper cites and the 2 °/s wording in the sibling NRCSD ICD, since which applies is unresolved. |
+| PROP-08 | **`paper/paper.tex` follows the scripts** | Abstract, results, family table, comparison and sensitivity tables, mechanical, thermal, cost and conclusion. Sec. III is *rewritten*, not renumbered: the design used to be acceleration-limited and is now thrust-and-mass limited with more than half its qualification margin unused, which changes what recovering velocity means. Sec. V-B drops the invariance claim and explains the defect. Limitations no longer offers that invariance as the defensible result. |
+| PROP-09 | **P12 closed** | The ESPA-Grande envelope is no longer asserted as a capability — 1839 mm against ~1270 mm is stated and named an open packaging problem (P9). "Masses derive from a parametric solid model, not detailed CAD" is replaced by what the CAD measured. |
+| PROP-10 | **A pre-existing build defect fixed** | `\ref{sec:opt}` pointed at a section that has never existed and would have rendered as "Sec. ??". The length trade it promised is now stated inline from `sizing.py`'s own sweep. |
+| PROP-11 | **P19 (new, HIGH)** | Every validation run predates the operating point it validates. A5 and A8 were propagated at 20.37 m/s; A4 survives because its load is magnetostatic and velocity-independent. "Three of eight analyses have run" is really "three have run against a design that has since moved". |
+| PROP-12 | **P5, P8, P15 closed; each keeps its original text** | P5 carries a caveat forward: 9.445 kg is the as-drawn, unpocketed geometry and A4 reports a 17× stress margin, so a rib-stiffened chassis would recover mass and nobody has designed one. That successor question moves to E2 and the roadmap. |
+| PROP-13 | **`ROADMAP.md`, `SUMMARY.md` (new); contact details** | Nineteen numbered defects only read as rigour if there is also a plan for closing them; without one a reader cannot tell mid-flight from abandoned. A1 is sequenced first because Kt is checked only analytic-against-analytic and everything is downstream of it. Dates are assumed from a standard Indian final-year calendar and the header says so. The author's email previously existed only in `CITATION.cff`. |
+| PROP-14 | **Host-integration work surfaced** | The POEM and Vikram-1 analysis was at line 245 of the LaTeX — the most India-specific engineering in the project, invisible from the front page. Now in `README.md` and `SUMMARY.md`. |
+
+**The committed PDF is knowingly stale.** No TeX engine is available in this environment, so
+`paper.tex` was revised without recompiling. `paper/README.md` declares the divergence and
+says how to rebuild; a silent split between source and PDF would be worse than either being
+wrong alone.
+
+---
+
 ## Open decisions
 
 1. **LICENSE** — RESOLVED 2026-07-23: owner chose **MIT** (P3-07).
