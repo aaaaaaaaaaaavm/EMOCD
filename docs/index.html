@@ -6,7 +6,7 @@
 <title>EMOCD — Electromagnetic Orbital CubeSat Deployer</title>
 <meta name="description" content="A magazine-fed electromagnetic deployer that ejects unmodified CubeSats at programmable velocity. Design study, TRL 2-3, model outputs only.">
 <meta property="og:title" content="EMOCD — Electromagnetic Orbital CubeSat Deployer">
-<meta property="og:description" content="Ejecting unmodified CubeSats at 20 m/s from a rideshare host. Design study, TRL 2-3, unvalidated.">
+<meta property="og:description" content="Ejecting unmodified CubeSats at 16.5 m/s from a rideshare host. Design study, TRL 2-3, unvalidated.">
 <meta property="og:image" content="https://raw.githubusercontent.com/aaaaaaaaaaaavm/EMOCD/main/cad/renders/exterior_closed.png">
 <style>
 :root{
@@ -92,6 +92,7 @@ code{font-family:var(--mono);font-size:.92em;background:var(--panel);
       <a class="pill" href="https://github.com/aaaaaaaaaaaavm/EMOCD/blob/main/cad/stl/EMOCD_Assembly_Gen3.stl">Spin the 3D model</a>
       <a class="pill" href="https://github.com/aaaaaaaaaaaavm/EMOCD/blob/main/RESULTS.md">All charts</a>
       <a class="pill" href="https://github.com/aaaaaaaaaaaavm/EMOCD/blob/main/OPEN_PROBLEMS.md">Open problems</a>
+      <a class="pill" href="https://github.com/aaaaaaaaaaaavm/EMOCD/blob/main/ROADMAP.md">Roadmap</a>
     </div>
   </div>
 </div>
@@ -117,7 +118,7 @@ code{font-family:var(--mono);font-size:.92em;background:var(--panel);
 
 <section>
   <h2>A shot, end to end</h2>
-  <p class="sub">Feed → retention gate → 1.3 m of acceleration at 16.3 g → coast and trim →
+  <p class="sub">Feed → retention gate → 1.3 m of acceleration at 10.7 g → coast and trim →
   release at 1500 mm → eddy brake at 1530–1740 mm → sled recovered for the next shot. The
   sled's kinetic energy is dissipated in the brake by design, which is why efficiency is
   quoted electrical-to-payload and carries no regeneration credit.</p>
@@ -138,42 +139,46 @@ code{font-family:var(--mono);font-size:.92em;background:var(--panel);
   <table>
     <tr><th>Quantity</th><th>Value</th><th>Source</th></tr>
     <tr><td>Thrust constant</td><td class="num">11.22 N per kA/m, ±1.26 % ripple</td><td><code>motor_model.py</code></td></tr>
-    <tr><td>Exit velocity, 3U</td><td class="num">20.37 m/s at 16.3 g</td><td><code>motor_model.py</code></td></tr>
-    <tr><td>Electrical→payload efficiency</td><td class="num">32 %</td><td><code>motor_model.py</code></td></tr>
+    <tr><td>Exit velocity, 3U</td><td class="num"><b>16.54 m/s at 10.7 g</b></td><td><code>motor_model.py</code></td></tr>
+    <tr><td>Electrical→payload efficiency</td><td class="num">20 %</td><td><code>motor_model.py</code></td></tr>
     <tr><td>Closed-loop dispersion</td><td class="num">0.027 m/s (3σ) → ±0.10 km apogee</td><td><code>motor_model.py</code></td></tr>
-    <tr><td>Orbital lifetime multiplier</td><td class="num">×1.80 at mean activity — <b>invariance falsified, P16</b></td><td><code>astro.py</code></td></tr>
+    <tr><td>Orbital lifetime multiplier</td><td class="num">×1.62 at mean activity — <b>not invariant, P16</b></td><td><code>astro.py</code></td></tr>
     <tr><td>Constellation seeding, 30°</td><td class="num">1.4–6.9 days vs 25 by differential drag</td><td><code>astro.py</code></td></tr>
-    <tr><td>Dry / loaded mass</td><td class="num">72.3 kg / 120.3 kg</td><td><code>mass_properties.py</code></td></tr>
-    <tr><td>Recoil per shot</td><td class="num">81.5 N·s</td><td><code>astro.py</code></td></tr>
+    <tr><td>Dry / loaded mass</td><td class="num">76.9 kg / 124.9 kg</td><td><code>mass_properties.py</code></td></tr>
+    <tr><td>Recoil per shot</td><td class="num">66.1 N·s</td><td><code>astro.py</code></td></tr>
     <tr><td>Track first mode</td><td class="num">109 Hz fixed-fixed (target &gt;70)</td><td><code>sizing.py</code></td></tr>
   </table>
   <p></p>
-  <div class="note"><b>⚠ The table assumes a 4.86 kg sled. The sled as drawn weighs
-  9.45 kg, and at that mass this machine delivers 16.5 m/s, not 20.37.</b> Measured on
-  2026-07-28 from the Gen3 CAD — exact solid volumes times material densities (P15). The
-  earlier 7.50 kg CAD estimate gives 17.88 m/s. The numbers above are left exactly as the
-  scripts compute them, because a discrepancy here gets recorded and analysed before it is
-  propagated. Structural FEA decides which mass is real; until then, treat 20.37 m/s as an
-  upper bound the current geometry does not support.</div>
+  <div class="note"><b>These numbers moved down on 2026-07-29.</b> The headline was
+  20.37 m/s at 16.3 g against a 4.86 kg parametric sled; exact solid volumes from the Gen3
+  CAD give <b>9.445 kg</b> (P15). The consequence of each mass band was declared in
+  <code>validation/A4_sled_structural.md</code> <em>before</em> the structural analysis ran,
+  and the measurement landed in the ≥ 6.80 kg branch — "the headline changes and the paper
+  changes materially". A4 has since run and the drawn plate passes all three bands, so
+  nothing forces a lighter chassis. The scripts moved first, then the paper. Exit velocity is
+  down 19 % and efficiency from 32 % to 20 %, but the lifetime multiplier fell only
+  ×1.80 → ×1.62 — lifetime is a weak function of Δv, so the mission case survives better than
+  the machine spec. 9.445 kg is the as-drawn, unpocketed geometry and A4 reports a 17× stress
+  margin, so a rib-stiffened redesign would recover mass; nobody has designed one.</div>
   <div class="grid g2" style="margin-top:18px">
     <figure><img src="https://raw.githubusercontent.com/aaaaaaaaaaaavm/EMOCD/main/paper/figures/F01_shot.png" alt="Shot simulation">
-      <figcaption><b>The shot.</b> Force, velocity and current through the 127.7 ms stroke.</figcaption></figure>
+      <figcaption><b>The shot.</b> Force, velocity and current through the 157.3 ms stroke.</figcaption></figure>
     <figure><img src="https://raw.githubusercontent.com/aaaaaaaaaaaavm/EMOCD/main/paper/figures/F04_life.png" alt="Orbital lifetime">
-      <figcaption><b>Lifetime.</b> Boosted vs unboosted decay. The ×1.80 ratio is the claim, not the absolute years.</figcaption></figure>
+      <figcaption><b>Lifetime.</b> Boosted vs unboosted decay. The ×1.62 ratio is the claim, not the absolute years.</figcaption></figure>
   </div>
 </section>
 
 <section>
   <h2>Where the energy goes</h2>
-  <p class="sub">2630 J leaves the capacitor bank per shot and 830 J reaches the payload —
-  the 32 %. No regeneration credit: the sled's 1008 J is dissipated in the eddy brake by
-  design. Source <code>sizing.py</code> <code>energy_closure</code>; 100.1 % accounted.</p>
+  <p class="sub">2796 J leaves the capacitor bank per shot and 547 J reaches the payload —
+  the 20 %. No regeneration credit: the sled's 1291 J is dissipated in the eddy brake by
+  design. Source <code>sizing.py</code> <code>energy_closure</code>; 100.0 % accounted.</p>
   <div class="chart">
-    <div class="row"><span class="lbl">Sled KE (brake)</span><span class="track"><span class="fill dim" style="width:100%"></span></span><span class="val">1008 J</span></div>
-    <div class="row"><span class="lbl">Payload KE</span><span class="track"><span class="fill" style="width:82.3%"></span></span><span class="val">830 J</span></div>
-    <div class="row"><span class="lbl">Copper loss</span><span class="track"><span class="fill dim" style="width:66.7%"></span></span><span class="val">672 J</span></div>
-    <div class="row"><span class="lbl">Converter loss</span><span class="track"><span class="fill dim" style="width:9.6%"></span></span><span class="val">97 J</span></div>
-    <div class="row"><span class="lbl">Auxiliary</span><span class="track"><span class="fill dim" style="width:2.6%"></span></span><span class="val">26 J</span></div>
+    <div class="row"><span class="lbl">Sled KE (brake)</span><span class="track"><span class="fill dim" style="width:100%"></span></span><span class="val">1291 J</span></div>
+    <div class="row"><span class="lbl">Copper loss</span><span class="track"><span class="fill dim" style="width:64.1%"></span></span><span class="val">828 J</span></div>
+    <div class="row"><span class="lbl">Payload KE</span><span class="track"><span class="fill" style="width:42.4%"></span></span><span class="val">547 J</span></div>
+    <div class="row"><span class="lbl">Converter loss</span><span class="track"><span class="fill dim" style="width:7.5%"></span></span><span class="val">97 J</span></div>
+    <div class="row"><span class="lbl">Auxiliary</span><span class="track"><span class="fill dim" style="width:2.4%"></span></span><span class="val">31 J</span></div>
   </div>
 </section>
 
@@ -193,9 +198,12 @@ code{font-family:var(--mono);font-size:.92em;background:var(--panel);
 <section>
   <h2>GMAT cross-check — the first external result, and it found something</h2>
   <p class="sub">GMAT R2022a, run headless with MSISE90 / 20×20 gravity / RK89, propagated to
-  the 120 km floor at three solar-activity levels. The ×1.80 lifetime multiplier reproduces
-  at mean and high activity. At low activity it does not, and the <em>invariance</em> the
-  paper nominates as its defensible result is falsified.</p>
+  the 120 km floor at three solar-activity levels. The ×1.80 lifetime multiplier of the day
+  reproduces at mean and high activity. At low activity it does not, and the
+  <em>invariance</em> the paper nominated as its defensible result is falsified. <b>These
+  runs were propagated at 20.37 m/s</b>, before the measured sled mass moved the rated point
+  to 16.54 m/s — the falsification survives, since a uniform density scale cannot move a
+  ratio at any Δv, but the absolute numbers are historical (P19).</p>
   <div class="chart">
     <div class="row"><span class="lbl">High, F10.7 250</span><span class="track"><span class="fill" style="width:83.4%"></span></span><span class="val">×1.7302</span></div>
     <div class="row"><span class="lbl">Mean, F10.7 150</span><span class="track"><span class="fill" style="width:85.6%"></span></span><span class="val">×1.7750</span></div>
