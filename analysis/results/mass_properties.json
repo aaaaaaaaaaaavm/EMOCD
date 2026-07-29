@@ -1,8 +1,9 @@
 {
-  "dry_kg": 72.3,
-  "loaded_kg": 120.3,
-  "cg_m": 0.46,
-  "sled_kg": 4.86,
+  "dry_kg": 76.9,
+  "loaded_kg": 124.9,
+  "cg_m": 0.44,
+  "sled_kg": 9.45,
+  "sled_parametric_kg": 4.86,
   "parts": [
     [
       "Track longerons (2x Al box section)",
@@ -88,6 +89,11 @@
       "Panels / closeouts",
       5.5,
       0.75
+    ],
+    [
+      "Sled CAD reconciliation (P15, measured 9.445 kg)",
+      4.59,
+      0.15
     ]
   ]
 }

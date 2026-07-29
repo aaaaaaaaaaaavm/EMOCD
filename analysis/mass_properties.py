@@ -10,7 +10,7 @@ Reproduces (paper Sec. V-D):
     dry mass        72.3 kg
     loaded (12x3U)  120.3 kg
     CG              0.46 m from breech
-    sled assembly   4.86 kg   <- feeds motor_model.py
+    sled assembly   9.45 kg   <- measured (P15); feeds motor_model.py
 
 LIMITATION: these are parametric primitives with shell/fill factors, NOT CAD.
 Treat as estimates with perhaps +/-15 % spread until real geometry exists.
@@ -26,6 +26,10 @@ import os
 AL, TI, CU, PEEK, NDFEB, STEEL = 2700, 4430, 8960, 1320, 7500, 7800
 
 parts = []  # (name, mass_kg, cg_x_m_from_breech)
+
+# Measured from the Gen3 STEP solids (P15), superseding the parametric sled estimate
+# below as the value motor_model.M_SLED uses. As-drawn and unpocketed.
+SLED_MEASURED = 9.445
 
 
 def box(name, L, W, H, rho, cg, wall=None, n=1, fill=1.0):
@@ -63,6 +67,15 @@ def build():
     lump('ESPA bracket + fasteners', 9.00, 0.35)
     lump('Panels / closeouts', 5.50, 0.75)
 
+    # The three 'Sled ...' lines above are the parametric estimate, kept visible for
+    # the audit trail. Exact OCC solid volumes from cad/step/gen3/EMOCD_Sled_Gen3.step
+    # give 9.445 kg (P15) -- the plates are drawn solid, with no pocketing. The rollup
+    # therefore understated system dry mass by the same difference, so the delta is
+    # carried as its own line rather than by editing the parametric parts.
+    sled_parametric = sum(p[1] for p in parts if p[0].startswith('Sled'))
+    lump('Sled CAD reconciliation (P15, measured 9.445 kg)',
+         SLED_MEASURED - sled_parametric, 0.15)
+
     m_tot = sum(p[1] for p in parts)
     cg = sum(p[1] * p[2] for p in parts) / m_tot
     sled = sum(p[1] for p in parts if p[0].startswith('Sled'))
@@ -77,10 +90,14 @@ if __name__ == '__main__':
     print(f"\nDRY TOTAL       {m_tot:6.1f} kg")
     print(f"LOADED (12x4kg) {m_tot + 48:6.1f} kg")
     print(f"CG from breech  {cg:6.2f} m")
-    print(f"Sled assembly   {sled:6.2f} kg  (feeds motor_model.M_SLED)")
+    sled_parametric = sum(m for n, m, _ in parts
+                          if n.startswith('Sled') and 'reconciliation' not in n)
+    print(f"Sled assembly   {sled:6.2f} kg  (measured, P15; feeds motor_model.M_SLED)")
+    print(f"  parametric    {sled_parametric:6.2f} kg  (superseded, kept for the record)")
 
     res = dict(dry_kg=round(m_tot, 1), loaded_kg=round(m_tot + 48, 1),
                cg_m=round(cg, 2), sled_kg=round(sled, 2),
+               sled_parametric_kg=round(sled_parametric, 2),
                parts=[[n, round(m, 2), c] for n, m, c in parts])
     os.makedirs('results', exist_ok=True)
     json.dump(res, open('results/mass_properties.json', 'w'), indent=2)

@@ -2,15 +2,15 @@
   "lifetime": {
     "low_activity": {
       "base_yr": 2.61,
-      "multiplier": 1.8
+      "multiplier": 1.62
     },
     "mean": {
       "base_yr": 1.3,
-      "multiplier": 1.8
+      "multiplier": 1.62
     },
     "high_activity": {
       "base_yr": 0.52,
-      "multiplier": 1.8
+      "multiplier": 1.62
     }
   },
   "cross_validation_pct": 99.4,
@@ -21,11 +21,11 @@
     "differential_drag_days": 25.0
   },
   "conjunction": {
-    "min_km": 4.6,
-    "median_km": 12.3,
-    "realign_days": 8.1
+    "min_km": 10.1,
+    "median_km": 20.6,
+    "realign_days": 9.9
   },
   "apogee_placement_km": 0.1,
-  "recoil_Ns_per_shot": 81.5,
-  "plane_change_ceiling_deg": 0.15
+  "recoil_Ns_per_shot": 66.1,
+  "plane_change_ceiling_deg": 0.12
 }

@@ -10,13 +10,13 @@ the three-phase belt winding directly against the verified field.
 Reproduces (paper Secs. IV-B, V-A):
     thrust constant Kt          11.22 N per kA/m
     force ripple                +/-1.26 % (6th harmonic)
-    exit velocity (3U)          20.37 m/s at 16.3 g
-    pulse duration              128 ms
-    bank SoC sag                4.9 %
-    energy drawn                2.63 kJ
-    payload KE                  830 J  -> 32 % electrical-to-payload
-    copper heat                 672 J/shot
-    closed-loop dispersion      0.027 m/s (3 sigma)
+    exit velocity (3U)          16.54 m/s at 10.7 g
+    pulse duration              157 ms
+    bank SoC sag                5.2 %
+    energy drawn                2.80 kJ
+    payload KE                  547 J  -> 20 % electrical-to-payload
+    copper heat                 828 J/shot
+    closed-loop dispersion      0.026 m/s (3 sigma) at a 16.2 m/s setpoint
 
 IMPORTANT: the sled field must TRANSLATE with the sled (np.roll on the field array).
 An early version held the field fixed while commutating the current, which produced
@@ -44,9 +44,27 @@ RHO_CU = 1.7e-8                 # ohm-m
 
 # --- operating point ----------------------------------------------------------
 M_SAT = 4.0                     # kg, 3U reference payload
-M_SLED = 4.86                   # kg, from mass_properties.py (parametric solid)
+M_SLED = 9.445                  # kg, measured from cad/step/gen3/EMOCD_Sled_Gen3.step
+#                                 (P15). Superseded the 4.86 kg parametric estimate in
+#                                 mass_properties.py on 2026-07-29, under the decision
+#                                 rule declared in validation/A4_sled_structural.md
+#                                 before A4 ran: at >= 6.80 kg the CAD mass wins and the
+#                                 paper changes materially. A4 has since run and the
+#                                 as-drawn plate passes all three bands, so nothing
+#                                 structural forces a lighter chassis. This is the
+#                                 as-drawn, unpocketed geometry -- a rib-stiffened
+#                                 redesign could recover mass, and none has been
+#                                 evaluated (P5, P8, E2).
 ACCEL_ZONE = 1.30               # m
 TRACK = 1.50                    # m (accel + 0.20 m coast-trim)
+V_FLEET = 16.2                  # m/s, closed-loop fleet setpoint.
+#                                 The servo has authority only below the open-loop
+#                                 ceiling; above it, Kc saturates at K_RATED and the
+#                                 Monte Carlo measures shortfall rather than dispersion.
+#                                 Set at 98.2 % of the ceiling -- the same fraction the
+#                                 superseded 20.0 m/s setpoint held against the old
+#                                 20.37 m/s ceiling -- so the headroom argument behind
+#                                 the dispersion claim is unchanged, not re-tuned.
 C_BANK, V0 = 6.0, 96.0          # F, V
 CONV_EFF = 0.95                 # power converter
 P_AUX = 200.0                   # W
@@ -125,7 +143,7 @@ def shot(Kt, K_lim=K_RATED, dt=1e-4):
                 J_Amm2=(K_lim * 0.9) / WIND_THICK / FILL / 1e6)
 
 
-def closed_loop_mc(Kt, n=800, v_target=20.0, seed0=0):
+def closed_loop_mc(Kt, n=800, v_target=V_FLEET, seed0=0):
     """Position-scheduled profile + coast-trim correction from photogate measurement."""
     m = M_SAT + M_SLED
     out = []
@@ -163,13 +181,21 @@ if __name__ == '__main__':
     for k, v in s.items():
         print(f"  {k:12s} {v:.3f}" if isinstance(v, float) else f"  {k:12s} {v}")
     mc = closed_loop_mc(Kt)
-    print(f"closed-loop MC: mean {mc['mean']:.3f} m/s, 3sigma {mc['sigma3']:.3f} m/s")
+    print(f"closed-loop MC at {V_FLEET} m/s setpoint: "
+          f"mean {mc['mean']:.3f} m/s, 3sigma {mc['sigma3']:.4f} m/s")
+    if mc['mean'] < V_FLEET - 0.05:
+        raise SystemExit(
+            f"Servo saturated: mean {mc['mean']:.3f} < setpoint {V_FLEET}. "
+            "V_FLEET must sit below the open-loop ceiling or the dispersion figure "
+            "is measuring shortfall, not sensing noise.")
     fam = payload_family(Kt, s['F_cmd'])
     print("payload family:", fam)
 
     res = dict(Kt_N_per_kA=round(Kt * 1e3, 2), ripple_pct=round(ripple, 2),
                K_rated_kA=K_RATED / 1e3,
                shot={k: round(v, 3) for k, v in s.items()},
+               v_fleet_setpoint=V_FLEET,
+               closed_loop_mean=round(mc['mean'], 3),
                closed_loop_3sigma=round(mc['sigma3'], 4), family=fam)
     os.makedirs('results', exist_ok=True)
     json.dump(res, open('results/motor_results.json', 'w'), indent=2)

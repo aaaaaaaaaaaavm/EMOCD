@@ -4,34 +4,36 @@
   "K_rated_kA": 140.0,
   "shot": {
     "F_cmd": 1413.448,
-    "v_exit": 20.372,
-    "a_g": 16.262,
-    "t_ms": 127.7,
-    "I_peak": 391.743,
-    "sag_pct": 4.883,
-    "E_drawn": 2634.452,
-    "Q_copper": 672.072,
-    "KE_payload": 830.049,
-    "eff_pct": 31.507,
+    "v_exit": 16.537,
+    "a_g": 10.716,
+    "t_ms": 157.3,
+    "I_peak": 330.322,
+    "sag_pct": 5.19,
+    "E_drawn": 2795.639,
+    "Q_copper": 827.853,
+    "KE_payload": 546.922,
+    "eff_pct": 19.563,
     "J_Amm2": 21.0
   },
-  "closed_loop_3sigma": 0.0269,
+  "v_fleet_setpoint": 16.2,
+  "closed_loop_mean": 16.201,
+  "closed_loop_3sigma": 0.0271,
   "family": {
     "1U": {
-      "v_exit": 24.4,
-      "a_g": 23.4
+      "v_exit": 18.5,
+      "a_g": 13.4
     },
     "3U": {
-      "v_exit": 20.4,
-      "a_g": 16.3
+      "v_exit": 16.5,
+      "a_g": 10.7
     },
     "6U": {
-      "v_exit": 16.9,
-      "a_g": 11.2
+      "v_exit": 14.5,
+      "a_g": 8.3
     },
     "12U": {
-      "v_exit": 14.8,
-      "a_g": 8.5
+      "v_exit": 13.1,
+      "a_g": 6.7
     }
   }
 }

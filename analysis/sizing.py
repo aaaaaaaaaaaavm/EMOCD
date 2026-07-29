@@ -32,20 +32,41 @@ G = 9.81
 MU0 = 4e-7 * math.pi
 
 # --- shared operating point (see motor_model.py) ---
-M_SLED = 4.86          # kg
+# These mirror motor_model.py. They are duplicated rather than imported so this
+# script stays runnable without magpylib and without re-integrating a shot, but a
+# silent fork between the two is exactly how a stale operating point survives -- so
+# _check_operating_point() below asserts agreement against motor_model's own output
+# whenever results/motor_results.json is present.
+M_SLED = 9.445         # kg, measured Gen3 CAD (P15); was 4.86 parametric until 2026-07-29
 M_SAT = 4.0            # kg
-V_EXIT = 20.37         # m/s
-E_DRAWN = 2630.0       # J per shot
-F_CMD = 1413.0         # N
+V_EXIT = 16.537        # m/s
+E_DRAWN = 2795.6       # J per shot
+F_CMD = 1413.4         # N
+T_PULSE = 0.1573       # s, acceleration-zone duration
+Q_COPPER = 827.9       # J per shot, winding I^2R over the pulse
+SAG_FRAC = 0.0519      # bank state-of-charge droop actually reached at C_SELECTED
+CONV_EFF = 0.95        # power converter
+P_AUX = 200.0          # W
 ACCEL_ZONE = 1.30      # m
 BRAKE_CAP_G = 200      # g, taper-limited sled deceleration
 
 
-def capacitor_sizing(E=E_DRAWN, V0=96.0, sag_frac=0.049):
-    """C from energy and allowed state-of-charge droop."""
+def capacitor_sizing(E=E_DRAWN, V0=96.0, sag_frac=SAG_FRAC, C_selected=6.0):
+    """C from energy and allowed state-of-charge droop.
+
+    sag_frac is the droop the shot integration actually reaches at C_selected, not a
+    target -- so C_required should come back at C_selected and the check is that it
+    does. Quoting a stale target here is how the earlier 5.97 F / 4.9 % pair survived
+    the operating-point change: at the current 2795.6 J draw, holding 4.9 % would
+    need 6.35 F, which the selected 6 F bank does not provide. It sags 5.19 % instead.
+    """
     V1 = V0 * (1 - sag_frac)
     C = 2 * E / (V0 ** 2 - V1 ** 2)
-    return dict(C_required_F=round(C, 2), C_selected_F=6.0,
+    V1_49 = V0 * (1 - 0.049)
+    return dict(C_required_F=round(C, 2), C_selected_F=C_selected,
+                consistent=abs(C - C_selected) < 0.1,
+                C_for_4p9pct_sag_F=round(2 * E / (V0 ** 2 - V1_49 ** 2), 2),
+                sag_pct=round(sag_frac * 100, 2),
                 cells_series=32, cell_V=3.0, cell_F=190)
 
 
@@ -133,8 +154,19 @@ def magnet_temperature(alpha=-0.0011, dT=40, K_rated=140e3, K_nom=126e3):
                 within_rating=bool(K_needed < K_rated))
 
 
-def thermal_campaign(n_shots=12, Q_coil=672, Q_fin=1008, Q_esr=160,
-                     Q_conv=97, Q_aux=26, C_th=13500.0):
+def thermal_campaign(n_shots=12, Q_coil=None, Q_fin=None, Q_esr=160,
+                     Q_conv=None, Q_aux=None, C_th=13500.0):
+    # Derived from the operating point rather than pasted, so a change to the sled
+    # mass or stroke cannot leave these behind. Q_esr keeps its literal default --
+    # no current script models a bank ESR at all, which is the open half of E17.
+    if Q_coil is None:
+        Q_coil = Q_COPPER
+    if Q_fin is None:
+        Q_fin = 0.5 * M_SLED * V_EXIT ** 2       # all of it, dissipated in the brake
+    if Q_conv is None:
+        Q_conv = 0.5 * (M_SAT + M_SLED) * V_EXIT ** 2 * (1 / CONV_EFF - 1)
+    if Q_aux is None:
+        Q_aux = P_AUX * T_PULSE
     total = n_shots * (Q_coil + Q_fin + Q_esr + Q_conv + Q_aux)
     fin_mass = 0.004 * 0.08 * 0.30 * 8960
     fin_dT = Q_fin / (fin_mass * 385)
@@ -149,9 +181,15 @@ def thermal_campaign(n_shots=12, Q_coil=672, Q_fin=1008, Q_esr=160,
 def energy_closure():
     KE_sat = 0.5 * M_SAT * V_EXIT ** 2
     KE_sled = 0.5 * M_SLED * V_EXIT ** 2
-    accounted = KE_sat + KE_sled + 672 + 97 + 26
+    # Every loss term derived from the operating point. The converter loss is the
+    # shortfall on delivering the mechanical work at CONV_EFF; the auxiliary term is
+    # the hotel load over the pulse. Both used to be pasted literals.
+    conv = (KE_sat + KE_sled) * (1 / CONV_EFF - 1)
+    aux = P_AUX * T_PULSE
+    accounted = KE_sat + KE_sled + Q_COPPER + conv + aux
     return dict(KE_payload_J=round(KE_sat, 0), KE_sled_J=round(KE_sled, 0),
-                copper_J=672, converter_J=97, aux_J=26,
+                copper_J=round(Q_COPPER, 0), converter_J=round(conv, 0),
+                aux_J=round(aux, 0),
                 accounted_J=round(accounted, 0), drawn_J=E_DRAWN,
                 closure_pct=round(100 * accounted / E_DRAWN, 1))
 
@@ -170,7 +208,33 @@ def track_length_sweep(a=F_CMD / (M_SAT + M_SLED)):
             for L in (1.0, 1.2, 1.5, 1.8)}
 
 
+def _check_operating_point():
+    """Fail loudly if this script's constants have drifted from motor_model's output.
+
+    motor_model.py is authoritative for the operating point. If it has been run, its
+    JSON carries the real numbers; disagreeing with them means one of the two files
+    was edited alone. That is a defect, not a rounding difference, so it raises.
+    """
+    path = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                        'results', 'motor_results.json')
+    if not os.path.exists(path):
+        return                                   # nothing to check against yet
+    shot = json.load(open(path))['shot']
+    for name, here, there, tol in (
+            ('V_EXIT', V_EXIT, shot['v_exit'], 0.01),
+            ('E_DRAWN', E_DRAWN, shot['E_drawn'], 1.0),
+            ('F_CMD', F_CMD, shot['F_cmd'], 0.1),
+            ('T_PULSE', T_PULSE * 1e3, shot['t_ms'], 0.5),
+            ('Q_COPPER', Q_COPPER, shot['Q_copper'], 1.0),
+            ('SAG_FRAC', SAG_FRAC * 100, shot['sag_pct'], 0.05)):
+        if abs(here - there) > tol:
+            raise SystemExit(
+                f"sizing.py {name} = {here} disagrees with motor_model's {there}. "
+                "The operating point has forked -- fix both, do not edit one.")
+
+
 if __name__ == '__main__':
+    _check_operating_point()
     res = dict(
         capacitor=capacitor_sizing(), magnet_bond=magnet_bond(),
         inter_array=inter_array_attraction(), arrest=arrest_loads(),

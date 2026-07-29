@@ -1,7 +1,7 @@
 """
 EMOCD | Astrodynamics: lifetime multiplier, constellation seeding, conjunction, UQ.
 
-Reproduces (paper Secs. IV-C, V-B, V-C) at the final rated velocity of 20.37 m/s:
+Reproduces (paper Secs. IV-C, V-B, V-C) at the rated velocity of 16.537 m/s:
     lifetime multiplier         x1.80 at 450 km, BC 61 kg/m^2
     invariance                  x1.81 across BC 40-90 and 0.5-2.5x density
     Cowell vs orbit-averaged    99.4 % agreement on 30-day decay
@@ -123,7 +123,7 @@ def propagate(a, e, inc, argp, M0, t):
                      (sw * si) * xo + (cw * si) * yo], -1)
 
 
-def conjunction(dv=20.37, alt_m=450e3, inc_deg=51.6, n_shots=12, spacing_s=1200.0, days=30):
+def conjunction(dv=16.537, alt_m=450e3, inc_deg=51.6, n_shots=12, spacing_s=1200.0, days=30):
     r0 = RE + alt_m
     inc = math.radians(inc_deg)
     a1, e1 = boosted_elements(alt_m, dv)
@@ -169,7 +169,9 @@ def seeding(alt_m=450e3, splits=(2, 5, 10), target_deg=30):
 
 
 if __name__ == '__main__':
-    DV = 20.37
+    # Rated exit velocity, from motor_model.py at the measured 9.445 kg sled (P15).
+    # Was 20.37 m/s against the 4.86 kg parametric estimate until 2026-07-29.
+    DV = 16.537
     res = {}
 
     print("=== lifetime multiplier, 450 km ===")
