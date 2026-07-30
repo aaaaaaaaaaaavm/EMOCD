@@ -47,6 +47,9 @@ OWNER = "aaaaaaaaaaaavm"
 # create a second, empty repository under the other name and push to that, leaving the real one
 # untouched and the mistake invisible until someone opens the wrong URL.
 REPO_PREFIX = os.environ.get("REPO_PREFIX", "VOLLEY")
+# The flagship repository these are generated from. Follows REPO_PREFIX so the
+# provenance banner cannot point at a repository name that no longer exists.
+FLAGSHIP = REPO_PREFIX
 
 
 def header_table(here):
@@ -68,7 +71,7 @@ def banner(commit, kind):
 > `tools/export_companion.py`. Nothing here is authored, and any edit made here will be
 > destroyed the next time it is regenerated.
 >
-> **Source:** [{OWNER}/EMOCD](https://github.com/{OWNER}/EMOCD) at commit `{commit}`
+> **Source:** [{OWNER}/{FLAGSHIP}](https://github.com/{OWNER}/{FLAGSHIP}) at commit `{commit}`
 > **Found a mistake?** Fix it in the flagship. This repository will pick it up.
 >
 > The flagship is the authoritative engineering record. Where this repository and the
