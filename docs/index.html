@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>VOLLEY — Electromagnetic Orbital CubeSat Deployer</title>
+<title>VOLLEY: an electromagnetic orbital CubeSat deployer</title>
 <meta name="description" content="A magazine-fed electromagnetic deployer that ejects unmodified CubeSats at programmable velocity. Design study, TRL 2-3, model outputs only.">
-<meta property="og:title" content="VOLLEY — Electromagnetic Orbital CubeSat Deployer">
+<meta property="og:title" content="VOLLEY: an electromagnetic orbital CubeSat deployer">
 <meta property="og:description" content="Ejecting unmodified CubeSats at 16.5 m/s from a rideshare host. Design study, TRL 2-3, unvalidated.">
 <meta property="og:image" content="https://raw.githubusercontent.com/aaaaaaaaaaaavm/EMOCD/main/cad/renders/exterior_closed.png">
 <style>
@@ -75,14 +75,14 @@ code{font-family:var(--mono);font-size:.92em;background:var(--panel);
 
 <div class="wrap">
   <div class="head-copy">
-    <h1>VOLLEY — Electromagnetic Orbital CubeSat Deployer</h1>
+    <h1>VOLLEY: an electromagnetic orbital CubeSat deployer</h1>
     <p class="tag">A magazine-fed electromagnetic deployer that ejects unmodified CubeSats
-    from a rideshare host at programmable velocity — the unserved regime between spring
+    from a rideshare host at programmable velocity, the unserved regime between spring
     deployers (~2 m/s) and propulsive transfer vehicles (hundreds of m/s).</p>
     <div class="badges">
       <span class="badge">MIT</span>
-      <span class="badge warn">TRL 2–3</span>
-      <span class="badge bad">Model outputs only — unvalidated</span>
+      <span class="badge warn">TRL 2-3</span>
+      <span class="badge bad">Model outputs only, unvalidated</span>
       <span class="badge">No FEA</span>
       <span class="badge">No hardware</span>
     </div>
@@ -90,9 +90,11 @@ code{font-family:var(--mono);font-size:.92em;background:var(--panel);
       <a class="pill" href="https://github.com/aaaaaaaaaaaavm/EMOCD">Repository</a>
       <a class="pill" href="https://github.com/aaaaaaaaaaaavm/EMOCD/blob/main/paper/VOLLEY_IEEE_Conference.pdf">Paper (PDF)</a>
       <a class="pill" href="https://github.com/aaaaaaaaaaaavm/EMOCD/blob/main/cad/stl/EMOCD_Assembly_Gen3.stl">Spin the 3D model</a>
-      <a class="pill" href="https://github.com/aaaaaaaaaaaavm/EMOCD/blob/main/RESULTS.md">All charts</a>
+      <a class="pill" href="https://github.com/aaaaaaaaaaaavm/EMOCD/blob/main/docs/RESULTS.md">All charts</a>
       <a class="pill" href="https://github.com/aaaaaaaaaaaavm/EMOCD/blob/main/OPEN_PROBLEMS.md">Open problems</a>
-      <a class="pill" href="https://github.com/aaaaaaaaaaaavm/EMOCD/blob/main/ROADMAP.md">Roadmap</a>
+      <a class="pill" href="https://github.com/aaaaaaaaaaaavm/EMOCD/blob/main/docs/SKILLS.md">Skills, with evidence</a>
+      <a class="pill" href="https://github.com/aaaaaaaaaaaavm/EMOCD/blob/main/docs/PRIOR_ART.md">Prior art</a>
+      <a class="pill" href="https://github.com/aaaaaaaaaaaavm/EMOCD/blob/main/docs/ROADMAP.md">Roadmap</a>
     </div>
   </div>
 </div>
@@ -102,11 +104,11 @@ code{font-family:var(--mono);font-size:.92em;background:var(--panel);
 <section>
   <h2>The idea</h2>
   <p class="sub">CubeSats flown as rideshare secondaries inherit the primary customer's
-  orbit. The spring that ejects them adds 1–2 m/s — enough to drift clear, not enough to
+  orbit. The spring that ejects them adds 1-2 m/s, enough to drift clear, not enough to
   change an orbit. A satellite with no propulsion of its own is stuck there for life.
   VOLLEY replaces the spring with an ironless double-sided Halbach linear synchronous motor
   driving a reusable magnetic sled along a 1.5 m track. Twelve 3U CubeSats feed from two
-  transverse cassettes and fire one at a time. <b>The satellite is never modified — the
+  transverse cassettes and fire one at a time. <b>The satellite is never modified, the
   magnets ride the sled, not the payload.</b></p>
   <div class="grid g2">
     <figure><img src="https://raw.githubusercontent.com/aaaaaaaaaaaavm/EMOCD/main/cad/renders/interior_open.png" alt="Interior">
@@ -118,8 +120,8 @@ code{font-family:var(--mono);font-size:.92em;background:var(--panel);
 
 <section>
   <h2>A shot, end to end</h2>
-  <p class="sub">Feed → retention gate → 1.3 m of acceleration at 10.7 g → coast and trim →
-  release at 1500 mm → eddy brake at 1530–1740 mm → sled recovered for the next shot. The
+  <p class="sub">Feed, retention gate, 1.3 m of acceleration at 10.7 g, coast and trim, release at
+  1500 mm, eddy brake at 1530-1740 mm, sled recovered for the next shot. The
   sled's kinetic energy is dissipated in the brake by design, which is why efficiency is
   quoted electrical-to-payload and carries no regeneration credit.</p>
   <div class="grid g3">
@@ -130,6 +132,16 @@ code{font-family:var(--mono);font-size:.92em;background:var(--panel);
     <figure><img src="https://raw.githubusercontent.com/aaaaaaaaaaaavm/EMOCD/main/cad/renders/seq4_braking.png" alt="Braking">
       <figcaption><b>Braking.</b> Sled runs on into the eddy brake.</figcaption></figure>
   </div>
+
+  <figure style="margin-top:26px">
+    <img src="https://raw.githubusercontent.com/aaaaaaaaaaaavm/EMOCD/main/paper/figures/shot.gif" alt="Animated shot: position, velocity, commanded force and bank current against time"
+         style="max-width:620px;width:100%;display:block;margin:0 auto">
+    <figcaption style="text-align:center"><b>The stroke, drawn as it happens.</b>
+      157.3 ms from breech to release. Position, velocity, commanded force and bank current,
+      all four from the same integrator that produces the paper's numbers
+      (<code>paper/make_animation.py</code> imports <code>motor_model.py</code> rather than
+      reimplementing it).</figcaption>
+  </figure>
 </section>
 
 <section>
@@ -140,10 +152,10 @@ code{font-family:var(--mono);font-size:.92em;background:var(--panel);
     <tr><th>Quantity</th><th>Value</th><th>Source</th></tr>
     <tr><td>Thrust constant</td><td class="num">11.22 N per kA/m, ±1.26 % ripple</td><td><code>motor_model.py</code></td></tr>
     <tr><td>Exit velocity, 3U</td><td class="num"><b>16.54 m/s at 10.7 g</b></td><td><code>motor_model.py</code></td></tr>
-    <tr><td>Electrical→payload efficiency</td><td class="num">20 %</td><td><code>motor_model.py</code></td></tr>
-    <tr><td>Closed-loop dispersion</td><td class="num">0.027 m/s (3σ) → ±0.10 km apogee</td><td><code>motor_model.py</code></td></tr>
-    <tr><td>Orbital lifetime multiplier</td><td class="num">×1.62 at mean activity — <b>not invariant, P16</b></td><td><code>astro.py</code></td></tr>
-    <tr><td>Constellation seeding, 30°</td><td class="num">1.4–6.9 days vs 25 by differential drag</td><td><code>astro.py</code></td></tr>
+    <tr><td>Electrical to payload efficiency</td><td class="num">20 %</td><td><code>motor_model.py</code></td></tr>
+    <tr><td>Closed-loop dispersion</td><td class="num">0.027 m/s (3σ) to ±0.10 km apogee</td><td><code>motor_model.py</code></td></tr>
+    <tr><td>Orbital lifetime multiplier</td><td class="num">x1.62 at mean activity, <b>not invariant, P16</b></td><td><code>astro.py</code></td></tr>
+    <tr><td>Constellation seeding, 30°</td><td class="num">1.4-6.9 days vs 25 by differential drag</td><td><code>astro.py</code></td></tr>
     <tr><td>Dry / loaded mass</td><td class="num">76.9 kg / 124.9 kg</td><td><code>mass_properties.py</code></td></tr>
     <tr><td>Recoil per shot</td><td class="num">66.1 N·s</td><td><code>astro.py</code></td></tr>
     <tr><td>Track first mode</td><td class="num">109 Hz fixed-fixed (target &gt;70)</td><td><code>sizing.py</code></td></tr>
@@ -153,24 +165,24 @@ code{font-family:var(--mono);font-size:.92em;background:var(--panel);
   20.37 m/s at 16.3 g against a 4.86 kg parametric sled; exact solid volumes from the Gen3
   CAD give <b>9.445 kg</b> (P15). The consequence of each mass band was declared in
   <code>validation/A4_sled_structural.md</code> <em>before</em> the structural analysis ran,
-  and the measurement landed in the ≥ 6.80 kg branch — "the headline changes and the paper
+  and the measurement landed in the ≥ 6.80 kg branch, "the headline changes and the paper
   changes materially". A4 has since run and the drawn plate passes all three bands, so
   nothing forces a lighter chassis. The scripts moved first, then the paper. Exit velocity is
   down 19 % and efficiency from 32 % to 20 %, but the lifetime multiplier fell only
-  ×1.80 → ×1.62 — lifetime is a weak function of Δv, so the mission case survives better than
-  the machine spec. 9.445 kg is the as-drawn, unpocketed geometry and A4 reports a 17× stress
+  x1.80 to x1.62, lifetime is a weak function of Δv, so the mission case survives better than
+  the machine spec. 9.445 kg is the as-drawn, unpocketed geometry and A4 reports a 17x stress
   margin, so a rib-stiffened redesign would recover mass; nobody has designed one.</div>
   <div class="grid g2" style="margin-top:18px">
     <figure><img src="https://raw.githubusercontent.com/aaaaaaaaaaaavm/EMOCD/main/paper/figures/F01_shot.png" alt="Shot simulation">
       <figcaption><b>The shot.</b> Force, velocity and current through the 157.3 ms stroke.</figcaption></figure>
     <figure><img src="https://raw.githubusercontent.com/aaaaaaaaaaaavm/EMOCD/main/paper/figures/F04_life.png" alt="Orbital lifetime">
-      <figcaption><b>Lifetime.</b> Boosted vs unboosted decay. The ×1.62 ratio is the claim, not the absolute years.</figcaption></figure>
+      <figcaption><b>Lifetime.</b> Boosted vs unboosted decay. The x1.62 ratio is the claim, not the absolute years.</figcaption></figure>
   </div>
 </section>
 
 <section>
   <h2>Where the energy goes</h2>
-  <p class="sub">2796 J leaves the capacitor bank per shot and 547 J reaches the payload —
+  <p class="sub">2796 J leaves the capacitor bank per shot and 547 J reaches the payload , 
   the 20 %. No regeneration credit: the sled's 1291 J is dissipated in the eddy brake by
   design. Source <code>sizing.py</code> <code>energy_closure</code>; 100.0 % accounted.</p>
   <div class="chart">
@@ -185,7 +197,7 @@ code{font-family:var(--mono);font-size:.92em;background:var(--panel);
 <section>
   <h2>Seeding, against the alternative</h2>
   <p class="sub">Days to spread a constellation 30° apart. The differential-drag comparator
-  is itself a model output, not a measurement — replacing it with published flown results is
+  is itself a model output, not a measurement, replacing it with published flown results is
   an open task.</p>
   <div class="chart">
     <div class="row"><span class="lbl">VOLLEY, 10 m/s</span><span class="track"><span class="fill" style="width:5.6%"></span></span><span class="val">1.4 d</span></div>
@@ -196,33 +208,33 @@ code{font-family:var(--mono);font-size:.92em;background:var(--panel);
 </section>
 
 <section>
-  <h2>GMAT cross-check — the first external result, and it found something</h2>
-  <p class="sub">GMAT R2022a, run headless with MSISE90 / 20×20 gravity / RK89, propagated to
-  the 120 km floor at three solar-activity levels. The ×1.80 lifetime multiplier of the day
+  <h2>GMAT cross-check, the first external result, and it found something</h2>
+  <p class="sub">GMAT R2022a, run headless with MSISE90 / 20x20 gravity / RK89, propagated to
+  the 120 km floor at three solar-activity levels. The x1.80 lifetime multiplier of the day
   reproduces at mean and high activity. At low activity it does not, and the
   <em>invariance</em> the paper nominated as its defensible result is falsified. <b>These
   runs were propagated at 20.37 m/s</b>, before the measured sled mass moved the rated point
-  to 16.54 m/s — the falsification survives, since a uniform density scale cannot move a
+  to 16.54 m/s, the falsification survives, since a uniform density scale cannot move a
   ratio at any Δv, but the absolute numbers are historical (P19).</p>
   <div class="chart">
-    <div class="row"><span class="lbl">High, F10.7 250</span><span class="track"><span class="fill" style="width:83.4%"></span></span><span class="val">×1.7302</span></div>
-    <div class="row"><span class="lbl">Mean, F10.7 150</span><span class="track"><span class="fill" style="width:85.6%"></span></span><span class="val">×1.7750</span></div>
-    <div class="row"><span class="lbl">Low, F10.7 70</span><span class="track"><span class="fill warn" style="width:100%"></span></span><span class="val">×2.0739</span></div>
-    <div class="row"><span class="lbl">astro.py claim</span><span class="track"><span class="fill dim" style="width:86.8%"></span></span><span class="val">×1.80</span></div>
+    <div class="row"><span class="lbl">High, F10.7 250</span><span class="track"><span class="fill" style="width:83.4%"></span></span><span class="val">x1.7302</span></div>
+    <div class="row"><span class="lbl">Mean, F10.7 150</span><span class="track"><span class="fill" style="width:85.6%"></span></span><span class="val">x1.7750</span></div>
+    <div class="row"><span class="lbl">Low, F10.7 70</span><span class="track"><span class="fill warn" style="width:100%"></span></span><span class="val">x2.0739</span></div>
+    <div class="row"><span class="lbl">astro.py claim</span><span class="track"><span class="fill dim" style="width:86.8%"></span></span><span class="val">x1.80</span></div>
   </div>
   <p></p>
-  <div class="note"><b>Spread 18.48 % against a ≤5 % band declared before the run — A5's
+  <div class="note"><b>Spread 18.48 % against a ≤5 % band declared before the run, A5's
   verdict is FAIL.</b> The mechanism was tested, not guessed: <code>astro.py</code> models
   solar activity as a uniform multiplicative scale on density, and sweeping that scale over a
-  <b>40× range</b> moves the multiplier only 1.7992 → 1.7968. A uniform density factor
+  <b>40x range</b> moves the multiplier only 1.7992 to 1.7968. A uniform density factor
   divides both lifetimes by the same number, so the ratio is invariant <em>by construction of
-  the model</em>. MSIS instead changes the shape of the density–altitude profile with F10.7,
+  the model</em>. MSIS instead changes the shape of the density, altitude profile with F10.7,
   the boosted orbit's apogee sits ~37 km higher, and the ratio then moves. Written up as
   <b>P16</b>.</div>
   <p></p>
   <p class="sub">Separately, over a bounded 30-day window the fitted decay rates are
-  −0.1618 km/day (GMAT) against −0.1216 km/day (<code>astro.py</code>) — GMAT decays
-  1.33× faster. Reported SMA is osculating and its short-period variation runs 12.2 km peak
+  −0.1618 km/day (GMAT) against −0.1216 km/day (<code>astro.py</code>), GMAT decays
+  1.33x faster. Reported SMA is osculating and its short-period variation runs 12.2 km peak
   to peak, several times the decay across the window, so the comparison is a least-squares
   rate over 31 daily samples rather than a difference of endpoints.</p>
 </section>
@@ -233,23 +245,23 @@ code{font-family:var(--mono);font-size:.92em;background:var(--panel);
   field (analytic wave model vs magpylib, agreeing to three digits) and orbital decay
   (orbit-averaged Gauss vs an independent Cowell RK4, 99.4 %). Nothing has been validated by
   hardware, FEA, or third-party review. Each cross-check below carries an acceptance band
-  declared <em>before</em> its run. Three have now been run, and one of the three failed —
+  declared <em>before</em> its run. Three have now been run, and one of the three failed , 
   which is the point of declaring the band first.</p>
   <table>
     <tr><th>Analysis</th><th>Tool</th><th>Closes</th><th>Status</th></tr>
     <tr><td>A1 airgap field</td><td>FEMM</td><td>E1, E2</td><td>specified</td></tr>
-    <tr><td><b>A4 sled chassis</b></td><td>CalculiX ccx 2.21</td><td><b>P5, P8</b></td><td><b>run — all 3 bands pass</b></td></tr>
-    <tr><td>A5 lifetime &amp; seeding</td><td>GMAT R2022a</td><td>E6, <b>P16</b></td><td><b>run — FAIL, invariance falsified</b></td></tr>
+    <tr><td><b>A4 sled chassis</b></td><td>CalculiX ccx 2.21</td><td><b>P5, P8</b></td><td><b>run, all 3 bands pass</b></td></tr>
+    <tr><td>A5 lifetime &amp; seeding</td><td>GMAT R2022a</td><td>E6, <b>P16</b></td><td><b>run, FAIL, invariance falsified</b></td></tr>
     <tr><td>A6 conjunction P<sub>c</sub></td><td>NASA CARA</td><td>P1</td><td>specified</td></tr>
     <tr><td>A7 separation &amp; tip-off</td><td>Project Chrono</td><td>E7</td><td>specified</td></tr>
-    <tr><td>A8 pulse-power chain</td><td>ngspice</td><td>E17</td><td><b>run — bands met, 2 findings</b></td></tr>
+    <tr><td>A8 pulse-power chain</td><td>ngspice</td><td>E17</td><td><b>run, bands met, 2 findings</b></td></tr>
   </table>
   <p></p>
   <div class="note">The paper once carried four numbers its own scripts did not reproduce.
   All four were found by rebuilding the analysis from scratch and corrected against the
   scripts; the conjunction claim was reframed rather than patched, because that minimum
   turned out to be a near-resonant beat sample that swings an order of magnitude with a
-  ±2.5 % velocity change. The defects stay documented as P1–P4 for the audit trail.</div>
+  ±2.5 % velocity change. The defects stay documented as P1, P4 for the audit trail.</div>
 </section>
 
 <section>
@@ -268,11 +280,11 @@ code{font-family:var(--mono);font-size:.92em;background:var(--panel);
 
 <footer>
   <div class="wrap" style="padding:0">
-    <p><b>Adityavardhan Mishra</b> — Department of Mechanical Engineering, Symbiosis
+    <p><b>Adityavardhan Mishra</b>, Department of Mechanical Engineering, Symbiosis
     Institute of Technology, Symbiosis International (Deemed University), Pune.
     Project begun April 2021.</p>
-    <p>Design study at TRL 2–3 with no experimental validation. Read
-    <a href="https://github.com/aaaaaaaaaaaavm/EMOCD/blob/main/PROVENANCE.md">PROVENANCE.md</a>
+    <p>Design study at TRL 2-3 with no experimental validation. Read
+    <a href="https://github.com/aaaaaaaaaaaavm/EMOCD/blob/main/docs/PROVENANCE.md">PROVENANCE.md</a>
     before citing anything here. MIT licensed.</p>
   </div>
 </footer>

@@ -620,6 +620,38 @@ course named. The four source resumes still carry the error and need the same co
 **Generalised, because one instance is not the problem:** `docs/SKILLS.md` now carries a
 provenance rule for CV claims, and every entry in the coursework section names its course.
 
+### P24. The stroke time is stale in six places, and A8's band was set at the old one: MEDIUM, NEW 2026-07-30
+Found while building the shot animation, which draws its time axis from `motor_model.shot()`
+and came out at **157.3 ms** against the **127.7 ms** printed everywhere else.
+
+127.7 ms is the superseded figure. Under constant acceleration the stroke time is `2s/v`:
+
+| Operating point | 2s/v over the 1.30 m accel zone |
+|---|---|
+| 20.370 m/s, the pre-P15 point | 127.6 ms |
+| 16.537 m/s, current | 157.2 ms |
+
+So it belongs to the 4.86 kg parametric sled and survived the P8/P15 propagation in six
+places: `README.md` twice, this file's E23 entry, `validation/A8_pulse_spice.md` twice, the
+`CHANGELOG` record of A8's bands, and `docs/VALIDATION_REPORT.md`.
+
+**The part that matters is not the typo.** `validation/A8_pulse_spice.md` declared a band of
+**127.7 ms +/-10 %**, so 114.9 to 140.5 ms, and `VALIDATION_REPORT.md` records A8 passing it at
+127.66 ms. At the current operating point the value is 157.3 ms, which is **23 % above the band
+centre and outside the band entirely**. A8's recorded pass is a pass against a superseded
+target.
+
+This is the concrete instance of what P19 says in general. It is not a new failure: A8 ran
+correctly against the operating point that existed when it ran. But "A8 passed" cannot be
+quoted without saying which operating point it passed at, and until it is re-run the row in
+`VALIDATION_REPORT.md` overstates what is known.
+
+**Done:** the four prose occurrences corrected to 157.3 ms.
+**Not done, and deliberately not papered over:** A8's band and its recorded result are left as
+they were, marked as belonging to the superseded point. Rewriting a declared band after the
+fact to fit the new number is the exact move this repository exists to avoid. A8 gets re-run
+with a band declared fresh, and `ROADMAP.md` already sequences that.
+
 ## E: Unsolved engineering
 
 ### E1. Three-dimensional field closure: 2-D HALF CLOSED 2026-07-29 by A1
@@ -916,7 +948,7 @@ running frequency. At the as-drawn 9.445 kg sled (a = 105 m/s^2):
 | 6th harmonic through the 109 Hz fixed mode | 0.87 m/s | 8.3 ms | 3.6 mm |
 | fundamental through 109 Hz | 5.23 m/s | 49.8 ms | 130 mm |
 
-So both modes are crossed inside the first 4-50 ms of a 127.7 ms stroke, twelve times per
+So both modes are crossed inside the first 4-50 ms of a 157.3 ms stroke, twelve times per
 campaign, and the crossings happen in the first few millimetres of travel where the sled is
 still adjacent to the breech and the launch-lock hardware.
 

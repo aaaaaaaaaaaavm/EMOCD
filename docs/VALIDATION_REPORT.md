@@ -109,7 +109,7 @@ terminal.
 | Quantity | `motor_model.py` | ngspice | Deviation | Band | |
 |---|---|---|---|---|---|
 | Exit velocity | 20.372 m/s | 20.366 | −0.03 % | ±10 % | pass |
-| Pulse duration | 127.7 ms | 127.66 | −0.03 % | ±10 % | pass |
+| Pulse duration | 127.7 ms | 127.66 | −0.03 % | ±10 % | pass **at the superseded operating point**, see P24. The current value is 157.3 ms, outside this band |
 | Peak current | 391.7 A | **415.2 A** | +5.98 % | ±10 % | pass |
 | Bank sag | 4.88 % | 5.06 % | +0.18 pts | ±1.5 pts | pass |
 | Energy drawn | 2634 J | 2729 J | +3.59 % | ±5 % | pass |

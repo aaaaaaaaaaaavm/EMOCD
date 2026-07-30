@@ -49,7 +49,7 @@ modified, the magnets ride the sled, not the payload.
 </tr>
 <tr>
 <td width="50%"><a href="cad/renders/exterior_aft_mounting.png"><img src="cad/renders/exterior_aft_mounting.png" alt="Aft ESPA mounting interface"></a><br><sub><b>Aft mounting.</b> Ø460 mm ring flange, Ø400 mm bolt circle, 24 holes, four gussets.</sub></td>
-<td width="50%"><a href="cad/renders/seq2_midstroke.png"><img src="cad/renders/seq2_midstroke.png" alt="Sled at mid-stroke"></a><br><sub><b>Mid-stroke.</b> Sled under thrust, payload still cradled, 127.7 ms from breech to release.</sub></td>
+<td width="50%"><a href="cad/renders/seq2_midstroke.png"><img src="cad/renders/seq2_midstroke.png" alt="Sled at mid-stroke"></a><br><sub><b>Mid-stroke.</b> Sled under thrust, payload still cradled, 157.3 ms from breech to release.</sub></td>
 </tr>
 </table>
 
@@ -146,7 +146,7 @@ them on a Debian/Ubuntu machine and verifies each one before exiting.
 
 <table>
 <tr>
-<td width="50%"><img src="paper/figures/F01_shot.png" alt="Shot simulation: force, velocity, current"><br><sub><b>The shot.</b> Force, velocity and current through the 127.7 ms stroke (<code>motor_model.py</code>).</sub></td>
+<td width="50%"><img src="paper/figures/F01_shot.png" alt="Shot simulation: force, velocity, current"><br><sub><b>The shot.</b> Force, velocity and current through the 157.3 ms stroke (<code>motor_model.py</code>).</sub></td>
 <td width="50%"><img src="paper/figures/F04_life.png" alt="Orbital lifetime with and without the boost"><br><sub><b>Lifetime.</b> Boosted vs unboosted decay, the x1.80 multiplier is the claim, not the absolute years (<code>astro.py</code>).</sub></td>
 </tr>
 </table>
