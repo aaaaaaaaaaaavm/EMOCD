@@ -53,9 +53,9 @@ made=0
 
 # ---------------------------------------------------------------- v0.0-concept
 if [ "$FORCE" != "1" ] && git rev-parse -q --verify "refs/tags/v0.0-concept" >/dev/null; then
-  echo "   v0.0-concept already exists -- left alone (FORCE=1 to replace)"
+  echo "   v0.0-concept already exists, left alone (FORCE=1 to replace)"
 elif ! git cat-file -e 0c3cfafea3dff26ea7275695baf11f4e509d598c^{commit} 2>/dev/null; then
-  echo "   v0.0-concept SKIPPED -- commit 0c3cfafea not in this clone"
+  echo "   v0.0-concept SKIPPED, commit 0c3cfafea not in this clone"
   missing=$((missing+1))
 else
   GIT_COMMITTER_DATE="2021-03-22T10:00:00+05:30" \
@@ -71,9 +71,9 @@ fi
 
 # ---------------------------------------------------------------- v0.1-lsm
 if [ "$FORCE" != "1" ] && git rev-parse -q --verify "refs/tags/v0.1-lsm" >/dev/null; then
-  echo "   v0.1-lsm already exists -- left alone (FORCE=1 to replace)"
+  echo "   v0.1-lsm already exists, left alone (FORCE=1 to replace)"
 elif ! git cat-file -e dd63191f789f3184ff7a728f1b2b27051b92db37^{commit} 2>/dev/null; then
-  echo "   v0.1-lsm SKIPPED -- commit dd63191f7 not in this clone"
+  echo "   v0.1-lsm SKIPPED, commit dd63191f7 not in this clone"
   missing=$((missing+1))
 else
   GIT_COMMITTER_DATE="2025-07-01T10:00:00+05:30" \
@@ -89,9 +89,9 @@ fi
 
 # ---------------------------------------------------------------- v0.2-gen1
 if [ "$FORCE" != "1" ] && git rev-parse -q --verify "refs/tags/v0.2-gen1" >/dev/null; then
-  echo "   v0.2-gen1 already exists -- left alone (FORCE=1 to replace)"
+  echo "   v0.2-gen1 already exists, left alone (FORCE=1 to replace)"
 elif ! git cat-file -e 1fc1203b2766df4d80f2222fe677ee1a7bce7cb8^{commit} 2>/dev/null; then
-  echo "   v0.2-gen1 SKIPPED -- commit 1fc1203b2 not in this clone"
+  echo "   v0.2-gen1 SKIPPED, commit 1fc1203b2 not in this clone"
   missing=$((missing+1))
 else
   GIT_COMMITTER_DATE="2025-09-15T10:00:00+05:30" \
@@ -108,9 +108,9 @@ fi
 
 # ---------------------------------------------------------------- v0.3-gen2
 if [ "$FORCE" != "1" ] && git rev-parse -q --verify "refs/tags/v0.3-gen2" >/dev/null; then
-  echo "   v0.3-gen2 already exists -- left alone (FORCE=1 to replace)"
+  echo "   v0.3-gen2 already exists, left alone (FORCE=1 to replace)"
 elif ! git cat-file -e 9b93d53fc3fdf2d6b675a01731bd622f65aa270b^{commit} 2>/dev/null; then
-  echo "   v0.3-gen2 SKIPPED -- commit 9b93d53fc not in this clone"
+  echo "   v0.3-gen2 SKIPPED, commit 9b93d53fc not in this clone"
   missing=$((missing+1))
 else
   GIT_COMMITTER_DATE="2026-02-15T10:00:00+05:30" \
@@ -126,9 +126,9 @@ fi
 
 # ---------------------------------------------------------------- v0.4-gen3
 if [ "$FORCE" != "1" ] && git rev-parse -q --verify "refs/tags/v0.4-gen3" >/dev/null; then
-  echo "   v0.4-gen3 already exists -- left alone (FORCE=1 to replace)"
+  echo "   v0.4-gen3 already exists, left alone (FORCE=1 to replace)"
 elif ! git cat-file -e 2162bb8d4fd84c154e2af339f9b001508d6f2be1^{commit} 2>/dev/null; then
-  echo "   v0.4-gen3 SKIPPED -- commit 2162bb8d4 not in this clone"
+  echo "   v0.4-gen3 SKIPPED, commit 2162bb8d4 not in this clone"
   missing=$((missing+1))
 else
   GIT_COMMITTER_DATE="2026-07-23T10:00:00+05:30" \
@@ -144,13 +144,13 @@ fi
 
 # ---------------------------------------------------------------- v1.0
 if [ "$FORCE" != "1" ] && git rev-parse -q --verify "refs/tags/v1.0" >/dev/null; then
-  echo "   v1.0 already exists -- left alone (FORCE=1 to replace)"
-elif ! git cat-file -e 0fb365d55ba98ea304ef5c405ae45c503e0f0bea^{commit} 2>/dev/null; then
-  echo "   v1.0 SKIPPED -- commit 0fb365d55 not in this clone"
+  echo "   v1.0 already exists, left alone (FORCE=1 to replace)"
+elif ! git cat-file -e 715b61b13ae2c736118eec22f19932fe17ae12e3^{commit} 2>/dev/null; then
+  echo "   v1.0 SKIPPED, commit 715b61b13 not in this clone"
   missing=$((missing+1))
 else
   GIT_COMMITTER_DATE="2026-07-29T12:00:00+05:30" \
-  git tag -f -a "v1.0" 0fb365d55ba98ea304ef5c405ae45c503e0f0bea -m 'v1.0 -- current published state (2026-07-29)
+  git tag -f -a "v1.0" 715b61b13ae2c736118eec22f19932fe17ae12e3 -m 'v1.0 -- current published state (2026-07-29)
 
 Rated point 16.54 m/s at 10.7 g from a sled mass measured in CAD. Paper
 rebuilt from corrected source. 19 numbered problems and 23 open engineering
@@ -159,26 +159,26 @@ declared before the run.
 
 Known-open at this tag: P9 envelope, P14 CAD defects, P16 BC half untested,
 P17 attraction 37% high, P19 validations predate the operating point.' >/dev/null
-  echo "   v1.0 -> 0fb365d55  (2026-07-29)"
+  echo "   v1.0 -> 715b61b13  (2026-07-29)"
   made=$((made+1))
 fi
 
 # ---------------------------------------------------------------- v0.1.0
-# ALWAYS re-pointed, never skipped. A fresh clone fetches this tag from GitHub still pointing
-# at 5b47cd1, a commit the history reconstruction removed. Leaving it alone would make
-# publish_releases.sh force-push that stale pointer and change nothing. Its GitHub Release
-# keeps its own original notes and publication date; only the ref moves.
-if ! git cat-file -e 62b0b2c117aa03770887f9ea5a777930f18fea65^{commit} 2>/dev/null; then
-  echo "   v0.1.0 SKIPPED -- commit 62b0b2c11 not in this clone"
+# ALWAYS re-pointed, never skipped. A clone may fetch this tag pointing at a
+# superseded commit; leaving it alone would make publish_releases.sh push a stale
+# pointer and change nothing. Its Release keeps its own notes and publication
+# date; only the ref moves.
+if ! git cat-file -e 0162a9071a34b0fb5654c4e1c64fb39e2e145a37^{commit} 2>/dev/null; then
+  echo "   v0.1.0 SKIPPED, commit 0162a9071 not in this clone"
   missing=$((missing+1))
 else
   GIT_COMMITTER_DATE="2026-07-23T18:00:00+05:30" \
-  git tag -f -a "v0.1.0" 62b0b2c117aa03770887f9ea5a777930f18fea65 -m 'EMOCD v0.1.0 — design study, reproduced and corrected against its own scripts
+  git tag -f -a "v0.1.0" 0162a9071a34b0fb5654c4e1c64fb39e2e145a37 -m 'EMOCD v0.1.0 — design study, reproduced and corrected against its own scripts
 
 Re-pointed 2026-07-29: the history was reconstructed and this tag'"'"'s original
 commit no longer exists. It now points at the equivalent commit in the
 rebuilt history. See HISTORY.md.' >/dev/null
-  echo "   v0.1.0 -> 62b0b2c11  (2026-07-23)  [re-pointed]"
+  echo "   v0.1.0 -> 0162a9071  (2026-07-23)  [re-pointed]"
   made=$((made+1))
 fi
 
@@ -186,7 +186,7 @@ echo
 echo "$made tag(s) written."
 if [ "$missing" -ne 0 ]; then
   echo
-  echo "$missing tag(s) skipped -- their commits are not in this clone."
+  echo "$missing tag(s) skipped, their commits are not in this clone."
   echo "A full clone of the default branch contains all seven."
   exit 1
 fi
