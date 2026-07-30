@@ -30,7 +30,7 @@
 set -euo pipefail
 
 REPO="${REPO:-aaaaaaaaaaaavm/VOLLEY}"
-TAGS=(v0.0-concept v0.1-lsm v0.2-gen1 v0.3-gen2 v0.4-gen3 v1.0)
+TAGS=(v0.0-concept v0.1-lsm v0.2-gen1 v0.3-gen2 v0.4-gen3 v1.0 v1.1)
 
 command -v gh >/dev/null || { echo "gh CLI not found. https://cli.github.com/"; exit 1; }
 gh auth status >/dev/null 2>&1 || { echo "Run: gh auth login"; exit 1; }
@@ -79,7 +79,7 @@ for t in "${TAGS[@]}"; do
   notes="$(git for-each-ref "refs/tags/$t" --format='%(contents:body)')"
   title="$(git for-each-ref "refs/tags/$t" --format='%(contents:subject)')"
   latest=""
-  [ "$t" = "v1.0" ] && latest="--latest"
+  [ "$t" = "v1.1" ] && latest="--latest"
   gh release create "$t" --repo "$REPO" --title "$title" --notes "$notes" $latest \
     && echo "   $t release created"
 done

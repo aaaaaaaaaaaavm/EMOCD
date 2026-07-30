@@ -163,6 +163,50 @@ P17 attraction 37% high, P19 validations predate the operating point.' >/dev/nul
   made=$((made+1))
 fi
 
+# ---------------------------------------------------------------- v1.1
+if [ "$FORCE" != "1" ] && git rev-parse -q --verify "refs/tags/v1.1" >/dev/null; then
+  echo "   v1.1 already exists, left alone (FORCE=1 to replace)"
+elif ! git cat-file -e 6ec0dd1^{commit} 2>/dev/null; then
+  echo "   v1.1 SKIPPED, commit 6ec0dd1 not in this clone"
+  missing=$((missing+1))
+else
+  GIT_COMMITTER_DATE="2026-07-30T19:15:00+05:30" \
+  git tag -f -a "v1.1" 6ec0dd1 -m 'v1.1 -- prior art, the bank ESR, and the rename (2026-07-30)
+
+Rated point unchanged at 16.537 m/s and 10.7 g. What moved is the electrical
+side and the honesty of the comparison.
+
+Bank ESR now modelled. A8 re-run at the current operating point failed its
+energy-closure band at 97.0 %, and the cause was a loss no analysis script
+carried: 86 J a shot in the supercapacitor bank own series resistance.
+Energy per shot 2.80 to 2.88 kJ, efficiency 19.6 to 19.0 %, sag 5.19 to
+5.35 %. The correction also settled a 5 % peak-current disagreement that had
+been recorded twice and blamed on the integrator; the analytic model and
+ngspice now agree to 0.01 %.
+
+Prior art found and two claims retracted. Published work on this exact
+concept was cited nowhere, one paper of it eight months before this
+repository went public. The novelty claim was narrowed to what survives it,
+and ADR-003 efficiency argument was withdrawn as false rather than
+re-sourced.
+
+Programme renamed to VOLLEY. CAD part numbers keep the EMOCD prefix by
+decision, not oversight; see ADR-018.
+
+25 numbered problems and 24 open engineering items published, 18 decision
+records. Four of nine validations run, each against a band declared before
+the run.
+
+Known-open at this tag: P9 envelope 44 % over ESPA Grande, P14 CAD defects
+upstream of Kt, P16 ballistic-coefficient half untested, P17 attraction 37 %
+high, P19 A5 still predates the operating point, P24 the 12 mohm ESR has no
+source, P25 a retracted claim reached four artifacts before anyone noticed.
+
+Still nothing built, fired or measured.' >/dev/null
+  echo "   v1.1 -> 6ec0dd1  (2026-07-30)"
+  made=$((made+1))
+fi
+
 # ---------------------------------------------------------------- v0.1.0
 # ALWAYS re-pointed, never skipped. A clone may fetch this tag pointing at a
 # superseded commit; leaving it alone would make publish_releases.sh push a stale
