@@ -66,13 +66,17 @@ Programme structure per docs/programme/ADOPTION.md in the flagship."
       gh repo create "$OWNER/$name" --public --description "$desc" --source=. --push
     fi
     gh repo edit "$OWNER/$name" --description "$desc" >/dev/null 2>&1 || true
+    # Without topics a repository is invisible to the search most people actually use.
+    gh repo edit "$OWNER/$name" \
+      --add-topic cubesat --add-topic aerospace --add-topic electromagnetic-launch \
+      --add-topic space-systems >/dev/null 2>&1 || true
   )
   echo "   https://github.com/$OWNER/$name"
 }
 
-push_one EMOCD-paper  "IEEE companion for VOLLEY -- manuscript and reproducibility package. Generated from the flagship; do not edit here."
-push_one EMOCD-thesis "Thesis companion for VOLLEY -- final-year submission material. Generated from the flagship; edit university/ only."
-push_one EMOCD-lab    "VOLLEY Phase II -- research and redesign. Deliberately unstable; nothing here should be cited."
+push_one EMOCD-paper  "IEEE companion for VOLLEY: manuscript, figures, and the analysis that reproduces every number in it from a clean clone. Generated from the flagship; do not edit here."
+push_one EMOCD-thesis "Thesis companion for VOLLEY: final-year submission material, with the decision records and defect ledger as appendices. Generated from the flagship; edit university/ only."
+push_one EMOCD-lab    "VOLLEY Phase II: research and redesign, where the frozen baseline does not apply. Deliberately unstable; nothing here should be cited."
 
 echo
 echo "== enabling Issues on the flagship =="
@@ -84,9 +88,11 @@ gh repo edit "$OWNER/EMOCD" --enable-issues >/dev/null 2>&1 \
 echo
 echo "== flagship description and topics =="
 gh repo edit "$OWNER/EMOCD" \
-  --description "Electromagnetic Orbital CubeSat Deployer -- a magazine-fed linear synchronous motor ejecting unmodified 3U CubeSats at 16.5 m/s. Design study, TRL 2-3, model outputs only." \
+  --description "VOLLEY: a magazine-fed ironless Halbach linear synchronous motor that ejects unmodified 3U CubeSats at 16.5 m/s and 10.7 g. Design study, TRL 2-3, every number a model output, every defect published." \
   --add-topic cubesat --add-topic aerospace --add-topic linear-motor \
   --add-topic halbach-array --add-topic orbital-mechanics --add-topic design-study \
+  --add-topic electromagnetic-launch --add-topic space-systems \
+  --add-topic finite-element-analysis --add-topic astrodynamics \
   >/dev/null 2>&1 || echo "   (topic edit failed -- set them in the web UI)"
 
 echo
