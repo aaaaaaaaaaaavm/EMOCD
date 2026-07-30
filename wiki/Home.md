@@ -1,15 +1,15 @@
 # VOLLEY: an electromagnetic orbital CubeSat deployer
 
 Wiki landing page. Source of truth stays in the repository:
-[aaaaaaaaaaaavm/emocd](https://github.com/aaaaaaaaaaaavm/emocd). This page summarises
+[aaaaaaaaaaaavm/emocd](https://github.com/aaaaaaaaaaaavm/VOLLEY). This page summarises
 what exists and points at it; when the two disagree, the repository is right.
 
-**Read [`PROVENANCE.md`](https://github.com/aaaaaaaaaaaavm/emocd/blob/main/PROVENANCE.md)
+**Read [`PROVENANCE.md`](https://github.com/aaaaaaaaaaaavm/VOLLEY/blob/main/docs/PROVENANCE.md)
 before citing anything here.** Every quantity on this page is a model output. None of it
 has been measured, tested, or reviewed by a third party.
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/aaaaaaaaaaaavm/EMOCD/main/cad/renders/exterior_closed.png" alt="VOLLEY deployer, closed" width="100%">
+  <img src="https://raw.githubusercontent.com/aaaaaaaaaaaavm/VOLLEY/main/cad/renders/exterior_closed.png" alt="VOLLEY deployer, closed" width="100%">
 </p>
 
 ---
@@ -30,17 +30,17 @@ transfer vehicles (hundreds of m/s).
 
 <table>
 <tr>
-<td width="50%"><img src="https://raw.githubusercontent.com/aaaaaaaaaaaavm/EMOCD/main/cad/renders/interior_open.png" alt="Interior"><br><sub><b>Interior.</b> Track, stator, sled, both cassettes.</sub></td>
-<td width="50%"><img src="https://raw.githubusercontent.com/aaaaaaaaaaaavm/EMOCD/main/cad/renders/exploded_view.png" alt="Exploded view"><br><sub><b>Exploded.</b> The nine documents.</sub></td>
+<td width="50%"><img src="https://raw.githubusercontent.com/aaaaaaaaaaaavm/VOLLEY/main/cad/renders/interior_open.png" alt="Interior"><br><sub><b>Interior.</b> Track, stator, sled, both cassettes.</sub></td>
+<td width="50%"><img src="https://raw.githubusercontent.com/aaaaaaaaaaaavm/VOLLEY/main/cad/renders/exploded_view.png" alt="Exploded view"><br><sub><b>Exploded.</b> The nine documents.</sub></td>
 </tr>
 <tr>
-<td width="50%"><img src="https://raw.githubusercontent.com/aaaaaaaaaaaavm/EMOCD/main/cad/renders/exterior_aft_mounting.png" alt="Aft mounting"><br><sub><b>Aft mounting.</b> ESPA ring flange, 24 bolt holes.</sub></td>
-<td width="50%"><img src="https://raw.githubusercontent.com/aaaaaaaaaaaavm/EMOCD/main/cad/renders/seq2_midstroke.png" alt="Mid-stroke"><br><sub><b>Mid-stroke.</b> Sled under thrust, payload cradled.</sub></td>
+<td width="50%"><img src="https://raw.githubusercontent.com/aaaaaaaaaaaavm/VOLLEY/main/cad/renders/exterior_aft_mounting.png" alt="Aft mounting"><br><sub><b>Aft mounting.</b> ESPA ring flange, 24 bolt holes.</sub></td>
+<td width="50%"><img src="https://raw.githubusercontent.com/aaaaaaaaaaaavm/VOLLEY/main/cad/renders/seq2_midstroke.png" alt="Mid-stroke"><br><sub><b>Mid-stroke.</b> Sled under thrust, payload cradled.</sub></td>
 </tr>
 </table>
 
 Spin the geometry in the browser:
-[`cad/stl/EMOCD_Assembly_Gen3.stl`](https://github.com/aaaaaaaaaaaavm/emocd/blob/main/cad/stl/EMOCD_Assembly_Gen3.stl)
+[`cad/stl/EMOCD_Assembly_Gen3.stl`](https://github.com/aaaaaaaaaaaavm/VOLLEY/blob/main/cad/stl/EMOCD_Assembly_Gen3.stl)
 GitHub renders STL natively. Derived meshes; `cad/step/gen3/` is the master geometry.
 
 ## How a shot works
@@ -61,10 +61,10 @@ flowchart LR
 | | |
 |---|---|
 | TRL | 2-3 |
-| Analysis | 5 Python scripts, reproducible, outputs committed as JSON |
-| CAD | 9 Fusion 360 documents in 3 generations, Gen3 current, STEP exports committed ([`cad/`](https://github.com/aaaaaaaaaaaavm/emocd/tree/main/cad)) |
-| FEA | none |
-| Hardware | none |
+| Analysis | 6 Python scripts, reproducible, outputs committed as JSON |
+| CAD | 9 Fusion 360 documents in 3 generations, Gen3 current, STEP exports committed ([`cad/`](https://github.com/aaaaaaaaaaaavm/VOLLEY/tree/main/cad)) |
+| FEA | magnetostatic (A1) and structural (A4) have run; no 3-D solve |
+| Hardware | none. Nothing here has been built, fired or measured |
 | Independent review | none |
 
 ## Headline results
@@ -75,7 +75,7 @@ All figures are script outputs, not measurements.
 |---|---|---|
 | Thrust constant | 11.22 N per kA/m, ±1.26 % ripple | `motor_model.py` |
 | Exit velocity, 3U | **16.54 m/s at 10.7 g** | `motor_model.py` |
-| Electrical to payload efficiency | 20 % (2.80 kJ drawn, 547 J delivered) | `motor_model.py` |
+| Electrical to payload efficiency | 19 % (2.88 kJ drawn, 547 J delivered) | `motor_model.py` |
 | Closed-loop dispersion | 0.027 m/s (3σ) at a 16.2 m/s setpoint to ±0.10 km apogee | `motor_model.py` |
 | Orbital lifetime multiplier | x1.62 at mean activity, **not invariant, see P16** | `astro.py` |
 | Constellation seeding | 30° in 1.4-6.9 days vs 25 days by differential drag | `astro.py` |
@@ -97,9 +97,12 @@ consequences of the 3U design, not designed variants (see E9).
 > first, then the paper. 9.445 kg is the as-drawn, unpocketed geometry and A4 reports a 17x
 > stress margin, so a rib-stiffened redesign would recover mass; nobody has designed one.
 
-Two results have independent cross-checks: the Halbach airgap field (analytic wave model
-vs magpylib, agreeing to three digits) and orbital decay (orbit-averaged Gauss vs Cowell
-RK4, 99.4 %). Everything else is single-sourced and correspondingly weaker.
+Three results have independent cross-checks: the Halbach airgap field (analytic wave model
+vs magpylib to three digits, and again vs a meshed magnetostatic FEM agreeing on the thrust
+constant to 0.07 %), orbital decay (orbit-averaged Gauss vs Cowell RK4, 99.4 %), and the
+pulse chain (analytic vs ngspice, agreeing on peak current to 0.01 % once the bank's series
+resistance was modelled, which is a correction ngspice itself forced: P24). Everything else
+is single-sourced and correspondingly weaker.
 
 ## Charts
 
@@ -110,6 +113,7 @@ pie showData
     "Payload KE, the useful output" : 547
     "Copper loss" : 828
     "Converter loss" : 97
+    "Bank ESR loss" : 86
     "Auxiliary" : 31
 ```
 
@@ -122,12 +126,12 @@ xychart-beta
 ```
 
 Full set, including the GMAT cross-check, in
-[`RESULTS.md`](https://github.com/aaaaaaaaaaaavm/emocd/blob/main/RESULTS.md).
+[`RESULTS.md`](https://github.com/aaaaaaaaaaaavm/VOLLEY/blob/main/docs/RESULTS.md).
 
 ## Design decisions that are locked
 
 These were argued out and should not be silently reopened; reasoning is in
-[`docs/DECISION_LOG.md`](https://github.com/aaaaaaaaaaaavm/emocd/blob/main/docs/DECISION_LOG.md).
+[`docs/DECISION_LOG.md`](https://github.com/aaaaaaaaaaaavm/VOLLEY/blob/main/docs/DECISION_LOG.md).
 
 - **Linear synchronous motor, not a coilgun.** The payload's own g-limit caps exit
   velocity near 26-35 m/s whatever the launcher, which erases the coilgun's only
@@ -136,7 +140,7 @@ These were argued out and should not be silently reopened; reasoning is in
 - **Ironless double-sided Halbach stator**, reusable sled carrying the magnets.
 - **Eddy-current brake for arrest.** Motor regeneration alone cannot stop the sled,
   braking force is bounded by the same thrust constant as acceleration.
-- **Sled kinetic energy is dissipated, not recovered.** The 20 % figure is therefore
+- **Sled kinetic energy is dissipated, not recovered.** The 19 % figure is therefore
   electrical-to-payload, with no regeneration credit.
 - **No CMGs or thrusters in attached mode**; the host stage absorbs recoil.
 - **Two transverse cassettes of six**, alternating feed to keep the centre of mass
@@ -148,18 +152,18 @@ These were argued out and should not be silently reopened; reasoning is in
 
 | Path | Contents |
 |---|---|
-| [`analysis/`](https://github.com/aaaaaaaaaaaavm/emocd/tree/main/analysis) | current scripts; these reproduce the numbers above |
-| `analysis/femm/` | FEMM magnetostatics package: cross-section DXF + run sheet (analysis A1, not yet run) |
+| [`analysis/`](https://github.com/aaaaaaaaaaaavm/VOLLEY/tree/main/analysis) | current scripts; these reproduce the numbers above |
+| `analysis/femm/` | magnetostatics package: cross-section DXF + run sheet (A1, run 2026-07-29) |
 | `analysis/results/` | script outputs as JSON |
 | `cad/stl/` | browser-viewable meshes derived from the Gen3 STEP files |
-| [`cad/`](https://github.com/aaaaaaaaaaaavm/emocd/tree/main/cad) | `parameters.json` (geometry source of truth), `step/gen1\|gen2\|gen3/` exports (Gen3 current), `renders/`, `CHANGELOG_CAD.md` |
-| [`paper/`](https://github.com/aaaaaaaaaaaavm/emocd/tree/main/paper) | IEEE conference paper, LaTeX source, figures, PDF |
-| [`legacy/`](https://github.com/aaaaaaaaaaaavm/emocd/tree/main/legacy) | superseded scripts, kept for history, **do not cite** |
-| [`docs/`](https://github.com/aaaaaaaaaaaavm/emocd/tree/main/docs) | computation notes C1, C10, FEMM run sheet, decision log, related work |
-| [`validation/`](https://github.com/aaaaaaaaaaaavm/emocd/tree/main/validation) | cross-check plan (FEMM, CalculiX, Orekit, CARA, Chrono) with acceptance bands declared before the runs; nothing run yet |
-| [`INVENTORY.md`](https://github.com/aaaaaaaaaaaavm/emocd/blob/main/INVENTORY.md) | indexed catalogue of every calculation, decision, and artifact |
-| [`OPEN_PROBLEMS.md`](https://github.com/aaaaaaaaaaaavm/emocd/blob/main/OPEN_PROBLEMS.md) | known paper errors and unsolved engineering |
-| [`CHANGELOG.md`](https://github.com/aaaaaaaaaaaavm/emocd/blob/main/CHANGELOG.md) | what changed, when, and why |
+| [`cad/`](https://github.com/aaaaaaaaaaaavm/VOLLEY/tree/main/cad) | `parameters.json` (geometry source of truth), `step/gen1\|gen2\|gen3/` exports (Gen3 current), `renders/`, `CHANGELOG_CAD.md` |
+| [`paper/`](https://github.com/aaaaaaaaaaaavm/VOLLEY/tree/main/paper) | IEEE conference paper, LaTeX source, figures, PDF |
+| [`legacy/`](https://github.com/aaaaaaaaaaaavm/VOLLEY/tree/main/legacy) | superseded scripts, kept for history, **do not cite** |
+| [`docs/`](https://github.com/aaaaaaaaaaaavm/VOLLEY/tree/main/docs) | computation notes C1, C10, FEMM run sheet, decision log, related work |
+| [`validation/`](https://github.com/aaaaaaaaaaaavm/VOLLEY/tree/main/validation) | cross-check plan (FEMM, CalculiX, Orekit, CARA, Chrono) with acceptance bands declared before the runs; nothing run yet |
+| [`INVENTORY.md`](https://github.com/aaaaaaaaaaaavm/VOLLEY/blob/main/docs/INVENTORY.md) | indexed catalogue of every calculation, decision, and artifact |
+| [`OPEN_PROBLEMS.md`](https://github.com/aaaaaaaaaaaavm/VOLLEY/blob/main/OPEN_PROBLEMS.md) | known paper errors and unsolved engineering |
+| [`CHANGELOG.md`](https://github.com/aaaaaaaaaaaavm/VOLLEY/blob/main/CHANGELOG.md) | what changed, when, and why |
 
 ## Reproducing the numbers
 
@@ -204,7 +208,7 @@ Open items now, in rough order of how much they move the design:
 - **E14**: disclosure has already happened; the patent position needs settling or
   closing out.
 
-Full list with detail: [`OPEN_PROBLEMS.md`](https://github.com/aaaaaaaaaaaavm/emocd/blob/main/OPEN_PROBLEMS.md).
+Full list with detail: [`OPEN_PROBLEMS.md`](https://github.com/aaaaaaaaaaaavm/VOLLEY/blob/main/OPEN_PROBLEMS.md).
 
 ## How to read the verification status
 
@@ -217,7 +221,7 @@ distinction, and a computed number must never be presented as a measured one.
 ## Citing
 
 Citation metadata is in
-[`CITATION.cff`](https://github.com/aaaaaaaaaaaavm/emocd/blob/main/CITATION.cff). The
+[`CITATION.cff`](https://github.com/aaaaaaaaaaaavm/VOLLEY/blob/main/CITATION.cff). The
 paper is *VOLLEY: A Linear-Motor Electromagnetic Deployment System for Deterministic
 CubeSat Orbit Seeding from Small Launch Vehicles*. Licence: MIT.
 

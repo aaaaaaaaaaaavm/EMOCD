@@ -22,8 +22,8 @@ proven it yet.
 
 ### The thing I'd actually like you to look at
 
-**[VOLLEY](https://github.com/aaaaaaaaaaaavm/EMOCD)**, a magazine-fed ironless double-sided
-Halbach linear synchronous motor that ejects unmodified CubeSats at 16.5 m/s, 10.7 g, on 2.80 kJ
+**[VOLLEY](https://github.com/aaaaaaaaaaaavm/VOLLEY)**, a magazine-fed ironless double-sided
+Halbach linear synchronous motor that ejects unmodified CubeSats at 16.5 m/s, 10.7 g, on 2.88 kJ
 a shot. TRL 2-3, nothing built.
 
 **Open it for the defect record, not the numbers.** Every error I've found in my own work is
@@ -33,14 +33,14 @@ cost model contradicted my own paper about which parts dominate. A literature ch
 I'd missed and retracted two claims. Acceptance bands are written down *before* each analysis runs,
 so a failure can't be rationalised afterwards.
 
-That habit is the actual portfolio: **[skills, with the file that proves each one](https://github.com/aaaaaaaaaaaavm/EMOCD/blob/main/docs/SKILLS.md)**
+That habit is the actual portfolio: **[skills, with the file that proves each one](https://github.com/aaaaaaaaaaaavm/VOLLEY/blob/main/docs/SKILLS.md)**
 
 | | |
 |---|---|
-| 🛰 **[VOLLEY](https://github.com/aaaaaaaaaaaavm/EMOCD)** | The engineering record. Start at `SUMMARY.md` |
-| 📄 **[EMOCD-paper](https://github.com/aaaaaaaaaaaavm/EMOCD-paper)** | IEEE manuscript + reproducibility package. Reproduces from a clean clone |
-| 🎓 **[EMOCD-thesis](https://github.com/aaaaaaaaaaaavm/EMOCD-thesis)** | Final-year submission |
-| 🧪 **[EMOCD-lab](https://github.com/aaaaaaaaaaaavm/EMOCD-lab)** | Where I'm allowed to break things. Nothing here is citable |
+| 🛰 **[VOLLEY](https://github.com/aaaaaaaaaaaavm/VOLLEY)** | The engineering record. Start at `SUMMARY.md` |
+| 📄 **[VOLLEY-paper](https://github.com/aaaaaaaaaaaavm/VOLLEY-paper)** | IEEE manuscript + reproducibility package. Reproduces from a clean clone |
+| 🎓 **[VOLLEY-thesis](https://github.com/aaaaaaaaaaaavm/VOLLEY-thesis)** | Final-year submission |
+| 🧪 **[VOLLEY-lab](https://github.com/aaaaaaaaaaaavm/VOLLEY-lab)** | Where I'm allowed to break things. Nothing here is citable |
 
 ---
 

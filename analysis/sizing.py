@@ -40,11 +40,13 @@ MU0 = 4e-7 * math.pi
 M_SLED = 9.445         # kg, measured Gen3 CAD (P15); was 4.86 parametric until 2026-07-29
 M_SAT = 4.0            # kg
 V_EXIT = 16.537        # m/s
-E_DRAWN = 2795.6       # J per shot
+E_DRAWN = 2881.2       # J per shot, bank terminal draw including ESR dissipation
 F_CMD = 1413.4         # N
 T_PULSE = 0.1573       # s, acceleration-zone duration
 Q_COPPER = 827.9       # J per shot, winding I^2R over the pulse
-SAG_FRAC = 0.0519      # bank state-of-charge droop actually reached at C_SELECTED
+Q_ESR = 85.6           # J per shot, bank ESR dissipation. Was a literal 160 J estimate in
+#                        thermal_campaign() until A8-R put a computed number against it.
+SAG_FRAC = 0.0535      # bank state-of-charge droop actually reached at C_SELECTED
 CONV_EFF = 0.95        # power converter
 P_AUX = 200.0          # W
 ACCEL_ZONE = 1.30      # m
@@ -154,11 +156,14 @@ def magnet_temperature(alpha=-0.0011, dT=40, K_rated=140e3, K_nom=126e3):
                 within_rating=bool(K_needed < K_rated))
 
 
-def thermal_campaign(n_shots=12, Q_coil=None, Q_fin=None, Q_esr=160,
+def thermal_campaign(n_shots=12, Q_coil=None, Q_fin=None, Q_esr=Q_ESR,
                      Q_conv=None, Q_aux=None, C_th=13500.0):
     # Derived from the operating point rather than pasted, so a change to the sled
-    # mass or stroke cannot leave these behind. Q_esr keeps its literal default --
-    # no current script models a bank ESR at all, which is the open half of E17.
+    # mass or stroke cannot leave these behind. Q_esr was a literal 160 J until
+    # 2026-07-30: no script modelled a bank ESR, so nothing could compute it. A8-R
+    # found the missing term and motor_model now integrates it, giving 85.6 J --
+    # the old placeholder was 1.9x high. E17 still carries the provenance gap on
+    # the 12 mohm itself, which is assumed rather than sourced.
     if Q_coil is None:
         Q_coil = Q_COPPER
     if Q_fin is None:
@@ -186,10 +191,13 @@ def energy_closure():
     # the hotel load over the pulse. Both used to be pasted literals.
     conv = (KE_sat + KE_sled) * (1 / CONV_EFF - 1)
     aux = P_AUX * T_PULSE
-    accounted = KE_sat + KE_sled + Q_COPPER + conv + aux
+    # The ESR term closes what A8-R found open: the bank dissipates Q_ESR before any of
+    # the draw reaches the load, so a ledger that omits it balances against a draw that
+    # also omits it and reads 100 % while understating both sides by 3 %.
+    accounted = KE_sat + KE_sled + Q_COPPER + Q_ESR + conv + aux
     return dict(KE_payload_J=round(KE_sat, 0), KE_sled_J=round(KE_sled, 0),
-                copper_J=round(Q_COPPER, 0), converter_J=round(conv, 0),
-                aux_J=round(aux, 0),
+                copper_J=round(Q_COPPER, 0), esr_J=round(Q_ESR, 0),
+                converter_J=round(conv, 0), aux_J=round(aux, 0),
                 accounted_J=round(accounted, 0), drawn_J=E_DRAWN,
                 closure_pct=round(100 * accounted / E_DRAWN, 1))
 
@@ -226,6 +234,7 @@ def _check_operating_point():
             ('F_CMD', F_CMD, shot['F_cmd'], 0.1),
             ('T_PULSE', T_PULSE * 1e3, shot['t_ms'], 0.5),
             ('Q_COPPER', Q_COPPER, shot['Q_copper'], 1.0),
+            ('Q_ESR', Q_ESR, shot.get('Q_esr', Q_ESR), 1.0),
             ('SAG_FRAC', SAG_FRAC * 100, shot['sag_pct'], 0.05)):
         if abs(here - there) > tol:
             raise SystemExit(

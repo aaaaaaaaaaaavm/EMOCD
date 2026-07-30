@@ -18,7 +18,7 @@ set -euo pipefail
 
 OWNER="${OWNER:-aaaaaaaaaaaavm}"
 TITLE="${TITLE:-VOLLEY Engineering Programme}"
-REPOS=(VOLLEY EMOCD-paper EMOCD-thesis EMOCD-lab)
+REPOS=(VOLLEY VOLLEY-paper VOLLEY-thesis VOLLEY-lab)
 
 command -v gh >/dev/null || { echo "gh CLI not found"; exit 1; }
 gh auth status 2>&1 | grep -q "project" || {

@@ -17,7 +17,7 @@
 #
 set -euo pipefail
 OWNER="${OWNER:-aaaaaaaaaaaavm}"
-REPO_NAME="${REPO_NAME:-EMOCD}"          # tracks the repository, not the programme name
+REPO_NAME="${REPO_NAME:-VOLLEY}"         # tracks the repository; override if not yet renamed
 REPO="$OWNER/$REPO_NAME"
 B="https://github.com/$OWNER/$REPO_NAME/blob/main"
 

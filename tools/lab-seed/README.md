@@ -5,10 +5,10 @@ The research track of the VOLLEY programme.
 <!-- PROGRAMME-HEADER-START -->
 | Repository | Role | You are here |
 |---|---|---|
-| [VOLLEY](https://github.com/aaaaaaaaaaaavm/EMOCD) | Flagship, authoritative engineering record, portfolio | |
-| [EMOCD-paper](https://github.com/aaaaaaaaaaaavm/EMOCD-paper) | IEEE companion, manuscript and reproducibility package *(generated)* | |
-| [EMOCD-thesis](https://github.com/aaaaaaaaaaaavm/EMOCD-thesis) | Thesis companion, university submission *(generated)* | |
-| **[EMOCD-lab](https://github.com/aaaaaaaaaaaavm/EMOCD-lab)** | Phase II, research, redesign, deliberately unstable | |
+| [VOLLEY](https://github.com/aaaaaaaaaaaavm/VOLLEY) | Flagship, authoritative engineering record, portfolio | |
+| [VOLLEY-paper](https://github.com/aaaaaaaaaaaavm/VOLLEY-paper) | IEEE companion, manuscript and reproducibility package *(generated)* | |
+| [VOLLEY-thesis](https://github.com/aaaaaaaaaaaavm/VOLLEY-thesis) | Thesis companion, university submission *(generated)* | |
+| **[VOLLEY-lab](https://github.com/aaaaaaaaaaaavm/VOLLEY-lab)** | Phase II, research, redesign, deliberately unstable | |
 <!-- PROGRAMME-HEADER-END -->
 
 > ## This repository makes no promises
@@ -16,12 +16,12 @@ The research track of the VOLLEY programme.
 > No frozen baseline. No stability requirement. Numbers here may be wrong, half-finished, or
 > abandoned mid-thought. **Nothing in this repository should be cited.**
 >
-> The engineering record is the [flagship](https://github.com/aaaaaaaaaaaavm/EMOCD). If
+> The engineering record is the [flagship](https://github.com/aaaaaaaaaaaavm/VOLLEY). If
 > anything here disagrees with it, the flagship is right.
 
 ## Why this exists
 
-The [flagship](https://github.com/aaaaaaaaaaaavm/EMOCD) is a Phase I deliverable and its
+The [flagship](https://github.com/aaaaaaaaaaaavm/VOLLEY) is a Phase I deliverable and its
 stability is a design requirement. This repository is the pressure valve that lets it stay
 frozen.
 
@@ -34,7 +34,7 @@ becoming an edit to the frozen baseline. This is a hard wall instead of a line o
 
 Anything that would make the design **better** rather than **correct**. The deferred list and
 each item's entry criterion live in the flagship's
-[`docs/PHASE_II.md`](https://github.com/aaaaaaaaaaaavm/EMOCD/blob/main/docs/PHASE_II.md):
+[`docs/PHASE_II.md`](https://github.com/aaaaaaaaaaaavm/VOLLEY/blob/main/docs/PHASE_II.md):
 
 | | |
 |---|---|
@@ -58,7 +58,7 @@ that does not yet have a home.
 
 **Error corrections.** If something in the flagship is *wrong*, fix it in the flagship. The
 distinction is the whole of the change-control rule in
-[`BASELINE.md`](https://github.com/aaaaaaaaaaaavm/EMOCD/blob/main/docs/BASELINE.md), and it is by
+[`BASELINE.md`](https://github.com/aaaaaaaaaaaavm/VOLLEY/blob/main/docs/BASELINE.md), and it is by
 type, not by convenience. P17 is tedious and belongs upstream; the momentum-transfer release
 is fascinating and belongs here.
 

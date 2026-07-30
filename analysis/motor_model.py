@@ -66,6 +66,15 @@ V_FLEET = 16.2                  # m/s, closed-loop fleet setpoint.
 #                                 20.37 m/s ceiling -- so the headroom argument behind
 #                                 the dispersion claim is unchanged, not re-tuned.
 C_BANK, V0 = 6.0, 96.0          # F, V
+R_ESR = 0.012                   # ohm, bank equivalent series resistance.
+#                                 The value the SPICE deck at validation/spice/ uses. It has
+#                                 no current source: it reaches this repository through
+#                                 docs/EMOCD_Computation_Results_C1-C10.md, which is
+#                                 superseded, and no cell datasheet has been checked against
+#                                 it. E17 stays open on that basis. What it is here for is
+#                                 that omitting the term entirely was worse: A8-R found the
+#                                 shot drawing 3 % more from the bank than this model
+#                                 accounted for, and 12 mohm reproduces the gap to 1.3 %.
 CONV_EFF = 0.95                 # power converter
 P_AUX = 200.0                   # W
 
@@ -132,7 +141,7 @@ def shot(Kt, K_lim=K_RATED, dt=1e-4, trace=False):
     J = (K_lim * 0.9) / WIND_THICK / FILL                     # A/m^2 in copper
     vol_cu = ACCEL_ZONE * DEPTH * WIND_THICK * FILL
     P_cu = RHO_CU * J * J * vol_cu
-    x = v = t = E = Q = 0.0
+    x = v = t = E = Q = Q_esr = 0.0
     Vc, Imax = V0, 0.0
     hist = []
     while x < ACCEL_ZONE:
@@ -140,15 +149,23 @@ def shot(Kt, K_lim=K_RATED, dt=1e-4, trace=False):
         x += v * dt
         t += dt
         P = F * v / CONV_EFF + P_cu + P_AUX
-        I = P / max(Vc, 40)
+        # The load draws P at the bank TERMINAL, which sits R_ESR*I below the cell voltage,
+        # so the current is not P/Vc. Solving P = (Vc - I*R)*I for the physical root:
+        #     R I^2 - Vc I + P = 0  ->  I = (Vc - sqrt(Vc^2 - 4 R P)) / (2 R)
+        # The energy leaving the capacitor is then Vc*I, not P: the difference is I^2*R
+        # burned in the ESR, which is the term A8-R found missing.
+        Vb = max(Vc, 40)
+        disc = Vb * Vb - 4 * R_ESR * P
+        I = (Vb - math.sqrt(disc)) / (2 * R_ESR) if disc > 0 else P / Vb
         Imax = max(Imax, I)
         Vc -= I * dt / C_BANK
-        E += P * dt
+        E += Vb * I * dt
         Q += P_cu * dt
+        Q_esr += I * I * R_ESR * dt
         if trace:
             hist.append((t, x, v, Vc, I))
     out = dict(F_cmd=F, v_exit=v, a_g=F / m / 9.81, t_ms=t * 1e3, I_peak=Imax,
-                sag_pct=(1 - Vc / V0) * 100, E_drawn=E, Q_copper=Q,
+                sag_pct=(1 - Vc / V0) * 100, E_drawn=E, Q_copper=Q, Q_esr=Q_esr,
                 KE_payload=0.5 * M_SAT * v * v,
                 eff_pct=0.5 * M_SAT * v * v / E * 100,
                 J_Amm2=(K_lim * 0.9) / WIND_THICK / FILL / 1e6)

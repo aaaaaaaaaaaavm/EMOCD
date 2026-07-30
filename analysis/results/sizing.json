@@ -3,8 +3,8 @@
     "C_required_F": 6.0,
     "C_selected_F": 6.0,
     "consistent": true,
-    "C_for_4p9pct_sag_F": 6.35,
-    "sag_pct": 5.19,
+    "C_for_4p9pct_sag_F": 6.54,
+    "sag_pct": 5.35,
     "cells_series": 32,
     "cell_V": 3.0,
     "cell_F": 190
@@ -62,7 +62,7 @@
     "within_rating": true
   },
   "thermal": {
-    "campaign_kJ": 28.9,
+    "campaign_kJ": 28.0,
     "bulk_rise_K": 2.1,
     "fin_mass_kg": 0.86,
     "fin_adiabatic_dT_K": 4.0,
@@ -72,10 +72,11 @@
     "KE_payload_J": 547.0,
     "KE_sled_J": 1291.0,
     "copper_J": 828.0,
+    "esr_J": 86.0,
     "converter_J": 97.0,
     "aux_J": 31.0,
-    "accounted_J": 2795.0,
-    "drawn_J": 2795.6,
+    "accounted_J": 2880.0,
+    "drawn_J": 2881.2,
     "closure_pct": 100.0
   },
   "pole_pitch": {

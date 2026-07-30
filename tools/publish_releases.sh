@@ -29,7 +29,7 @@
 #
 set -euo pipefail
 
-REPO="${REPO:-aaaaaaaaaaaavm/EMOCD}"
+REPO="${REPO:-aaaaaaaaaaaavm/VOLLEY}"
 TAGS=(v0.0-concept v0.1-lsm v0.2-gen1 v0.3-gen2 v0.4-gen3 v1.0)
 
 command -v gh >/dev/null || { echo "gh CLI not found. https://cli.github.com/"; exit 1; }

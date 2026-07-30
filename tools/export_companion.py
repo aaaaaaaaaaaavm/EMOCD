@@ -32,16 +32,21 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # in PROGRAMME.md is the source, and this is checked by tools/check_links.py.
 HEADER_ROWS = [
     ("VOLLEY", "Flagship: the authoritative engineering record, and the portfolio", ""),
-    ("EMOCD-paper", "IEEE companion: manuscript and reproducibility package *(generated)*", "paper"),
-    ("EMOCD-thesis", "Thesis companion: university submission *(generated)*", "thesis"),
-    ("EMOCD-lab", "Phase II: research, redesign, deliberately unstable", "lab"),
+    ("VOLLEY-paper", "IEEE companion: manuscript and reproducibility package *(generated)*", "paper"),
+    ("VOLLEY-thesis", "Thesis companion: university submission *(generated)*", "thesis"),
+    ("VOLLEY-lab", "Phase II: research, redesign, deliberately unstable", "lab"),
 ]
 OWNER = "aaaaaaaaaaaavm"
 
-# The repositories are still named EMOCD-*. The programme is VOLLEY, but a directory name has
-# to match the repository it is pushed to, so this stays until the repositories are renamed by
-# hand. Changing it before that would push VOLLEY-paper content to a repository nobody renamed.
-REPO_PREFIX = "EMOCD"
+# The generated directory name has to match the repository it is pushed to. Override it if the
+# repositories have not been renamed yet:
+#
+#     REPO_PREFIX=EMOCD python3 tools/export_companion.py --out ../companions
+#
+# Getting this wrong does not fail loudly. `gh repo create` in bootstrap_repos.sh would simply
+# create a second, empty repository under the other name and push to that, leaving the real one
+# untouched and the mistake invisible until someone opens the wrong URL.
+REPO_PREFIX = os.environ.get("REPO_PREFIX", "VOLLEY")
 
 
 def header_table(here):

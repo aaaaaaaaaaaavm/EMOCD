@@ -15,13 +15,28 @@
 # Idempotent: existing repositories are updated, not recreated. Safe to re-run.
 #
 # WHAT IT CREATES
-#   EMOCD-paper    generated from the flagship by tools/export_companion.py
-#   EMOCD-thesis   generated likewise, plus a university/ directory the exporter never touches
-#   EMOCD-lab      Phase II. Seeded from tools/lab-seed/, then yours to do as you like
+#   VOLLEY-paper    generated from the flagship by tools/export_companion.py
+#   VOLLEY-thesis   generated likewise, plus a university/ directory the exporter never touches
+#   VOLLEY-lab      Phase II. Seeded from tools/lab-seed/, then yours to do as you like
 #
 set -euo pipefail
 
 OWNER="${OWNER:-aaaaaaaaaaaavm}"
+FLAGSHIP="${FLAGSHIP:-VOLLEY}"
+# The About panel's Website field. Set it on all four: it is the one link on the page aimed at
+# a reader who is not going to clone anything.
+PAGES="${PAGES:-https://$OWNER.github.io/$FLAGSHIP/}"
+
+# The repositories must already be renamed to VOLLEY-* before this runs. If they are not,
+# `gh repo create` below will cheerfully create empty new ones under the VOLLEY names and push
+# there, leaving the real repositories untouched. Override for the pre-rename names:
+#   FLAGSHIP=EMOCD REPO_PREFIX=EMOCD ./tools/bootstrap_repos.sh
+for r in "$FLAGSHIP" "$FLAGSHIP-paper" "$FLAGSHIP-thesis" "$FLAGSHIP-lab"; do
+  gh repo view "$OWNER/$r" >/dev/null 2>&1 || {
+    echo "note: $OWNER/$r does not exist yet."
+    echo "      If the repositories have not been renamed, re-run as:"
+    echo "        FLAGSHIP=EMOCD REPO_PREFIX=EMOCD $0"; }
+done
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 WORK="${WORK:-$(mktemp -d)}"
 
@@ -41,9 +56,9 @@ echo "== generating companions =="
 python3 "$ROOT/tools/export_companion.py" --out "$WORK"
 
 echo
-echo "== seeding EMOCD-lab =="
-mkdir -p "$WORK/EMOCD-lab"
-cp -r "$ROOT/tools/lab-seed/." "$WORK/EMOCD-lab/"
+echo "== seeding VOLLEY-lab =="
+mkdir -p "$WORK/VOLLEY-lab"
+cp -r "$ROOT/tools/lab-seed/." "$WORK/VOLLEY-lab/"
 
 push_one () {   # $1 = repo name, $2 = description
   local name="$1" desc="$2" dir="$WORK/$1"
@@ -65,7 +80,7 @@ Programme structure per docs/programme/ADOPTION.md in the flagship."
     else
       gh repo create "$OWNER/$name" --public --description "$desc" --source=. --push
     fi
-    gh repo edit "$OWNER/$name" --description "$desc" >/dev/null 2>&1 || true
+    gh repo edit "$OWNER/$name" --description "$desc" --homepage "$PAGES" >/dev/null 2>&1 || true
     # Without topics a repository is invisible to the search most people actually use.
     gh repo edit "$OWNER/$name" \
       --add-topic cubesat --add-topic aerospace --add-topic electromagnetic-launch \
@@ -74,21 +89,22 @@ Programme structure per docs/programme/ADOPTION.md in the flagship."
   echo "   https://github.com/$OWNER/$name"
 }
 
-push_one EMOCD-paper  "IEEE companion for VOLLEY: manuscript, figures, and the analysis that reproduces every number in it from a clean clone. Generated from the flagship; do not edit here."
-push_one EMOCD-thesis "Thesis companion for VOLLEY: final-year submission material, with the decision records and defect ledger as appendices. Generated from the flagship; edit university/ only."
-push_one EMOCD-lab    "VOLLEY Phase II: research and redesign, where the frozen baseline does not apply. Deliberately unstable; nothing here should be cited."
+push_one VOLLEY-paper  "IEEE companion for VOLLEY: manuscript, figures, and the analysis that reproduces every number in it from a clean clone. Generated from the flagship; do not edit here."
+push_one VOLLEY-thesis "Thesis companion for VOLLEY: final-year submission material, with the decision records and defect ledger as appendices. Generated from the flagship; edit university/ only."
+push_one VOLLEY-lab    "VOLLEY Phase II: research and redesign, where the frozen baseline does not apply. Deliberately unstable; nothing here should be cited."
 
 echo
 echo "== enabling Issues on the flagship =="
 # Issues are currently DISABLED on VOLLEY (the API returns 410). The programme board and the
 # issue seeding both need them, so this turns them on. Nothing is filed until seed_issues.sh.
-gh repo edit "$OWNER/EMOCD" --enable-issues >/dev/null 2>&1 \
+gh repo edit "$OWNER/$FLAGSHIP" --enable-issues >/dev/null 2>&1 \
   && echo "   enabled" || echo "   could not enable -- do it in Settings > General > Features"
 
 echo
 echo "== flagship description and topics =="
-gh repo edit "$OWNER/EMOCD" \
+gh repo edit "$OWNER/$FLAGSHIP" \
   --description "VOLLEY: a magazine-fed ironless Halbach linear synchronous motor that ejects unmodified 3U CubeSats at 16.5 m/s and 10.7 g. Design study, TRL 2-3, every number a model output, every defect published." \
+  --homepage "$PAGES" \
   --add-topic cubesat --add-topic aerospace --add-topic linear-motor \
   --add-topic halbach-array --add-topic orbital-mechanics --add-topic design-study \
   --add-topic electromagnetic-launch --add-topic space-systems \
@@ -98,5 +114,5 @@ gh repo edit "$OWNER/EMOCD" \
 echo
 echo "Done. Next: ./tools/seed_issues.sh, then ./tools/setup_project.sh."
 echo
-echo "REMINDER: EMOCD-paper and EMOCD-thesis are OUTPUT. Never edit them directly."
+echo "REMINDER: VOLLEY-paper and VOLLEY-thesis are OUTPUT. Never edit them directly."
 echo "Re-run this script after any flagship change that should reach them."

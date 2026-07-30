@@ -25,7 +25,7 @@ sys.path.insert(0, os.path.join(HERE, "..", "analysis"))
 import motor_model as mm                           # noqa: E402
 
 FPS = 25
-SECONDS = 6.0            # a 128 ms stroke stretched out enough to watch
+SECONDS = 6.0            # a 157 ms stroke stretched out enough to watch
 INK = "#111318"
 ACCENT = "#c1452b"
 MUTED = "#8a8f98"

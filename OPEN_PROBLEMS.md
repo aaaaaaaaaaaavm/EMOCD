@@ -286,7 +286,7 @@ from `sizing.py`).
 |---|---|---|
 | `mass_properties.py` parametric | 4.86 kg | 20.37 m/s |
 | P5's CAD figure | 7.50 kg | 17.87 m/s |
-| **Gen3 geometry, measured** | **9.445 kg** | **16.53 m/s** at 10.7 g, 19.6 % efficiency |
+| **Gen3 geometry, measured** | **9.445 kg** | **16.53 m/s** at 10.7 g, 19.0 % efficiency |
 
 The method reproduces P8 exactly when fed 7.50 kg, it returns 17.87 m/s against P8's stated
 17.88, so the discrepancy is in the mass, not the method. Dominated by two chassis plates
@@ -642,22 +642,52 @@ ESR term, and the `E_DRAWN = 2795.6 J` it closes against comes from `motor_model
 ESR either. Both sides of the equation omit the same term, so the closure reads 100.0 % while the
 real draw is about **2881 J**, 3 % higher.
 
-**Three things move if the term is carried, and one of them is not cosmetic:**
+**What moves if the term is carried:**
 
-1. **The bank goes undersized.** `capacitor_sizing()` at the true draw wants **6.18 F** against the
-   **6.0 F selected**, and its own `consistent` flag turns False. At 2795.6 J it wants 5.97 F and
-   the selection covers it. The selected bank is chosen against a draw that omits a loss the bank
-   itself causes.
-2. **`thermal_campaign()` carries `Q_esr = 160 J`** as a literal default. Against 85.5 J that is
+1. **`thermal_campaign()` carries `Q_esr = 160 J`** as a literal default. Against 85.5 J that is
    1.9x high, and the twelve-shot campaign falls from 28.9 to 28.0 kJ. It was flagged as unsourced
    during the P2 review and has had no second number against it until now.
-3. **The per-shot energy headline, 2.80 kJ**, is the analytic draw and appears on the front pages.
+2. **The per-shot energy headline, 2.80 kJ**, is the analytic draw and appears on the front pages.
+   It becomes 2.88 kJ, and electrical-to-payload efficiency falls from 19.6 to about 19.0 %.
+3. **Quoted bank sag, 5.19 %**, is the charge depletion with no ESR in the loop. The true figure is
+   the 5.35 % A8-R measured.
 
-**Not propagated, deliberately.** This is an error correction, which `docs/BASELINE.md`'s
-change-control rule permits to move the Phase I baseline, but the capacitor result means the fix is
-a sizing decision and not a constant edit: either the bank grows or the draw comes down. Propagating
-the ESR term without settling that would leave `sizing.py` self-reporting as inconsistent. It goes
-in one pass, with the bank selection resolved in the same pass.
+### Retracted, same day it was written: the claim that the bank goes undersized
+
+This entry first stated that `capacitor_sizing()` at the true draw wants **6.18 F** against the
+6.0 F selected, and that the bank was therefore chosen against a draw omitting a loss it causes.
+**That is wrong, and the error is in how it was computed.** The 6.18 F came from raising the
+energy to 2881 J while holding `SAG_FRAC` at 5.19 %. The two are not independent: the ESR
+dissipation is drawn out of the same capacitor, so a higher draw *is* the higher sag. Evaluated
+consistently, at 2881 J and 5.35 %,
+
+```
+C = 2E / (V0^2 - V1^2) = 2(2881) / (96^2 - 90.864^2) = 6.00 F
+```
+
+against 6.0 F selected. **The bank is correctly sized and always was.** The sizing function is not
+implicated, and the propagation below is a constant change rather than a design decision.
+
+The mechanism is worth naming because it is a general trap in this repository: `capacitor_sizing()`
+takes `E` and `sag_frac` as separate arguments, and its own docstring warns that `sag_frac` is the
+droop the shot integration reaches rather than a target. Feeding it a new energy with a stale sag
+violates that, and the function has no way to notice.
+
+### Propagated 2026-07-30, in the same pass that wrote this entry
+
+`motor_model.py` gained `R_ESR = 0.012` and now solves `R I^2 - Vc I + P = 0` for the current the
+load draws at the bank **terminal** rather than at the capacitor, integrating `Vc*I` out of the
+bank and `I^2 R` into a new `Q_esr` output. `sizing.py` follows: `E_DRAWN` 2795.6 to 2881.2 J,
+`SAG_FRAC` 5.19 to 5.35 %, `energy_closure()` carries the term on both sides, and
+`thermal_campaign()`'s literal 160 J becomes the computed 85.6 J.
+
+Eleven result fields moved, all electrical or thermal. **Exit velocity, acceleration, stroke time,
+dispersion, the payload family, mass and cost are unchanged**, which is the expected signature of
+an electrical-only correction and was checked rather than assumed.
+
+The correction also closed a disagreement nobody had attributed. A8 and A8-R both recorded peak
+current about 5 % above the analytic model and put it down to the integrator. It was the ESR:
+corrected, the model gives 346.77 A against ngspice's 346.8.
 
 **This is a simulation result, not a measurement.** It gives a placeholder its first independent
 number, which is what E17 asked for, and it is still one model checking another.
@@ -832,16 +862,30 @@ peak current +5.98 %, sag +0.18 points, energy +3.59 %. Two findings came out of
    item asked for a second number against the 160 J; here it is.
 
 The 12 mohm itself appears only in `docs/EMOCD_Computation_Results_C1-C10.md`, which is
-superseded, **no current script defines a bank ESR**, which is the underlying gap.
+superseded, and no cell datasheet has been checked against it. **That provenance gap is what
+keeps this item open**, now that the modelling gap is closed.
 
-> **Re-run 2026-07-30 (A8-R), at the current operating point.** Five of six bands met; the
-> pulse-duration row that P23 is about now passes at 0.03 %. Energy closure failed at 97.0 %,
-> and the cause is the same gap this item names: 7126.2 A^2 s at 12 mohm is **85.5 J of ESR
-> dissipation per shot** that the analytic ledger has no term for. That is the second number
-> against `Q_esr = 160 J` this item asked for, and it is 1.9x lower. It also puts the selected
-> 6.0 F bank below its own required capacitance once the true draw is used. **P24** carries the
-> propagation, which is a sizing decision rather than a constant edit. The sag finding above is
-> untouched by the re-run.
+> **Re-run 2026-07-30 (A8-R), then corrected.** Five of six bands met; the pulse-duration row
+> that P23 is about passes at 0.03 %. Energy closure failed at 97.0 %, and the cause was the
+> gap this item names: 7126.2 A^2 s at 12 mohm is **85.5 J of ESR dissipation per shot** the
+> analytic ledger had no term for. That is the second number against `Q_esr = 160 J` this item
+> asked for, and it is 1.9x lower.
+>
+> **`motor_model.py` now carries `R_ESR` and solves for the current at the bank terminal**
+> rather than at the capacitor, so the loss is integrated rather than assumed. P24 records the
+> propagation. Two things fell out that are worth more than the correction itself:
+>
+> - **The 5.98 % peak-current deviation this item recorded was the ESR, not the integrator.**
+>   Corrected, the analytic model gives 346.77 A against ngspice's 346.8, agreeing to 0.01 %
+>   where it previously disagreed by 5 %. Two independent methods now agree on the number that
+>   sets the device rating.
+> - **The energy budget closed at 100.0 % while missing a real 86 J term**, because the draw it
+>   balanced against came from the same model that omitted the loss. Closure tests arithmetic
+>   consistency, not physical completeness, and this file had been quoting it as if it tested
+>   both.
+>
+> The sag finding above stands and is unaffected: the quoted figure is still charge depletion,
+> and the terminal dip is still additional.
 
 Original item follows.
 

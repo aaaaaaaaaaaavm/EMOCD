@@ -5,7 +5,7 @@ distinction is the whole of the change-control rule in [`../BASELINE.md`](BASELI
 it is why these items are deferred while P17, which is tedious and improves nothing anyone
 will notice, is not.
 
-Phase II lives in **[EMOCD-lab](https://github.com/aaaaaaaaaaaavm/EMOCD-lab)**, a separate
+Phase II lives in **[VOLLEY-lab](https://github.com/aaaaaaaaaaaavm/VOLLEY-lab)**, a separate
 repository with no baseline and no stability promise. It is separate because a soft boundary
 inside the flagship is one `git checkout` from becoming an edit to the frozen baseline.
 
@@ -42,8 +42,8 @@ it was given.
 **The strongest idea in the project, and it defers.**
 
 Sled and payload need not separate at the same speed. A momentum-conserving spring push at the
-end of the stroke recovers the entire velocity shortfall for **41.8 J against a 2630 J shot
-(1.6 %)**, and brake duty *falls*, 1291 to 1050 J, because the sled leaves slower. Against
+end of the stroke recovers the entire velocity shortfall for **41.8 J against a 2881 J shot
+(1.5 %)**, and brake duty *falls*, 1291 to 1050 J, because the sled leaves slower. Against
 stroke-lengthening, which needs **673 mm** more envelope on a machine already 44 % over ESPA,
 this needs **43 mm** of guided rail.
 
@@ -83,8 +83,9 @@ current doubles at unchanged current density: **20.61 m/s at a 7.50 kg sled, J s
 21 A/mm²**. The stator does not ride the sled, so its copper costs dry mass, not velocity.
 
 > **Entry criterion.** A1 must run first, this trades one K<sub>t</sub> against another, and
-> both are currently checked only analytic-against-analytic. Then peak current at ~580 A must
-> be shown compatible with the A8 ESR finding, which flagged the pulse chain at 392 A.
+> both are currently checked only analytic-against-analytic. Then peak current at roughly 580 A
+> must be shown compatible with the bank ESR, which A8-R measured and P24 propagated: at 12 mohm
+> the ESR loss goes as I^2, so doubling the current quadruples a term that is already 86 J.
 
 ### PII-4: Envelope repackaging (P9)
 
@@ -112,6 +113,25 @@ claimed.
 
 **Phase I keeps the honest version:** quote the multiplier at a stated activity level and claim
 no invariance. That is already done.
+
+### PII-6: Reachable-domain analysis
+
+The strongest single thing the prior-art review turned up. Feng et al. compute a 3-D envelope of
+the orbits one shot makes available, reconstructed with an alpha-shape algorithm. This project
+reports a scalar lifetime multiplier, which answers a smaller question: how much longer does the
+satellite stay up, rather than where can it be put.
+
+Their method is better, and [`PRIOR_ART.md`](PRIOR_ART.md) says so rather than working around it.
+A deployer whose selling point is a programmable per-satellite velocity should be able to state
+what that velocity buys as a region, not a number.
+
+> **Entry criterion.** A5 re-run at the current operating point first. A reachable domain built on
+> a superseded delta-v would be an elaborate way to publish a stale result, and P19 already records
+> one of those.
+
+**Not Phase I.** The scalar multiplier is correct, sourced and cross-checked against GMAT. It is
+narrower than the alternative, which makes the envelope an improvement rather than a correction,
+and `docs/BASELINE.md`'s rule puts improvements here.
 
 ---
 

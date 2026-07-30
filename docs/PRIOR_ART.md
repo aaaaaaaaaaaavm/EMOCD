@@ -54,7 +54,7 @@ published figures:
 |---|---|---|---|
 | Mean acceleration | 321.56 m/s over 3.9 m to **1352 g** | 91 m/s² to **9.3 g** | **145x** |
 | Peak | >600 kN on 20 kg to **~3060 g** | 10.7 g | ~286x |
-| Energy per shot | **6.91 MJ** | 2.80 kJ | **2470x** |
+| Energy per shot | **6.91 MJ** | 2.88 kJ | **2400x** |
 | Payload interface | Aluminium **armature coils** on the payload | Magnets on a reusable sled | |
 
 A standard CubeSat qualifies to roughly 14 g quasi-static. Feng's design imposes ~100x that. This is

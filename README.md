@@ -23,10 +23,10 @@ outstanding.**
 <!-- PROGRAMME-HEADER-START -->
 | Repository | Role | You are here |
 |---|---|---|
-| **[VOLLEY](https://github.com/aaaaaaaaaaaavm/EMOCD)** | Flagship, authoritative engineering record, portfolio | |
-| [EMOCD-paper](https://github.com/aaaaaaaaaaaavm/EMOCD-paper) | IEEE companion, manuscript and reproducibility package *(generated)* | |
-| [EMOCD-thesis](https://github.com/aaaaaaaaaaaavm/EMOCD-thesis) | Thesis companion, university submission *(generated)* | |
-| [EMOCD-lab](https://github.com/aaaaaaaaaaaavm/EMOCD-lab) | Phase II, research, redesign, deliberately unstable | |
+| **[VOLLEY](https://github.com/aaaaaaaaaaaavm/VOLLEY)** | Flagship, authoritative engineering record, portfolio | |
+| [VOLLEY-paper](https://github.com/aaaaaaaaaaaavm/VOLLEY-paper) | IEEE companion, manuscript and reproducibility package *(generated)* | |
+| [VOLLEY-thesis](https://github.com/aaaaaaaaaaaavm/VOLLEY-thesis) | Thesis companion, university submission *(generated)* | |
+| [VOLLEY-lab](https://github.com/aaaaaaaaaaaavm/VOLLEY-lab) | Phase II, research, redesign, deliberately unstable | |
 <!-- PROGRAMME-HEADER-END -->
 
 Four repositories, one programme, see **[`docs/PROGRAMME.md`](docs/PROGRAMME.md)**.
@@ -81,7 +81,7 @@ electrical-to-payload and carries no regeneration credit.
 |---|---|---|
 | Thrust constant | 11.22 N per kA/m, ±1.26 % ripple, **confirmed by FEM to 0.07 %** | `analysis/motor_model.py`, A1 |
 | Exit velocity, 3U | **16.54 m/s at 10.7 g** | `analysis/motor_model.py` |
-| Electrical to payload efficiency | 20 % (2.80 kJ drawn, 547 J delivered) | `analysis/motor_model.py` |
+| Electrical to payload efficiency | 19 % (2.88 kJ drawn, 547 J delivered) | `analysis/motor_model.py` |
 | Closed-loop dispersion | 0.027 m/s (3σ) at a 16.2 m/s setpoint to ±0.10 km apogee | `analysis/motor_model.py` |
 | Orbital lifetime multiplier | x1.62 at mean activity, **not invariant, see P16** | `analysis/astro.py` |
 | Constellation seeding | 30° in 1.4-6.9 days vs 25 days by differential drag | `analysis/astro.py` |
@@ -112,7 +112,7 @@ electrical-to-payload and carries no regeneration credit.
 > rather than a preference.
 >
 > **What this costs and does not cost.** Exit velocity is down 19 % and efficiency from
-> 32 % to 20 %. The lifetime multiplier is down only 10 %, x1.80 to x1.62, because lifetime
+> 32 % to 20 %, and to 19 % after the ESR correction of 2026-07-30 (P24). The lifetime multiplier is down only 10 %, x1.80 to x1.62, because lifetime
 > is a weak function of Δv, the mission case survives better than the machine spec does.
 > 9.445 kg is the **as-drawn, unpocketed** geometry, and A4 reports a 17x stress margin, so
 > a rib-stiffened chassis would recover mass. Nobody has designed one
@@ -164,11 +164,13 @@ where possible. Four analyses were actually run; three could not be.
   that could not have detected a problem (**P16**).
 - **CalculiX** cleared the chassis on all three structural bands, which is what settled the
   sled mass at the measured **9.445 kg** and moved the headline to 16.54 m/s (**P15**).
-- **ngspice** confirmed the shot model to 0.03 % but found the quoted bank sag is
-  state-of-charge, not the terminal voltage the drive sees.
-- **A1 (2026-07-29) is at the current operating point. A5 and A8 predate it** (**P19**) and
-  need re-running. A4 survives
-  (its load is magnetostatic and velocity-independent) but A5 and A8 need re-running.
+- **ngspice** confirmed the shot model to 0.03 % and then, re-run at the current operating
+  point, found a loss the analytic model had no term for at all: the bank's own series
+  resistance, 86 J a shot (**P24**). Corrected, the two methods agree on peak current to
+  0.01 %. It also found the quoted bank sag is state-of-charge, not the terminal voltage the
+  drive sees.
+- **A1 and A8 are at the current operating point. A5 predates it** (**P19**) and needs
+  re-running. A4 survives, its load being magnetostatic and velocity-independent.
 - **A1 has run (2026-07-29).** A meshed 2-D magnetostatic FEM gives K<sub>t</sub> = 11.228 N
   per kA/m against the model's 11.22, **ratio 1.0007**, ripple 1.25 % against 1.26 %. The
   number every headline descends from is no longer checked only analytic-against-analytic.
@@ -187,14 +189,19 @@ pie showData
     "Payload KE, the useful output" : 547
     "Copper loss" : 828
     "Converter loss" : 97
+    "Bank ESR loss" : 86
     "Auxiliary" : 31
 ```
 
-547 J of 2796 J drawn reaches the payload. That is the 20 %, and it carries no regeneration
+547 J of 2881 J drawn reaches the payload. That is the 19 %, and it carries no regeneration
 credit because the sled's 1291 J is thrown away in the brake by design. Efficiency fell with
 the heavier sled twice over: more of the same mechanical work goes into a mass that is then
 braked away, and the longer 157 ms pulse accrues more copper loss at unchanged current
 density.
+
+The 86 J ESR slice was not here until 2026-07-30. No script modelled the bank's series
+resistance, so the loss existed in the hardware and nowhere in the accounting. A circuit
+simulation found it (P24).
 
 ```mermaid
 xychart-beta
@@ -275,7 +282,7 @@ flown DSOD, is in [`docs/LANDSCAPE.md`](docs/LANDSCAPE.md).
 - `docs/BASELINE.md`, the frozen Phase I baseline (generated) and its change-control rule
 - `docs/HISTORY.md`, project timeline since 2021, and how the git history was reconstructed
 - `docs/programme/`, the governing dossier, adopted verbatim, plus its amendment record
-- `docs/adr/`, seventeen architecture decision records
+- `docs/adr/`, eighteen architecture decision records
 - `docs/PHASE_II.md`, deferred work and the gate it must clear to return
 - `docs/MANUFACTURING.md`, tolerance stack, assembly hazard, make-vs-buy
 - `docs/CROSS_INDUSTRY.md`, which open items are actually solved elsewhere

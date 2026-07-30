@@ -11,8 +11,8 @@ carry an independent cross-check. See [`PROVENANCE.md`](PROVENANCE.md).
 
 ## Where the energy goes
 
-2796 J leaves the capacitor bank per shot. 547 J of it ends up as payload kinetic energy,
-that is the 20 % figure, and it is electrical-to-payload with **no regeneration credit**,
+2881 J leaves the capacitor bank per shot. 547 J of it ends up as payload kinetic energy,
+that is the 19 % figure, and it is electrical-to-payload with **no regeneration credit**,
 because the sled's 1291 J is dissipated in the eddy brake by design.
 
 ```mermaid
@@ -22,13 +22,21 @@ pie showData
     "Payload KE, the useful output" : 547
     "Copper loss" : 828
     "Converter loss" : 97
+    "Bank ESR loss" : 86
     "Auxiliary" : 31
 ```
 
-Accounted 2795 J against 2796 J drawn, 100.0 % closure, which is the arithmetic check that
-the budget has no missing term. Efficiency was 32 % until 2026-07-29; adopting the measured
-9.445 kg sled moved it to 20 %, because more of the same mechanical work now goes into a mass
-that is braked away, and the longer 157 ms pulse accrues more copper loss. Source: `analysis/results/sizing.json` to `energy_closure`.
+Accounted 2880 J against 2881 J drawn, 100.0 % closure. Efficiency was 32 % until
+2026-07-29; adopting the measured 9.445 kg sled moved it to 20 %, because more of the same
+mechanical work now goes into a mass that is braked away and the longer 157 ms pulse accrues
+more copper loss. The ESR correction of 2026-07-30 moved it again, to 19 %.
+
+**A closing budget is weaker evidence than it looks, and this chart is the reason.** Until
+2026-07-30 it closed at 100.0 % without the 86 J ESR slice, because both sides of the ledger
+omitted the same term: the draw it balanced against came from the same model that was missing
+the loss. A circuit simulation with a real series resistance found the gap. Closure proves the
+arithmetic is consistent, not that the physics is complete. Recorded as P24. Source:
+`analysis/results/sizing.json` to `energy_closure`.
 
 An earlier version of this project claimed 52 % efficiency by crediting 55 % of the sled's
 energy back as regeneration. That was double-counting: the arrest architecture throws that

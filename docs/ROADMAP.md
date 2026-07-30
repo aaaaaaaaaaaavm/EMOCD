@@ -7,7 +7,7 @@
 >
 > Last updated **2026-07-29**.
 
-This project publishes its own defects, nineteen numbered problems and twenty-three open
+This project publishes its own defects, twenty-four numbered problems and twenty-four open
 engineering items. That is deliberate, and it only reads as rigour if there is also a plan
 for closing them. This is that plan.
 
@@ -19,7 +19,7 @@ for closing them. This is that plan.
 |---|---|
 | Maturity | TRL 2-3. Analysis and CAD complete; nothing built or measured |
 | Rated performance | **16.5 m/s at 10.7 g**, from a sled mass measured in CAD, not estimated |
-| Validations run | **4 of 9**: A1 is at the current operating point; A5 and A8 still predate it (P19) |
+| Validations run | **4 of 9**: A1 and A8 are at the current operating point; A5 still predates it (P19) |
 | Biggest single gap | ~~K<sub>t</sub> single-method~~ **closed 2026-07-29 by A1** (FEM agrees to 0.07 %). Now: nothing has been measured at any scale (E4) |
 | Paper | Source and PDF both current as of 2026-07-29, rebuilt, 10 pages, zero undefined references |
 

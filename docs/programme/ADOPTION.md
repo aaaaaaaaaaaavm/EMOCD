@@ -27,15 +27,15 @@ applied rather than skipped:
 
 | §4 criterion | Assessment |
 |---|---|
-| Independent engineering project | **Met for `EMOCD-lab`.** Not met for the paper and thesis companions, which are derived. |
-| Value outside VOLLEY | **Met for `EMOCD-lab`**: it is where linear-motor and CubeSat-dynamics work would live beyond this deployer. |
+| Independent engineering project | **Met for `VOLLEY-lab`.** Not met for the paper and thesis companions, which are derived. |
+| Value outside VOLLEY | **Met for `VOLLEY-lab`**: it is where linear-motor and CubeSat-dynamics work would live beyond this deployer. |
 | Keeping it inside would reduce clarity | **Met for all three.** University submission material pollutes a portfolio; a post-publication reproducibility package has a different audience; and Phase II redesign inside the flagship would directly threaten the baseline stability §2 requires. |
 | Explicit approval | **Given.** |
 
 **The reasoning that decided it**, recorded because it is the part worth auditing later: §2
 requires the Phase I baseline to hold for the duration of Phase I, and a Phase II track kept
 *inside* the flagship is a soft boundary, one `git checkout` from becoming an edit to that
-baseline. `EMOCD-lab` makes the boundary hard. The separation exists to protect the freeze,
+baseline. `VOLLEY-lab` makes the boundary hard. The separation exists to protect the freeze,
 not as a filing preference.
 
 **The risk this amendment creates, and its mitigation.** §4's warning, *"never create new

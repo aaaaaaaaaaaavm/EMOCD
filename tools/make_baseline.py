@@ -98,7 +98,7 @@ HEADER = """# Phase I frozen baseline
 > disagree with them. Regenerate after any authorised baseline change.
 >
 > Flagship commit at generation: `{commit}` · Phase **I** · governed by
-> [`docs/programme/ENGINEERING_PROGRAMME.md`](docs/programme/ENGINEERING_PROGRAMME.md)
+> [`docs/programme/ENGINEERING_PROGRAMME.md`](programme/ENGINEERING_PROGRAMME.md)
 
 This is the engineering baseline the Phase I deliverables (portfolio, IEEE paper, thesis)
 are developed against. Dossier §2 requires it to be stable. The change-control rule below is
@@ -131,7 +131,7 @@ FOOTER = """
 ### What may not
 
 Performance improvement. Architecture change. Anything whose motivation is *better* rather
-than *correct*. These go to [`docs/PHASE_II.md`](docs/PHASE_II.md) with an entry criterion,
+than *correct*. These go to [`docs/PHASE_II.md`](PHASE_II.md) with an entry criterion,
 and are reviewed at the next baseline boundary.
 
 **The boundary is by type, not by convenience.** The momentum-transfer release in

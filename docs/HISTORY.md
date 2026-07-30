@@ -82,13 +82,13 @@ Two things remain:
   corrected tag; pushing it needs a force-push, which that sandbox declines to perform.
 - **Six Releases**, one per milestone tag.
 
-The three companion repositories are **live** as of 2026-07-29, `EMOCD-paper` (84 files),
-`EMOCD-thesis` (148) and `EMOCD-lab` (3), all generated from flagship `c927df9`.
+The three companion repositories are **live** as of 2026-07-29, `VOLLEY-paper` (84 files),
+`VOLLEY-thesis` (148) and `VOLLEY-lab` (3), all generated from flagship `c927df9`.
 
 Everything needed is committed. From any machine with ordinary GitHub access:
 
 ```bash
-git clone https://github.com/aaaaaaaaaaaavm/EMOCD.git   # full clone, not --depth
+git clone https://github.com/aaaaaaaaaaaavm/VOLLEY.git   # full clone, not --depth
 cd VOLLEY
 gh auth login              # once
 ./tools/publish_releases.sh

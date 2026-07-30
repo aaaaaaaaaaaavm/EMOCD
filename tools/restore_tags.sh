@@ -19,7 +19,7 @@
 # and it says which.
 #
 # USAGE
-#   git clone https://github.com/aaaaaaaaaaaavm/EMOCD.git    # full clone, not --depth
+#   git clone https://github.com/aaaaaaaaaaaavm/VOLLEY.git    # full clone, not --depth
 #   cd VOLLEY
 #   ./tools/restore_tags.sh
 #   ./tools/publish_releases.sh

@@ -9,8 +9,8 @@ explicit approval and warns *"never create new repositories merely because work 
 modularised."*
 
 ## Decision
-Create all four now. **`EMOCD-paper` and `EMOCD-thesis` are generated** by
-`tools/export_companion.py` and never hand-edited. `EMOCD-lab` is Phase II and
+Create all four now. **`VOLLEY-paper` and `VOLLEY-thesis` are generated** by
+`tools/export_companion.py` and never hand-edited. `VOLLEY-lab` is Phase II and
 hand-maintained. Recorded as an authorised amendment in `docs/programme/ADOPTION.md`.
 
 ## Alternatives

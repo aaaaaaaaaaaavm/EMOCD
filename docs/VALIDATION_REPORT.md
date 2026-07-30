@@ -132,8 +132,21 @@ declared fresh and committed before the deck was touched.
 | Energy closure | 100.0 % | **97.0 %** | −3.0 pts | 98-102 % | **fail** |
 
 **Five of six.** The closure failure is bank ESR dissipation, 85.5 J per shot, which the circuit
-models and the analytic ledger has no term for at all. With it included the closure is 100.0 %.
-It also puts the selected 6.0 F bank below its own required capacitance. Logged as **P24**.
+models and the analytic ledger had no term for at all. Logged as **P24** and corrected the same
+day: `motor_model.py` now integrates the term.
+
+**What the correction did to this table is the point of running A8 at all.** Re-evaluated against
+the corrected model, the two methods agree far more closely than the run recorded:
+
+| Quantity | Corrected model | ngspice | Deviation |
+|---|---|---|---|
+| Peak current | 346.77 A | 346.8 A | **0.01 %** (was 5.0 %) |
+| Energy drawn | 2881.2 J | 2880 J | **0.04 %** (was 3.0 %) |
+| Bank sag | 5.354 % | 5.35 % | **0.004 pts** (was 0.2 pts) |
+
+The 5 % peak-current deviation had been recorded twice, in A8 and again in A8-R, and attributed
+both times to the difference between a forward-Euler and a trapezoidal integrator. It was not the
+integrator. It was a missing physical term, and it took a second method to expose it.
 
 Detail: [`validation/results/A8_pulse.json`](../validation/results/A8_pulse.json), netlist at
 [`validation/spice/emocd_shot.cir`](../validation/spice/emocd_shot.cir).
@@ -332,10 +345,11 @@ longer does.
 
 **Three things remain open and are now scheduled rather than merely noted** (`ROADMAP.md`):
 
-1. **Every run here predates the operating point it validates** (P19). A5 and A8 were both
-   propagated at 20.37 m/s. A4 survives, its load is magnetostatic and velocity-independent
-  , but it is separately 37 % high (P17). A8 is minutes to redo; A5 is days, and neither
-   should be redone before the chassis question is settled or the staleness simply recurs.
+1. **A5 still predates the operating point it validates** (P19), having been propagated at
+   20.37 m/s. A8 was in the same position and was re-run on 2026-07-30 against fresh bands.
+   A4 survives, its load being magnetostatic and velocity-independent, but it is separately
+   37 % high (P17). A5 is days of wall time and should not be redone before the chassis
+   question is settled, or the staleness simply recurs.
 2. **The lightest chassis has never been designed.** A4 answers "does the drawn plate meet
    the constraint" (yes, with 17x stress margin) and not "what is the lightest one that
    does". Until someone evaluates a rib-stiffened redesign, 9.445 kg is the honest number and

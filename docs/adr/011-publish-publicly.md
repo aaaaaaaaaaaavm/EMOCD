@@ -16,7 +16,7 @@ numbered, with what it cost.
 
 ## Consequences
 The strongest and riskiest decision in the programme. It means a reader's first impression may
-be nineteen numbered problems and a headline number that moved downward, and it means a
+be two dozen numbered problems and a headline number that moved downward, and it means a
 falsified claim in the paper's own abstract (P16) is on the front page rather than buried.
 It also forecloses the patent position (E14), which is irreversible.
 

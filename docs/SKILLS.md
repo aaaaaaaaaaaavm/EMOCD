@@ -43,7 +43,7 @@ the rest.
 
 | Claim | Evidence | Strength |
 |---|---|---|
-| Circuit simulation of a supercapacitor pulse chain | [`validation/spice/`](../validation/spice/), ngspice against the analytical discharge model | Moderate. Ran; two findings, and A8 now predates the current operating point (P19) |
+| Circuit simulation of a supercapacitor pulse chain | [`validation/spice/`](../validation/spice/), ngspice against the analytical discharge model | **Strong.** Ran twice, at both operating points. The second run found a loss term the analytic model was missing entirely (P24), and the two methods now agree on peak current to 0.01 % |
 | ECU calibration and reverse engineering | **Outside this repository.** Powertronic's map files are an obfuscated binary; format reverse-engineered and a dual-map editor built (TronicLabs) | Moderate, no artefact here. Verifiable by demonstration |
 
 ## Cost and manufacturing engineering
@@ -69,8 +69,8 @@ This is the strongest section, and it is the one most people cannot evidence at 
 | Claim | Evidence |
 |---|---|
 | **Acceptance bands declared before the analysis runs** | Every file in [`validation/`](../validation/) states its band before its result. A failure therefore cannot be rationalised afterwards |
-| **Defects published, including the ones that damage the work** | 22 P-items and 24 E-items in [`OPEN_PROBLEMS.md`](../OPEN_PROBLEMS.md). Two retracted claims in the paper's own abstract. An ADR argument found false and withdrawn |
-| **Decisions recorded with alternatives and consequences** | 17 records in [`docs/adr/`](adr/), including [ADR-003](adr/003-linear-synchronous-motor.md), which carries its own amendment showing what it got wrong |
+| **Defects published, including the ones that damage the work** | 24 P-items and 24 E-items in [`OPEN_PROBLEMS.md`](../OPEN_PROBLEMS.md). Two retracted claims in the paper's own abstract. An ADR argument found false and withdrawn |
+| **Decisions recorded with alternatives and consequences** | 18 records in [`docs/adr/`](adr/), including [ADR-003](adr/003-linear-synchronous-motor.md), which carries its own amendment showing what it got wrong |
 | **A single source of truth, enforced** | Scripts are authoritative over the paper, never the reverse. Four errors were found in the paper by rebuilding its analysis from scratch |
 | **Provenance stated per claim** | [`PROVENANCE.md`](PROVENANCE.md) and the per-source `verified`/`confirmed`/`lead` status in [`docs/RELATED_WORK.md`](RELATED_WORK.md), a `lead` may not support a number in the paper |
 | **Changing your mind in public** | [`CHANGELOG.md`](../CHANGELOG.md) logs every reversal with its cause, including three conclusions I drew from abstracts and then had to retract on reading the full papers |
@@ -145,8 +145,8 @@ Introduction to Mechatronics · Numerical Methods.
 
 **1. Nothing here has been built, fired, or measured.** This is a design study at TRL 2-3. Every
 number is a model output, and the two strongest results are cross-checks between models rather
-than against hardware. Four of nine specified validations have run; two of those predate the
-current operating point and need re-running (P19). If you are looking for evidence that I can
+than against hardware. Four of nine specified validations have run; one of those predates the
+current operating point and needs re-running (P19). If you are looking for evidence that I can
 make hardware work, this repository does not contain it, what it contains is evidence about how
 I handle analysis, uncertainty, and being wrong.
 
