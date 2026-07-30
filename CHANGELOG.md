@@ -497,6 +497,45 @@ programme board), and the Issues toggle in repository settings.
 
 ---
 
+## 2026-07-30 — prior art found, two claims retracted, one ADR argument found false
+
+The most consequential entry in this log. A literature check found **published work on this exact
+concept that the paper did not cite**, and reading it retracted two claims and falsified an argument
+this design's central decision was partly resting on. Full record in `docs/PRIOR_ART.md`, tracked as
+**P22**.
+
+| ID | Item | Detail |
+|---|---|---|
+| ART-01 | **Two independent groups are already here** | Feng, Yang & Wu (NUDT, *IJAE* 2025, art. 3000765) simulate an on-orbit three-stage induction coilgun driving a 20 kg CubeSat to **321.56 m/s** with a 3-D reachable-domain analysis — **published 2025-11-12, eight months before this repository went public.** Separately the Harbin Institute of Technology mechatronics group has three papers (2022, 2024, 2025) on magazine-fed electromagnetic storage, transport and release of stacked CubeSats. The paper had 24 references and none of them. |
+| ART-02 | **§I claim retracted** | *"No published deployment system operates in the tens of m/s"* was **false** — Feng operates at hundreds. Now restricted to **flown hardware**, which is what the comparison table always actually showed. Feng's own Table 1 surveys the same 1–2 m/s spring deployers and identifies the same gap, so the gap is real; the word *published* was wrong. |
+| ART-03 | Contribution re-scoped in the abstract | From electromagnetic deployment as such to **programmable velocity + unmodified satellite + inside its own qualification envelope**. Narrower and defensible. Both qualifiers do real work against Feng, where against a spring they were nearly free. |
+| ART-04 | **ADR-003's efficiency argument was false, and unsourced. Withdrawn.** | It claimed coilgun efficiency is *"1–2 % in the literature"* with no citation. Feng reports **14.9–19.9 %** — the same order as this design's own 20 % electrical-to-payload. Einat & Orbach (*Sci. Rep.* 2023) measure a real multi-stage launcher but at a **2.5 g** projectile, five orders below a CubeSat, so it cannot settle the question either way. The argument is removed rather than re-sourced. It was never load-bearing. |
+| ART-05 | ADR-003's second claim softened | *"Cannot command velocity closed-loop"* → a claim about **absent published dispersion evidence**. Feng varies exit velocity 230 → 321.56 m/s by charging voltage (10 → 16 kV) with position/velocity feedback for stage trigger timing. That is genuine velocity selection. They quote **no dispersion figure**, so this design's 0.027 m/s 3σ stands unopposed rather than proven superior. |
+| ART-06 | **The decision survives, now on arithmetic instead of assertion** | ADR-003 argued in mid-2025 that a coilgun's velocity advantage is *"erased by the payload's own g-limit."* Against Feng's published 3.9 m barrel: **1352 g mean**, ~3060 g peak from their own >600 kN on 20 kg, against ~14 g CubeSat qualification. Also **6.91 MJ per shot against 2.80 kJ** — 2470×. Not a flaw in their work; they target debris removal with a purpose-built body. It is why this one is not a coilgun. |
+| ART-07 | **Three of my own abstract-level conclusions were wrong** | Listed in `PRIOR_ART.md` rather than quietly corrected. The worst: I asserted 321.56 m/s "would need a 493 m track at 10.7 g" as a hypothetical, when their actual barrel length was in their Table 2 all along. The fact is more decisive than my hypothesis was. Also: Feng has **no hardware** (so this project and theirs are maturity peers, not one behind), and *Aerospace* 12(6) 466's experiment measures a **32.8 mm/s transport pusher**, not an ejection — a real maturity gap but narrower than "they have experiment and we don't". |
+| ART-08 | **E24 opened**, from a competitor's problem statement | Xu et al. build a cost model for **attitude disturbance caused by moving CubeSats inside the deployer**. This project budgets recoil from the *shot* (66.1 N·s) and has nothing on disturbance from **magazine indexing between shots** — a few kg translating across the structure between every pair of shots, unmodelled, on a design whose dispersion claim assumes the track is where the model says it is at trigger time. |
+| ART-09 | Phase II candidate: adopt reachable-domain analysis | Feng's 3-D reachable-set envelope answers "which orbits does one shot make available" directly, where this project reports a scalar lifetime multiplier. The strongest thing to take from this literature. |
+| ART-10 | `docs/RELATED_WORK.md` gained the section it should always have had | It had 7 citations and **no competitor section at all**. Its absence was the defect that let ART-02 stand. All five works now carry `verified` status with the file's own five-field format. |
+
+---
+
+## 2026-07-30 (bench) — B-1 and B-2 bands derived instead of chosen
+
+Prompted by ART-01: the Harbin group has measured hardware and this project has measured nothing.
+
+| ID | Item | Detail |
+|---|---|---|
+| BENCH-01 | **I duplicated existing work and then removed it** | `docs/BENCHTOP_TESTS.md` already specified a single-coil thrust measurement as **B-2**, with a better rig than the one I designed — real Halbach pair, design coil geometry, swept over a wavelength. I wrote a competing `BENCH_E4.md` around a simpler two-magnet rig before checking. Deleted; the effort was redirected into strengthening B-1 and B-2. Recorded because the repository logs its own process defects, and "check whether it already exists" is one. |
+| BENCH-02 | `validation/bench/bench_predict.py` | Derives the acceptance bands B-1 and B-2 previously asserted. **Imports** `verify_field.py` and `motor_model.py` rather than reimplementing the field geometry, and carries a guard that exits non-zero if its local build ever drifts from `verify_field.make_array` — the same idea as `_check_operating_point()` in `sizing.py`. Perturbs gap ±0.5 mm, Br ±3 %, thickness ±0.1 mm, re-solves, reports RSS. |
+| BENCH-03 | The bands do not move, and that is the finding | Measurement error is **4.4 % on B-1's field rows, 13.5 % on B-2's thrust**, against declared bands of ±15 % and ±20 %. The bands must also cover *model* error, which is the thing under test and cannot be budgeted from the model. What the budget establishes is that **the rig is not the limiting factor** — a reading outside ±15 % can no longer be blamed on shim stack or magnet grade. That is what makes a failure interpretable. |
+| BENCH-04 | **A two-block bench pair built poles-facing reads exactly zero** | 0.00000 T at midgap, against 0.329 T built correctly. B-1's wording, "a two-block *opposed* pair", is ambiguous in precisely the way that matters, and a zero reading would look like a falsified field model rather than a reversed magnet. Found by hitting it — the first version of the predictor divided by zero. `verify_field.py` probes for the convention automatically on the four-block array, so the trap exists only on the bench. |
+| BENCH-05 | B-2's load cell must be sized to the smallest force, not the largest | A cell specified at 0.5 % of full scale contributes error inversely with the reading, so sizing it to the largest expected force makes the lowest-current point the least trustworthy — the opposite of what B-2 needs, since low current is where it is designed to operate. |
+| BENCH-06 | One budget term is known-incomplete, and says so | For the stray rows the probe sits a fixed distance behind the **back face**, so block thickness moves the reference plane as well as the source; the budget captures only the source term. Affected contributions are 0.8–1.8 % against an RSS of 3.3–4.2 %, so no conclusion changes. Flagged in the script and the doc rather than left to be found. |
+| BENCH-08 | **`.gitignore` has never ignored `paper.pdf`** | Line 17 read `paper.pdf          # transient output; committed PDF is EMOCD_IEEE_Conference.pdf`. In `.gitignore`, `#` opens a comment **only at the start of a line**, so the pattern was the entire string including the comment text and matched no file. Found because `git add -A` staged `paper/paper.pdf` when the documented intent was that it never be tracked. Comment moved to its own line; `git check-ignore` now confirms the match. The committed `EMOCD_IEEE_Conference.pdf` has also been refreshed from the corrected `paper.tex` — 11 pages, zero undefined references — since the ART-02 rewrite made it stale. |
+| BENCH-07 | Two unit and definition errors caught by cross-checking | `motor_model.thrust_constant()` returns N per **A/m**, not per kA/m — a factor of 1000, caught because 0.011 was obviously not 11.22. And `verify_field` computes stray field as the **max of the full 3-vector**, not the mean of the in-plane components; using the latter gave 16.2 mT where the repository publishes 22.7 mT. Both found by requiring the script to reproduce `field_verification.json` rather than merely look plausible. |
+
+---
+
 ## 2026-07-29 (toolchain) — the validation environment made reproducible
 
 | ID | Item | Detail |

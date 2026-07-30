@@ -14,7 +14,13 @@ venv/
 *.toc
 *.bbl
 *.blg
-paper.pdf          # transient latexmk/tectonic output; committed PDF is EMOCD_IEEE_Conference.pdf
+# Transient pdflatex/latexmk/tectonic output. The committed PDF is
+# EMOCD_IEEE_Conference.pdf, refreshed from paper.tex whenever the paper changes.
+# NOTE: this comment is on its own line deliberately. It was previously trailing the
+# pattern on line 17, and '#' only opens a comment at the START of a line in .gitignore --
+# so the pattern was the entire string including the comment text, and matched nothing.
+# paper.pdf was therefore never actually ignored.
+paper.pdf
 
 # OS
 .DS_Store

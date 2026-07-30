@@ -29,6 +29,72 @@ source:
 
 ---
 
+## Direct competitors — added 2026-07-30
+
+> **This section did not exist until 2026-07-30, and its absence was the defect.** A review with
+> no competitor section had 7 citations and none of the five works below, one of which is the
+> closest published work to this project. Full analysis in [`PRIOR_ART.md`](PRIOR_ART.md); the
+> claim corrections it forced are logged as **P22** in `OPEN_PROBLEMS.md`. All five were read in
+> full on 2026-07-30, and doing so **changed three conclusions drawn from their abstracts** — those
+> reversals are tabulated in `PRIOR_ART.md`.
+
+### Feng, Yang & Wu — on-orbit electromagnetic launcher for CubeSats
+*Int. J. Aerospace Eng.* 2025, art. 3000765 · DOI [10.1155/ijae/3000765](https://doi.org/10.1155/ijae/3000765)
+
+| | |
+|---|---|
+| **Claim** | A **three-stage** induction coilgun (3 x 1300 mm) drives a 20 kg payload to 321.56 m/s at 16 kV, 230 m/s at 10 kV, efficiency 19.9 % falling to 14.9 %, stored energy 2.70 to 6.91 MJ, peak force >600 kN. Then a 3-D reachable-domain envelope by enhanced alpha-shape |
+| **Method** | Coupled circuit-electromagnetic-mechanical model validated against nonlinear FEM, plus two-body orbital simulation. **No hardware.** "Experimental results" in the text refers to simulation runs |
+| **EMOCD takes** | The reachable-domain framing, which is a better astrodynamic product than a scalar lifetime multiplier — it answers "which orbits does one shot make available" in three dimensions. **The strongest single thing to take from this literature.** Candidate Phase II item |
+| **EMOCD differs** | Architecture (Halbach LSM vs induction coilgun), and the two differences that matter: their armature is **aluminium coils on the payload**, so the satellite is modified or a sabot is added (ADR-006 forbids the former); and their 3.9 m barrel delivers 321.56 m/s at **1352 g** mean and ~3060 g peak, against ~14 g CubeSat qualification. Their velocity is not available to a standard-qualified CubeSat. Also 6.91 MJ per shot against 2.80 kJ |
+| **Status** | `verified` — read 2026-07-30. **Simulation only, no hardware**, so this project and theirs are maturity peers. Publication predates this repository going public by 8 months |
+
+### Xu, Yue, Zhao, Yang, Wu, Pan, Tang & Zhang — CubeSats in-orbit electromagnetic transfer system
+*Aerospace* **11**(5) 394, 2024 · DOI [10.3390/aerospace11050394](https://doi.org/10.3390/aerospace11050394)
+
+| | |
+|---|---|
+| **Claim** | Stacked CubeSats are pushed layer by layer onto a 2-D electromagnetic conveying platform and moved to a release window by a planar two-axis drive; an improved A\* planner coordinates many transfers, with a cost term for **attitude disturbance caused by the transfers themselves** |
+| **Method** | Algorithm design and simulation |
+| **EMOCD takes** | The disturbance cost model. This project budgets recoil from the *shot* and has nothing on disturbance from **magazine indexing between shots** — now opened as **E24** |
+| **EMOCD differs** | Theirs moves satellites electromagnetically to *select a release position*; this one uses the electromagnetics to *set the release velocity*. Different function, similar hardware vocabulary |
+| **Status** | `verified` — read 2026-07-30 |
+
+### High-volume CubeSat storage device — transport characteristics
+*Aerospace* **12**(6) 466, 2025 · DOI [10.3390/aerospace12060466](https://doi.org/10.3390/aerospace12060466)
+
+| | |
+|---|---|
+| **Claim** | A high-density multi-species CubeSat storage and transport system, with **a prototype built and measured**: pushing speed **32.8 mm/s** during the transport stroke, and collisions observed in both simulation and experiment |
+| **Method** | Simulation plus hardware experiment |
+| **EMOCD takes** | The rig itself is the most useful thing here — a template for what a credible bench verification of a transport mechanism looks like. Directly informs B-1 and B-2 in `BENCHTOP_TESTS.md` |
+| **EMOCD differs** | Storage and transport, not ejection. What they measured is a **slow pusher at 32.8 mm/s**, not an electromagnetic launch — the maturity gap against this project is real but narrower than "they have experiment and we do not" suggests |
+| **Status** | `verified` — read 2026-07-30. Author list now confirmed from the PDF; the paper bibliography is complete. HIT with Harbin Space Star Data System Technology |
+
+### New deployer for in-orbit release of multiple stacked CubeSats
+*Remote Sensing* **14**(17) 4205, 2022 · DOI [10.3390/rs14174205](https://doi.org/10.3390/rs14174205)
+
+| | |
+|---|---|
+| **Claim** | A large-capacity stacked-CubeSat deployer that replaces compression springs with **electromagnetic actuators** for transport and release |
+| **Method** | Design and analysis |
+| **EMOCD takes** | Establishes the stacked/magazine deployer lineage, which is the ancestry of the cassette architecture here whether or not it was known at the time |
+| **EMOCD differs** | Transport and release actuation, not programmable exit velocity |
+| **Status** | `verified` — read 2026-07-30. Origin of the Harbin line |
+
+### Einat & Orbach — multi-stage 130 m/s reluctance linear electromagnetic launcher
+*Sci. Rep.* **13**, 2023 · DOI [10.1038/s41598-022-27022-z](https://doi.org/10.1038/s41598-022-27022-z)
+
+| | |
+|---|---|
+| **Claim** | A **built and measured** multi-stage reluctance coilgun reaching 130 m/s — highest reported for a reluctance launcher — on a **2.5 g projectile** (~21 J). Modular stage cascading, stated route to lunar launch. Its survey of the field is the most useful part: Manzoor 36 m/s at 6 J, Deng 340 g at 30 J, Song 21.68 kg to 143 m/s, typical projectiles 2-11 g |
+| **Method** | Hardware, measured. The strongest experimental evidence in this section |
+| **EMOCD takes** | Nothing quantitative, and that is the finding. It was expected to settle ADR-003's unsourced "1-2 % coilgun efficiency" claim. **At 2.5 g it cannot** — five orders of magnitude below a 4 kg CubeSat — and Feng reports 14.9-19.9 % at 20 kg, so the claim was false regardless. ADR-003's efficiency argument is **withdrawn** |
+| **EMOCD differs** | Reluctance, ferromagnetic armature, no velocity-regulation claim at the dispersion this application needs |
+| **Status** | `verified` — read 2026-07-30 |
+
+---
+
 ## Comparator claims — highest priority
 
 ### Foster et al. — differential-drag phasing, flown

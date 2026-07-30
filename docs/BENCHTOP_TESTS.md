@@ -15,6 +15,70 @@ including if it fails.
 
 ---
 
+## The bands are now derived, not chosen — added 2026-07-30
+
+The bands below were declared before any test, which is the important part. But they were
+*chosen* (±15 %, ±20 %) rather than traced to an error budget, and a band with no derivation
+cannot be defended if a reading lands just outside it.
+
+[`validation/bench/bench_predict.py`](../validation/bench/bench_predict.py) now derives them. It
+**imports** `verify_field.py` and `motor_model.py` rather than reimplementing the geometry — and
+carries a guard that fails loudly if its local field build ever drifts from
+`verify_field.make_array`, the same idea as `_check_operating_point()` in `sizing.py`. It
+perturbs what a bench build actually gets wrong (gap ±0.5 mm, Br ±3 %, block thickness ±0.1 mm),
+re-solves, and reports the spread. Output: `validation/results/bench_predictions.json`.
+
+| B-1 row | Model | Measurement error, RSS | Band declared |
+|---|---|---|---|
+| Peak gap field | 0.694 T *(magpylib; 0.703 T analytic)* | **4.4 %** | ±15 % |
+| Winding mean \|B\| | 0.552 T | **4.5 %** | ±15 % |
+| Stray at 10 mm | 22.7 mT | **3.7 %** | ±20 % |
+| Stray at 20 mm | 4.3 mT | **4.2 %** | ±40 % |
+| Stray at 50 mm | 0.4 mT | **3.3 %** | order of magnitude |
+| **B-2** thrust per kA/m | 11.218 N | **13.5 %** | ±20 % |
+
+**The bands are three to ten times wider than the measurement error, and that is correct.** A
+declared band has to cover *model* error, which is the thing under test and cannot be budgeted
+from the model itself. What the budget establishes is the other half: **the rig is not the limiting
+factor.** A reading outside ±15 % cannot be blamed on shim stack or magnet grade, because those
+together account for 4.5 %. That is what makes a failure interpretable, and it is the reason to
+derive the budget even when it does not move the number.
+
+Two things the derivation turned up that the procedures did not say:
+
+### For a two-block bench pair, the blocks face the same way
+
+B-1 below says "a two-block **opposed** pair", which is ambiguous in the one way that matters:
+
+| Two-block arrangement | Mean \|B_y\| at midgap |
+|---|---|
+| Polarizations facing each other across the gap | **0.00000 T** — cancels exactly |
+| Polarizations both the same direction | **0.329 T** |
+
+Built the first way the rig reads **zero field and zero force**, which looks like a falsified model
+rather than a reversed magnet. `verify_field.py` probes for the correct convention automatically on
+the four-block array, so this trap exists only on the bench. **The pair also attracts hard across
+12 mm** — assemble with a captive non-magnetic spacer, shimming outward from a closed stack, never
+inward by hand.
+
+### B-2's load cell should be sized to the smallest force, not the largest
+
+At low sheet current the force is small, and a load cell specified at 0.5 % of *full scale*
+contributes error inversely with the reading. Sizing the cell to the largest expected force makes
+the smallest reading the least trustworthy — the opposite of what B-2 needs, since low current is
+where it is meant to operate. **Choose the cell for the lowest force in the sweep**, and if one
+cell cannot span the range, sweep current over a narrower band and rely on the linearity check.
+
+### One term in the budget is understated, and it is recorded rather than fixed
+
+For the three stray rows the probe sits a fixed distance behind the **back face**, so changing block
+thickness moves the reference plane as well as the source. The budget's `thickness` term captures
+only the source movement. The affected contributions are 0.8–1.8 % against an RSS of 3.3–4.2 %, so
+it does not change any conclusion — but it is a known-incomplete term and is flagged in the script
+rather than left to be discovered.
+
+---
+
 ## B-1 — Halbach pair field profile
 
 **Closes:** the field model behind everything (**A24**, **E1**), and the keep-out in **P3**.

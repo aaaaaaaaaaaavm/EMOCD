@@ -3,7 +3,7 @@
 Two categories: **P-items are errors in the currently published paper** and should be
 fixed first. **E-items are genuinely unsolved engineering.**
 
-Last reviewed 2026-07-29.
+Last reviewed 2026-07-30.
 
 ---
 
@@ -531,6 +531,66 @@ exactly, is the more trustworthy number here and the FEM is not evidence against
 
 **Do not** change `verify_field.py`. The row needs A2, a 3-D solve.
 
+### P22. The novelty claim was wrong, and its replacement rests on abstracts — HIGH, NEW 2026-07-30
+A literature check found **published work on this exact concept that the paper did not cite.**
+Full record in [`docs/PRIOR_ART.md`](docs/PRIOR_ART.md).
+
+**What was wrong.** §I asserted *"no published deployment system operates in the tens of m/s."*
+Feng, Yang & Wu (*Int. J. Aerospace Eng.* 2025, art. 3000765) analyse an on-orbit multi-stage
+induction coilgun regulating a 20 kg CubeSat to **321.56 m/s**, with a reachable-domain analysis
+serving the same purpose as this paper's lifetime and phasing argument. It was published
+**2025-11-12, eight months before this repository went public.** The sentence was false as written.
+
+**What it was changed to.** The regime is unserved *by flown hardware* — which is what the
+comparator table always actually showed. The contribution is re-scoped to the narrower and more
+defensible claim: a **programmable velocity delivered to an unmodified satellite inside its own
+qualification envelope.** Both qualifiers carry weight, and against Feng they carry more than they
+did against a spring:
+
+| | Why it holds |
+|---|---|
+| Unmodified satellite | An induction coilgun accelerates a *conductive armature* — attached to the customer satellite, or a sabot needing its own separation. ADR-006 forbids the first |
+| Inside the g-limit | 321.56 m/s at 10.7 g requires a **493 m track**; over 1.5 m it is **3515 g**. Not a secondary payload |
+
+The g-limit argument is not new — ADR-003 made it in mid-2025 — but it was an assertion and is now
+arithmetic against a published number.
+
+**The declared band, and what happened to it.** Before the full texts were obtained, this was
+written down: *if Feng et al. report closed-loop per-satellite velocity regulation at dispersion
+comparable to this design's 0.027 m/s 3σ, "programmable" stops being a differentiator; if they
+report a track length making 321 m/s survivable for a standard CubeSat, §I needs rewriting rather
+than adjusting.*
+
+**All five papers were then supplied and read on 2026-07-30. Neither trigger fired, and three of
+this entry's own conclusions turned out to be wrong.** Corrections in
+[`docs/PRIOR_ART.md`](docs/PRIOR_ART.md); the material ones:
+
+| Claimed from the abstract | After reading |
+|---|---|
+| "321.56 m/s at 10.7 g would need a 493 m track" — a hypothetical | Their **actual** barrel is 3.9 m → **1352 g** mean, ~3060 g peak from their own >600 kN. The fact is far more decisive than the hypothesis |
+| ADR-003's unsourced "1–2 % coilgun efficiency", removed *pending Einat* | **False.** Feng reports **14.9–19.9 %**, comparable to this design's own 20 %. Einat cannot settle it — a **2.5 g** projectile. Argument withdrawn as wrong, not deferred |
+| *Aerospace* 12(6) 466 "has experimental verification" | True but narrower: a **32.8 mm/s transport mechanism**, not an ejection |
+
+**Feng quotes no dispersion figure at all**, and controls velocity by charging-voltage selection
+(10→16 kV → 230→321.56 m/s). So the dispersion differentiator survives — but as a claim about
+*absent evidence*, not about impossibility, and it is written that way now. Feng is also
+**simulation-only**, so on maturity this project and theirs are peers rather than this one being
+behind.
+
+**Why it stays open.** The claim corrections have landed, but two things are unfinished:
+
+1. **The reachable-domain method should probably be adopted.** Feng's 3-D reachable-set envelope
+   answers "which orbits does one shot make available" directly, where this project reports a scalar
+   lifetime multiplier. That is a better astrodynamic product and it is the strongest thing to take
+   from this literature. Not yet done — Phase II candidate.
+2. **E24**, below: Xu et al. model attitude disturbance from the transfer mechanism itself. This
+   project has nothing on disturbance from magazine indexing between shots.
+
+**The maturity gap is real and remains.** The Harbin group built and measured a prototype. This
+project has measured nothing. `docs/BENCHTOP_TESTS.md` already specified the answer as **B-1** and
+**B-2**; what was added on 2026-07-30 is that their bands are now **derived** from an error budget
+rather than chosen, by `validation/bench/bench_predict.py`. See E4.
+
 ## E — Unsolved engineering
 
 ### E1. Three-dimensional field closure — 2-D HALF CLOSED 2026-07-29 by A1
@@ -588,6 +648,18 @@ radiator, and avionics are still missing from the rollup entirely (P10).
 > and would give this project its first measured number.** Full-scale qualification is
 > specified separately in `docs/QUALIFICATION_PLAN.md`. None of it is run — this item stays
 > open until something is measured.
+>
+> **Strengthened 2026-07-30, and the reason is competitive.** The Harbin group
+> (`docs/PRIOR_ART.md`) has **built and measured a prototype**; this project has not, and that
+> difference is visible to any reviewer. B-1 and B-2's bands were declared before any test but
+> *chosen* rather than derived. `validation/bench/bench_predict.py` now derives them, importing
+> `verify_field.py` and `motor_model.py` with a guard against geometry drift. Measurement error
+> comes out at **4.4 % for B-1's field rows and 13.5 % for B-2's thrust**, against bands of ±15 %
+> and ±20 %. The bands do not move — they must also cover model error, which is the thing under
+> test — but a failure is now interpretable, because the rig can no longer be blamed for it.
+> Two procedural traps were found in the process and are documented in `BENCHTOP_TESTS.md`: a
+> two-block bench pair built poles-facing reads **exactly zero field**, and B-2's load cell must
+> be sized to the smallest force in the sweep rather than the largest.
 TRL 2–3. Nothing has been built, fired, or measured. The velocity, dispersion, and
 tip-off claims are all model outputs.
 
@@ -828,3 +900,34 @@ not settle a swept-excitation question; the analysis that would is a chirp or Ca
 dwell-time check, and it does not exist.
 
 Cheap to close, and it belongs with A4's dynamic leg rather than with A1.
+
+### E24. Attitude disturbance from magazine indexing is not modelled — NEW 2026-07-30
+Found by reading a competitor's problem statement rather than by examining this design, which is
+worth stating plainly: Xu et al. (*Aerospace* 11(5) 394, 2024) build a **cost model for attitude
+disturbance caused by moving CubeSats around inside the deployer**, and optimise their transfer
+paths against it, because a shifting centre of mass degrades platform pointing and therefore release
+accuracy.
+
+**This project models the recoil of the shot and nothing about the indexing between shots.**
+`analysis/sizing.py` gives 66.1 N·s per ejection and the host nulls it with cold gas. But twelve
+satellites feed from two transverse cassettes, so between every pair of shots a mass of order a few
+kilograms translates across the structure — and:
+
+- the centre of mass moves, so the host's attitude reference sees a disturbance torque that is
+  **not** the shot recoil and is not in any budget here;
+- the sled returns to the breech, a second mass motion, also unmodelled;
+- the dispersion claim (0.027 m/s 3σ) assumes the track is where the model says it is at trigger
+  time. If indexing leaves residual attitude rate or structural motion that has not damped out, the
+  release direction carries an error the velocity servo cannot see, because it measures position
+  along the track and not the track's own orientation.
+
+**Why it is probably small, and why that is not an answer.** The indexed mass is a few kg against a
+124.9 kg loaded system on a host of hundreds to thousands of kg, and the campaign has time between
+shots — nothing here suggests a feasibility problem. But P16 was also "probably fine" until an
+independent propagator was pointed at it. The quantity that matters is **residual attitude rate at
+trigger, and the settling time to reach it**, and neither number exists anywhere in this repository.
+
+**What would close it:** a rigid-body momentum budget for one index cycle, then the settling time
+against the campaign's inter-shot interval. Cheap — it is bookkeeping, not a new solver — and it
+belongs with the recoil analysis in `sizing.py` rather than with the motor model. Explicitly *not*
+claimed to be negligible until that is done.

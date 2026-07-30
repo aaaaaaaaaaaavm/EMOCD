@@ -1,0 +1,81 @@
+{
+  "purpose": "Derived acceptance bands for B-1 and B-2 in docs/BENCHTOP_TESTS.md. Declared before any hardware exists.",
+  "perturbations_assumed": {
+    "gap_mm": 0.5,
+    "Br_frac": 0.03,
+    "thickness_mm": 0.1,
+    "probe_pos_mm": 0.5
+  },
+  "two_block_orientation_midgap_By_T": {
+    "facing each other": 0.0,
+    "both same direction": 0.32861
+  },
+  "B1_field_rows": [
+    {
+      "quantity": "peak gap field [T]",
+      "model_value": 0.69421,
+      "terms": {
+        "gap +/-0.5 mm": 0.0311,
+        "Br +/-3 %": 0.03,
+        "thickness +/-0.1 mm": 0.0072
+      },
+      "rss_frac": 0.0438
+    },
+    {
+      "quantity": "winding mean |B| [T]",
+      "model_value": 0.55184,
+      "terms": {
+        "gap +/-0.5 mm": 0.0333,
+        "Br +/-3 %": 0.03,
+        "thickness +/-0.1 mm": 0.0071
+      },
+      "rss_frac": 0.0454
+    },
+    {
+      "quantity": "stray at 10 mm [T]",
+      "model_value": 0.02267,
+      "terms": {
+        "gap +/-0.5 mm": 0.0104,
+        "Br +/-3 %": 0.03,
+        "thickness +/-0.1 mm": 0.0182
+      },
+      "rss_frac": 0.0366
+    },
+    {
+      "quantity": "stray at 20 mm [T]",
+      "model_value": 0.00433,
+      "terms": {
+        "gap +/-0.5 mm": 0.0278,
+        "Br +/-3 %": 0.03,
+        "thickness +/-0.1 mm": 0.0082
+      },
+      "rss_frac": 0.0417
+    },
+    {
+      "quantity": "stray at 50 mm [T]",
+      "model_value": 0.00038,
+      "terms": {
+        "gap +/-0.5 mm": 0.0055,
+        "Br +/-3 %": 0.03,
+        "thickness +/-0.1 mm": 0.0116
+      },
+      "rss_frac": 0.0326
+    }
+  ],
+  "B2_thrust": {
+    "quantity": "thrust per unit sheet current [N per kA/m]",
+    "model_value": 11.218,
+    "ripple_pct": 125.78,
+    "terms": {
+      "gap +/-0.5 mm at -13 %/mm": 0.065,
+      "Br +/-3 %": 0.03,
+      "coil fill factor and turns, hand-wound": 0.05,
+      "single coil vs three-phase belt scaling": 0.1,
+      "load cell, 0.5 % of full scale": 0.02,
+      "current measurement": 0.01
+    },
+    "rss_frac": 0.1346
+  },
+  "note": "RSS is the measurement error budget only. Declared bands in BENCHTOP_TESTS.md are wider, deliberately: they must also cover model error, which is the thing under test and cannot be budgeted from the model itself.",
+  "geometry_matches_verify_field": true
+}
