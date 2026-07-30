@@ -41,14 +41,14 @@ file () {  # title, labels, body
 
 echo "== roadmap =="
 
-file "Re-run A8 at the current operating point" "validation,phase-I,stale-operating-point" \
-"Half of P19, and P23 gives it a number.
+file "Source the bank ESR, or measure it" "validation,phase-I" \
+"What keeps **E17** open now that the modelling gap is closed.
 
-\`validation/spice/emocd_shot.cir\` still carries the superseded operating point. Peak current moved 392 to 330 A and the stroke 127.7 to 157.3 ms, which is exactly what A8 exists to check.
+A8-R found the analytic model missing the bank's series-resistance loss entirely, and P24 propagated the fix: \`motor_model.py\` now solves for the current at the bank terminal and integrates I^2 R. The two methods agree on peak current to **0.01 %** where they differed by 5 %.
 
-A8's declared band was **127.7 ms +/-10 %**, so 114.9 to 140.5 ms. The current value of 157.3 ms is 23 % above the band centre and outside the band. The recorded pass is a pass against a superseded target.
+**But the 12 mohm itself has no source.** It reaches this repository through \`docs/EMOCD_Computation_Results_C1-C10.md\`, which is superseded, and no cell datasheet has been checked against it. A number that now moves the headline energy and efficiency should not rest on that.
 
-**Declare a fresh band before running, not after.** Rewriting the old band to fit the new number is the one move that would make the whole validation record worthless. Record: [OPEN_PROBLEMS.md]($B/OPEN_PROBLEMS.md) P23 and P19."
+Cheapest close: read the ESR off the datasheet for the 3.0 V / 190 F cell the bank is specified from, multiply by 32 in series, and compare. If it disagrees, the shot energy moves again. Record: [OPEN_PROBLEMS.md]($B/OPEN_PROBLEMS.md) E17 and P24."
 
 file "A7, separation and tip-off" "validation,phase-I" \
 "Gates the momentum-transfer option and closes E7. \`pychrono\` ships on conda-forge rather than PyPI, which is the likely cause of the 'not installable' note.
@@ -87,10 +87,14 @@ Two claims were retracted and one ADR argument was found false. That work is don
 
 Full record: [docs/PRIOR_ART.md]($B/docs/PRIOR_ART.md)."
 
-file "P23, the stroke time was stale in six places" "defect,phase-I,stale-operating-point" \
-"127.7 ms belongs to the superseded 20.37 m/s point. Under constant acceleration the stroke time is 2s/v, and at 16.537 m/s over the 1.30 m accel zone that is 157.3 ms.
+file "P24, no script carried the bank ESR and the placeholder was 2x high" "defect,phase-I" \
+"A8-R failed its energy-closure band at 97.0 %. The gap was **85.5 J per shot** of bank ESR dissipation that the circuit deck carried and no analysis script did.
 
-The prose is corrected. **A8's declared band is not**, deliberately. See the A8 re-run issue."
+Propagated: \`motor_model.py\` solves for the current at the bank terminal rather than at the capacitor. Energy drawn 2795.6 to **2881.2 J**, peak current 330.3 to **346.8 A**, sag 5.19 to **5.35 %**, efficiency 19.6 to **19.0 %**. Exit velocity, stroke time and dispersion unchanged.
+
+**Two things worth more than the fix.** The 5 % peak-current gap that A8 and A8-R both blamed on the integrator was this term; corrected, the two methods agree to **0.01 %**. And the energy budget had been closing at 100.0 % while missing a real 86 J, because both sides of the ledger omitted it.
+
+This issue stays open only for the sourcing of the 12 mohm. See the ESR issue."
 
 file "P9, envelope exceeds ESPA Grande by 44 percent" "defect,phase-II" \
 "1839 mm closed against the roughly 1270 mm class, because the brake sits beyond the 1500 mm release point and the enclosure spans it.
