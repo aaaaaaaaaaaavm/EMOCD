@@ -94,7 +94,7 @@ Driven by `analysis/cost.py`, whose sensitivity table is the relevant output:
 
 | Item | Share | Recommendation |
 |---|---|---|
-| Avionics, sequencer, IMU | 23.7 % | **Buy.** Nothing here is EMOCD-specific |
+| Avionics, sequencer, IMU | 23.7 % | **Buy.** Nothing here is VOLLEY-specific |
 | Supercapacitor bank | 17.8 % | **Buy** cells, make the pack, cell selection is commodity, the pack is not |
 | SiC bridge + gate drive | 13.3 % | **Buy** the modules, make the busbar |
 | Halbach arrays | ~5 % | **Buy magnetised blocks, assemble in-house**: see §2 |
