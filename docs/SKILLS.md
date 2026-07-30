@@ -75,6 +75,53 @@ This is the strongest section, and it is the one most people cannot evidence at 
 | **Provenance stated per claim** | [`PROVENANCE.md`](../PROVENANCE.md) and the per-source `verified`/`confirmed`/`lead` status in [`docs/RELATED_WORK.md`](RELATED_WORK.md) — a `lead` may not support a number in the paper |
 | **Changing your mind in public** | [`CHANGELOG.md`](../CHANGELOG.md) logs every reversal with its cause, including three conclusions I drew from abstracts and then had to retract on reading the full papers |
 
+## A second electromagnetic launch study, in a different g-regime
+
+**Electromagnetic Launch System for Vertical Silo-Based Deployment** — sole-authored feasibility
+study, IEEE format, 12 references. Not part of this repository; listed because it is the same
+architecture solved for a different payload.
+
+| | |
+|---|---|
+| Concept | Magazine-fed electromagnetic launch: belt-feed indexing, pulsed coilgun ejection, ignition deferred to 20 m altitude so no thermal event occurs inside the structure |
+| Scale | 500 kg booster class, 50 m/s exit, **2.50–4.17 MJ per launch** across a sourced 15–25 % efficiency band, **10.6–18.5 cycles/min** on a 1 MW supply |
+| Method | First-order energy, ballistic and g-load analysis. Names its own next step: ANSYS structural validation plus a subscale coilgun efficiency test |
+
+**The reason it belongs next to EMOCD.** It selects a **coilgun**; EMOCD
+[rejects one](adr/003-linear-synchronous-motor.md). That is the same trade resolved in opposite
+directions, and the thing that decides it is the payload:
+
+```
+s_min = v² / (2·n·g)          the same equation sizes both machines
+
+silo    50 m/s, 15 m rail  ->  8.5 g   against a 10–15 g propellant grain
+EMOCD   16.5 m/s, 1.5 m    -> 10.7 g   against a  ~14 g CubeSat
+Feng    321.6 m/s, 3.9 m   -> 1352 g   against a  ~14 g CubeSat
+```
+
+Two designs sized by what the payload tolerates, and a published third that was not. Getting the
+same trade right twice, in regimes that demand opposite answers, is a better signal than getting it
+right once.
+
+**It also settles something in this repository.** ADR-003 asserted coilgun efficiency of "1–2 % in
+the literature" with no source, and [`PRIOR_ART.md`](PRIOR_ART.md) found that false. The silo paper
+carries the properly-referenced survey that should have been cited all along: **5–6 %** sub-kilogram,
+**14.5 %** at 0.45 kg single-stage, **15 % measured** at 100 kg (Hanwha), **20–25 % simulated** at
+1000 kg. The correct figure was in the author's own other paper.
+
+## Design studies — coursework
+
+Listed as coursework, with the course named, because that is what they are. None is peer-reviewed.
+
+| Study | What it covers |
+|---|---|
+| **Hydrogen–ammonia dual-fuel SI engine with plasma-assisted combustion** | Ammonia as a carbon-free carrier, hydrogen as combustion enhancer, load-dependent blend ratio, plasma ignition to overcome ammonia's low flame speed. The most substantial of these |
+| **Dry-sump two-stroke with direct injection and catalytic converter** | Separates lubrication from the crankcase and injects after exhaust-port closure, attacking two-stroke scavenging losses at the source |
+| **IC Engine & E-Mobility project file** | SI/CI fuel-injection systems compared — TBI, MPFI, GDI, inline/distributor, unit injector, CRDI — plus hybrid architecture |
+| **FocusLens** | Prototype Android lensometer using the phone camera and calibrated optics; image processing and curvature-based diopter estimation. Independent project |
+| **Adaptive transmission** | Hydraulically controlled chain/belt drive modulating RPM through tension variation; torque and power simulated in Fusion 360 and ANSYS. Independent project |
+| **Two-stage gear-train supercharger** | **Completed** — previous final-year project, closed out in third year. 1:5 RPM multiplication within cleared gear-stress margins, letting a standard high-torque DC motor replace an ultra-high-speed unit. Metal-fabricated, FMEA completed |
+
 ## Formal coursework behind this
 
 BTech Mechanical Engineering, SIT Pune. Directly relevant, from the programme structure:
@@ -107,3 +154,14 @@ I handle analysis, uncertainty, and being wrong.
 contradicting the paper, the tolerance stack coming out 2.4× worse than claimed, the ADR argument
 found false, my own three retracted conclusions. That is deliberate: anyone can show you work that
 went well. What is hard to fake is a record of catching yourself.
+
+**3. This page is held to the same rule as the paper, and it has already failed it once.** The
+generated CV listed a **Communication Skills coursework assignment under "publications"** — copied
+from an earlier résumé line instead of from the document itself, which is precisely the failure the
+scripts-are-authoritative rule exists to prevent. Logged as **P23**, removed, and the generator now
+carries a comment forbidding its return.
+
+The rule that follows: **a claim on a CV or on this page has to be checkable against the artifact,
+not against another CV.** Anything peer-reviewed says so and names the venue; anything coursework
+says so and names the course; anything unsubmitted is called a manuscript. Two manuscripts here are
+written and unsubmitted, and both are described that way.

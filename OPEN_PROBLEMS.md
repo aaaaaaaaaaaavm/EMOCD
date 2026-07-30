@@ -591,6 +591,35 @@ project has measured nothing. `docs/BENCHTOP_TESTS.md` already specified the ans
 **B-2**; what was added on 2026-07-30 is that their bands are now **derived** from an error budget
 rather than chosen, by `validation/bench/bench_predict.py`. See E4.
 
+### P23. A coursework assignment was presented as a publication — HIGH, NEW 2026-07-30
+Not a defect in the paper. A defect in the **portfolio artifacts generated from this repository**,
+which are held to the same provenance rule as everything else here, and this one broke it.
+
+`paper/cv/cv.tex` listed under **"Education & publications"**:
+
+> Co-author, *"Language and AI: Navigating the Impact on Linguistic Diversity in Advanced Language
+> Models"*
+
+**It is coursework.** Its title page reads *Course Name: Communication Skills · Instructor: Apurva
+Joshi-Deshpande · 20 November 2023*, co-written with a classmate.
+
+**How it got in.** Four of the author's existing resumes file it under "Research & Publications", and
+that framing was copied into the generated CV **without opening the source PDF.** Exactly the failure
+this repository's central rule exists to prevent — a claim taken from a downstream document instead
+of from the thing itself. The rule is that scripts are authoritative over the paper; the CV
+equivalent is that the artifact is authoritative over the résumé line, and it was not applied.
+
+**Why it matters more than a repository defect.** A reader can check it in ten seconds by opening the
+PDF. The repository's 46 published defects buy credibility precisely because they are hard to fake;
+one unverifiable publication claim on a CV spends more of that than the defect record earns.
+
+**Fixed:** removed from the CV, with a comment in `make_cv.py` recording why and instructing that it
+must not be re-added as a publication. If it appears at all it belongs under coursework with the
+course named. The four source resumes still carry the error and are the author's to correct.
+
+**Generalised, because one instance is not the problem:** `docs/SKILLS.md` now carries a
+provenance rule for CV claims, and every entry in the coursework section names its course.
+
 ## E — Unsolved engineering
 
 ### E1. Three-dimensional field closure — 2-D HALF CLOSED 2026-07-29 by A1
