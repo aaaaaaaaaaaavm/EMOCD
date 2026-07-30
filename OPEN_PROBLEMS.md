@@ -724,9 +724,18 @@ notices when a ledger entry and an artifact disagree, because the mechanical gua
 (`make_baseline.py --check`, `_check_operating_point()`, `check_links.py`) all compare artifacts
 to *scripts*. A claim withdrawn in prose has no such guard.
 
-**No fix for the general case is proposed here**, because the honest one is expensive: it needs a
-list of load-bearing prose claims and where each is asserted, which is `docs/PROVENANCE.md`'s job
-and would roughly double it. Logged so the gap is on the record rather than discovered again.
+**Half the general case is now fixed**, 2026-07-30. The same blindness had already shipped a
+stale PDF: `paper.tex` was corrected twice and the published PDF went on printing the retracted
+figure for five hours until it was found by hand.
+[`tools/check_artifacts.py`](tools/check_artifacts.py) closes that half by comparing each built
+artifact to the sources it was built from, using the commit each was last changed in rather than
+file mtimes, which git does not preserve and which a fresh clone destroys. Verified against the
+actual failure: at commit `c406da4` it reports the PDF **5.1 hours behind** its own source.
+
+**The other half stays open and is the harder one.** A claim withdrawn in prose still has no
+guard. Catching that needs a list of load-bearing claims and where each is asserted, which is
+`docs/PROVENANCE.md`'s job and would roughly double it. What is now true is that the *mechanical*
+half of this defect cannot recur silently.
 
 ### P26. The supercapacitor bank cannot source the shot: HIGH, NEW 2026-07-30
 P24 recorded that the 12 mohm bank ESR had no source. Looking for one found that the value is
