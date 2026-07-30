@@ -33,7 +33,7 @@ cost model contradicted my own paper about which parts dominate. A literature ch
 I'd missed and retracted two claims. Acceptance bands are written down *before* each analysis runs,
 so a failure can't be rationalised afterwards.
 
-That habit is the actual portfolio. to **[skills, with the file that proves each one](https://github.com/aaaaaaaaaaaavm/EMOCD/blob/main/docs/SKILLS.md)**
+That habit is the actual portfolio: **[skills, with the file that proves each one](https://github.com/aaaaaaaaaaaavm/EMOCD/blob/main/docs/SKILLS.md)**
 
 | | |
 |---|---|
@@ -59,8 +59,8 @@ on an RE Super Meteor 650, dyno-validated across the band.
 **Code**: Python for the numerics, MATLAB, C. Applied AI at work: I own AI systems architecture
 and product design for a telecom CRM platform, which is not what I was hired to do.
 
-<sub>Hindi and English native · Marathi, Maithili · Russian, French elementary. Friends call me AVM
-pronounce it how it's spelled, *Aevium*. Recognised by the ISRO Chairman for aerospace STEM
+<sub>Hindi and English native · Marathi, Maithili · Russian, French elementary. Friends call me AVM,
+pronounced how it's spelled, *Aevium*. Recognised by the ISRO Chairman for aerospace STEM
 outreach; member, Space Generation Advisory Council.</sub>
 
 📫 [adityavardhanmishr@gmail.com](mailto:adityavardhanmishr@gmail.com) ·

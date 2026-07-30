@@ -31,10 +31,10 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # The shared cross-link block. Byte-identical in all four repositories -- the flagship's copy
 # in PROGRAMME.md is the source, and this is checked by tools/check_links.py.
 HEADER_ROWS = [
-    ("VOLLEY", "Flagship — authoritative engineering record, portfolio", ""),
-    ("EMOCD-paper", "IEEE companion — manuscript and reproducibility package *(generated)*", "paper"),
-    ("EMOCD-thesis", "Thesis companion — university submission *(generated)*", "thesis"),
-    ("EMOCD-lab", "Phase II — research, redesign, deliberately unstable", "lab"),
+    ("VOLLEY", "Flagship: the authoritative engineering record, and the portfolio", ""),
+    ("EMOCD-paper", "IEEE companion: manuscript and reproducibility package *(generated)*", "paper"),
+    ("EMOCD-thesis", "Thesis companion: university submission *(generated)*", "thesis"),
+    ("EMOCD-lab", "Phase II: research, redesign, deliberately unstable", "lab"),
 ]
 OWNER = "aaaaaaaaaaaavm"
 
@@ -52,7 +52,7 @@ def header_table(here):
 
 
 def banner(commit, kind):
-    return f"""> ## Generated repository — do not edit here
+    return f"""> ## Generated repository, do not edit here
 >
 > Every file in this repository is generated from the **VOLLEY flagship** by
 > `tools/export_companion.py`. Nothing here is authored, and any edit made here will be
@@ -78,8 +78,10 @@ PAPER_MANIFEST = [
     ("analysis", "analysis"),
     ("requirements.txt", "requirements.txt"),
     ("validation", "validation"),
-    ("PROVENANCE.md", "PROVENANCE.md"),
-    ("BASELINE.md", "BASELINE.md"),
+    ("docs/PROVENANCE.md", "PROVENANCE.md"),
+    ("docs/PRIOR_ART.md", "PRIOR_ART.md"),
+    ("docs/LITERATURE.md", "LITERATURE.md"),
+    ("docs/BASELINE.md", "BASELINE.md"),
     ("LICENSE", "LICENSE"),
     ("CITATION.cff", "CITATION.cff"),
 ]
@@ -91,68 +93,114 @@ THESIS_MANIFEST = [
     ("analysis", "analysis"),
     ("validation", "validation"),
     ("cad", "cad"),
-    ("BASELINE.md", "appendix/BASELINE.md"),
+    ("docs/BASELINE.md", "appendix/BASELINE.md"),
     ("OPEN_PROBLEMS.md", "appendix/OPEN_PROBLEMS.md"),
-    ("VALIDATION_REPORT.md", "appendix/VALIDATION_REPORT.md"),
-    ("PROVENANCE.md", "appendix/PROVENANCE.md"),
+    ("docs/VALIDATION_REPORT.md", "appendix/VALIDATION_REPORT.md"),
+    ("docs/PROVENANCE.md", "appendix/PROVENANCE.md"),
     ("CHANGELOG.md", "appendix/CHANGELOG.md"),
-    ("HISTORY.md", "appendix/HISTORY.md"),
+    ("docs/HISTORY.md", "appendix/HISTORY.md"),
     ("docs/DECISION_LOG.md", "appendix/DECISION_LOG.md"),
     ("docs/adr", "appendix/adr"),
+    ("docs/PRIOR_ART.md", "appendix/PRIOR_ART.md"),
+    ("docs/LITERATURE.md", "appendix/LITERATURE.md"),
+    ("docs/RELATED_WORK.md", "appendix/RELATED_WORK.md"),
     ("LICENSE", "LICENSE"),
 ]
 
-PAPER_README = """# VOLLEY — IEEE companion
+PAPER_README = """# VOLLEY: IEEE companion
 
-Reproducibility package for the VOLLEY conference paper: manuscript source, figures, the
-analysis scripts that produce every number in it, and the validation run sheets.
+Everything needed to reproduce the conference paper. Manuscript source, figures, the analysis
+scripts behind every number in it, the validation run sheets, and the literature record.
 
-## Reproducing the paper's numbers
+**[Read the paper](paper/VOLLEY_IEEE_Conference.pdf)** (11 pages)
+
+## Reproduce it in one command
 
 ```bash
 pip install -r requirements.txt
-cd analysis
-python3 verify_field.py && python3 mass_properties.py && python3 motor_model.py \\
-  && python3 sizing.py && python3 astro.py && python3 cost.py
+cd analysis && python3 verify_field.py && python3 mass_properties.py \\
+  && python3 motor_model.py && python3 sizing.py && python3 astro.py && python3 cost.py
 ```
 
-Results land in `analysis/results/*.json`. Every figure regenerates with
-`python3 paper/make_figures.py`, which imports the analysis rather than reimplementing it.
+Roughly two minutes. Results land in `analysis/results/*.json`.
 
-## What is not here
+This has been checked from a clean clone rather than assumed: run that way, `motor_results.json`
+returns `shot.v_exit = 16.537`, which is the figure the paper's abstract quotes.
 
-The engineering record — decision log, defect ledger, CAD generations, roadmap — lives in the
-flagship. This package exists so a reader can reproduce the paper, not so it can replace the
-repository the paper came from.
+## What reproduces, and how well
 
-**Read [`PROVENANCE.md`](PROVENANCE.md) before citing anything.** This is a design study at
-TRL 2–3 with no hardware, no measurement and no third-party review.
+| Quantity | Value | Cross-checked against |
+|---|---|---|
+| Thrust constant | 11.22 N per kA/m | A meshed magnetostatic FEM, agreeing to 0.07 % |
+| Airgap field | 0.694 T midgap peak | magpylib, agreeing to three digits |
+| Orbital decay | x1.62 lifetime | Cowell RK4, agreeing to 99.4 % |
+| Exit velocity | 16.537 m/s at 10.7 g | Single-sourced |
+| Dispersion | 0.027 m/s, 3 sigma | Single-sourced, and resting on assumed sensor noise |
+
+The last two have no independent check. `PROVENANCE.md` says which of these carry weight.
+
+## Figures
+
+`python3 paper/make_figures.py` regenerates all of them. It imports the analysis rather than
+reimplementing it, so a figure cannot quietly disagree with the number it plots.
+
+## Before citing
+
+**Read [`PROVENANCE.md`](PROVENANCE.md).** This is a design study at TRL 2-3. Nothing has been
+built, fired or measured, and the paper says so.
+
+[`PRIOR_ART.md`](PRIOR_ART.md) records the published work nearest to this one, including two
+claims the paper had to retract after reading it. [`LITERATURE.md`](LITERATURE.md) maps the wider
+field.
+
+## What is deliberately absent
+
+The engineering record. Decision log, defect ledger, CAD generations, roadmap and change history
+live in the flagship. This package exists so the paper can be checked, not so it can stand in for
+the repository it came from.
 """
 
-THESIS_README = """# VOLLEY — thesis companion
+THESIS_README = """# VOLLEY: thesis companion
 
 Final-year thesis submission material, generated from the VOLLEY flagship.
+
+**[Read the manuscript](source/VOLLEY_IEEE_Conference.pdf)**
 
 ## Layout
 
 | | |
 |---|---|
-| `source/` | Manuscript source and figures |
-| `analysis/` | The scripts behind every number |
-| `validation/` | Acceptance bands, declared before each run |
-| `cad/` | Three CAD generations with their defect audit |
-| `appendix/` | Baseline, defect ledger, validation report, provenance, decision records |
+| `source/` | Manuscript and figures |
+| `analysis/` | Six scripts producing every number in the work |
+| `validation/` | Nine analyses, each with its acceptance band declared before the run |
+| `cad/` | Three CAD generations, with the defect audit for each |
+| `appendix/` | Baseline, defect ledger, validation report, provenance, prior art, literature, decision records |
 
-## University material goes here, not upstream
+## For an examiner, in reading order
 
-This is the one generated repository with hand-added content: submission forms, templates,
-formatting mandates and viva material are university-specific and do not belong in the
-flagship. **Keep them in `university/`, which the exporter never touches.** Everything outside
-`university/` is regenerated and will be overwritten.
+1. `appendix/PROVENANCE.md`, which says what stands behind each claim and what does not.
+2. `appendix/BASELINE.md`, the twenty frozen values, and the rule for changing any of them.
+3. `appendix/adr/`, eighteen decision records. Each states the alternatives considered and the
+   consequences accepted. ADR-003 carries its own amendment showing an argument it got wrong.
+4. `appendix/OPEN_PROBLEMS.md`, every known defect, including the ones that damage the work's own
+   claims.
+5. `appendix/PRIOR_ART.md`, the nearest published work, and the two claims retracted after reading
+   it.
 
-**Read [`appendix/PROVENANCE.md`](appendix/PROVENANCE.md) first.** Every number in this work
-is a model output. Nothing has been built or measured, and the defect ledger in
-`appendix/OPEN_PROBLEMS.md` is published deliberately rather than tidied away.
+The decision records are the part most worth reading. They are where the reasoning lives, and
+several of them record a choice being made against the author's initial preference.
+
+## University material goes in `university/`
+
+That directory is the one place in this repository where hand-written content survives.
+Submission forms, formatting mandates and viva material are university-specific and do not belong
+upstream. **Everything outside `university/` is regenerated and will be overwritten.**
+
+## Before citing
+
+Every number here is a model output. Nothing has been built or measured. The defect ledger is
+published deliberately rather than tidied away, and it is the honest measure of how far the work
+has actually got.
 """
 
 

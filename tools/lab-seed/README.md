@@ -1,4 +1,6 @@
-# EMOCD-lab: Phase II
+# VOLLEY, Phase II
+
+The research track of the VOLLEY programme.
 
 <!-- PROGRAMME-HEADER-START -->
 | Repository | Role | You are here |
@@ -24,7 +26,7 @@ stability is a design requirement. This repository is the pressure valve that le
 frozen.
 
 The reasoning is in the flagship's
-[`WHY.md`](https://github.com/aaaaaaaaaaaavm/EMOCD/blob/main/WHY.md): the stated
+[`WHY.md`](https://github.com/aaaaaaaaaaaavm/EMOCD/blob/main/docs/WHY.md): the stated
 failure mode is spiralling into redesign. A Phase II track kept *inside* the flagship is a soft
 boundary, one `git checkout` from becoming an edit to the frozen baseline. This is a hard wall
 instead of a line on the floor.
@@ -45,6 +47,13 @@ each item's entry criterion live in the flagship's
 | PII-4 | Envelope repackaging (P9), currently 44 % over ESPA Grande |
 | PII-5 | Variable-shape atmosphere, the root cause behind P16 |
 
+Two more arrived on 2026-07-30, from reading the nearest published work:
+
+| | |
+|---|---|
+| PII-6 | **Reachable-domain analysis.** Feng et al. compute a 3-D envelope of the orbits one shot makes available. The flagship reports a scalar lifetime multiplier instead, which answers a smaller question. Their method is better and this is where adopting it belongs |
+| PII-7 | **Magazine indexing disturbance** (E24). Xu et al. treat the attitude disturbance from moving satellites inside a deployer as a cost worth optimising against. The flagship budgets recoil from the shot and nothing from the indexing between shots. The bookkeeping half is an error correction and belongs upstream; designing an indexing sequence that minimises it belongs here |
+
 Also: anything from dossier §8's cross-industry list that turns into real work, and any idea
 that does not yet have a home.
 
@@ -52,7 +61,7 @@ that does not yet have a home.
 
 **Error corrections.** If something in the flagship is *wrong*, fix it in the flagship. The
 distinction is the whole of the change-control rule in
-[`BASELINE.md`](https://github.com/aaaaaaaaaaaavm/EMOCD/blob/main/BASELINE.md), and it is by
+[`BASELINE.md`](https://github.com/aaaaaaaaaaaavm/EMOCD/blob/main/docs/BASELINE.md), and it is by
 type, not by convenience. P17 is tedious and belongs upstream; the momentum-transfer release
 is fascinating and belongs here.
 

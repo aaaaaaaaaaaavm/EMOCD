@@ -6,8 +6,8 @@ profile page. It is the first thing anyone sees after clicking your name, and it
 ## One-time setup
 
 1. Create a new **public** repository named exactly `aaaaaaaaaaaavm`.
-   GitHub will show a message confirming you have found the special repository name, if it does
-   not, the name is wrong.
+   GitHub confirms when you have found the special repository name. If it does not, the
+   name is wrong.
 2. Copy `README.md` from this directory into it and push.
 
 ```bash
@@ -20,7 +20,7 @@ git commit -m "Profile" && git push
 
 ## Then pin the repositories
 
-Profile to **Customize your pins** to select `VOLLEY`, `EMOCD-paper`, `EMOCD-thesis`, `EMOCD-lab`.
+Profile, then **Customize your pins**, and select `VOLLEY`, `EMOCD-paper`, `EMOCD-thesis`, `EMOCD-lab`.
 Pinning is separate from the README and has to be done in the web UI. Without it the four
 repositories are buried under everything else you own.
 
