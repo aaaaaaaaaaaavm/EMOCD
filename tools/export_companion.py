@@ -38,6 +38,11 @@ HEADER_ROWS = [
 ]
 OWNER = "aaaaaaaaaaaavm"
 
+# The repositories are still named EMOCD-*. The programme is VOLLEY, but a directory name has
+# to match the repository it is pushed to, so this stays until the repositories are renamed by
+# hand. Changing it before that would push VOLLEY-paper content to a repository nobody renamed.
+REPO_PREFIX = "EMOCD"
+
 
 def header_table(here):
     """`here` is '', 'paper', 'thesis' or 'lab'."""
@@ -219,7 +224,7 @@ def copy(src, dst):
 
 
 def build(kind, manifest, readme, out_root, commit):
-    dest = os.path.join(out_root, f"VOLLEY-{kind}")
+    dest = os.path.join(out_root, f"{REPO_PREFIX}-{kind}")
     if os.path.exists(dest):
         shutil.rmtree(dest)          # regenerate wholesale; never merge into a stale tree
     os.makedirs(dest)
