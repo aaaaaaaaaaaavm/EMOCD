@@ -29,6 +29,18 @@ source:
 
 ---
 
+## The wider landscape
+
+[`LITERATURE.md`](LITERATURE.md) maps 136 works around this project, harvested from the reference
+lists of the five papers read in full. It is a reading list with provenance attached, not a review,
+and the `lead` rule above applies to all of it: nothing there may support a number in the paper.
+
+One entry deserves promotion out of it. Zhao, Yue, Yang and Zhu, "A High Thrust Density Voice Coil
+Actuator With a New Structure of Double Magnetic Circuits for CubeSat Deployers", *IEEE Trans. Ind.
+Electron.* 69 (2022) 13305, is cited by **all three** Harbin papers. It is the actuator underneath
+their deployer line, it is a linear machine rather than a coilgun, and it is the nearest published
+neighbour to this design's topology that has turned up so far. It has not been read.
+
 ## Direct competitors: added 2026-07-30
 
 > **This section did not exist until 2026-07-30, and its absence was the defect.** A review with
