@@ -84,8 +84,9 @@ current doubles at unchanged current density: **20.61 m/s at a 7.50 kg sled, J s
 
 > **Entry criterion.** A1 must run first, this trades one K<sub>t</sub> against another, and
 > both are currently checked only analytic-against-analytic. Then peak current at roughly 580 A
-> must be shown compatible with the bank ESR, which A8-R measured and P24 propagated: at 12 mohm
-> the ESR loss goes as I^2, so doubling the current quadruples a term that is already 86 J.
+> must be shown compatible with the bank, and **P26 makes that harder than it looks**: the ESR
+> ceiling is set by deliverable power `V^2/4R`, so roughly doubling the current roughly quarters
+> the ceiling. A two-layer stator would need PII-7 settled first, not alongside.
 
 ### PII-4: Envelope repackaging (P9)
 
@@ -132,6 +133,48 @@ what that velocity buys as a region, not a number.
 **Not Phase I.** The scalar multiplier is correct, sourced and cross-checked against GMAT. It is
 narrower than the alternative, which makes the envelope an improvement rather than a correction,
 and `docs/BASELINE.md`'s rule puts improvements here.
+
+### PII-7: A bank that can actually source the shot (P26)
+
+**Phase I if the programme wants a defensible rated point; Phase II only because the current
+one is honestly labelled as not closing.** A10 established a hard ceiling of **65 mohm** on bank
+ESR, and a single string of 32 x 190 F cells gives 116 to 185 mohm.
+
+Parallel strings divide resistance and multiply capacitance. The bank is priced in
+`analysis/cost.py` at INR 240,000 for 32 cells, so each added string costs the same again:
+
+| Strings | Cells | Bank C | Bank ESR | Against the 65 mohm ceiling | Bank cost |
+|---|---|---|---|---|---|
+| 1, as designed | 32 | 5.9 F | 116-185 mohm | **fails, 1.8-2.8x over** | INR 240 k |
+| 2 | 64 | 11.9 F | 58-93 mohm | marginal, fails at the pessimistic end | INR 480 k |
+| 3 | 96 | 17.8 F | 39-62 mohm | closes, no margin | INR 720 k |
+| **4** | **128** | **23.8 F** | **29-46 mohm** | **closes with roughly 2x margin** | **INR 960 k** |
+| 6 | 192 | 35.6 F | 19-31 mohm | comfortable | INR 1.44 M |
+
+Four strings is the first row that closes at the pessimistic ESR with margin left for
+temperature and ageing, both of which move ESR the wrong way. It costs **four times the cells
+and four times the bank mass**, against a mass rollup that already excludes the enclosure,
+radiator and avionics (P10), and a cost model in which the bank is already the second largest
+line at 17.8 %.
+
+**The alternatives, neither costed here:**
+
+- **Accept a lower rated point.** Lower commanded force lowers peak power, which raises the
+  ESR ceiling. This trades exit velocity for a buildable bank and needs the trade curve
+  computed before it can be argued.
+- **Change technology.** Lithium-ion capacitors trade ESR for energy density; a battery plus a
+  small capacitor front end moves the pulse burden elsewhere. Neither can be argued from this
+  repository's current reading: `LITERATURE.md`'s pulsed-power cluster has two entries and
+  that is the gap P26 names.
+
+> **Entry criterion.** The pulsed-power literature gap filled first, then a cell selected from
+> a manufacturer datasheet rather than a distributor listing, with DC ESR at the operating
+> temperature and its derating with age. **A bank chosen on an interpolated ESR would repeat
+> the error that produced P26.**
+
+**Why this is not simply Phase I.** It is a sizing decision with a 4x cost and mass
+consequence, and the honest Phase I position is the one now published: the rated point assumes
+a bank that cannot be bought, and that is stated rather than quietly re-sized.
 
 ---
 

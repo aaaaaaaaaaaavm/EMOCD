@@ -692,6 +692,11 @@ corrected, the model gives 346.77 A against ngspice's 346.8.
 **This is a simulation result, not a measurement.** It gives a placeholder its first independent
 number, which is what E17 asked for, and it is still one model checking another.
 
+> **Superseded in part, 2026-07-30 by A10.** Everything above is arithmetically correct and
+> still describes what the model does. What it assumed is not: **12 mohm is not purchasable at
+> this bank capacitance**, and at a realistic value the shot does not close at all. The 86 J
+> figure is therefore the ESR loss of a bank nobody can build. See **P26**.
+
 ### P25. A retracted claim stayed live in the paper, the wiki and two docs for a day: MEDIUM, NEW 2026-07-30
 P22 withdrew ADR-003's assertion that coilgun efficiency is "1-2 % in the literature", after
 Feng et al. were found reporting **14.9-19.9 %** for a multi-stage on-orbit CubeSat launcher.
@@ -722,6 +727,85 @@ to *scripts*. A claim withdrawn in prose has no such guard.
 **No fix for the general case is proposed here**, because the honest one is expensive: it needs a
 list of load-bearing prose claims and where each is asserted, which is `docs/PROVENANCE.md`'s job
 and would roughly double it. Logged so the gap is on the record rather than discovered again.
+
+### P26. The supercapacitor bank cannot source the shot: HIGH, NEW 2026-07-30
+P24 recorded that the 12 mohm bank ESR had no source. Looking for one found that the value is
+not merely unsourced, it is **not attainable from the cells the design specifies**, and that the
+shot does not close without it. Full run: [`validation/A10_bank_esr.md`](validation/A10_bank_esr.md).
+
+**The physics.** For an EDLC, ESR times capacitance is roughly constant within a cell
+technology: both are set by the same electrode area and separator. Two Eaton 3.0 V cells thirty
+times apart bracket it, and series stacking preserves the product because R scales with N and C
+with 1/N.
+
+| Cell | C | ESR | ESR x C |
+|---|---|---|---|
+| TV1860-3R0107-R | 100 F | 11 mohm | 1.10 s |
+| XL60-3R0308T-R | 3000 F | 0.23 mohm | 0.69 s |
+| **This bank, as modelled** | **5.94 F** | **12 mohm** | **0.071 s** |
+
+The bank as modelled is an order of magnitude better than either commercial cell. At a realistic
+product it is **116 to 185 mohm**.
+
+**The consequence is not a worse efficiency. It is no shot at all.** A source of EMF V behind
+series resistance R cannot deliver more than `V^2/4R` into any load. At the rated point the
+shot needs 30.0 kW at peak velocity. A10 swept the integrator and found the design completes up
+to **65 mohm and fails from 70**, against the 116 to 185 mohm the cells actually give.
+
+| | |
+|---|---|
+| Hard ceiling on bank ESR | **65 mohm** |
+| A single string of 32 x 190 F cells | **116 to 185 mohm** |
+| Margin | **none: short by 1.8x to 2.8x** |
+
+**Nothing else in the design is implicated.** Exit velocity, stroke time and dispersion do not
+move anywhere in the sweep, because the commanded force is constant and the mechanical
+integration never sees the bank until the bank fails to source it. K_t, the magnets, the
+winding and the control loop are untouched. This is a pulse-power defect and it is contained
+there.
+
+**Not propagated, and that is deliberate.** The baseline still reads 16.537 m/s at 2.88 kJ,
+which assumes a 12 mohm bank that cannot be bought. `docs/BASELINE.md`'s change-control rule
+admits error correction; what is needed here is a **sizing decision**, and taking one on the
+strength of two datasheet points would be exactly the reasoning this repository logs defects
+about. Options costed as **PII-7**.
+
+**The gap that let this through, and it is on the record already.**
+[`docs/LITERATURE.md`](docs/LITERATURE.md) has 136 entries across nine clusters, and its
+pulsed-power-and-capacitors cluster has **two**. The file names that cluster as the sample's
+blind spot in its own words. The one area nobody filled is the one that turned out to carry a
+defect big enough to stop the machine.
+
+**What is still soft.** Both cell figures come from distributor listings of manufacturer data,
+not from the manufacturer PDFs, which are unreachable from the environment this was written in.
+A third mid-range point was not obtained. If space-qualified cells behave differently the
+numbers move, though the ceiling at 65 mohm does not: that is set by this design's own power
+demand and is independent of any datasheet.
+
+### P27. A numerical guard hid the failure it was written next to: MEDIUM, NEW 2026-07-30
+Found by A10 on its first run, before it found anything about the bank.
+
+`shot()` solves `R I^2 - Vc I + P = 0` for the current drawn at the bank terminal. When the
+discriminant went negative it fell back to `I = P/Vc`, the current the load would draw with no
+ESR at all. That branch was added on 2026-07-30 in the same commit as the ESR term itself,
+as an ordinary numerical guard.
+
+**A negative discriminant is not a numerical edge case. It is the bank being unable to source
+the demanded power**, which is precisely the condition A10 exists to detect. The fallback
+converted it into a completed run with a working machine in it, at every resistance tested.
+
+The tell was visible in the output and nearly missed: **peak current fell from 630 A at 70 mohm
+to 331 A at 183 mohm.** Demanded power was fixed, so current cannot fall as resistance rises.
+
+**Fixed:** the branch raises `BankLimitError`, naming the power demanded, the `V^2/4R` ceiling,
+and the point in the stroke where it was hit. The baseline is unaffected, because at 12 mohm the
+discriminant never goes negative.
+
+**The general lesson, which is why this is a numbered defect and not a commit message.** Every
+other guard in this repository fails loudly: `_check_operating_point()` exits, `make_baseline.py
+--check` exits, `bench_predict.py` raises on geometry drift. This one substituted a plausible
+value and continued. A guard that degrades silently is worse than no guard, because it converts
+a detectable failure into a credible wrong answer.
 
 ## E: Unsolved engineering
 
@@ -893,8 +977,10 @@ peak current +5.98 %, sag +0.18 points, energy +3.59 %. Two findings came out of
    item asked for a second number against the 160 J; here it is.
 
 The 12 mohm itself appears only in `docs/EMOCD_Computation_Results_C1-C10.md`, which is
-superseded, and no cell datasheet has been checked against it. **That provenance gap is what
-keeps this item open**, now that the modelling gap is closed.
+superseded. **Datasheets have since been checked against it and it does not survive**: a bank of
+this capacitance built from commercial cells is 116 to 185 mohm, and the shot does not close
+above 65. See **P26**. This item is no longer about provenance; the number was not merely
+unsourced, it was unattainable.
 
 > **Re-run 2026-07-30 (A8-R), then corrected.** Five of six bands met; the pulse-duration row
 > that P23 is about passes at 0.03 %. Energy closure failed at 97.0 %, and the cause was the

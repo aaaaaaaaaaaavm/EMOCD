@@ -74,6 +74,58 @@ topology, or a different rated point rescues the design. That is a sizing decisi
 deliberately not taken here. This run establishes only whether the bank as specified can
 source the shot as specified.
 
-## Result
+## Result, run 2026-07-30
 
-*To be written after the run. The bands above are committed first.*
+**The first run was invalid, and the reason is worth more than the run.**
+
+`shot()` carried a guard: when the quadratic had no real root it fell back to `I = P/Vb`,
+the current the load would draw with no ESR at all. So the sweep completed at every
+resistance and reported plausible numbers. The tell was that **peak current fell from 630 A
+to 331 A as resistance rose**, which cannot happen at fixed demanded power.
+
+That guard was written on 2026-07-30 in the same commit that added the ESR term. It converted
+"this bank cannot source the shot" into a finished run with a working machine in it. It now
+raises `BankLimitError` naming the power demanded, the ceiling, and where in the stroke it was
+hit. **A10 was built to test the bank and the first thing it caught was the instrument.**
+
+### The sweep, with the failure exposed
+
+| ESR mohm | v_exit | I_peak A | E drawn J | Q_esr J | min terminal V | |
+|---|---|---|---|---|---|---|
+| 12 | 16.537 | 346.8 | 2881 | 86 | 86.7 | as modelled |
+| 30 | 16.537 | 379.7 | 3038 | 242 | 79.2 | |
+| 50 | 16.537 | 441.9 | 3282 | 486 | 68.0 | |
+| 60 | 16.537 | 505.8 | 3465 | 669 | 59.4 | |
+| **65** | 16.537 | 579.7 | 3597 | 802 | 51.9 | **last value that completes** |
+| 70 | | | | | | **bank limit** |
+| 115 | | | | | | bank limit, realistic low |
+| 183 | | | | | | bank limit, realistic high |
+
+### Against the declared bands
+
+| # | Prediction | Result | |
+|---|---|---|---|
+| 1 | completes at 12 mohm, v_exit within 0.1 % | 16.537 m/s | **pass** |
+| 2 | does not complete at 115 and 183 mohm | raises at both | **pass** |
+| 3 | ceiling between 60 and 77 mohm | **65 mohm** | **pass** |
+| 4 | ESR loss at 115 mohm within 15 % of I^2dt*R | unmeasurable: the shot does not run | **void** |
+| 5 | v_exit unchanged until the bank fails | unchanged to three decimals throughout | **pass** |
+| 6 | bank not capable at a commercial ESR | not capable | **pass** |
+
+Five of six. Row 4 is recorded void rather than passed: it assumed a number that only exists
+if the shot runs, and it does not. Writing bands in advance is what makes that visible instead
+of quietly reinterpreting the row.
+
+The measured 65 mohm sits below the 76.8 mohm derived from `V^2/4R`, and the reason is that
+the derivation used 96 V while the bank has already sagged to about 90 V by the time peak
+power is demanded. Recomputing the ceiling at the sagged voltage gives 28.9 kW against 30.0 kW
+required, which is the failure the integrator reports.
+
+### What this establishes
+
+**A single series string of 190 F cells cannot fire this shot.** Its ESR is 116 to 185 mohm
+against a hard ceiling of 65 mohm, and the ceiling is a limit on deliverable power, not an
+efficiency target. Nothing about the winding, the magnets or the control loop is implicated.
+
+**What it does not establish** is what to build instead. That is a sizing decision and it is
+not taken here. The options are costed in `docs/PHASE_II.md` PII-7.

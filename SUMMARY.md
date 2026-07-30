@@ -36,6 +36,10 @@ constellation phase spacing in **1.4-6.9 days** against roughly 25 for different
 | Recurring hardware | ~₹1.35 M per unit, ₹112 k per satellite | **Every price assumed, no quotations.** Useful part: avionics + energy storage are ~42 % of cost and the magnet set only ~5 %, which holds even at 2x price errors |
 | Envelope | 1839 mm closed | **Exceeds the ESPA-Grande class by ~44 %.** Open packaging problem (P9) |
 
+> **Open as of 2026-07-30:** the supercapacitor bank is modelled at an ESR no commercial cell
+> of that capacitance achieves, and the shot does not close at a realistic value (**P26**). The
+> velocity and dispersion figures are unaffected, the bank sizing is. Not quietly re-sized.
+
 **Maturity: TRL 2-3. Nothing has been built, fired, or measured.** Four of nine specified
 validations have been run, each against an acceptance band declared *before* the run. A1 and A8
 are at the current operating point; **A5 predates it and needs re-running** (P19).

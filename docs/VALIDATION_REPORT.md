@@ -153,6 +153,39 @@ Detail: [`validation/results/A8_pulse.json`](../validation/results/A8_pulse.json
 
 ---
 
+## 3b. Bank ESR: the shot does not close on commercial cells (A10)
+
+Run 2026-07-30 against bands committed beforehand. Not a cross-check of a number: a test of
+whether the pulse-power chain closes at all.
+
+For an EDLC, ESR times capacitance is roughly constant within a technology. Two Eaton 3.0 V
+cells thirty times apart give 0.69 and 1.10 s. The bank as modelled, 5.94 F at 12 mΩ, implies
+**0.071 s**, an order of magnitude better than either. At a realistic product the bank is
+**116 to 185 mΩ**.
+
+A source of EMF V behind resistance R cannot deliver more than V²/4R. The shot needs 30.0 kW at
+peak velocity.
+
+| | |
+|---|---|
+| Highest bank ESR at which the shot completes | **65 mΩ** |
+| A single string of 32 × 190 F cells | **116 to 185 mΩ** |
+| Margin | **none** |
+
+**Exit velocity, stroke time and dispersion do not move anywhere in the sweep.** The commanded
+force is constant, so the mechanical integration never sees the bank until the bank fails to
+source it. This defect is contained in the pulse chain.
+
+**Five of six declared rows passed; one is recorded void** because it assumed a loss figure that
+only exists if the shot runs. Detail: [`validation/A10_bank_esr.md`](../validation/A10_bank_esr.md),
+defect **P26**, options costed as PII-7.
+
+**A10 caught its own instrument first.** The integrator had a fallback that silently substituted
+a no-ESR current when the bank could not source the load, which produced completed runs at every
+resistance with peak current *falling* as resistance rose. Logged separately as **P27**.
+
+---
+
 ## 4. Sled mass: measured from the Gen3 CAD (A4, partial)
 
 Exact solid volumes from the OpenCASCADE kernel, multiplied by material densities. The

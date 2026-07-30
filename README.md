@@ -77,6 +77,19 @@ electrical-to-payload and carries no regeneration credit.
 
 ## Headline results (all model outputs, not measurements)
 
+> ### The pulse-power chain does not close on purchasable cells
+>
+> **Found 2026-07-30, and stated here rather than left in the defect log.** The supercapacitor
+> bank is modelled at 12 mΩ. Commercial cells of this capacitance give **116 to 185 mΩ**, and
+> the shot stops completing above **65 mΩ**: a source behind resistance R cannot deliver more
+> than V²/4R, and this one is asked for 30 kW.
+>
+> **Exit velocity, stroke time and dispersion are unaffected** and the mechanical design is not
+> implicated. What is affected is that the rated point assumes a bank nobody can buy. Fixing it
+> is a sizing decision, costed at four parallel strings in `docs/PHASE_II.md` PII-7, and it is
+> **not** silently applied here. See **P26**.
+
+
 | Quantity | Value | Source |
 |---|---|---|
 | Thrust constant | 11.22 N per kA/m, ±1.26 % ripple, **confirmed by FEM to 0.07 %** | `analysis/motor_model.py`, A1 |

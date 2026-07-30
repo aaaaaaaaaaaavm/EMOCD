@@ -130,6 +130,15 @@ def thrust_constant(nx=240, ny=9, profile=False):
     return Kt, ripple
 
 
+class BankLimitError(RuntimeError):
+    """The supercapacitor bank cannot source the power the shot demands.
+
+    Raised rather than worked around. A bank that cannot deliver the shot is a design
+    result, and the caller has to decide what to do about it; silently substituting a
+    current the circuit cannot produce is how A10 nearly reported a working machine.
+    """
+
+
 def shot(Kt, K_lim=K_RATED, dt=1e-4, trace=False):
     """Integrate one shot: constant commanded force against bank sag + copper loss.
 
@@ -156,7 +165,21 @@ def shot(Kt, K_lim=K_RATED, dt=1e-4, trace=False):
         # burned in the ESR, which is the term A8-R found missing.
         Vb = max(Vc, 40)
         disc = Vb * Vb - 4 * R_ESR * P
-        I = (Vb - math.sqrt(disc)) / (2 * R_ESR) if disc > 0 else P / Vb
+        if disc <= 0:
+            # No real root: a source of EMF Vb behind R cannot deliver more than
+            # Vb^2/(4R) into ANY load, and the shot is asking for more. This is a
+            # physical impossibility, not a numerical edge case, so it raises.
+            #
+            # It used to fall back to P/Vb here, which is the current the load would
+            # draw with no ESR at all. That silently turned "this bank cannot source
+            # the shot" into a completed run with plausible numbers, and it made peak
+            # current DECREASE with rising resistance. Found by A10. See P26.
+            raise BankLimitError(
+                f"bank cannot source {P/1e3:.1f} kW at Vc={Vb:.1f} V through "
+                f"R_ESR={R_ESR*1e3:.0f} mohm: ceiling is Vb^2/4R = "
+                f"{Vb*Vb/(4*R_ESR)/1e3:.1f} kW, reached at t={t*1e3:.1f} ms, "
+                f"v={v:.2f} m/s, x={x*1e3:.0f} mm")
+        I = (Vb - math.sqrt(disc)) / (2 * R_ESR)
         Imax = max(Imax, I)
         Vc -= I * dt / C_BANK
         E += Vb * I * dt
