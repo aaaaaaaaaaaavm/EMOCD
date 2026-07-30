@@ -42,8 +42,8 @@ Part numbers now outlive the name on the cover, which is ordinary practice and i
 recorded rather than left to look like an oversight. Anyone reading `EMOCD_Sled_Gen3.step` inside a
 repository called VOLLEY should find this file and stop wondering.
 
-Repository URLs still read `aaaaaaaaaaaavm/EMOCD` until the repositories themselves are renamed.
-GitHub redirects the old paths afterwards, so links published before the rename keep working.
+All four repositories were renamed on 2026-07-30, so the URLs now read `aaaaaaaaaaaavm/VOLLEY`.
+GitHub redirects the old paths, so links published before the rename keep working.
 
 ## Validation
 No numeric output moved: `tools/make_baseline.py --check` holds at 20 values and all six analysis

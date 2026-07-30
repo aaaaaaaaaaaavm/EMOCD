@@ -69,7 +69,7 @@ This is the strongest section, and it is the one most people cannot evidence at 
 | Claim | Evidence |
 |---|---|
 | **Acceptance bands declared before the analysis runs** | Every file in [`validation/`](../validation/) states its band before its result. A failure therefore cannot be rationalised afterwards |
-| **Defects published, including the ones that damage the work** | 24 P-items and 24 E-items in [`OPEN_PROBLEMS.md`](../OPEN_PROBLEMS.md). Two retracted claims in the paper's own abstract. An ADR argument found false and withdrawn |
+| **Defects published, including the ones that damage the work** | 25 P-items and 24 E-items in [`OPEN_PROBLEMS.md`](../OPEN_PROBLEMS.md). Two retracted claims in the paper's own abstract. An ADR argument found false and withdrawn |
 | **Decisions recorded with alternatives and consequences** | 18 records in [`docs/adr/`](adr/), including [ADR-003](adr/003-linear-synchronous-motor.md), which carries its own amendment showing what it got wrong |
 | **A single source of truth, enforced** | Scripts are authoritative over the paper, never the reverse. Four errors were found in the paper by rebuilding its analysis from scratch |
 | **Provenance stated per claim** | [`PROVENANCE.md`](PROVENANCE.md) and the per-source `verified`/`confirmed`/`lead` status in [`docs/RELATED_WORK.md`](RELATED_WORK.md), a `lead` may not support a number in the paper |

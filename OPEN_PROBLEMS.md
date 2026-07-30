@@ -692,6 +692,37 @@ corrected, the model gives 346.77 A against ngspice's 346.8.
 **This is a simulation result, not a measurement.** It gives a placeholder its first independent
 number, which is what E17 asked for, and it is still one model checking another.
 
+### P25. A retracted claim stayed live in the paper, the wiki and two docs for a day: MEDIUM, NEW 2026-07-30
+P22 withdrew ADR-003's assertion that coilgun efficiency is "1-2 % in the literature", after
+Feng et al. were found reporting **14.9-19.9 %** for a multi-stage on-orbit CubeSat launcher.
+The withdrawal was recorded in `docs/adr/003`, `docs/PRIOR_ART.md`, `docs/RELATED_WORK.md` and
+the changelog.
+
+**It was not propagated to the places that actually assert it.** Four survived:
+
+| Where | What it said |
+|---|---|
+| `paper/paper.tex` Table I | *Electrical to payload efficiency: coilgun 1-2 %, this work 19 %* |
+| `paper/paper.tex` §II and §III | the same figure, once as background and once as a listed cost of the coilgun |
+| `wiki/Home.md` | "1-2 % single-stage efficiency" in the locked-decisions list |
+| `docs/PROJECT_NOTES.md` | the same, in the locked-decisions list |
+
+**Table I is the one that matters.** It is the architecture trade, and that row claimed an
+order-of-magnitude efficiency advantage that the prior art says does not exist. Corrected, the
+row reads 14.9-19.9 % against 19 %, which discriminates not at all. The decision survives on the
+rows that always carried it: no armature on the customer satellite, closed-loop velocity control,
+and an abort path to 45 % of stroke.
+
+**Found by reading the wiki page after publishing it**, not by any check. That is the finding.
+The retraction was logged in four places and propagated to none, and nothing in the repository
+notices when a ledger entry and an artifact disagree, because the mechanical guards
+(`make_baseline.py --check`, `_check_operating_point()`, `check_links.py`) all compare artifacts
+to *scripts*. A claim withdrawn in prose has no such guard.
+
+**No fix for the general case is proposed here**, because the honest one is expensive: it needs a
+list of load-bearing prose claims and where each is asserted, which is `docs/PROVENANCE.md`'s job
+and would roughly double it. Logged so the gap is on the record rather than discovered again.
+
 ## E: Unsolved engineering
 
 ### E1. Three-dimensional field closure: 2-D HALF CLOSED 2026-07-29 by A1

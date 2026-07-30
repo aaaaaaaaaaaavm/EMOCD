@@ -10,7 +10,7 @@ targeting the gap between spring deployers (~2 m/s) and propulsive transfer vehi
 (100s m/s). Adityavardhan Mishra, Department of Mechanical Engineering, Symbiosis
 Institute of Technology, Pune. Project started April 2021.
 
-Current maturity: **TRL 2-3. Analysis and first-pass CAD. No FEA, no hardware.**
+Current maturity: **TRL 2-3. Analysis, CAD, and four of nine validations run. No hardware.**
 
 ## Ground rules
 
@@ -28,9 +28,11 @@ Current maturity: **TRL 2-3. Analysis and first-pass CAD. No FEA, no hardware.**
    and a script ever disagree again, fix the paper to match the scripts, not the other
    way round.
 
-4. **Assume the model is wrong until it agrees with something else.** The two results
-   with genuine cross-checks (field model vs magpylib; orbit-averaged decay vs Cowell
-   RK4) are the two most trustworthy things here. Everything single-sourced is weaker.
+4. **Assume the model is wrong until it agrees with something else.** The three results
+   with genuine cross-checks (field model vs magpylib and vs a meshed FEM; decay vs
+   Cowell RK4; the pulse chain vs ngspice) are the most trustworthy things here.
+   Everything single-sourced is weaker. The pulse chain earned its place the hard way:
+   the second method found a loss the first had no term for at all (P24).
 
 ## Layout
 
@@ -51,10 +53,10 @@ legacy/            SUPERSEDED scripts. They produce older numbers (e.g. 22.4 m/s
                    Kept for history. Do not cite them.
 paper/             paper.tex (IEEEtran), figures, compiled PDF
 docs/              computation notes, FEMM run sheet, decision log, related work, these notes
-validation/        cross-check plan with pre-declared acceptance bands (nothing run yet)
-PROVENANCE.md      what stands behind each claim, and what was never verified
-INVENTORY.md       complete indexed catalogue of the work
-OPEN_PROBLEMS.md   unsolved items, known errors (P1-P10), and the fix list
+validation/        cross-check plan with pre-declared acceptance bands; A1, A4, A5, A8 run
+docs/PROVENANCE.md what stands behind each claim, and what was never verified
+docs/INVENTORY.md  complete indexed catalogue of the work
+OPEN_PROBLEMS.md   unsolved items, known errors (P1-P24), and the fix list
 docs/DECISION_LOG.md  why each design change happened, including reversals
 ```
 
@@ -70,21 +72,23 @@ python3 sizing.py             # instant
 python3 astro.py              # ~10 min (decay integrations + 30-day propagations)
 ```
 
-Dependency order: `mass_properties.py` produces the sled mass (4.86 kg) that
-`motor_model.py` hard-codes as `M_SLED`. If you change the mass model, update that
+Dependency order: `mass_properties.py` produces the sled mass that `motor_model.py`
+hard-codes as `M_SLED`. It currently carries the 9.445 kg measured from the Gen3 CAD
+solids, not the 4.86 kg parametric estimate that preceded it (P15). If you change the mass model, update that
 constant and re-run the motor model, then the paper.
 
 ## Locked design decisions (do not silently revisit)
 
 - Ironless double-sided Halbach linear synchronous motor, NOT a coilgun. The payload's
   own g-limit caps exit velocity at ~26-35 m/s regardless of launcher, which erases the
-  coilgun's only advantage while keeping all its costs (1-2 % efficiency, armature
-  bolted to the customer satellite, no abort).
+  coilgun's only advantage while keeping its costs (armature bolted to the customer
+  satellite, microsecond pulse timing, no abort). **Efficiency is not a cost**: that
+  claim rested on a single-stage figure and was withdrawn as false, see ADR-003.
 - Reusable sled carries the magnets; the customer CubeSat is never modified.
 - Eddy-current brake for arrest. Motor regeneration alone cannot stop the sled,
   braking force is bounded by the same thrust constant as acceleration.
 - Sled kinetic energy is dissipated in the brake, NOT recovered. Efficiency is
-  therefore electrical-to-payload (**19.6 %** at the measured sled mass; it was 32 % at the
+  therefore electrical-to-payload (**19.0 %** at the measured sled mass; it was 32 % at the
   superseded 4.86 kg parametric estimate), not a regeneration-credited number.
 - Attached mode carries no CMGs or thrusters; the host stage absorbs recoil.
 - Two transverse cassettes of six, alternating feed for CoM symmetry.
@@ -101,8 +105,10 @@ constant and re-run the motor model, then the paper.
 As of 2026-07-29: P1, P4 fixed in the paper; **P5, P8, P11, P12, P15 closed**; the measured
 9.445 kg sled is adopted and the rated point is 16.537 m/s (ADR-012). Live items are P9
 (envelope), P14 (Gen3 CAD defects, two of them upstream of K<sub>t</sub>), P16 (the
-ballistic-coefficient half still untested), P17 (attraction 37 % high), and P19 (all three
-completed validations predate the current operating point).
+ballistic-coefficient half still untested), P17 (attraction 37 % high), P19 (A5 still
+predates the current operating point) and P24 (the bank ESR, propagated, but the
+12 mohm behind it is unsourced).
 
-**Next engineering work is A1**, the airgap field, K<sub>t</sub> is checked only
-analytic-against-analytic and every number in the baseline is downstream of it.
+**Next engineering work is B-1**, the Halbach pair on a gaussmeter. K<sub>t</sub> is now
+checked against a meshed FEM as well as magpylib, so the open gap is no longer a second
+model: it is that nothing has been measured at any scale.

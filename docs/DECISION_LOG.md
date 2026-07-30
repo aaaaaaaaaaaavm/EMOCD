@@ -38,7 +38,11 @@ the launcher is**. So the coilgun's single genuine advantage, a velocity ceiling
 km/s range, is unreachable by the satellite it would be launching, while every one of
 its costs remains:
 
-- 1-2 % single-stage efficiency (Sandia-lineage literature)
+- ~~1-2 % single-stage efficiency (Sandia-lineage literature)~~ **Struck 2026-07-30.**
+  True of the single-stage reluctance machines cited, but not of coilguns generally:
+  Feng et al. report 14.9-19.9 % for a multi-stage on-orbit CubeSat launcher, which is
+  this design's own range. The argument was never load-bearing and is withdrawn rather
+  than re-sourced. See ADR-003's amendment and `docs/PRIOR_ART.md`.
 - microsecond pulse timing against the suck-back effect
 - a ferromagnetic or conductive armature bolted to the *customer's* satellite
 - no abort once fired

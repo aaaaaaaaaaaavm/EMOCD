@@ -1,7 +1,7 @@
 # VOLLEY: an electromagnetic orbital CubeSat deployer
 
 Wiki landing page. Source of truth stays in the repository:
-[aaaaaaaaaaaavm/emocd](https://github.com/aaaaaaaaaaaavm/VOLLEY). This page summarises
+[aaaaaaaaaaaavm/VOLLEY](https://github.com/aaaaaaaaaaaavm/VOLLEY). This page summarises
 what exists and points at it; when the two disagree, the repository is right.
 
 **Read [`PROVENANCE.md`](https://github.com/aaaaaaaaaaaavm/VOLLEY/blob/main/docs/PROVENANCE.md)
@@ -135,8 +135,10 @@ These were argued out and should not be silently reopened; reasoning is in
 
 - **Linear synchronous motor, not a coilgun.** The payload's own g-limit caps exit
   velocity near 26-35 m/s whatever the launcher, which erases the coilgun's only
-  advantage while keeping its costs: 1-2 % single-stage efficiency, an armature bolted to
-  the customer satellite, and no abort path.
+  advantage while keeping its costs: an armature bolted to the customer satellite,
+  microsecond pulse timing, and no abort path. **Efficiency is not one of the costs.**
+  That argument was made here on a single-stage figure and withdrawn as false; a
+  multi-stage coilgun reports 14.9-19.9 %, comparable to this design. See P22.
 - **Ironless double-sided Halbach stator**, reusable sled carrying the magnets.
 - **Eddy-current brake for arrest.** Motor regeneration alone cannot stop the sled,
   braking force is bounded by the same thrust constant as acceleration.
