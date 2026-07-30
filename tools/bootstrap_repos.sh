@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# Create and push the three companion repositories of the EMOCD programme.
+# Create and push the three companion repositories of the VOLLEY programme.
 #
 # WHY THIS IS A SCRIPT RATHER THAN SOMETHING ALREADY DONE
 # -------------------------------------------------------
@@ -55,7 +55,7 @@ push_one () {   # $1 = repo name, $2 = description
     git add -A
     git -c user.email="adityavardhanmishr@gmail.com" \
         -c user.name="Adityavardhan Mishra" \
-        commit -q -m "$name: generated from EMOCD flagship $COMMIT
+        commit -q -m "$name: generated from VOLLEY flagship $COMMIT
 
 Programme structure per docs/programme/ADOPTION.md in the flagship."
     if gh repo view "$OWNER/$name" >/dev/null 2>&1; then
@@ -70,13 +70,13 @@ Programme structure per docs/programme/ADOPTION.md in the flagship."
   echo "   https://github.com/$OWNER/$name"
 }
 
-push_one EMOCD-paper  "IEEE companion for EMOCD -- manuscript and reproducibility package. Generated from the flagship; do not edit here."
-push_one EMOCD-thesis "Thesis companion for EMOCD -- final-year submission material. Generated from the flagship; edit university/ only."
-push_one EMOCD-lab    "EMOCD Phase II -- research and redesign. Deliberately unstable; nothing here should be cited."
+push_one EMOCD-paper  "IEEE companion for VOLLEY -- manuscript and reproducibility package. Generated from the flagship; do not edit here."
+push_one EMOCD-thesis "Thesis companion for VOLLEY -- final-year submission material. Generated from the flagship; edit university/ only."
+push_one EMOCD-lab    "VOLLEY Phase II -- research and redesign. Deliberately unstable; nothing here should be cited."
 
 echo
 echo "== enabling Issues on the flagship =="
-# Issues are currently DISABLED on EMOCD (the API returns 410). The programme board and the
+# Issues are currently DISABLED on VOLLEY (the API returns 410). The programme board and the
 # issue seeding both need them, so this turns them on. Nothing is filed until seed_issues.sh.
 gh repo edit "$OWNER/EMOCD" --enable-issues >/dev/null 2>&1 \
   && echo "   enabled" || echo "   could not enable -- do it in Settings > General > Features"

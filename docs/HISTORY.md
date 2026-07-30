@@ -89,7 +89,7 @@ Everything needed is committed. From any machine with ordinary GitHub access:
 
 ```bash
 git clone https://github.com/aaaaaaaaaaaavm/EMOCD.git   # full clone, not --depth
-cd EMOCD
+cd VOLLEY
 gh auth login              # once
 ./tools/publish_releases.sh
 ```

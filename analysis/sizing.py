@@ -1,5 +1,5 @@
 """
-EMOCD | Mechanical, thermal, electrical and tolerance sizing anchors.
+VOLLEY | Mechanical, thermal, electrical and tolerance sizing anchors.
 
 Reconstructs the calculations behind paper Secs. III-D/E, V (design parameter table),
 VI (sensitivity), VII (mechanical), VIII (thermal) and the optimization notes. These

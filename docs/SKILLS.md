@@ -72,7 +72,7 @@ This is the strongest section, and it is the one most people cannot evidence at 
 | **Defects published, including the ones that damage the work** | 22 P-items and 24 E-items in [`OPEN_PROBLEMS.md`](../OPEN_PROBLEMS.md). Two retracted claims in the paper's own abstract. An ADR argument found false and withdrawn |
 | **Decisions recorded with alternatives and consequences** | 17 records in [`docs/adr/`](adr/), including [ADR-003](adr/003-linear-synchronous-motor.md), which carries its own amendment showing what it got wrong |
 | **A single source of truth, enforced** | Scripts are authoritative over the paper, never the reverse. Four errors were found in the paper by rebuilding its analysis from scratch |
-| **Provenance stated per claim** | [`PROVENANCE.md`](../PROVENANCE.md) and the per-source `verified`/`confirmed`/`lead` status in [`docs/RELATED_WORK.md`](RELATED_WORK.md), a `lead` may not support a number in the paper |
+| **Provenance stated per claim** | [`PROVENANCE.md`](PROVENANCE.md) and the per-source `verified`/`confirmed`/`lead` status in [`docs/RELATED_WORK.md`](RELATED_WORK.md), a `lead` may not support a number in the paper |
 | **Changing your mind in public** | [`CHANGELOG.md`](../CHANGELOG.md) logs every reversal with its cause, including three conclusions I drew from abstracts and then had to retract on reading the full papers |
 
 ## A second electromagnetic launch study, in a different g-regime
@@ -87,7 +87,7 @@ architecture solved for a different payload.
 | Scale | 500 kg booster class, 50 m/s exit, **2.50-4.17 MJ per launch** across a sourced 15-25 % efficiency band, **10.6-15.0 cycles/min** on a 1 MW supply, *corrected; the paper prints 18.5* |
 | Method | First-order energy, ballistic and g-load analysis. Names its own next step: ANSYS structural validation plus a subscale coilgun efficiency test |
 
-**The reason it belongs next to EMOCD.** It selects a **coilgun**; EMOCD
+**The reason it belongs next to VOLLEY.** It selects a **coilgun**; VOLLEY
 [rejects one](adr/003-linear-synchronous-motor.md). That is the same trade resolved in opposite
 directions, and the thing that decides it is the payload:
 
@@ -95,7 +95,7 @@ directions, and the thing that decides it is the payload:
 s_min = v² / (2·n·g)          the same equation sizes both machines
 
 silo    50 m/s, 15 m rail  ->  8.5 g   against a 10–15 g propellant grain
-EMOCD   16.5 m/s, 1.5 m    -> 10.7 g   against a  ~14 g CubeSat
+VOLLEY   16.5 m/s, 1.5 m    -> 10.7 g   against a  ~14 g CubeSat
 Feng    321.6 m/s, 3.9 m   -> 1352 g   against a  ~14 g CubeSat
 ```
 

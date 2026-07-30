@@ -1,5 +1,5 @@
 """
-EMOCD | Parse GMAT output into validation/results/A5_astro.json.
+VOLLEY | Parse GMAT output into validation/results/A5_astro.json.
 
 Applies the acceptance bands declared in validation/A5_astro_orekit.md BEFORE any run:
 

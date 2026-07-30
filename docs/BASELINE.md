@@ -4,8 +4,8 @@
 > Every value below is read from the scripts at generation time, so this file cannot silently
 > disagree with them. Regenerate after any authorised baseline change.
 >
-> Flagship commit at generation: `1d01ba7` · Phase **I** · governed by
-> [`docs/programme/ENGINEERING_PROGRAMME.md`](docs/programme/ENGINEERING_PROGRAMME.md)
+> Flagship commit at generation: `114e2cf` · Phase **I** · governed by
+> [`docs/programme/ENGINEERING_PROGRAMME.md`](programme/ENGINEERING_PROGRAMME.md)
 
 This is the engineering baseline the Phase I deliverables (portfolio, IEEE paper, thesis)
 are developed against. Dossier §2 requires it to be stable. The change-control rule below is
@@ -55,7 +55,7 @@ what makes "stable" mean something.
 ### What may not
 
 Performance improvement. Architecture change. Anything whose motivation is *better* rather
-than *correct*. These go to [`docs/PHASE_II.md`](docs/PHASE_II.md) with an entry criterion,
+than *correct*. These go to [`docs/PHASE_II.md`](PHASE_II.md) with an entry criterion,
 and are reviewed at the next baseline boundary.
 
 **The boundary is by type, not by convenience.** The momentum-transfer release in
@@ -79,7 +79,7 @@ anything.
 
 ```bash
 python3 tools/make_baseline.py    # regenerates; a clean diff means the baseline holds
-git diff --exit-code BASELINE.md  # non-zero means the scripts have moved and the record has not
+git diff --exit-code docs/BASELINE.md  # non-zero means the scripts have moved and the record has not
 ```
 
 That second command is the useful one. If it ever fails unexpectedly, something changed a

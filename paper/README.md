@@ -1,6 +1,6 @@
 # The paper
 
-`paper.tex` is the source. `EMOCD_IEEE_Conference.pdf` is the last compiled build.
+`paper.tex` is the source. `VOLLEY_IEEE_Conference.pdf` is the last compiled build.
 
 **Built 2026-07-29** from the current source with pdfTeX 3.141592653 (TeX Live 2023):
 10 pages, zero undefined references, zero missing figures. Source and PDF agree.

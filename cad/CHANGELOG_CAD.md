@@ -1,5 +1,5 @@
 # CHANGELOG_CAD: EMOCD_figs
-**Electromagnetic Orbital CubeSat Deployer (EMOCD)**
+**VOLLEY, an electromagnetic orbital CubeSat deployer**
 CAD Generation History, Design Rationale, and Audit Record
 
 **Author:** Adityavardhan Mishra · Symbiosis Institute of Technology, Pune
@@ -56,14 +56,14 @@ orbit. A satellite with no onboard propulsion is stranded in whatever orbit
 the primary customer bought, for life.
 
 The regime between spring deployers (~2 m/s) and propulsive orbital transfer
-vehicles (hundreds of m/s) is unoccupied. EMOCD fills it: a system that can
+vehicles (hundreds of m/s) is unoccupied. VOLLEY fills it: a system that can
 deliver 3U CubeSats at 10-35 m/s without modifying the satellite at all.
 
 The no-modification constraint is not optional, it is what makes the machine
 commercially viable. Any system requiring a ferromagnetic or conducting
 armature on the customer satellite forces the customer to redesign hardware,
 re-qualify, and accept liability for armature interference with their payload.
-No rideshare operator accepts those terms for a secondary slot. EMOCD routes
+No rideshare operator accepts those terms for a secondary slot. VOLLEY routes
 around this completely: the magnets ride the sled, the sled stays on the
 deployer, and the satellite receives a standard push at the pocket wall,
 exactly as a spring deployer gives it.
@@ -234,7 +234,7 @@ the satellite.
 
 This was directly motivated by the NanoRacks ball-lock anomaly: ascent
 preload ran *through* the release mechanism, and jack-screw torque above
-0.11 N·m drove it toward seizure. EMOCD routes that load away from the
+0.11 N·m drove it toward seizure. VOLLEY routes that load away from the
 release path entirely. The escapement is caged during ascent and sees launch
 loads never. This makes the NanoRacks failure mode geometrically impossible.
 
@@ -283,11 +283,11 @@ host stage.
 The ESPA Grande ring flange (Ø460 mm OD, Ø400 mm bolt circle, 24x M9 bolts,
 25 mm thick) in `parameters.json` `interface_espa` is the reference
 interface because it is the most widely flown secondary-payload standard in
-the mass class EMOCD targets.
+the mass class VOLLEY targets.
 
 **Open conflict P9 (unresolved as of Gen3):** the closed installed envelope
 is 1,839x 530x 940 mm. ESPA Grande's longest-dimension class limit is
-~1,270 mm. EMOCD exceeds it by ~44% because the brake lives past the 1,500
+~1,270 mm. VOLLEY exceeds it by ~44% because the brake lives past the 1,500
 mm release point and the enclosure spans it. This cannot be resolved in CAD
 without a ConOps decision. The paper claims ESPA-Grande-class compatibility
 that claim is contradicted by the CAD. This is documented as P12 in
@@ -328,7 +328,7 @@ reference only. Do not cite Gen1 dimensions without cross-checking against
 ### What Gen1 is
 
 Gen1 is the original set of Fusion 360 documents built to establish the
-physical envelope and structural concept of EMOCD. It is the first complete
+physical envelope and structural concept of VOLLEY. It is the first complete
 3D realisation of the system and is the geometric source from which
 `EMOCD-main/cad/parameters.json` was reverse-engineered by direct read of
 the live Fusion model on 2026-07-23 (`parameters.json` `_PROVENANCE`
@@ -391,7 +391,7 @@ the transition from structural proxy models to mechanism-level detail.
 
 ### What Gen2 is
 
-Gen2 is the first structured revision of the EMOCD CAD, built after the
+Gen2 is the first structured revision of the VOLLEY CAD, built after the
 coilgun-to-LSM decision was finalised and after `cad/parameters.json` was
 established as the governing source of truth. All nine documents were built
 as separate Fusion files from the outset, each corresponding to one row in
@@ -458,7 +458,7 @@ monolithic single-file model `EMOCD_Gen3.step`)
 
 ### What Gen3 is
 
-Gen3 is the parameter-reconciled revision of the EMOCD CAD. It was built
+Gen3 is the parameter-reconciled revision of the VOLLEY CAD. It was built
 during the 2026-07-23 CAD build session documented in the `EMOCD_CAD_Master_Plan.md`
 working document, which performed a live read of the Fusion hub via the
 Fusion MCP and rebuilt the parameter set from the actual geometry. This is
@@ -467,7 +467,7 @@ the build that produced the current `cad/parameters.json`.
 Gen3 introduced two things that did not exist in any earlier generation:
 
 1. **The `EMOCD_Gen3.step` monolithic model** (2,520,630 bytes), a
-   single Fusion document (`EMOCD_Gen3`, previously named `EMOCD but really
+   single Fusion document (`EMOCD_Gen3`, previously named `VOLLEY but really
    detailed`) that contains all nine sub-systems as components within one
    assembly file. This is the most detailed single-file representation of
    the system and is the model used for the CAD renders in `EMOCD-main/cad/renders/`.
@@ -495,7 +495,7 @@ monolithic model that were previously not propagating to geometry.
 | `EMOCD_Enclosure_Gen3.step` | 78,457 bytes | 11 | Skins 1839x530x2 mm; radiator 1600x200x3 mm; muzzle aperture; aft horseshoe cutout; 4x equipment bays | Full enclosure with all features. 1,231 bytes larger than Gen2, minor geometry refinement. All dimensions consistent with `parameters.json` |
 | `EMOCD_Payload_3U_Gen3.step` | 9,267 bytes | 1 | 340.5x100x100 mm | Correct dimensions. 6 bytes smaller than Gen2, effectively identical |
 | `EMOCD_Assembly_Gen3.step` | 1,433,418 bytes | 21 occurrences | Full assembly with joints | **First assembly with kinematic joints**: corrects G1-D6 / G2-D6. 8 structural components grounded, sled slider as-built joint with X-axis limits 0-1740 mm. 12 payloads (6 per cassette), 2x cassette instances, 2x brake instances. File 10 bytes smaller than Gen2 Assembly, effectively identical geometry, the joint definitions are not reflected in STEP size |
-| `EMOCD_Gen3.step` | 2,520,630 bytes | 9 sub-components, all bodies | Monolithic single-file assembly with all 9 sub-systems | **Unique to Gen3.** The `EMOCD but really detailed` document renamed `EMOCD_Gen3`. Contains Track (43 bodies), Stator (170 bodies including 162 conductors + spine + brackets), Sled (76 bodies including 56 Halbach magnets + chassis + 8 rollers + brake fin + detent latches), Payload (12 bodies, 12 CubeSat instances), Cassette_P (18 bodies), Cassette_S (18 bodies, corrected from 16 in earlier state by adding interface_pad_S5_0 and S5_1), Brake (8 bodies), Avionics (39 bodies including 32 supercap cells), Interface (9 bodies including bolt holes and gussets), Enclosure (7 bodies: 6 skins + radiator). Most complete single representation of EMOCD in any generation |
+| `EMOCD_Gen3.step` | 2,520,630 bytes | 9 sub-components, all bodies | Monolithic single-file assembly with all 9 sub-systems | **Unique to Gen3.** The `VOLLEY but really detailed` document renamed `EMOCD_Gen3`. Contains Track (43 bodies), Stator (170 bodies including 162 conductors + spine + brackets), Sled (76 bodies including 56 Halbach magnets + chassis + 8 rollers + brake fin + detent latches), Payload (12 bodies, 12 CubeSat instances), Cassette_P (18 bodies), Cassette_S (18 bodies, corrected from 16 in earlier state by adding interface_pad_S5_0 and S5_1), Brake (8 bodies), Avionics (39 bodies including 32 supercap cells), Interface (9 bodies including bolt holes and gussets), Enclosure (7 bodies: 6 skins + radiator). Most complete single representation of VOLLEY in any generation |
 
 ### What Gen3 corrected vs Gen2
 
@@ -556,4 +556,4 @@ The following open problems from `EMOCD-main/OPEN_PROBLEMS.md` have direct
 CAD consequences. They are reproduced here for completeness so this file can
 be read standalone. Described in full in `OPEN_PROBLEMS.md`.
 
-| Problem | Description | CAD consequence | Status |\n|---|---|---|---|\n| **P5** | CAD sled mass ~7.50 kg vs parametric assumption 4.86 kg | Exit velocity provisional at 17.88 m/s, not 20.37 m/s. No number in `analysis/*.py` changed. Sled chassis flagged `PROVISIONAL_PENDING_FEA` in `parameters.json` | Open. Requires ANSYS structural FEA (validation A4) |\n| **P7** | Brake occupies x = 1530-1740 mm, beyond x = 1500 mm release point | Track and enclosure must extend past release, directly drives the 1839 mm total length and therefore P9 | Open. ConOps decision required |\n| **P8** | Exit velocity provisionally 17.88 m/s if CAD sled mass holds | All downstream numbers (acceleration, efficiency, recoil, lifetime multiplier) shift. Not propagated into scripts or paper pending FEA | Open. Waiting on P5 resolution |\n| **P9** | Installed envelope 1839 mm exceeds ESPA Grande ~1270 mm limit by ~44% | Machine cannot fit ESPA Grande as claimed. Host claim must be re-scoped or track repackaged | Open. Owner decision, cannot be resolved in code |\n| **P10** | Enclosure, radiator, avionics absent from `mass_properties.py` | 72.3 kg dry-mass rollup is incomplete by an unknown amount | Open. Needs bay-by-bay mass estimation, then addition to `mass_properties.py` |\n| **P11** | Whether P1, P4 corrections reached the submitted paper build is unconfirmed | `paper/archive/EMOCD_submission_uncorrected.pdf` still carries all four incorrect values. If this is the version of record, a corrigendum is needed, not a git commit | Open. Must confirm which build was submitted |\n| **P12** | Paper claims ESPA-Grande-class envelope; CAD contradicts this by ~44% | Two places in paper.tex assert compatibility the geometry does not support. One is an abstract-level capability claim; the other is in the limitations section | Open. Entangled with P11, resolve P11 first, then fix paper.tex in one pass |\n| **E1** | 3-D field end effects on Kt uncomputed | FEMM cross-section DXF and run sheet exist (`analysis/femm/`) but nothing has been run. A few percent on Kt unaccounted | Open. FEMM package written, not executed |\n| **E2** | No FEA of any structural component | Sled, track, brake poles, cassette shell all first-pass geometry with no structural analysis behind them | Open. Validations A1 and A4 specified in `validation/` with pre-declared acceptance bands |\n| **E3** | Enclosure, radiator, and avionics masses missing from rollup | Directly feeds P10 | Open |\n| **E10** | Launch restraint drawn but not analysed | Retention gate pin sizing exists (two D6 A-286, margin 1.2, A36) and launch-lock blocks are in Track CAD but escapement caging, cam lock, and tolerance stack-up under vibration not analysed | Open, CAD advances this item from concept to drawn, not to analysed |\n\n---\n\n## PART V, FILE NAMING CONVENTION\n\nAll files across all generations follow the pattern:\n\n```\nEMOCD_[SubSystem]_[Generation].step\n```\n\nWhere `[SubSystem]` is one of:\n`Track`, `Stator`, `Sled`, `Magazine_Cassette`, `Brake`, `Interface_ESPA`,\n`Enclosure`, `Payload_3U`, `Assembly`\n\nAnd `[Generation]` is `Gen1`, `Gen2`, or `Gen3`.\n\nSpecial cases:\n- `EMOCD_Deployer_Assembly_Gen1.step` (legacy single-file model, Gen1 only,\n no repo counterpart. Superseded.\n- `EMOCD_Sled_Gen1b.step`) duplicate sled document from Gen1, later revision\n than `Sled_Gen1`. Suffix `b` added to disambiguate.\n- `EMOCD_Gen3.step`, monolithic single-file model, Gen3 only. Contains all\n nine sub-systems in one Fusion document. The most detailed and complete\n representation of EMOCD in any generation.\n\n### Folder rename history\n\n| Original folder name | Renamed to | Date | Reason |\n|---|---|---|---|\n| `OG CAD` | `Gen1` | 2026-07-28 | Align with generation naming convention |\n| `Fresh` | `Gen2` | 2026-07-28 | `_FRESH` suffix meant \"built from parameters\", formalised as Gen2 |\n| `Even more fresh` | `Gen3` | 2026-07-28 | Formalised as Gen3 |\n\n---\n\n## PART VI, WHAT TO CHECK BEFORE USING ANY FILE\n\nBefore citing or using any geometry from `EMOCD_figs`:\n\n1. **Use Gen3 files unless you specifically need a heritage comparison.**\n Gen1 and Gen2 contain known dimensional and mechanism defects.\n\n2. **Cross-check every dimension against `cad/parameters.json`.**\n `parameters.json` is the source of truth, not the Fusion model. If they\n disagree, `parameters.json` wins and the CAD needs correcting.\n\n3. **Do not quote Fusion-computed masses.** The Fusion models use solid copper\n for the stator, solid aluminium for CubeSats, and steel standing in for\n NdFeB. None of these are the correct material densities. Mass authority\n is `analysis/mass_properties.py` only, and even that is incomplete (P10).\n\n4. **The sled mass conflict is unresolved (P5/P8).** The headline exit\n velocity of 20.37 m/s assumes a 4.86 kg sled. The Gen3 CAD sled geometry\n implies ~7.50 kg, which gives a provisional 17.88 m/s. Do not use either\n number without noting this conflict until ANSYS structural FEA (A4)\n resolves it.\n\n5. **The ESPA envelope claim is not supported by the CAD (P9/P12).** The\n installed length of 1839 mm exceeds ESPA Grande's ~1270 mm limit by ~44%.\n Do not present EMOCD as ESPA-Grande-compatible without noting this open\n problem.\n\n6. **The stator layer count is still an open design decision.** Gen1 built\n two layers; Gen2 and Gen3 built one layer; `parameters.json` explicitly\n flags the decision as open. The electromagnetic consequence (roughly x2\n on force for the same current, but also x2 on copper mass and winding\n complexity) has not been computed for the two-layer case.\n\n---\n\n*End of CHANGELOG_CAD. Append new entries below this line.*\n```
+| Problem | Description | CAD consequence | Status |\n|---|---|---|---|\n| **P5** | CAD sled mass ~7.50 kg vs parametric assumption 4.86 kg | Exit velocity provisional at 17.88 m/s, not 20.37 m/s. No number in `analysis/*.py` changed. Sled chassis flagged `PROVISIONAL_PENDING_FEA` in `parameters.json` | Open. Requires ANSYS structural FEA (validation A4) |\n| **P7** | Brake occupies x = 1530-1740 mm, beyond x = 1500 mm release point | Track and enclosure must extend past release, directly drives the 1839 mm total length and therefore P9 | Open. ConOps decision required |\n| **P8** | Exit velocity provisionally 17.88 m/s if CAD sled mass holds | All downstream numbers (acceleration, efficiency, recoil, lifetime multiplier) shift. Not propagated into scripts or paper pending FEA | Open. Waiting on P5 resolution |\n| **P9** | Installed envelope 1839 mm exceeds ESPA Grande ~1270 mm limit by ~44% | Machine cannot fit ESPA Grande as claimed. Host claim must be re-scoped or track repackaged | Open. Owner decision, cannot be resolved in code |\n| **P10** | Enclosure, radiator, avionics absent from `mass_properties.py` | 72.3 kg dry-mass rollup is incomplete by an unknown amount | Open. Needs bay-by-bay mass estimation, then addition to `mass_properties.py` |\n| **P11** | Whether P1, P4 corrections reached the submitted paper build is unconfirmed | `paper/archive/EMOCD_submission_uncorrected.pdf` still carries all four incorrect values. If this is the version of record, a corrigendum is needed, not a git commit | Open. Must confirm which build was submitted |\n| **P12** | Paper claims ESPA-Grande-class envelope; CAD contradicts this by ~44% | Two places in paper.tex assert compatibility the geometry does not support. One is an abstract-level capability claim; the other is in the limitations section | Open. Entangled with P11, resolve P11 first, then fix paper.tex in one pass |\n| **E1** | 3-D field end effects on Kt uncomputed | FEMM cross-section DXF and run sheet exist (`analysis/femm/`) but nothing has been run. A few percent on Kt unaccounted | Open. FEMM package written, not executed |\n| **E2** | No FEA of any structural component | Sled, track, brake poles, cassette shell all first-pass geometry with no structural analysis behind them | Open. Validations A1 and A4 specified in `validation/` with pre-declared acceptance bands |\n| **E3** | Enclosure, radiator, and avionics masses missing from rollup | Directly feeds P10 | Open |\n| **E10** | Launch restraint drawn but not analysed | Retention gate pin sizing exists (two D6 A-286, margin 1.2, A36) and launch-lock blocks are in Track CAD but escapement caging, cam lock, and tolerance stack-up under vibration not analysed | Open, CAD advances this item from concept to drawn, not to analysed |\n\n---\n\n## PART V, FILE NAMING CONVENTION\n\nAll files across all generations follow the pattern:\n\n```\nEMOCD_[SubSystem]_[Generation].step\n```\n\nWhere `[SubSystem]` is one of:\n`Track`, `Stator`, `Sled`, `Magazine_Cassette`, `Brake`, `Interface_ESPA`,\n`Enclosure`, `Payload_3U`, `Assembly`\n\nAnd `[Generation]` is `Gen1`, `Gen2`, or `Gen3`.\n\nSpecial cases:\n- `EMOCD_Deployer_Assembly_Gen1.step` (legacy single-file model, Gen1 only,\n no repo counterpart. Superseded.\n- `EMOCD_Sled_Gen1b.step`) duplicate sled document from Gen1, later revision\n than `Sled_Gen1`. Suffix `b` added to disambiguate.\n- `EMOCD_Gen3.step`, monolithic single-file model, Gen3 only. Contains all\n nine sub-systems in one Fusion document. The most detailed and complete\n representation of VOLLEY in any generation.\n\n### Folder rename history\n\n| Original folder name | Renamed to | Date | Reason |\n|---|---|---|---|\n| `OG CAD` | `Gen1` | 2026-07-28 | Align with generation naming convention |\n| `Fresh` | `Gen2` | 2026-07-28 | `_FRESH` suffix meant \"built from parameters\", formalised as Gen2 |\n| `Even more fresh` | `Gen3` | 2026-07-28 | Formalised as Gen3 |\n\n---\n\n## PART VI, WHAT TO CHECK BEFORE USING ANY FILE\n\nBefore citing or using any geometry from `EMOCD_figs`:\n\n1. **Use Gen3 files unless you specifically need a heritage comparison.**\n Gen1 and Gen2 contain known dimensional and mechanism defects.\n\n2. **Cross-check every dimension against `cad/parameters.json`.**\n `parameters.json` is the source of truth, not the Fusion model. If they\n disagree, `parameters.json` wins and the CAD needs correcting.\n\n3. **Do not quote Fusion-computed masses.** The Fusion models use solid copper\n for the stator, solid aluminium for CubeSats, and steel standing in for\n NdFeB. None of these are the correct material densities. Mass authority\n is `analysis/mass_properties.py` only, and even that is incomplete (P10).\n\n4. **The sled mass conflict is unresolved (P5/P8).** The headline exit\n velocity of 20.37 m/s assumes a 4.86 kg sled. The Gen3 CAD sled geometry\n implies ~7.50 kg, which gives a provisional 17.88 m/s. Do not use either\n number without noting this conflict until ANSYS structural FEA (A4)\n resolves it.\n\n5. **The ESPA envelope claim is not supported by the CAD (P9/P12).** The\n installed length of 1839 mm exceeds ESPA Grande's ~1270 mm limit by ~44%.\n Do not present VOLLEY as ESPA-Grande-compatible without noting this open\n problem.\n\n6. **The stator layer count is still an open design decision.** Gen1 built\n two layers; Gen2 and Gen3 built one layer; `parameters.json` explicitly\n flags the decision as open. The electromagnetic consequence (roughly x2\n on force for the same current, but also x2 on copper mass and winding\n complexity) has not been computed for the two-layer case.\n\n---\n\n*End of CHANGELOG_CAD. Append new entries below this line.*\n```

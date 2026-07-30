@@ -1,4 +1,4 @@
-# EMOCD: one page
+# VOLLEY: one page
 
 **Adityavardhan Mishra** · Dept. of Mechanical Engineering, Symbiosis Institute of
 Technology, Symbiosis International (Deemed University), Pune
@@ -14,7 +14,7 @@ them at **1-2 m/s**, which is far too little to change that orbit; orbital trans
 can change it, but they cost hundreds of m/s of propulsion and a spacecraft to carry it.
 Between those sits an unserved regime.
 
-**EMOCD is a magazine-fed linear synchronous motor** that mounts on a rideshare upper stage
+**VOLLEY is a magazine-fed linear synchronous motor** that mounts on a rideshare upper stage
 and ejects **unmodified** 3U CubeSats, no armature, no plating, no electrical interface on
 the customer satellite, at a **velocity programmable per satellite**. Twelve satellites feed
 from two transverse cassettes onto a reusable permanent-magnet sled running a 1.5 m ironless
@@ -45,7 +45,7 @@ the current operating point; **A5 and A8 predate it and need re-running** (P19).
 | | Δv | Programmable | Satellite mods | Status |
 |---|---|---|---|---|
 | Spring deployers, P-POD, ISIPOD, **Dhruva DSOD** | 1-2 m/s | no | none | flown, thousands deployed |
-| **EMOCD** | 16.5 m/s | **yes** | **none** | design study |
+| **VOLLEY** | 16.5 m/s | **yes** | **none** | design study |
 | Transfer vehicles, ION, Vigoride | 100s m/s | yes | mounting | flown, commercial |
 
 Dhruva Space's DSOD is the closest comparator and it already flies, space-qualified on
@@ -62,7 +62,7 @@ feed, a serial command link, and an authorized firing window.
   hosted platform, retired by controlled reentry. Its zero-debris closeout is the regulatory
   template.
 - **Skyroot's Vikram-1** carries a restartable Orbit Adjustment Module stage-tested through
-  more than a thousand pulses. A loaded EMOCD is **34 %** of the published 350 kg LEO
+  more than a thousand pulses. A loaded VOLLEY is **34 %** of the published 350 kg LEO
   capacity, falling to **22 %** and **13 %** on the announced 550 kg and 900 kg variants, so
   early flights are dedicated demonstrations and later ones ordinary manifest items.
 
@@ -78,12 +78,12 @@ rebuilding its analysis from scratch. An independent propagator (GMAT) then **fa
 claim in the paper's own abstract**, and that is recorded as P16 rather than quietly dropped.
 The scripts are authoritative over the paper, never the reverse.
 
-**[`PROGRAMME.md`](PROGRAMME.md)**: the four repositories of this programme
-**[`WHY.md`](WHY.md)**: why it exists, and why it is deliberately split in two
-**[`BASELINE.md`](BASELINE.md)**: what is frozen, and what may move it
-**[`ROADMAP.md`](ROADMAP.md)**: what happens next, and when
-**[`HISTORY.md`](HISTORY.md)**: the project since 2021, and how this git history was built
+**[`docs/PROGRAMME.md`](docs/PROGRAMME.md)**: the four repositories of this programme
+**[`docs/WHY.md`](docs/WHY.md)**: why it exists, and why it is deliberately split in two
+**[`docs/BASELINE.md`](docs/BASELINE.md)**: what is frozen, and what may move it
+**[`docs/ROADMAP.md`](docs/ROADMAP.md)**: what happens next, and when
+**[`docs/HISTORY.md`](docs/HISTORY.md)**: the project since 2021, and how this git history was built
 **[`docs/QUALIFICATION_PLAN.md`](docs/QUALIFICATION_PLAN.md)**: the test campaign, specified
 **[`OPEN_PROBLEMS.md`](OPEN_PROBLEMS.md)**: every known defect
-**[`VALIDATION_REPORT.md`](VALIDATION_REPORT.md)**: every claim, independently checked where possible
-**[`PROVENANCE.md`](PROVENANCE.md)**: read this before citing anything
+**[`docs/VALIDATION_REPORT.md`](docs/VALIDATION_REPORT.md)**: every claim, independently checked where possible
+**[`docs/PROVENANCE.md`](docs/PROVENANCE.md)**: read this before citing anything

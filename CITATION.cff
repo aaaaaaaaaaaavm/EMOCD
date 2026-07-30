@@ -1,7 +1,7 @@
 cff-version: 1.2.0
 message: "If you reference this work, please cite it as below. This is a design study at TRL 2-3 with no experimental, FEA, or third-party validation; see PROVENANCE.md."
-title: "EMOCD: A Linear-Motor Electromagnetic Deployment System for Deterministic CubeSat Orbit Seeding from Small Launch Vehicles"
-abstract: "EMOCD is a magazine-fed electromagnetic deployer concept that ejects unmodified CubeSats at a programmable velocity in the tens-of-m/s regime between spring deployers and propulsive transfer vehicles. This repository contains the analysis scripts, the IEEE conference paper, and the full provenance record. Design study only: no FEA or hardware."
+title: "VOLLEY: A Linear-Motor Electromagnetic Deployment System for Deterministic CubeSat Orbit Seeding from Small Launch Vehicles"
+abstract: "VOLLEY is a magazine-fed electromagnetic deployer concept that ejects unmodified CubeSats at a programmable velocity in the tens-of-m/s regime between spring deployers and propulsive transfer vehicles. This repository contains the analysis scripts, the IEEE conference paper, and the full provenance record. Design study only: no FEA or hardware."
 type: software
 authors:
   - family-names: Mishra

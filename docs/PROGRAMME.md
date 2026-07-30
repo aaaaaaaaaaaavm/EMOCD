@@ -1,4 +1,4 @@
-# The EMOCD Engineering Programme
+# The VOLLEY Engineering Programme
 
 Four repositories, one programme. **This one is the flagship and the authoritative
 engineering record.** If any other repository disagrees with this one, this one is right.
@@ -6,7 +6,7 @@ engineering record.** If any other repository disagrees with this one, this one 
 <!-- PROGRAMME-HEADER-START -->
 | Repository | Role | You are here |
 |---|---|---|
-| **[EMOCD](https://github.com/aaaaaaaaaaaavm/EMOCD)** | Flagship, authoritative engineering record, portfolio | |
+| **[VOLLEY](https://github.com/aaaaaaaaaaaavm/EMOCD)** | Flagship, authoritative engineering record, portfolio | |
 | [EMOCD-paper](https://github.com/aaaaaaaaaaaavm/EMOCD-paper) | IEEE companion, manuscript and reproducibility package *(generated)* | |
 | [EMOCD-thesis](https://github.com/aaaaaaaaaaaavm/EMOCD-thesis) | Thesis companion, university submission *(generated)* | |
 | [EMOCD-lab](https://github.com/aaaaaaaaaaaavm/EMOCD-lab) | Phase II, research, redesign, deliberately unstable | |
@@ -24,7 +24,7 @@ mode, and discipline is what fails first under that pressure.
 
 | | Stability requirement | Who reads it |
 |---|---|---|
-| **EMOCD** | High, it is a Phase I deliverable | Aerospace companies, recruiters, reviewers |
+| **VOLLEY** | High, it is a Phase I deliverable | Aerospace companies, recruiters, reviewers |
 | **EMOCD-paper** | Follows the flagship exactly | Researchers reproducing the work |
 | **EMOCD-thesis** | Follows the flagship, plus university material | Examiners, viva panel |
 | **EMOCD-lab** | **None. Instability is the point** | Me, and anyone curious about what comes next |
@@ -52,7 +52,7 @@ correct response is to delete and regenerate it, not to reconcile the two.
 
 | Repo | Populated | Files | Generated from |
 |---|---|---|---|
-| **EMOCD** | live, this one | | |
+| **VOLLEY** | live, this one | | |
 | [`EMOCD-paper`](https://github.com/aaaaaaaaaaaavm/EMOCD-paper) | **live** 2026-07-29 | 84 | flagship `c927df9` |
 | [`EMOCD-thesis`](https://github.com/aaaaaaaaaaaavm/EMOCD-thesis) | **live** 2026-07-29 | 148 | flagship `c927df9` |
 | [`EMOCD-lab`](https://github.com/aaaaaaaaaaaavm/EMOCD-lab) | **live** 2026-07-29 | 3 | seeded, then hand-written |
@@ -79,21 +79,21 @@ envelope repackaging.
 
 It has no baseline and makes no stability promise. That is deliberate: it is the pressure
 valve that lets the flagship stay frozen. Items leave it only at baseline boundaries, against
-criteria written when they were deferred, see [`docs/PHASE_II.md`](docs/PHASE_II.md).
+criteria written when they were deferred, see [`docs/PHASE_II.md`](PHASE_II.md).
 
 ## Reading order
 
-**If you have sixty seconds:** [`SUMMARY.md`](SUMMARY.md).
+**If you have sixty seconds:** [`SUMMARY.md`](../SUMMARY.md).
 **If you want to know whether to trust it:** [`PROVENANCE.md`](PROVENANCE.md), then
-[`OPEN_PROBLEMS.md`](OPEN_PROBLEMS.md).
+[`OPEN_PROBLEMS.md`](../OPEN_PROBLEMS.md).
 **If you want to know what it currently claims:** [`BASELINE.md`](BASELINE.md).
 **If you want to know why any of it is the way it is:** [`WHY.md`](WHY.md), then
-[`docs/adr/`](docs/adr/).
+[`docs/adr/`](adr/).
 
 ## Governance
 
-[`docs/programme/ENGINEERING_PROGRAMME.md`](docs/programme/ENGINEERING_PROGRAMME.md) is the
+[`docs/programme/ENGINEERING_PROGRAMME.md`](programme/ENGINEERING_PROGRAMME.md) is the
 governing document, committed verbatim.
-[`docs/programme/ADOPTION.md`](docs/programme/ADOPTION.md) records every place practice
+[`docs/programme/ADOPTION.md`](programme/ADOPTION.md) records every place practice
 departs from it, with authorisation, including the decision to create these four
 repositories in Phase I rather than defer them.

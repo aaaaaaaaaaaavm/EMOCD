@@ -58,7 +58,7 @@ plus mandatory per-shot collision avoidance and host-stage disposal before first
 The sweep above was computed at the superseded 20.37 m/s point and is kept as the evidence
 for P1: the fragility is a property of the beat geometry, not of any one velocity.
 
-Source: the P1 sweep table in [`OPEN_PROBLEMS.md`](OPEN_PROBLEMS.md), computed by
+Source: the P1 sweep table in [`OPEN_PROBLEMS.md`](../OPEN_PROBLEMS.md), computed by
 `analysis/astro.py` `conjunction()`. `validation/A6_conjunction_cara.md` specifies the
 quantitative replacement, probability of collision, which integrates over the covariance
 instead of sampling one geometry.
@@ -104,7 +104,7 @@ differential-drag baseline.
 ```mermaid
 xychart-beta
     title "Days to 30 degrees of phase separation"
-    x-axis ["EMOCD 10 m/s", "EMOCD 5 m/s", "EMOCD 2 m/s", "Differential drag"]
+    x-axis ["VOLLEY 10 m/s", "VOLLEY 5 m/s", "VOLLEY 2 m/s", "Differential drag"]
     y-axis "Days" 0 --> 28
     bar [1.4, 2.8, 6.9, 25.0]
 ```
@@ -131,7 +131,7 @@ xychart-beta
 
 Source: `analysis/results/field_verification.json` to `stray_field`. The 20 mm and 50 mm
 values were wrong in the published paper (4.7 and 1.0 mT) and were corrected against the
-script, P3, logged in [`CHANGELOG.md`](CHANGELOG.md) as P2-03. Far-field values are small
+script, P3, logged in [`CHANGELOG.md`](../CHANGELOG.md) as P2-03. Far-field values are small
 differences of large numbers and remain the least trustworthy row here.
 
 ---
@@ -150,7 +150,7 @@ xychart-beta
 ```
 
 The two middle bars are **not measurements**: they are the decision rule declared in
-[`validation/A4_sled_structural.md`](validation/A4_sled_structural.md) before the analysis
+[`validation/A4_sled_structural.md`](../validation/A4_sled_structural.md) before the analysis
 runs:
 
 | Outcome | Consequence declared in advance | |
@@ -311,8 +311,8 @@ predicted absolute disagreement in advance; it did not predict a sign change, wh
 same profile-shape effect seen from the other side.
 
 Verdict, force models, per-level numbers and run metadata:
-[`validation/results/A5_astro.json`](validation/results/A5_astro.json). Full write-up as
-[`OPEN_PROBLEMS.md`](OPEN_PROBLEMS.md) **P16**.
+[`validation/results/A5_astro.json`](../validation/results/A5_astro.json). Full write-up as
+[`OPEN_PROBLEMS.md`](../OPEN_PROBLEMS.md) **P16**.
 
 > **The parser earned its keep here.** Its first run read a decay file GMAT was still
 > writing, took the partial decay as final, and produced a confident `FAIL`. It now refuses

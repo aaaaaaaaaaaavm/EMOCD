@@ -1,4 +1,4 @@
-# FEMM Run Sheet: EMOCD Halbach Airgap Verification (Fig. 6)
+# FEMM Run Sheet: VOLLEY Halbach Airgap Verification (Fig. 6)
 
 > **SUPERSEDED (2026-07-27). Do not run against the targets in this sheet.** Its ⟨B⟩ ≈
 > 0.62 T winding-gap target predates the winding-resolved motor model, which computes

@@ -20,7 +20,7 @@ git commit -m "Profile" && git push
 
 ## Then pin the repositories
 
-Profile to **Customize your pins** to select `EMOCD`, `EMOCD-paper`, `EMOCD-thesis`, `EMOCD-lab`.
+Profile to **Customize your pins** to select `VOLLEY`, `EMOCD-paper`, `EMOCD-thesis`, `EMOCD-lab`.
 Pinning is separate from the README and has to be done in the web UI. Without it the four
 repositories are buried under everything else you own.
 

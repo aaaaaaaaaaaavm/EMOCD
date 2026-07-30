@@ -5,7 +5,7 @@
 BTech Mechanical Engineering, Symbiosis Institute of Technology, Pune · 2023-2027
 
 In 2021 I got stuck on a dumb question: why do we still deploy CubeSats with springs. I never
-really got unstuck. That question is now **EMOCD**: an electromagnetic deployer that ejects
+really got unstuck. That question is now **VOLLEY**: an electromagnetic deployer that ejects
 unmodified 3U CubeSats at a programmable velocity, eight times what a spring gives you, from a
 spent rideshare upper stage. I've presented it at DRDO ARDE and the India Science Festival.
 
@@ -22,7 +22,7 @@ proven it yet.
 
 ### The thing I'd actually like you to look at
 
-**[EMOCD](https://github.com/aaaaaaaaaaaavm/EMOCD)**, a magazine-fed ironless double-sided
+**[VOLLEY](https://github.com/aaaaaaaaaaaavm/EMOCD)**, a magazine-fed ironless double-sided
 Halbach linear synchronous motor that ejects unmodified CubeSats at 16.5 m/s, 10.7 g, on 2.80 kJ
 a shot. TRL 2-3, nothing built.
 
@@ -37,7 +37,7 @@ That habit is the actual portfolio. to **[skills, with the file that proves each
 
 | | |
 |---|---|
-| 🛰 **[EMOCD](https://github.com/aaaaaaaaaaaavm/EMOCD)** | The engineering record. Start at `SUMMARY.md` |
+| 🛰 **[VOLLEY](https://github.com/aaaaaaaaaaaavm/EMOCD)** | The engineering record. Start at `SUMMARY.md` |
 | 📄 **[EMOCD-paper](https://github.com/aaaaaaaaaaaavm/EMOCD-paper)** | IEEE manuscript + reproducibility package. Reproduces from a clean clone |
 | 🎓 **[EMOCD-thesis](https://github.com/aaaaaaaaaaaavm/EMOCD-thesis)** | Final-year submission |
 | 🧪 **[EMOCD-lab](https://github.com/aaaaaaaaaaaavm/EMOCD-lab)** | Where I'm allowed to break things. Nothing here is citable |

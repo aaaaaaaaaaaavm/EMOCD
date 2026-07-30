@@ -14,8 +14,8 @@ source:
 |---|---|
 | **Claim** | what the source establishes |
 | **Method** | how, and therefore how much weight it carries |
-| **EMOCD takes** | what this project adopts from it |
-| **EMOCD differs** | where this project does not follow it, and why |
+| **VOLLEY takes** | what this project adopts from it |
+| **VOLLEY differs** | where this project does not follow it, and why |
 | **Status** | `verified` (retrieved and read · `confirmed`) existence and content confirmed but not read in full · `lead`, identified from search only |
 
 > ### Verification discipline (E16)
@@ -45,8 +45,8 @@ source:
 |---|---|
 | **Claim** | A **three-stage** induction coilgun (3 x 1300 mm) drives a 20 kg payload to 321.56 m/s at 16 kV, 230 m/s at 10 kV, efficiency 19.9 % falling to 14.9 %, stored energy 2.70 to 6.91 MJ, peak force >600 kN. Then a 3-D reachable-domain envelope by enhanced alpha-shape |
 | **Method** | Coupled circuit-electromagnetic-mechanical model validated against nonlinear FEM, plus two-body orbital simulation. **No hardware.** "Experimental results" in the text refers to simulation runs |
-| **EMOCD takes** | The reachable-domain framing, which is a better astrodynamic product than a scalar lifetime multiplier, it answers "which orbits does one shot make available" in three dimensions. **The strongest single thing to take from this literature.** Candidate Phase II item |
-| **EMOCD differs** | Architecture (Halbach LSM vs induction coilgun), and the two differences that matter: their armature is **aluminium coils on the payload**, so the satellite is modified or a sabot is added (ADR-006 forbids the former); and their 3.9 m barrel delivers 321.56 m/s at **1352 g** mean and ~3060 g peak, against ~14 g CubeSat qualification. Their velocity is not available to a standard-qualified CubeSat. Also 6.91 MJ per shot against 2.80 kJ |
+| **VOLLEY takes** | The reachable-domain framing, which is a better astrodynamic product than a scalar lifetime multiplier, it answers "which orbits does one shot make available" in three dimensions. **The strongest single thing to take from this literature.** Candidate Phase II item |
+| **VOLLEY differs** | Architecture (Halbach LSM vs induction coilgun), and the two differences that matter: their armature is **aluminium coils on the payload**, so the satellite is modified or a sabot is added (ADR-006 forbids the former); and their 3.9 m barrel delivers 321.56 m/s at **1352 g** mean and ~3060 g peak, against ~14 g CubeSat qualification. Their velocity is not available to a standard-qualified CubeSat. Also 6.91 MJ per shot against 2.80 kJ |
 | **Status** | `verified`, read 2026-07-30. **Simulation only, no hardware**, so this project and theirs are maturity peers. Publication predates this repository going public by 8 months |
 
 ### Xu, Yue, Zhao, Yang, Wu, Pan, Tang & Zhang: CubeSats in-orbit electromagnetic transfer system
@@ -56,8 +56,8 @@ source:
 |---|---|
 | **Claim** | Stacked CubeSats are pushed layer by layer onto a 2-D electromagnetic conveying platform and moved to a release window by a planar two-axis drive; an improved A\* planner coordinates many transfers, with a cost term for **attitude disturbance caused by the transfers themselves** |
 | **Method** | Algorithm design and simulation |
-| **EMOCD takes** | The disturbance cost model. This project budgets recoil from the *shot* and has nothing on disturbance from **magazine indexing between shots**: now opened as **E24** |
-| **EMOCD differs** | Theirs moves satellites electromagnetically to *select a release position*; this one uses the electromagnetics to *set the release velocity*. Different function, similar hardware vocabulary |
+| **VOLLEY takes** | The disturbance cost model. This project budgets recoil from the *shot* and has nothing on disturbance from **magazine indexing between shots**: now opened as **E24** |
+| **VOLLEY differs** | Theirs moves satellites electromagnetically to *select a release position*; this one uses the electromagnetics to *set the release velocity*. Different function, similar hardware vocabulary |
 | **Status** | `verified`, read 2026-07-30 |
 
 ### High-volume CubeSat storage device: transport characteristics
@@ -67,8 +67,8 @@ source:
 |---|---|
 | **Claim** | A high-density multi-species CubeSat storage and transport system, with **a prototype built and measured**: pushing speed **32.8 mm/s** during the transport stroke, and collisions observed in both simulation and experiment |
 | **Method** | Simulation plus hardware experiment |
-| **EMOCD takes** | The rig itself is the most useful thing here, a template for what a credible bench verification of a transport mechanism looks like. Directly informs B-1 and B-2 in `BENCHTOP_TESTS.md` |
-| **EMOCD differs** | Storage and transport, not ejection. What they measured is a **slow pusher at 32.8 mm/s**, not an electromagnetic launch, the maturity gap against this project is real but narrower than "they have experiment and we do not" suggests |
+| **VOLLEY takes** | The rig itself is the most useful thing here, a template for what a credible bench verification of a transport mechanism looks like. Directly informs B-1 and B-2 in `BENCHTOP_TESTS.md` |
+| **VOLLEY differs** | Storage and transport, not ejection. What they measured is a **slow pusher at 32.8 mm/s**, not an electromagnetic launch, the maturity gap against this project is real but narrower than "they have experiment and we do not" suggests |
 | **Status** | `verified`, read 2026-07-30. Author list now confirmed from the PDF; the paper bibliography is complete. HIT with Harbin Space Star Data System Technology |
 
 ### New deployer for in-orbit release of multiple stacked CubeSats
@@ -78,8 +78,8 @@ source:
 |---|---|
 | **Claim** | A large-capacity stacked-CubeSat deployer that replaces compression springs with **electromagnetic actuators** for transport and release |
 | **Method** | Design and analysis |
-| **EMOCD takes** | Establishes the stacked/magazine deployer lineage, which is the ancestry of the cassette architecture here whether or not it was known at the time |
-| **EMOCD differs** | Transport and release actuation, not programmable exit velocity |
+| **VOLLEY takes** | Establishes the stacked/magazine deployer lineage, which is the ancestry of the cassette architecture here whether or not it was known at the time |
+| **VOLLEY differs** | Transport and release actuation, not programmable exit velocity |
 | **Status** | `verified`, read 2026-07-30. Origin of the Harbin line |
 
 ### Einat & Orbach: multi-stage 130 m/s reluctance linear electromagnetic launcher
@@ -89,8 +89,8 @@ source:
 |---|---|
 | **Claim** | A **built and measured** multi-stage reluctance coilgun reaching 130 m/s (highest reported for a reluctance launcher) on a **2.5 g projectile** (~21 J). Modular stage cascading, stated route to lunar launch. Its survey of the field is the most useful part: Manzoor 36 m/s at 6 J, Deng 340 g at 30 J, Song 21.68 kg to 143 m/s, typical projectiles 2-11 g |
 | **Method** | Hardware, measured. The strongest experimental evidence in this section |
-| **EMOCD takes** | Nothing quantitative, and that is the finding. It was expected to settle ADR-003's unsourced "1-2 % coilgun efficiency" claim. **At 2.5 g it cannot**: five orders of magnitude below a 4 kg CubeSat, and Feng reports 14.9-19.9 % at 20 kg, so the claim was false regardless. ADR-003's efficiency argument is **withdrawn** |
-| **EMOCD differs** | Reluctance, ferromagnetic armature, no velocity-regulation claim at the dispersion this application needs |
+| **VOLLEY takes** | Nothing quantitative, and that is the finding. It was expected to settle ADR-003's unsourced "1-2 % coilgun efficiency" claim. **At 2.5 g it cannot**: five orders of magnitude below a 4 kg CubeSat, and Feng reports 14.9-19.9 % at 20 kg, so the claim was false regardless. ADR-003's efficiency argument is **withdrawn** |
+| **VOLLEY differs** | Reluctance, ferromagnetic armature, no velocity-regulation claim at the dispersion this application needs |
 | **Status** | `verified`, read 2026-07-30 |
 
 ---
@@ -107,8 +107,8 @@ and Rockets 55(2) 2018, 473-483**, DOI 10.2514/1.A33927. Open-access preprints: 
 |---|---|
 | **Claim** | Differential drag phased the Flock 2p constellation (12 CubeSats at 510 km SSO) with measured on-orbit results |
 | **Method** | **Flight data.** Not a model. This is the only comparator in this review with that status |
-| **EMOCD takes** | The comparator baseline. The paper's seeding claim is currently stated against 25 days, which is an `astro.py` model output |
-| **EMOCD differs** | Not yet, the swap has not been made |
+| **VOLLEY takes** | The comparator baseline. The paper's seeding claim is currently stated against 25 days, which is an `astro.py` model output |
+| **VOLLEY differs** | Not yet, the swap has not been made |
 | **Status** | **confirmed**: DOI, venue, pages and both preprint IDs verified 2026-07-29; no paywall applies. Not yet read in full |
 
 **Why this is the highest-priority item in the review:** it replaces a modelled number with a
@@ -145,8 +145,8 @@ Roberts, ESTL / AEA Technology, [ESA Bulletin 94](https://www.esa.int/esapub/bul
 |---|---|
 | **Claim** | Design guidance for tribology in space mechanisms: lubricant and component selection, cold welding, rolling-element and linear bearings, testing |
 | **Method** | Handbook distilled from ESTL's accelerated life testing in thermal-vacuum |
-| **EMOCD takes** | **E21 substantially retires.** MoS₂ is the accepted solid lubricant; twelve cycles is trivial by space-mechanism standards. The task becomes selection, not research |
-| **EMOCD differs** | The 1.48 kN per roller pair must still be checked against bearing ratings, MoS₂ transfer-film behaviour is load-dependent |
+| **VOLLEY takes** | **E21 substantially retires.** MoS₂ is the accepted solid lubricant; twelve cycles is trivial by space-mechanism standards. The task becomes selection, not research |
+| **VOLLEY differs** | The 1.48 kN per roller pair must still be checked against bearing ratings, MoS₂ transfer-film behaviour is load-dependent |
 | **Status** | **confirmed**: source located and its scope verified 2026-07-29 |
 
 ### Magnet eddy-current loss and segmentation
@@ -158,8 +158,8 @@ Roberts, ESTL / AEA Technology, [ESA Bulletin 94](https://www.esa.int/esapub/bul
 |---|---|
 | **Claim** | Eddy currents in PM bulk cause heating and risk **irreversible** demagnetisation; segmentation is the standard mitigation and it reduces thrust and mechanical robustness |
 | **Method** | FEA plus analytical models, overwhelmingly steady-state rotating machines |
-| **EMOCD takes** | E19 is characterised rather than unexplored, and **segmentation is a design option this project did not previously have** |
-| **EMOCD differs** | **Duty is not comparable.** A 157 ms pulse twelve times per campaign is thermally far gentler in the mean than continuous operation, but the peak drives the knee point, and nobody has computed it here. E19 stays open |
+| **VOLLEY takes** | E19 is characterised rather than unexplored, and **segmentation is a design option this project did not previously have** |
+| **VOLLEY differs** | **Duty is not comparable.** A 157 ms pulse twelve times per campaign is thermally far gentler in the mean than continuous operation, but the peak drives the knee point, and nobody has computed it here. E19 stays open |
 | **Status** | **confirmed** |
 
 ### Vacuum-rated ironless linear motors
@@ -172,15 +172,15 @@ Roberts, ESTL / AEA Technology, [ESA Bulletin 94](https://www.esa.int/esapub/bul
 |---|---|
 | **Claim** | Vacuum-compatible ironless linear motors are catalogue products; coreless construction lowers outgassing and eliminates cogging |
 | **Method** | Vendor documentation, **marketing material.** Cited only for what a product category routinely does, never for a performance number |
-| **EMOCD takes** | External support for ADR-004: the ironless choice converges with fielded vacuum practice for a reason this project had not recorded |
-| **EMOCD differs** | **Regime.** Wafer stages run sub-m/s continuous; this runs 16.5 m/s for 157 ms. Zero-cogging retires half of E23; the *sweep* half is untouched, because industrial stages do not chirp through their velocity range |
+| **VOLLEY takes** | External support for ADR-004: the ironless choice converges with fielded vacuum practice for a reason this project had not recorded |
+| **VOLLEY differs** | **Regime.** Wafer stages run sub-m/s continuous; this runs 16.5 m/s for 157 ms. Zero-cogging retires half of E23; the *sweep* half is untouched, because industrial stages do not chirp through their velocity range |
 | **Status** | **confirmed** as vendor claims. Not independent evidence |
 
 ## Motor and electromagnetics
 
 **"Electromagnetic Analysis and Experimental Validation of an Ironless Tubular Permanent
 Magnet Synchronous Linear Motor," *Symmetry* 17(9), 2025** (doi:10.3390/sym17091480).
-The closest published analog to the EMOCD topology, and it reports analytic vs FEA vs
+The closest published analog to the VOLLEY topology, and it reports analytic vs FEA vs
 *experimental* agreement on thrust constant. If that agreement level holds up on reading,
 it justifies the ±10 % thrust band in `validation/A1_field_femm.md` and gives the paper a
 precedent for the analytic-model approach.
@@ -276,7 +276,7 @@ explicitly rather than assumed away.
 
 **NASA MagLifter launch-assist sled work** (superconducting-magnet sleds, and a
 NASA-sponsored 10-g Inductrack model). Prior art for maglev launch assist, and the obvious
-thing a reviewer will ask EMOCD to distinguish itself from.
+thing a reviewer will ask VOLLEY to distinguish itself from.
 
 ## Flight data for validating decay
 

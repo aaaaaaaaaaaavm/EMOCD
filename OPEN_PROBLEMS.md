@@ -92,7 +92,7 @@ radiation between shots relieves. Same correction applies to the coil: 0.28 K pe
 > rule resolved this rather than a judgement call. **Caveat carried forward:** 9.445 kg is
 > the as-drawn, unpocketed geometry and A4 reports a 17x stress margin, so a rib-stiffened
 > chassis would recover mass. Designing one is the open successor to this item
-> (`ROADMAP.md`), and it is tracked under E2 rather than here.
+> (`docs/ROADMAP.md`), and it is tracked under E2 rather than here.
 
 Original item follows for the audit trail.
 
@@ -349,10 +349,10 @@ for s in (0.25, 0.5, 1.0, 2.5, 5.0, 10.0):
 | `paper/paper.tex` sensitivity section | "a multiplier invariant across a fivefold density range" | corrected 2026-07-29 |
 | `paper/paper.tex` **Limitations** | "the demonstrated invariance of the ratio is the defensible result", the paper leaned on this specific claim | corrected 2026-07-29, no longer offered as the defensible result |
 | `README.md`, `wiki/Home.md` headline tables | "x1.80, invariant across BC and solar activity" | corrected 2026-07-28 to "x1.80 at mean activity, invariance falsified, see P16" |
-| `RESULTS.md` A5 section and status bar | "GMAT: x1.73 vs x1.80, within band" | corrected 2026-07-28, three-level table, per-activity chart, 40x-sweep chart, status FAIL |
+| `docs/RESULTS.md` A5 section and status bar | "GMAT: x1.73 vs x1.80, within band" | corrected 2026-07-28, three-level table, per-activity chart, 40x-sweep chart, status FAIL |
 | `docs/index.html` (Pages site) | headline row and GMAT section | corrected 2026-07-28 |
-| `VALIDATION_REPORT.md` §2 | "2.55 % spread, inside the ≤5 % band" | corrected 2026-07-28, retraction stated in place |
-| `INVENTORY.md` A32 | "Solar-activity UQ, x1.80 invariance" | flagged against P16 |
+| `docs/VALIDATION_REPORT.md` §2 | "2.55 % spread, inside the ≤5 % band" | corrected 2026-07-28, retraction stated in place |
+| `docs/INVENTORY.md` A32 | "Solar-activity UQ, x1.80 invariance" | flagged against P16 |
 | `CHANGELOG.md` VAL2-02 | "Invariance spread 2.55 %, inside ≤5 %" | marked SUPERSEDED, text left intact as audit record |
 | `paper/figures/F11_uq.png` **caption** | "absolute lifetimes vary fivefold; the x1.8 multiplier does not", a fifth location, missed when this list was written | corrected 2026-07-29, figure now plots `astro.py` against GMAT side by side |
 

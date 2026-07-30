@@ -6,7 +6,7 @@
 | Review instructions | `TECHNICAL_REVIEW_BOARD.md`, TRB Prompt **v1.0** |
 | Adopted | **2026-07-29** |
 | Current phase | **Phase I** |
-| Frozen baseline | [`BASELINE.md`](../../BASELINE.md) |
+| Frozen baseline | [`BASELINE.md`](../BASELINE.md) |
 
 Both documents are committed **verbatim as issued**. They are not edited in place. Where
 practice departs from them, the departure is recorded here with its authorisation, the same
@@ -28,7 +28,7 @@ applied rather than skipped:
 | §4 criterion | Assessment |
 |---|---|
 | Independent engineering project | **Met for `EMOCD-lab`.** Not met for the paper and thesis companions, which are derived. |
-| Value outside EMOCD | **Met for `EMOCD-lab`**: it is where linear-motor and CubeSat-dynamics work would live beyond this deployer. |
+| Value outside VOLLEY | **Met for `EMOCD-lab`**: it is where linear-motor and CubeSat-dynamics work would live beyond this deployer. |
 | Keeping it inside would reduce clarity | **Met for all three.** University submission material pollutes a portfolio; a post-publication reproducibility package has a different audience; and Phase II redesign inside the flagship would directly threaten the baseline stability §2 requires. |
 | Explicit approval | **Given.** |
 

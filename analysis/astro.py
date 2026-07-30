@@ -1,5 +1,5 @@
 """
-EMOCD | Astrodynamics: lifetime multiplier, constellation seeding, conjunction, UQ.
+VOLLEY | Astrodynamics: lifetime multiplier, constellation seeding, conjunction, UQ.
 
 Reproduces (paper Secs. IV-C, V-B, V-C) at the rated velocity of 16.537 m/s:
     lifetime multiplier         x1.80 at 450 km, BC 61 kg/m^2

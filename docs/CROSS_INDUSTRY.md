@@ -15,7 +15,7 @@ where the industrial analogue does *not* apply.
 > Ironless linear motors are a commodity product and vacuum-rated versions run semiconductor
 > wafer stages. But the duty cycles are not comparable:
 >
-> | | Wafer stage | EMOCD |
+> | | Wafer stage | VOLLEY |
 > |---|---|---|
 > | Velocity | sub-m/s to a few m/s | **16.5 m/s** |
 > | Duty | continuous, millions of cycles | **157 ms, twelve times per campaign** |
@@ -43,13 +43,13 @@ mechanical robustness**, which is why partial segmentation is studied as the com
 ([Zhang et al. *IET Power Electronics* 2021](https://ietresearch.onlinelibrary.wiley.com/doi/full/10.1049/pel2.12009);
 [partial-segmentation study for PMLSMs, UTS OPUS](https://opus.lib.uts.edu.au/bitstream/10453/140691/3/Reduction%20of%20Magnet%20Eddy%20Current%20Loss%20in%20PMSM%20by%20Using%20Partial%20Magnet%20Segment%20Method.pdf)).
 
-**What this changes for EMOCD.** Segmentation is a design option that did not previously exist
+**What this changes for VOLLEY.** Segmentation is a design option that did not previously exist
 in this project's vocabulary, and it interacts directly with two things already on the books:
 it would reduce K<sub>t</sub>, which is already the weakest-supported number here; and it
 weakens blocks that must survive a kN-class assembly operation (`MANUFACTURING.md` §2).
 
 **Why it does not close.** The literature is overwhelmingly steady-state rotating machines.
-EMOCD's duty is a 157 ms pulse twelve times per campaign, thermally far gentler in the mean,
+VOLLEY's duty is a 157 ms pulse twelve times per campaign, thermally far gentler in the mean,
 but the peak is what drives the knee point. **Nobody has computed it here**, and the citation
 does not compute it for us.
 
@@ -92,7 +92,7 @@ products from multiple vendors
 [Dover Motion](https://dovermotion.com/applications/high-vacuum-positioning-systems/),
 [Gorman Dynamics](https://www.gormandynamics.com/vacuum-motor-umv)).
 
-That EMOCD's architecture converges with fielded vacuum practice is worth stating in the paper.
+That VOLLEY's architecture converges with fielded vacuum practice is worth stating in the paper.
 It does not close E11, which is about **this** design's material set against ASTM E595, that
 is T-4 in `QUALIFICATION_PLAN.md`.
 

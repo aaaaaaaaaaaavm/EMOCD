@@ -15,7 +15,7 @@ Each analysis below closes a specific named item.
 |---|---|---|---|---|
 | A1 | Airgap field, 2-D magnetostatic | FEMM 4.2 | E1 (2-D half), E2 (partly) | specified, not run |
 | A4 | Sled chassis structural | CalculiX or Code_Aster | **P5, P8** | specified, not run |
-| A5 | Orbital lifetime and seeding | GMAT R2022a | E6, hardens x1.80 | **RUN**: window leg done, full decay running. See [`../RESULTS.md`](../RESULTS.md) |
+| A5 | Orbital lifetime and seeding | GMAT R2022a | E6, hardens x1.80 | **RUN**: window leg done, full decay running. See [`../docs/RESULTS.md`](../docs/RESULTS.md) |
 | A9 | Decay rate against flown CubeSats (TLE history) | Space-Track + numpy | **E6, against reality rather than another model** | **SPECIFIED, NOT RUN**: CelesTrak and Space-Track blocked by network policy here |
 | A6 | Conjunction probability | NASA CARA tools | P1 (properly) | specified, not run |
 | A7 | Separation and tip-off | Project Chrono | E7-adjacent | specified, not run |

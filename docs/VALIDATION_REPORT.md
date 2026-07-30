@@ -95,7 +95,7 @@ The disagreement changes sign with activity, which is the same story from anothe
 A model whose error changes sign across its input range is not off by a calibration factor,
 it has the wrong shape.
 
-Detail: [`validation/results/A5_astro.json`](validation/results/A5_astro.json).
+Detail: [`validation/results/A5_astro.json`](../validation/results/A5_astro.json).
 
 ---
 
@@ -117,8 +117,8 @@ terminal.
 Two different integrators landing within 0.03 % on exit velocity is a real check of the
 shot model's arithmetic. All five declared bands met, **and two findings fell out anyway.**
 
-Detail: [`validation/results/A8_pulse.json`](validation/results/A8_pulse.json), netlist at
-[`validation/spice/emocd_shot.cir`](validation/spice/emocd_shot.cir).
+Detail: [`validation/results/A8_pulse.json`](../validation/results/A8_pulse.json), netlist at
+[`validation/spice/emocd_shot.cir`](../validation/spice/emocd_shot.cir).
 
 ---
 
@@ -286,8 +286,8 @@ converged. Mesh 32 k to 141 k elements moves K<sub>t</sub> by 0.2 %. The stray r
 both, which is why their bands were declared loose and why the 50 mm row needed a physical
 explanation rather than a numerical one.
 
-Detail: [`validation/results/A1_femm.json`](validation/results/A1_femm.json). Script:
-[`validation/fem/a1_airgap_field.py`](validation/fem/a1_airgap_field.py).
+Detail: [`validation/results/A1_femm.json`](../validation/results/A1_femm.json). Script:
+[`validation/fem/a1_airgap_field.py`](../validation/fem/a1_airgap_field.py).
 
 > **Note on the solver.** The run sheet names FEMM, which is Windows-only and was not
 > available. This is a meshed differential-FEM solve of the same 2-D problem, which is what E2

@@ -1,4 +1,4 @@
-# FEMM Run Sheet: EMOCD Airgap Field (analysis A1, closes half of E1)
+# FEMM Run Sheet: VOLLEY Airgap Field (analysis A1, closes half of E1)
 
 Geometry file: `emocd_cross_section.dxf` (same folder). All dimensions verified against the live Fusion CAD on 2026-07-23: magnet arrays z ±6 to ±14 mm (8 mm N45SH blocks), stator belts z −5 to +5 mm (10 mm winding), **1 mm mechanical airgap each side**, belts 7 mm wide on 8 mm pitch, Halbach wavelength λ = 48 mm (12 mm segments). The DXF holds ONE wavelength; the model is periodic.
 

@@ -10,7 +10,7 @@ I'm not doing this because I believe I've already invented the perfect CubeSat d
 doing it because I want to become the kind of engineer who can take an idea from first
 principles to a rigorously validated aerospace system.
 
-EMOCD is the vehicle I've chosen for that journey. It forces me to learn and apply orbital
+VOLLEY is the vehicle I've chosen for that journey. It forces me to learn and apply orbital
 mechanics, electromagnetics, mechanical design, manufacturing, systems engineering, controls,
 testing, technical writing, and engineering decision-making within one coherent project. More
 than the deployer itself, I'm interested in becoming capable of solving complex engineering
@@ -42,7 +42,7 @@ Those deliverables are:
 2. An IEEE paper that communicates the work in a rigorous, reproducible form.
 3. My final-year thesis, completed to the standards required by my university.
 4. A continuing research programme where I remain free to question assumptions, explore new
-   ideas, redesign architectures, and pursue future versions of EMOCD without disrupting the
+   ideas, redesign architectures, and pursue future versions of VOLLEY without disrupting the
    completed deliverables.
 
 This separation is deliberate. It allows me to satisfy two goals that would otherwise compete
@@ -50,7 +50,7 @@ with each other: finishing high-quality engineering work today while preserving 
 continue learning and evolving the programme tomorrow.
 
 Ultimately, I'm doing this because I want to build a body of work that demonstrates how I think
-as an engineer. If EMOCD eventually leads to a practical technology, that would be immensely
+as an engineer. If VOLLEY eventually leads to a practical technology, that would be immensely
 rewarding. But even if it doesn't, I want this programme to have made me a better engineer,
 taught me how to approach difficult problems with discipline, and produced work that is
 genuinely useful to others.
@@ -66,8 +66,8 @@ the failure mode named above rather than an organisational preference:
 |---|---|
 | [`PROGRAMME.md`](PROGRAMME.md) | The four repositories and how they relate |
 | [`BASELINE.md`](BASELINE.md) | What is frozen for Phase I, and the rule for what may move it |
-| [`docs/PHASE_II.md`](docs/PHASE_II.md) | Where redesign goes, and how it gets back |
-| [`docs/programme/`](docs/programme/) | The governing dossier, adopted verbatim |
+| [`docs/PHASE_II.md`](PHASE_II.md) | Where redesign goes, and how it gets back |
+| [`docs/programme/`](programme/) | The governing dossier, adopted verbatim |
 
 The honest test of all this is not whether the structure is elegant. It is whether the thesis
 gets submitted and the paper gets published while the research track stays alive. If Phase I

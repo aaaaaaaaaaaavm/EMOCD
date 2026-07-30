@@ -1,5 +1,5 @@
 """
-EMOCD | Independent magnetostatic verification of the Halbach airgap field.
+VOLLEY | Independent magnetostatic verification of the Halbach airgap field.
 
 Cross-checks the analytic decaying-wave model B(y) = B0*exp(-k*y) against
 magpylib's analytic cuboid superposition (exact for ironless geometry).

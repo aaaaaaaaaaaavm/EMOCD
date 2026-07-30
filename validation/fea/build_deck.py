@@ -1,5 +1,5 @@
 """
-EMOCD analysis A4 -- chassis plate under inter-array attraction.
+VOLLEY analysis A4 -- chassis plate under inter-array attraction.
 
 Extracts one 488x140x6 chassis plate from cad/step/gen3/EMOCD_Sled_Gen3.step, meshes it
 with quadratic tets, and writes two CalculiX decks that BRACKET the real support condition:
@@ -75,7 +75,7 @@ if not loaded or not webs:
 
 for case, dofs in (('pinned', '3,3'), ('clamped', '1,3')):
     with open(os.path.join(HERE, 'plate_%s.inp' % case), 'w') as f:
-        f.write('** EMOCD A4 -- chassis plate, %s webs\n*NODE, NSET=Nall\n' % case)
+        f.write('** VOLLEY A4 -- chassis plate, %s webs\n*NODE, NSET=Nall\n' % case)
         for n, c in sorted(xyz.items()):
             f.write('%d, %.6f, %.6f, %.6f\n' % (n, c[0], c[1], c[2]))
         f.write('*ELEMENT, TYPE=C3D10, ELSET=Eall\n')

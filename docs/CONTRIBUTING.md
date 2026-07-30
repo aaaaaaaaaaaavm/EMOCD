@@ -1,6 +1,6 @@
 # Contributing
 
-EMOCD is a **design study**, not a software product. It exists to be reproduced,
+VOLLEY is a **design study**, not a software product. It exists to be reproduced,
 scrutinised, and (eventually) replaced by measured data. Contributions are welcome on
 those terms. The one thing this repository cares about above all is **provenance**: no
 generated number may ever pass as a measured one.

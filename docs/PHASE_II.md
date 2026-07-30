@@ -1,14 +1,14 @@
 # Phase II: deferred work, and how it gets back
 
 Everything here would make the design **better**. Nothing here makes it **correct**. That
-distinction is the whole of the change-control rule in [`../BASELINE.md`](../BASELINE.md), and
+distinction is the whole of the change-control rule in [`../BASELINE.md`](BASELINE.md), and
 it is why these items are deferred while P17, which is tedious and improves nothing anyone
 will notice, is not.
 
 Phase II lives in **[EMOCD-lab](https://github.com/aaaaaaaaaaaavm/EMOCD-lab)**, a separate
 repository with no baseline and no stability promise. It is separate because a soft boundary
 inside the flagship is one `git checkout` from becoming an edit to the frozen baseline, and
-[`../WHY.md`](../WHY.md) names that as the failure mode this structure exists to contain.
+[`../WHY.md`](WHY.md) names that as the failure mode this structure exists to contain.
 
 ---
 

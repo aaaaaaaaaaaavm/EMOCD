@@ -4,7 +4,7 @@ Start here before changing anything.
 
 ## What this project is
 
-EMOCD (Electromagnetic Orbital CubeSat Deployer) is a magazine-fed electromagnetic
+VOLLEY (Electromagnetic Orbital CubeSat Deployer) is a magazine-fed electromagnetic
 deployer that ejects unmodified CubeSats from a host stage at programmable velocity,
 targeting the gap between spring deployers (~2 m/s) and propulsive transfer vehicles
 (100s m/s). Owner: Adityavardhan Mishra (PRN 23070125054), 4th-year mechanical
@@ -93,8 +93,8 @@ constant and re-run the motor model, then the paper.
 
 ## Immediate work queue
 
-> **Superseded as the authoritative list.** The frozen baseline is [`../BASELINE.md`](../BASELINE.md),
-> the sequenced plan is [`../ROADMAP.md`](../ROADMAP.md), and deferred work is
+> **Superseded as the authoritative list.** The frozen baseline is [`../BASELINE.md`](BASELINE.md),
+> the sequenced plan is [`../ROADMAP.md`](ROADMAP.md), and deferred work is
 > [`PHASE_II.md`](PHASE_II.md). This section is kept only so the file is not misleading;
 > update those three, not this.
 

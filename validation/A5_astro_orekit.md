@@ -76,7 +76,7 @@ decay, estimate BC from the observed decay, and run the same integration `astro.
 Published guidance puts lifetime prediction at roughly **10 % of residual lifetime** at
 best, driven by density uncertainty, so 15 % is the honest band and anything tighter would
 be luck. This leg validates the propagation machinery in absolute terms; the ratio band
-above remains the claim EMOCD actually defends (E6).
+above remains the claim VOLLEY actually defends (E6).
 
 ## If the multiplier band is missed
 

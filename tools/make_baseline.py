@@ -1,4 +1,4 @@
-"""Generate BASELINE.md from analysis/results/*.json.
+"""Generate docs/BASELINE.md from analysis/results/*.json.
 
 The frozen Phase I baseline must not be a hand-typed table. Every number in a hand-typed
 table is a number that can silently disagree with the scripts -- which is the exact defect
@@ -70,10 +70,10 @@ def main():
     body += "\n".join(f"| {n} | **{v}** | `{src}` |" for n, v, src in rows)
     body += FOOTER
 
-    path = os.path.join(ROOT, 'BASELINE.md')
+    path = os.path.join(ROOT, 'docs', 'BASELINE.md')
     if args.check:
         if not os.path.exists(path):
-            raise SystemExit("BASELINE.md missing -- run without --check to generate it.")
+            raise SystemExit("docs/BASELINE.md missing -- run without --check to generate it.")
         with open(path) as f:
             old = value_rows(f.read())
         new = value_rows(body)
@@ -88,7 +88,7 @@ def main():
 
     with open(path, 'w') as f:
         f.write(body)
-    print(f"BASELINE.md written from analysis/results/ at {commit} ({len(rows)} values)")
+    print(f"docs/BASELINE.md written from analysis/results/ at {commit} ({len(rows)} values)")
 
 
 HEADER = """# Phase I frozen baseline
@@ -155,7 +155,7 @@ anything.
 
 ```bash
 python3 tools/make_baseline.py    # regenerates; a clean diff means the baseline holds
-git diff --exit-code BASELINE.md  # non-zero means the scripts have moved and the record has not
+git diff --exit-code docs/BASELINE.md  # non-zero means the scripts have moved and the record has not
 ```
 
 That second command is the useful one. If it ever fails unexpectedly, something changed a

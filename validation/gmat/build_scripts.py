@@ -1,5 +1,5 @@
 """
-EMOCD | Fill the GMAT script templates for analysis A5 (and the A6 ephemeris input).
+VOLLEY | Fill the GMAT script templates for analysis A5 (and the A6 ephemeris input).
 
 Runs with no GMAT installed: it only writes .script files. Every orbital quantity comes
 from analysis/astro.py itself -- boosted_elements() and _kepE() are imported, not

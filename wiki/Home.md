@@ -1,4 +1,4 @@
-# EMOCD: Electromagnetic Orbital CubeSat Deployer
+# VOLLEY: an electromagnetic orbital CubeSat deployer
 
 Wiki landing page. Source of truth stays in the repository:
 [aaaaaaaaaaaavm/emocd](https://github.com/aaaaaaaaaaaavm/emocd). This page summarises
@@ -9,7 +9,7 @@ before citing anything here.** Every quantity on this page is a model output. No
 has been measured, tested, or reviewed by a third party.
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/aaaaaaaaaaaavm/EMOCD/main/cad/renders/exterior_closed.png" alt="EMOCD deployer, closed" width="100%">
+  <img src="https://raw.githubusercontent.com/aaaaaaaaaaaavm/EMOCD/main/cad/renders/exterior_closed.png" alt="VOLLEY deployer, closed" width="100%">
 </p>
 
 ---
@@ -20,7 +20,7 @@ CubeSats flown as rideshare secondaries inherit the primary customer's orbit. Th
 that ejects them adds 1-2 m/s, enough to drift clear of the stage, not enough to change
 an orbit. A satellite with no propulsion of its own stays there for life.
 
-EMOCD replaces the spring with an ironless double-sided Halbach linear synchronous motor
+VOLLEY replaces the spring with an ironless double-sided Halbach linear synchronous motor
 driving a reusable magnetic sled along a 1.5 m track. Twelve 3U CubeSats feed from two
 transverse cassettes and fire one at a time. The customer satellite is never modified,
 the magnets ride the sled, not the payload.
@@ -218,7 +218,7 @@ distinction, and a computed number must never be presented as a measured one.
 
 Citation metadata is in
 [`CITATION.cff`](https://github.com/aaaaaaaaaaaavm/emocd/blob/main/CITATION.cff). The
-paper is *EMOCD: A Linear-Motor Electromagnetic Deployment System for Deterministic
+paper is *VOLLEY: A Linear-Motor Electromagnetic Deployment System for Deterministic
 CubeSat Orbit Seeding from Small Launch Vehicles*. Licence: MIT.
 
 ## Author

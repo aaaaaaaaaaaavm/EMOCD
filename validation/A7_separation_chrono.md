@@ -18,11 +18,11 @@ deployers have flown thousands of times and their tip-off performance is publish
 
 | Quantity | Criterion | Basis |
 |---|---|---|
-| Tip-off rate, any axis | **≤ 5 °/s** | NRCSD-E interface document quotes < 5 °/s/axis as its target, the number EMOCD has to beat, or at least match, to claim a benign release |
+| Tip-off rate, any axis | **≤ 5 °/s** | NRCSD-E interface document quotes < 5 °/s/axis as its target, the number VOLLEY has to beat, or at least match, to claim a benign release |
 | Re-contact after release | none, through 2 m of separation | fire-then-arrest ConOps assumes clean departure |
 | Lateral velocity component | ≤ 2 % of axial | otherwise the ±0.10 km apogee placement claim is optimistic |
 
-Beating a flown spring deployer on tip-off is a *claim EMOCD makes implicitly* by
+Beating a flown spring deployer on tip-off is a *claim VOLLEY makes implicitly* by
 positioning itself as a controlled alternative. Putting a flown number in the band makes
 that claim falsifiable rather than rhetorical.
 

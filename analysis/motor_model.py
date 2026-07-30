@@ -1,5 +1,5 @@
 """
-EMOCD | Winding-resolved thrust constant, shot simulation, closed-loop dispersion.
+VOLLEY | Winding-resolved thrust constant, shot simulation, closed-loop dispersion.
 
 This is the script behind the paper's headline performance numbers. It supersedes
 the earlier lumped surface-current model (see legacy/c3_c4_em.py), which assumed an

@@ -1,13 +1,13 @@
-# EMOCD: Electromagnetic Orbital CubeSat Deployer
+# VOLLEY: an electromagnetic orbital CubeSat deployer
 
 <p align="center">
-  <img src="cad/renders/exterior_closed.png" alt="EMOCD deployer, closed, mounted on its ESPA interface" width="100%">
+  <img src="cad/renders/exterior_closed.png" alt="VOLLEY deployer, closed, mounted on its ESPA interface" width="100%">
 </p>
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Python 3.9+](https://img.shields.io/badge/Python-3.9%2B-blue.svg)](requirements.txt)
 [![Maturity: TRL 2-3](https://img.shields.io/badge/maturity-TRL%202--3-orange.svg)](OPEN_PROBLEMS.md)
-[![Validation: model only](https://img.shields.io/badge/validation-model%20only%2C%20unverified-red.svg)](PROVENANCE.md)
+[![Validation: model only](https://img.shields.io/badge/validation-model%20only%2C%20unverified-red.svg)](docs/PROVENANCE.md)
 
 A magazine-fed electromagnetic deployer that ejects unmodified CubeSats from a host
 stage at programmable velocity, aimed at the unserved regime between spring deployers
@@ -16,20 +16,20 @@ stage at programmable velocity, aimed at the unserved regime between spring depl
 **Status: design study, TRL 2-3. CAD complete across 9 Fusion 360 documents in three
 generations, STEP exports committed (`cad/`, Gen3 current); FEA and hardware still
 outstanding.**
-**Read `PROVENANCE.md` before citing anything here.**
+**Read `docs/PROVENANCE.md` before citing anything here.**
 
-**[📄 One-page summary](SUMMARY.md)** · **[❓ Why](WHY.md)** · **[🧊 Frozen baseline](BASELINE.md)** · **[🗺 Roadmap](ROADMAP.md)** · **[⚠ Open problems](OPEN_PROBLEMS.md)** · **[✓ Validation](VALIDATION_REPORT.md)** · **[🏗 Manufacturing](docs/MANUFACTURING.md)** · **[📐 ADRs](docs/adr/)**
+**[📄 One-page summary](SUMMARY.md)** · **[❓ Why](docs/WHY.md)** · **[🧊 Frozen baseline](docs/BASELINE.md)** · **[🗺 Roadmap](docs/ROADMAP.md)** · **[⚠ Open problems](OPEN_PROBLEMS.md)** · **[✓ Validation](docs/VALIDATION_REPORT.md)** · **[🏗 Manufacturing](docs/MANUFACTURING.md)** · **[📐 ADRs](docs/adr/)**
 
 <!-- PROGRAMME-HEADER-START -->
 | Repository | Role | You are here |
 |---|---|---|
-| **[EMOCD](https://github.com/aaaaaaaaaaaavm/EMOCD)** | Flagship, authoritative engineering record, portfolio | |
+| **[VOLLEY](https://github.com/aaaaaaaaaaaavm/EMOCD)** | Flagship, authoritative engineering record, portfolio | |
 | [EMOCD-paper](https://github.com/aaaaaaaaaaaavm/EMOCD-paper) | IEEE companion, manuscript and reproducibility package *(generated)* | |
 | [EMOCD-thesis](https://github.com/aaaaaaaaaaaavm/EMOCD-thesis) | Thesis companion, university submission *(generated)* | |
 | [EMOCD-lab](https://github.com/aaaaaaaaaaaavm/EMOCD-lab) | Phase II, research, redesign, deliberately unstable | |
 <!-- PROGRAMME-HEADER-END -->
 
-Four repositories, one programme, see **[`PROGRAMME.md`](PROGRAMME.md)**.
+Four repositories, one programme, see **[`docs/PROGRAMME.md`](docs/PROGRAMME.md)**.
 
 ## The idea
 
@@ -37,7 +37,7 @@ CubeSats flown as rideshare secondaries inherit the primary customer's orbit. Th
 spring that ejects them adds 1-2 m/s, enough to drift clear, not enough to change an
 orbit. A satellite with no propulsion of its own is stuck there for life.
 
-EMOCD replaces the spring with an ironless double-sided Halbach linear synchronous
+VOLLEY replaces the spring with an ironless double-sided Halbach linear synchronous
 motor driving a reusable magnetic sled along a 1.5 m track. Twelve 3U CubeSats feed
 from two transverse cassettes and are fired one at a time. The satellite is never
 modified, the magnets ride the sled, not the payload.
@@ -116,7 +116,7 @@ electrical-to-payload and carries no regeneration credit.
 > is a weak function of Δv, the mission case survives better than the machine spec does.
 > 9.445 kg is the **as-drawn, unpocketed** geometry, and A4 reports a 17x stress margin, so
 > a rib-stiffened chassis would recover mass. Nobody has designed one
-> ([`ROADMAP.md`](ROADMAP.md)).
+> ([`docs/ROADMAP.md`](docs/ROADMAP.md)).
 >
 > Ways to recover the velocity, pocketing, sheet current, stroke length, a two-layer
 > stator, and a momentum-transfer release that buys it all back for 1.6 % of the shot
@@ -153,7 +153,7 @@ them on a Debian/Ubuntu machine and verifies each one before exiting.
 
 ## Validation
 
-**[`VALIDATION_REPORT.md`](VALIDATION_REPORT.md)**: every claim, independently checked
+**[`docs/VALIDATION_REPORT.md`](docs/VALIDATION_REPORT.md)**: every claim, independently checked
 where possible. Four analyses were actually run; three could not be.
 
 - **Reproducibility holds exactly**: 173 values re-computed from clean, 173 identical.
@@ -177,7 +177,7 @@ where possible. Four analyses were actually run; three could not be.
 
 ## Charts
 
-Full set in **[`RESULTS.md`](RESULTS.md)**: all drawn by GitHub from text, no image files.
+Full set in **[`docs/RESULTS.md`](docs/RESULTS.md)**: all drawn by GitHub from text, no image files.
 Two that carry the argument:
 
 ```mermaid
@@ -220,7 +220,7 @@ answer proves nothing.
 |---|---|---|---|
 | A1 airgap field | FEMM | E1 (2-D half), E2 | specified |
 | **A4 sled chassis** | CalculiX ccx 2.21 | **P5, P8** | **run**: as-drawn plate passes; mass unchanged |
-| A5 lifetime & seeding | GMAT R2022a | E6 | **run**: see [`RESULTS.md`](RESULTS.md) |
+| A5 lifetime & seeding | GMAT R2022a | E6 | **run**: see [`docs/RESULTS.md`](docs/RESULTS.md) |
 | A6 conjunction Pc | NASA CARA | P1 | specified |
 | A7 separation & tip-off | Project Chrono | E7 | specified |
 | A8 pulse-power chain | ngspice 42 | E17 | **run**: bands met, 2 findings |
@@ -239,7 +239,7 @@ closeout is the regulatory template.
 **Skyroot Aerospace's Vikram-1** carries a restartable liquid Orbit Adjustment Module, one
 Raman-2 engine, four Raman Mini thrusters, eight cold-gas thrusters, stage-tested through more
 than a thousand pulses, whose stated multi-orbit deployment role is functionally the PS4's.
-Against the vehicle's published 350 kg LEO capacity, a loaded EMOCD is **34 %**, falling to
+Against the vehicle's published 350 kg LEO capacity, a loaded VOLLEY is **34 %**, falling to
 **22 %** and **13 %** on the announced 550 kg and 900 kg family members. Early flights are
 therefore dedicated demonstrations and later ones ordinary manifest items.
 
@@ -267,14 +267,14 @@ flown DSOD, is in [`docs/LANDSCAPE.md`](docs/LANDSCAPE.md).
 - `docs/PROJECT_NOTES.md`, working context: ground rules, layout, locked decisions
 - `docs/LANDSCAPE.md`, how this compares with deployers that actually fly
 - `docs/DESIGN_OPTIONS_exit_velocity.md`, options for the P15 velocity shortfall, costed
-- `INVENTORY.md`, complete indexed catalogue of every calculation, decision and artifact
+- `docs/INVENTORY.md`, complete indexed catalogue of every calculation, decision and artifact
 - `docs/DECISION_LOG.md`, why each design change happened, including two self-corrections
-- `PROVENANCE.md`, what came from where, and what was never verified
+- `docs/PROVENANCE.md`, what came from where, and what was never verified
 - `OPEN_PROBLEMS.md`, known errors in the paper, and unsolved engineering
-- `PROGRAMME.md`, the four repositories and how they relate
-- `WHY.md`, why this programme exists, and why it is split into two phases
-- `BASELINE.md`, the frozen Phase I baseline (generated) and its change-control rule
-- `HISTORY.md`, project timeline since 2021, and how the git history was reconstructed
+- `docs/PROGRAMME.md`, the four repositories and how they relate
+- `docs/WHY.md`, why this programme exists, and why it is split into two phases
+- `docs/BASELINE.md`, the frozen Phase I baseline (generated) and its change-control rule
+- `docs/HISTORY.md`, project timeline since 2021, and how the git history was reconstructed
 - `docs/programme/`, the governing dossier, adopted verbatim, plus its amendment record
 - `docs/adr/`, seventeen architecture decision records
 - `docs/PHASE_II.md`, deferred work and the gate it must clear to return
@@ -324,4 +324,4 @@ Technology, Symbiosis International (Deemed University), Pune. Project begun Apr
 
 Questions, corrections and reproduction attempts are all welcome, particularly reproduction
 attempts. If a number in this repository does not reproduce for you, that is a defect and I
-want to know. See [`CONTRIBUTING.md`](CONTRIBUTING.md).
+want to know. See [`docs/CONTRIBUTING.md`](docs/CONTRIBUTING.md).

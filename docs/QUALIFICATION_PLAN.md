@@ -3,7 +3,7 @@
 **Status: written, none of it run.** Nothing in this project has been built, so every entry
 below is a specification. It exists because a design study with eight analysis run sheets and
 no test campaign has only described half of what qualifying hardware requires, and because
-the levels an EMOCD unit must survive are already what sets the 25 g payload cap the whole
+the levels an VOLLEY unit must survive are already what sets the 25 g payload cap the whole
 architecture is designed around.
 
 Read alongside `validation/` (the analyses) and `docs/BENCHTOP_TESTS.md` (the cheap
@@ -26,7 +26,7 @@ Two directions, and they are easy to conflate:
 | Governing | Vehicle user guide, GEVS protoflight | CubeSat Design Specification, 25 g cap, magnetic keep-out |
 
 The second column is the unusual one. A spring deployer imparts 1-2 m/s and is magnetically
-inert; EMOCD carries a Halbach array centimetres from satellites it has not built, and fires
+inert; VOLLEY carries a Halbach array centimetres from satellites it has not built, and fires
 a 330 A pulse next to them. **T-6 and T-7 exist for that reason and have no counterpart in a
 spring dispenser's qualification.**
 

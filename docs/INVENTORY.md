@@ -73,7 +73,7 @@ Reasoning is recorded in `docs/DECISION_LOG.md`.
 | B15 | Coast-and-trim release zone |
 | B16 | Materials rules (non-conductive on field, non-magnetic near track, E595) |
 | B17 | POEM as host and flight-demo path |
-| B18 | EMOCD-A / EMOCD-F variant split |
+| B18 | VOLLEY-A / VOLLEY-F variant split |
 | B19 | Scope narrowed to 3U baseline claim |
 | B20 | Rated sheet current 130 to 140 kA/m |
 | B21 | Paper reframed host-specific to host-agnostic |

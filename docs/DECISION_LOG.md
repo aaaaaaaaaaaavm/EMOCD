@@ -26,7 +26,7 @@ recoil management. A spent stage already has all three, and its mass is large en
 to absorb ejection recoil that would tumble a small free-flyer. The stage becomes a
 launch pad rather than debris.
 
-Consequence: the attached variant (later EMOCD-A) carries no CMGs and no thrusters.
+Consequence: the attached variant (later VOLLEY-A) carries no CMGs and no thrusters.
 
 ## mid-2025: Coilgun to linear synchronous motor (the pivotal change)
 This is the decision that reshaped everything downstream.
@@ -97,7 +97,7 @@ at most, cutting the thrust-line offset that drives recoil torque.
 ## 2025: Retention gate architecture
 Directly motivated by the NanoRacks ball-lock anomaly, where ascent preload ran
 *through* the release mechanism and jack-screw torque above 0.11 N·m drove it toward
-seizure. EMOCD routes stack preload through a one-shot retention gate straight into
+seizure. VOLLEY routes stack preload through a one-shot retention gate straight into
 structure; the escapement is caged during ascent and sees launch loads never. This makes
 that failure mode geometrically impossible rather than merely unlikely.
 

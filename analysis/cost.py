@@ -1,5 +1,5 @@
 """
-EMOCD | Recurring hardware cost, parametric.
+VOLLEY | Recurring hardware cost, parametric.
 
 WHY THIS EXISTS: the paper asserts that "unit cost is comparable to a small-satellite
 reaction-wheel assembly and far below a propulsive stage" with nothing behind it. That is
@@ -142,7 +142,7 @@ def main():
     bought_total = sum(d['price'] for d in BOUGHT_IN_INR.values())
     total = fab_total + bought_total
 
-    print("EMOCD recurring hardware cost -- ALL PRICES ASSUMED, NO QUOTATIONS\n")
+    print("VOLLEY recurring hardware cost -- ALL PRICES ASSUMED, NO QUOTATIONS\n")
     print(f"{'part':42s} {'material':12s} {'kg':>7s} {'INR':>12s}")
     for r in sorted(fab_rows, key=lambda x: -x['finished_INR']):
         print(f"{r['part']:42s} {r['material']:12s} {r['kg']:7.2f} {r['finished_INR']:12,.0f}")

@@ -1,4 +1,4 @@
-# EMOCD: Computation Results C1, C10
+# VOLLEY: Computation Results C1, C10
 
 > **SUPERSEDED (marked 2026-07-27). Do not cite any number in this file.** It records the
 > C1, C10 computations at an operating point that no longer exists, a 4 kg sled at
@@ -49,7 +49,7 @@ Along-track drift at 450-500 km per ejection-velocity split between adjacent sat
 | 5 m/s | 8.9 km | 1,296 km/day (10.9°/day) | **2.8 days** |
 | 10 m/s | 17.9 km | 2,592 km/day (21.7°/day) | **1.4 days** |
 
-Comparison anchor: Foster et al. (JSR 2018) phase propulsion-less constellations by differential drag over campaign timescales of weeks, months. **EMOCD seeds equivalent relative motion in days with single-digit m/s splits; hybrid ConOps = EMOCD seeds, drag trims/freezes.**
+Comparison anchor: Foster et al. (JSR 2018) phase propulsion-less constellations by differential drag over campaign timescales of weeks, months. **VOLLEY seeds equivalent relative motion in days with single-digit m/s splits; hybrid ConOps = VOLLEY seeds, drag trims/freezes.**
 
 ## C3: Electromagnetic shot model (the missing-evidence simulation)
 

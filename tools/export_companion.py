@@ -31,7 +31,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # The shared cross-link block. Byte-identical in all four repositories -- the flagship's copy
 # in PROGRAMME.md is the source, and this is checked by tools/check_links.py.
 HEADER_ROWS = [
-    ("EMOCD", "Flagship — authoritative engineering record, portfolio", ""),
+    ("VOLLEY", "Flagship — authoritative engineering record, portfolio", ""),
     ("EMOCD-paper", "IEEE companion — manuscript and reproducibility package *(generated)*", "paper"),
     ("EMOCD-thesis", "Thesis companion — university submission *(generated)*", "thesis"),
     ("EMOCD-lab", "Phase II — research, redesign, deliberately unstable", "lab"),
@@ -54,7 +54,7 @@ def header_table(here):
 def banner(commit, kind):
     return f"""> ## Generated repository — do not edit here
 >
-> Every file in this repository is generated from the **EMOCD flagship** by
+> Every file in this repository is generated from the **VOLLEY flagship** by
 > `tools/export_companion.py`. Nothing here is authored, and any edit made here will be
 > destroyed the next time it is regenerated.
 >
@@ -72,7 +72,7 @@ def banner(commit, kind):
 PAPER_MANIFEST = [
     ("paper/paper.tex", "paper/paper.tex"),
     ("paper/IEEEtran.cls", "paper/IEEEtran.cls"),
-    ("paper/EMOCD_IEEE_Conference.pdf", "paper/EMOCD_IEEE_Conference.pdf"),
+    ("paper/VOLLEY_IEEE_Conference.pdf", "paper/VOLLEY_IEEE_Conference.pdf"),
     ("paper/figures", "paper/figures"),
     ("paper/make_figures.py", "paper/make_figures.py"),
     ("analysis", "analysis"),
@@ -86,7 +86,7 @@ PAPER_MANIFEST = [
 
 THESIS_MANIFEST = [
     ("paper/paper.tex", "source/paper.tex"),
-    ("paper/EMOCD_IEEE_Conference.pdf", "source/EMOCD_IEEE_Conference.pdf"),
+    ("paper/VOLLEY_IEEE_Conference.pdf", "source/VOLLEY_IEEE_Conference.pdf"),
     ("paper/figures", "source/figures"),
     ("analysis", "analysis"),
     ("validation", "validation"),
@@ -102,9 +102,9 @@ THESIS_MANIFEST = [
     ("LICENSE", "LICENSE"),
 ]
 
-PAPER_README = """# EMOCD — IEEE companion
+PAPER_README = """# VOLLEY — IEEE companion
 
-Reproducibility package for the EMOCD conference paper: manuscript source, figures, the
+Reproducibility package for the VOLLEY conference paper: manuscript source, figures, the
 analysis scripts that produce every number in it, and the validation run sheets.
 
 ## Reproducing the paper's numbers
@@ -129,9 +129,9 @@ repository the paper came from.
 TRL 2–3 with no hardware, no measurement and no third-party review.
 """
 
-THESIS_README = """# EMOCD — thesis companion
+THESIS_README = """# VOLLEY — thesis companion
 
-Final-year thesis submission material, generated from the EMOCD flagship.
+Final-year thesis submission material, generated from the VOLLEY flagship.
 
 ## Layout
 
@@ -171,7 +171,7 @@ def copy(src, dst):
 
 
 def build(kind, manifest, readme, out_root, commit):
-    dest = os.path.join(out_root, f"EMOCD-{kind}")
+    dest = os.path.join(out_root, f"VOLLEY-{kind}")
     if os.path.exists(dest):
         shutil.rmtree(dest)          # regenerate wholesale; never merge into a stale tree
     os.makedirs(dest)
@@ -188,7 +188,7 @@ def build(kind, manifest, readme, out_root, commit):
                     "forms, templates, formatting mandates and viva material go here.\n\n"
                     "Everything outside this directory is generated and will be overwritten "
                     "on the next export.\n")
-    print(f"  EMOCD-{kind}: {n} paths -> {dest}")
+    print(f"  VOLLEY-{kind}: {n} paths -> {dest}")
     return dest
 
 

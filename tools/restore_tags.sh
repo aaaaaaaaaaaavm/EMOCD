@@ -20,7 +20,7 @@
 #
 # USAGE
 #   git clone https://github.com/aaaaaaaaaaaavm/EMOCD.git    # full clone, not --depth
-#   cd EMOCD
+#   cd VOLLEY
 #   ./tools/restore_tags.sh
 #   ./tools/publish_releases.sh
 #
@@ -173,7 +173,7 @@ if ! git cat-file -e 0162a9071a34b0fb5654c4e1c64fb39e2e145a37^{commit} 2>/dev/nu
   missing=$((missing+1))
 else
   GIT_COMMITTER_DATE="2026-07-23T18:00:00+05:30" \
-  git tag -f -a "v0.1.0" 0162a9071a34b0fb5654c4e1c64fb39e2e145a37 -m 'EMOCD v0.1.0 — design study, reproduced and corrected against its own scripts
+  git tag -f -a "v0.1.0" 0162a9071a34b0fb5654c4e1c64fb39e2e145a37 -m 'VOLLEY v0.1.0 — design study, reproduced and corrected against its own scripts
 
 Re-pointed 2026-07-29: the history was reconstructed and this tag'"'"'s original
 commit no longer exists. It now points at the equivalent commit in the
