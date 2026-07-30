@@ -1,4 +1,4 @@
-# ADR-015 — Derive coupled values; never paste them
+# ADR-015: Derive coupled values; never paste them
 
 **Status:** Accepted · **Date:** 2026-07-29 · **Phase:** I
 
@@ -7,7 +7,7 @@ Adopting the measured sled mass (ADR-012) broke three things that had nothing to
 because each held a pasted copy of a value that moved:
 
 - `sizing.py` hard-coded 672 J copper loss and 26 J auxiliary. Energy closure fell to 94.2 %.
-- The capacitor sizing quoted 5.97 F against a 4.9 % sag target the bank no longer met — at
+- The capacitor sizing quoted 5.97 F against a 4.9 % sag target the bank no longer met, at
   2795.6 J, holding 4.9 % needs 6.35 F, which a 6 F bank does not provide.
 - The operating point existed independently in `motor_model.py` and `sizing.py`.
 
@@ -33,5 +33,5 @@ back to 100.0 %. Capacitor sizing derives from the sag actually reached and *rep
 this guard. Every one exists because a hand-maintained copy diverged.
 
 ## Validation
-Deliberately forking `V_EXIT` makes `sizing.py` exit with the diagnostic — tested. Energy
+Deliberately forking `V_EXIT` makes `sizing.py` exit with the diagnostic, tested. Energy
 closure at 100.0 % is itself an arithmetic check that no loss term is missing.

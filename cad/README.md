@@ -10,9 +10,9 @@ Full generation history, per-file body counts, and the defect list are in
 
 | Folder | What it is | Status |
 |---|---|---|
-| `step/gen3/` | Parameter-reconciled revision, plus `EMOCD_Gen3.step` — a monolithic single-file model (395 solids) holding all nine sub-systems. The renders in `renders/` came from it | **CURRENT.** Open problems P5–P12 are indexed against it |
-| `step/gen2/` | First structured revision. Mechanism-level detail arrives: single-layer stator, sled Halbach arrays and rollers, magazine escapement and D6 pins, brake ring spring | SUPERSEDED — carries a 360 mm sled chassis where the spec says 488 mm |
-| `step/gen1/` | The original CAD, 2021–2025. Structural envelope rather than mechanism model; the geometry `parameters.json` was reverse-engineered from. Includes the pre-split single-file `EMOCD_Deployer_Assembly_Gen1.step` and a second sled revision, `Sled_Gen1b` | SUPERSEDED — heritage only |
+| `step/gen3/` | Parameter-reconciled revision, plus `EMOCD_Gen3.step`, a monolithic single-file model (395 solids) holding all nine sub-systems. The renders in `renders/` came from it | **CURRENT.** Open problems P5, P12 are indexed against it |
+| `step/gen2/` | First structured revision. Mechanism-level detail arrives: single-layer stator, sled Halbach arrays and rollers, magazine escapement and D6 pins, brake ring spring | SUPERSEDED, carries a 360 mm sled chassis where the spec says 488 mm |
+| `step/gen1/` | The original CAD, 2021-2025. Structural envelope rather than mechanism model; the geometry `parameters.json` was reverse-engineered from. Includes the pre-split single-file `EMOCD_Deployer_Assembly_Gen1.step` and a second sled revision, `Sled_Gen1b` | SUPERSEDED, heritage only |
 
 Use Gen3 unless you specifically need a heritage comparison.
 
@@ -33,7 +33,7 @@ Use Gen3 unless you specifically need a heritage comparison.
 First-pass CAD, **no structural or magnetic FEA behind any of it.** Several values are
 flagged `PROVISIONAL_PENDING_FEA` in `parameters.json`. Open: the sled chassis mass (P5),
 the resulting exit velocity (P8), the ESPA envelope overrun (P9), the incomplete mass
-rollup (P10), and the CAD-side geometry defects P14 — see `../OPEN_PROBLEMS.md`.
+rollup (P10), and the CAD-side geometry defects P14, see `../OPEN_PROBLEMS.md`.
 
 **What changed on 2026-07-28.** The previously committed `step/*.step` set was a
 mixed-generation snapshot matching no single generation, and two of its files were stubs:
@@ -55,18 +55,18 @@ and `OPEN_PROBLEMS.md` P13.
 5. **The ESPA envelope claim is not supported.** 1839 mm installed against a ~1270 mm class
    limit, ~44 % over (P9), and the paper still asserts compatibility (P12).
 6. **The stator layer count is an open design decision.** Gen1 built two layers, Gen2 and
-   Gen3 one, and `parameters.json` flags it open. The electromagnetic consequence — roughly
-   ×2 force for the same current against ×2 copper mass and winding complexity — has never
+   Gen3 one, and `parameters.json` flags it open. The electromagnetic consequence, roughly
+   x2 force for the same current against x2 copper mass and winding complexity, has never
    been computed (P14).
 
 ## Contents
 
-- `parameters.json` — the 9-group geometry parameter set, source of truth
-- `CHANGELOG_CAD.md` — generation history, per-file inventories, defect IDs (G1-D*, G2-D*,
+- `parameters.json`, the 9-group geometry parameter set, source of truth
+- `CHANGELOG_CAD.md`, generation history, per-file inventories, defect IDs (G1-D*, G2-D*,
   G3-D*), and the cross-generation comparison
-- `step/gen1/`, `step/gen2/`, `step/gen3/` — STEP exports (`.f3d` is not diffable, so STEP
+- `step/gen1/`, `step/gen2/`, `step/gen3/`, STEP exports (`.f3d` is not diffable, so STEP
   is what gets committed)
-- `renders/` — exterior, interior, exploded, and firing-sequence PNGs, from the Gen3
+- `renders/`, exterior, interior, exploded, and firing-sequence PNGs, from the Gen3
   monolithic model
 
 The 2-D magnetic cross-section and its FEMM run sheet live in `../analysis/femm/`.

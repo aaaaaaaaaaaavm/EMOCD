@@ -1,4 +1,4 @@
-# ADR-005 — Eddy-current brake; sled kinetic energy is dissipated
+# ADR-005: Eddy-current brake; sled kinetic energy is dissipated
 
 **Status:** Accepted · **Date:** 2025 · **Phase:** I
 
@@ -21,11 +21,11 @@ credit.
 ## Consequences
 **This decision corrected an error in my own earlier work.** The 52 % figure was
 double-counting; the honest number was 32 % and is now 19.6 % at the measured sled mass. It
-also makes the sled mass doubly expensive — a heavier sled takes more of the shot energy *and*
+also makes the sled mass doubly expensive, a heavier sled takes more of the shot energy *and*
 throws more of it away, which is why efficiency fell so far when the mass was measured
 (ADR-012). E8 records the thrown-away energy as an open inefficiency.
 
 ## Validation
-Brake sizing is first-order plate drag from `legacy/c3_c4_em.py`. **No force–time profile for
+Brake sizing is first-order plate drag from `legacy/c3_c4_em.py`. **No force, time profile for
 the arrest exists anywhere** (E20). B-4 in `docs/BENCHTOP_TESTS.md` is a cheap drop test that
 would give the first measured point.

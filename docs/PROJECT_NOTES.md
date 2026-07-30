@@ -1,4 +1,4 @@
-# Project notes — context for working on this repo
+# Project notes: context for working on this repo
 
 Start here before changing anything.
 
@@ -10,7 +10,7 @@ targeting the gap between spring deployers (~2 m/s) and propulsive transfer vehi
 (100s m/s). Owner: Adityavardhan Mishra (PRN 23070125054), 4th-year mechanical
 engineering, Symbiosis Institute of Technology, Pune. Project started April 2021.
 
-Current maturity: **TRL 2–3. Analysis and first-pass CAD. No FEA, no hardware.**
+Current maturity: **TRL 2-3. Analysis and first-pass CAD. No FEA, no hardware.**
 
 ## Ground rules
 
@@ -24,7 +24,7 @@ Current maturity: **TRL 2–3. Analysis and first-pass CAD. No FEA, no hardware.
    re-running them.
 
 3. **The scripts are the source of truth, not the paper.** This principle already caught
-   four paper errors (P1–P4), corrected on 2026-07-23; see `CHANGELOG.md`. If the paper
+   four paper errors (P1, P4), corrected on 2026-07-23; see `CHANGELOG.md`. If the paper
    and a script ever disagree again, fix the paper to match the scripts, not the other
    way round.
 
@@ -35,7 +35,7 @@ Current maturity: **TRL 2–3. Analysis and first-pass CAD. No FEA, no hardware.
 ## Layout
 
 ```
-analysis/          current scripts — these reproduce the paper's headline numbers
+analysis/          current scripts, these reproduce the paper's headline numbers
   verify_field.py    magpylib cross-check of the Halbach airgap field
   motor_model.py     winding-resolved Kt, shot sim, closed-loop dispersion  <- headline
   mass_properties.py parametric solid mass rollup (feeds M_SLED in motor_model)
@@ -77,11 +77,11 @@ constant and re-run the motor model, then the paper.
 ## Locked design decisions (do not silently revisit)
 
 - Ironless double-sided Halbach linear synchronous motor, NOT a coilgun. The payload's
-  own g-limit caps exit velocity at ~26–35 m/s regardless of launcher, which erases the
-  coilgun's only advantage while keeping all its costs (1–2 % efficiency, armature
+  own g-limit caps exit velocity at ~26-35 m/s regardless of launcher, which erases the
+  coilgun's only advantage while keeping all its costs (1-2 % efficiency, armature
   bolted to the customer satellite, no abort).
 - Reusable sled carries the magnets; the customer CubeSat is never modified.
-- Eddy-current brake for arrest. Motor regeneration alone cannot stop the sled —
+- Eddy-current brake for arrest. Motor regeneration alone cannot stop the sled,
   braking force is bounded by the same thrust constant as acceleration.
 - Sled kinetic energy is dissipated in the brake, NOT recovered. Efficiency is
   therefore electrical-to-payload (**19.6 %** at the measured sled mass; it was 32 % at the
@@ -98,11 +98,11 @@ constant and re-run the motor model, then the paper.
 > [`PHASE_II.md`](PHASE_II.md). This section is kept only so the file is not misleading;
 > update those three, not this.
 
-As of 2026-07-29: P1–P4 fixed in the paper; **P5, P8, P11, P12, P15 closed**; the measured
+As of 2026-07-29: P1, P4 fixed in the paper; **P5, P8, P11, P12, P15 closed**; the measured
 9.445 kg sled is adopted and the rated point is 16.537 m/s (ADR-012). Live items are P9
 (envelope), P14 (Gen3 CAD defects, two of them upstream of K<sub>t</sub>), P16 (the
 ballistic-coefficient half still untested), P17 (attraction 37 % high), and P19 (all three
 completed validations predate the current operating point).
 
-**Next engineering work is A1**, the airgap field — K<sub>t</sub> is checked only
+**Next engineering work is A1**, the airgap field, K<sub>t</sub> is checked only
 analytic-against-analytic and every number in the baseline is downstream of it.

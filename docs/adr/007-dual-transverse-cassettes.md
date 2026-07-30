@@ -1,4 +1,4 @@
-# ADR-007 — Dual transverse cassettes
+# ADR-007: Dual transverse cassettes
 
 **Status:** Accepted · **Date:** 2025 · **Phase:** I
 

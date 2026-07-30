@@ -10,8 +10,8 @@ bands declared in `../A5_astro_orekit.md`.
 
 `analysis/astro.py` uses a static exponential atmosphere, J2-only secular propagation, and
 its own RK4 Cowell integrator. Its "cross-check" is that script checking itself. GMAT
-brings independently implemented force models — MSISE-class atmosphere, spherical-harmonic
-gravity, RK89 — and is the external propagator `astro.py`'s own docstring says it has never
+brings independently implemented force models, MSISE-class atmosphere, spherical-harmonic
+gravity, RK89, and is the external propagator `astro.py`'s own docstring says it has never
 been checked against.
 
 It closes **E6** and feeds **A6**. It does nothing for P5/P8 or E4: it validates the
@@ -20,7 +20,7 @@ consequences of a Δv, never the Δv itself.
 ## Install and invocation
 
 GMAT is a NASA open-source release (Apache-2.0). Download the binary for your platform;
-do **not** vendor it into this repository — commit inputs and outputs only.
+do **not** vendor it into this repository, commit inputs and outputs only.
 
 ```bash
 python3 build_scripts.py            # fills the templates; works with no GMAT installed
@@ -41,11 +41,11 @@ without a version string is not reproducible.
 | File | What it is |
 |---|---|
 | `emocd_lifetime.script.tmpl` | Baseline vs boosted orbit, propagated to 120 km perigee or a 40-year cap. One filled script per solar-activity level |
-| `emocd_fleet.script.tmpl` | 12 shots at 1200 s spacing plus the host stage, 30 days, one CCSDS OEM per object — the A6 input |
+| `emocd_fleet.script.tmpl` | 12 shots at 1200 s spacing plus the host stage, 30 days, one CCSDS OEM per object, the A6 input |
 | `build_scripts.py` | Fills both templates. Imports `boosted_elements()` and `_kepE()` from `analysis/astro.py` so the orbit definition cannot fork |
-| `parse_reports.py` | GMAT `ReportFile` / OEM → `../results/A5_astro.json`, with pass/fail against the declared bands |
+| `parse_reports.py` | GMAT `ReportFile` / OEM to `../results/A5_astro.json`, with pass/fail against the declared bands |
 
-Placeholders are `@@NAME@@`, not `{NAME}` — GMAT's `Propagate` syntax uses braces.
+Placeholders are `@@NAME@@`, not `{NAME}`, GMAT's `Propagate` syntax uses braces.
 
 ## Rules
 
@@ -56,7 +56,7 @@ Placeholders are `@@NAME@@`, not `{NAME}` — GMAT's `Propagate` syntax uses bra
    them here after seeing output.
 3. **Absolute lifetimes will differ** from `astro.py`'s 2.61 / 1.30 / 0.52 yr, possibly by a
    factor of two, because an exponential table is not MSIS. That is expected and is not a
-   failure. E6 defends the ×1.80 ratio, not the years.
+   failure. E6 defends the x1.80 ratio, not the years.
 
 ## Known modelling gap between the two codes
 
@@ -67,12 +67,12 @@ low / mean / high proxies, which is **not** equivalent to the density scaling.
 
 This matters for the absolute lifetimes and not for the claim: the invariance band is on
 the *spread of the multiplier* across activity levels, which should hold under either
-parameterisation. If it does not, that is a real finding about the ×1.80 and belongs in a
+parameterisation. If it does not, that is a real finding about the x1.80 and belongs in a
 P-item.
 
 > **Outcome (2026-07-28): it did not hold, and the P-item is `OPEN_PROBLEMS.md` P16.**
 > Spread 18.48 % against the ≤5 % band. The paragraph above is left exactly as written
-> before the run — it is the record of what was expected, and the fact that the failure mode
+> before the run, it is the record of what was expected, and the fact that the failure mode
 > it names in advance is the one that occurred is the reason the run sheet was written first.
 
 

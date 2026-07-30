@@ -1,4 +1,4 @@
-# EMOCD — Electromagnetic Orbital CubeSat Deployer
+# EMOCD: Electromagnetic Orbital CubeSat Deployer
 
 <p align="center">
   <img src="cad/renders/exterior_closed.png" alt="EMOCD deployer, closed, mounted on its ESPA interface" width="100%">
@@ -6,14 +6,14 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Python 3.9+](https://img.shields.io/badge/Python-3.9%2B-blue.svg)](requirements.txt)
-[![Maturity: TRL 2–3](https://img.shields.io/badge/maturity-TRL%202--3-orange.svg)](OPEN_PROBLEMS.md)
+[![Maturity: TRL 2-3](https://img.shields.io/badge/maturity-TRL%202--3-orange.svg)](OPEN_PROBLEMS.md)
 [![Validation: model only](https://img.shields.io/badge/validation-model%20only%2C%20unverified-red.svg)](PROVENANCE.md)
 
 A magazine-fed electromagnetic deployer that ejects unmodified CubeSats from a host
 stage at programmable velocity, aimed at the unserved regime between spring deployers
 (~2 m/s) and propulsive orbital transfer vehicles (hundreds of m/s).
 
-**Status: design study, TRL 2–3. CAD complete across 9 Fusion 360 documents in three
+**Status: design study, TRL 2-3. CAD complete across 9 Fusion 360 documents in three
 generations, STEP exports committed (`cad/`, Gen3 current); FEA and hardware still
 outstanding.**
 **Read `PROVENANCE.md` before citing anything here.**
@@ -23,24 +23,24 @@ outstanding.**
 <!-- PROGRAMME-HEADER-START -->
 | Repository | Role | You are here |
 |---|---|---|
-| **[EMOCD](https://github.com/aaaaaaaaaaaavm/EMOCD)** | Flagship — authoritative engineering record, portfolio | ← |
-| [EMOCD-paper](https://github.com/aaaaaaaaaaaavm/EMOCD-paper) | IEEE companion — manuscript and reproducibility package *(generated)* | |
-| [EMOCD-thesis](https://github.com/aaaaaaaaaaaavm/EMOCD-thesis) | Thesis companion — university submission *(generated)* | |
-| [EMOCD-lab](https://github.com/aaaaaaaaaaaavm/EMOCD-lab) | Phase II — research, redesign, deliberately unstable | |
+| **[EMOCD](https://github.com/aaaaaaaaaaaavm/EMOCD)** | Flagship, authoritative engineering record, portfolio | |
+| [EMOCD-paper](https://github.com/aaaaaaaaaaaavm/EMOCD-paper) | IEEE companion, manuscript and reproducibility package *(generated)* | |
+| [EMOCD-thesis](https://github.com/aaaaaaaaaaaavm/EMOCD-thesis) | Thesis companion, university submission *(generated)* | |
+| [EMOCD-lab](https://github.com/aaaaaaaaaaaavm/EMOCD-lab) | Phase II, research, redesign, deliberately unstable | |
 <!-- PROGRAMME-HEADER-END -->
 
-Four repositories, one programme — see **[`PROGRAMME.md`](PROGRAMME.md)**.
+Four repositories, one programme, see **[`PROGRAMME.md`](PROGRAMME.md)**.
 
 ## The idea
 
 CubeSats flown as rideshare secondaries inherit the primary customer's orbit. The
-spring that ejects them adds 1–2 m/s — enough to drift clear, not enough to change an
+spring that ejects them adds 1-2 m/s, enough to drift clear, not enough to change an
 orbit. A satellite with no propulsion of its own is stuck there for life.
 
 EMOCD replaces the spring with an ironless double-sided Halbach linear synchronous
 motor driving a reusable magnetic sled along a 1.5 m track. Twelve 3U CubeSats feed
 from two transverse cassettes and are fired one at a time. The satellite is never
-modified — the magnets ride the sled, not the payload.
+modified, the magnets ride the sled, not the payload.
 
 <table>
 <tr>
@@ -54,7 +54,7 @@ modified — the magnets ride the sled, not the payload.
 </table>
 
 **Spin it in the browser:** [`cad/stl/EMOCD_Assembly_Gen3.stl`](cad/stl/EMOCD_Assembly_Gen3.stl)
-and [`cad/stl/EMOCD_Sled_Gen3.stl`](cad/stl/EMOCD_Sled_Gen3.stl) — GitHub renders STL
+and [`cad/stl/EMOCD_Sled_Gen3.stl`](cad/stl/EMOCD_Sled_Gen3.stl), GitHub renders STL
 natively, so click either and drag. They are derived meshes; `cad/step/gen3/` is the master
 geometry ([why](cad/stl/README.md)).
 
@@ -79,12 +79,12 @@ electrical-to-payload and carries no regeneration credit.
 
 | Quantity | Value | Source |
 |---|---|---|
-| Thrust constant | 11.22 N per kA/m, ±1.26 % ripple — **confirmed by FEM to 0.07 %** | `analysis/motor_model.py`, A1 |
+| Thrust constant | 11.22 N per kA/m, ±1.26 % ripple, **confirmed by FEM to 0.07 %** | `analysis/motor_model.py`, A1 |
 | Exit velocity, 3U | **16.54 m/s at 10.7 g** | `analysis/motor_model.py` |
-| Electrical→payload efficiency | 20 % (2.80 kJ drawn, 547 J delivered) | `analysis/motor_model.py` |
-| Closed-loop dispersion | 0.027 m/s (3σ) at a 16.2 m/s setpoint → ±0.10 km apogee | `analysis/motor_model.py` |
-| Orbital lifetime multiplier | ×1.62 at mean activity — **not invariant, see P16** | `analysis/astro.py` |
-| Constellation seeding | 30° in 1.4–6.9 days vs 25 days by differential drag | `analysis/astro.py` |
+| Electrical to payload efficiency | 20 % (2.80 kJ drawn, 547 J delivered) | `analysis/motor_model.py` |
+| Closed-loop dispersion | 0.027 m/s (3σ) at a 16.2 m/s setpoint to ±0.10 km apogee | `analysis/motor_model.py` |
+| Orbital lifetime multiplier | x1.62 at mean activity, **not invariant, see P16** | `analysis/astro.py` |
+| Constellation seeding | 30° in 1.4-6.9 days vs 25 days by differential drag | `analysis/astro.py` |
 | Dry / loaded mass | 76.9 kg / 124.9 kg | `analysis/mass_properties.py` |
 | Recoil per shot | 66.1 N·s | `analysis/astro.py` |
 | Track first mode | 109 Hz fixed-fixed (target >70) | `analysis/sizing.py` |
@@ -93,7 +93,7 @@ electrical-to-payload and carries no regeneration credit.
 > ### These numbers moved on 2026-07-29, downward
 >
 > The headline used to read **20.37 m/s at 16.3 g**, computed against a 4.86 kg parametric
-> sled. Exact solid volumes from the Gen3 CAD give **9.445 kg** — the plates are drawn
+> sled. Exact solid volumes from the Gen3 CAD give **9.445 kg**: the plates are drawn
 > solid, with no pocketing (P15).
 >
 > That was not resolved by picking a number.
@@ -103,29 +103,29 @@ electrical-to-payload and carries no regeneration credit.
 > | Measured mass | Declared consequence |
 > |---|---|
 > | ≤ 5.35 kg | parametric model stands, 20.37 m/s holds |
-> | 5.35 – 6.80 kg | neither estimate right |
+> | 5.35-6.80 kg | neither estimate right |
 > | **≥ 6.80 kg** | **the headline changes and the paper changes materially** |
 >
-> A4 has since run — the drawn plate passes all three structural bands, so nothing forces a
-> lighter chassis — and the measurement landed in the third branch. The scripts moved
+> A4 has since run, the drawn plate passes all three structural bands, so nothing forces a
+> lighter chassis, and the measurement landed in the third branch. The scripts moved
 > first, then the paper. Writing the rule down in advance is what made that a procedure
 > rather than a preference.
 >
 > **What this costs and does not cost.** Exit velocity is down 19 % and efficiency from
-> 32 % to 20 %. The lifetime multiplier is down only 10 %, ×1.80 → ×1.62, because lifetime
-> is a weak function of Δv — the mission case survives better than the machine spec does.
-> 9.445 kg is the **as-drawn, unpocketed** geometry, and A4 reports a 17× stress margin, so
+> 32 % to 20 %. The lifetime multiplier is down only 10 %, x1.80 to x1.62, because lifetime
+> is a weak function of Δv, the mission case survives better than the machine spec does.
+> 9.445 kg is the **as-drawn, unpocketed** geometry, and A4 reports a 17x stress margin, so
 > a rib-stiffened chassis would recover mass. Nobody has designed one
 > ([`ROADMAP.md`](ROADMAP.md)).
 >
-> Ways to recover the velocity — pocketing, sheet current, stroke length, a two-layer
+> Ways to recover the velocity, pocketing, sheet current, stroke length, a two-layer
 > stator, and a momentum-transfer release that buys it all back for 1.6 % of the shot
-> energy — are costed in
+> energy, are costed in
 > [`docs/DESIGN_OPTIONS_exit_velocity.md`](docs/DESIGN_OPTIONS_exit_velocity.md).
 
 Three results have independent cross-checks: the Halbach field model (analytic vs
-magpylib, agreeing to three digits, and again vs a meshed magnetostatic FEM — a PDE
-solve rather than another superposition — agreeing on the thrust constant to 0.07 %),
+magpylib, agreeing to three digits, and again vs a meshed magnetostatic FEM, a PDE
+solve rather than another superposition, agreeing on the thrust constant to 0.07 %),
 and orbital decay (orbit-averaged vs Cowell RK4, 99.4 %). Everything else is
 single-sourced.
 
@@ -140,25 +140,25 @@ python3 verify_field.py && python3 mass_properties.py && python3 motor_model.py 
 Results land in `analysis/results/*.json`.
 
 The analysis layer needs nothing but `requirements.txt`. The **validation** layer needs
-external solvers — gmsh and scikit-fem for the magnetostatic FEM, GetDP, CalculiX,
+external solvers, gmsh and scikit-fem for the magnetostatic FEM, GetDP, CalculiX,
 ngspice, and a LaTeX install for the manuscript. `tools/env-setup.sh` installs all of
 them on a Debian/Ubuntu machine and verifies each one before exiting.
 
 <table>
 <tr>
 <td width="50%"><img src="paper/figures/F01_shot.png" alt="Shot simulation: force, velocity, current"><br><sub><b>The shot.</b> Force, velocity and current through the 127.7 ms stroke (<code>motor_model.py</code>).</sub></td>
-<td width="50%"><img src="paper/figures/F04_life.png" alt="Orbital lifetime with and without the boost"><br><sub><b>Lifetime.</b> Boosted vs unboosted decay — the x1.80 multiplier is the claim, not the absolute years (<code>astro.py</code>).</sub></td>
+<td width="50%"><img src="paper/figures/F04_life.png" alt="Orbital lifetime with and without the boost"><br><sub><b>Lifetime.</b> Boosted vs unboosted decay, the x1.80 multiplier is the claim, not the absolute years (<code>astro.py</code>).</sub></td>
 </tr>
 </table>
 
 ## Validation
 
-**[`VALIDATION_REPORT.md`](VALIDATION_REPORT.md)** — every claim, independently checked
+**[`VALIDATION_REPORT.md`](VALIDATION_REPORT.md)**: every claim, independently checked
 where possible. Four analyses were actually run; three could not be.
 
-- **Reproducibility holds exactly** — 173 values re-computed from clean, 173 identical.
-- **GMAT falsified the invariance claim.** It reproduced the old ×1.80 multiplier at mean
-  and high solar activity but gave 2.074 at low — an 18.5 % spread against a ≤5 % band.
+- **Reproducibility holds exactly**: 173 values re-computed from clean, 173 identical.
+- **GMAT falsified the invariance claim.** It reproduced the old x1.80 multiplier at mean
+  and high solar activity but gave 2.074 at low, an 18.5 % spread against a ≤5 % band.
   `astro.py` varies solar activity by scaling density uniformly, and ballistic coefficient
   enters the same multiplicative slot, so *both* halves of that claim were tested by a sweep
   that could not have detected a problem (**P16**).
@@ -168,16 +168,16 @@ where possible. Four analyses were actually run; three could not be.
   state-of-charge, not the terminal voltage the drive sees.
 - **A1 (2026-07-29) is at the current operating point. A5 and A8 predate it** (**P19**) and
   need re-running. A4 survives
-  — its load is magnetostatic and velocity-independent — but A5 and A8 need re-running.
+  (its load is magnetostatic and velocity-independent) but A5 and A8 need re-running.
 - **A1 has run (2026-07-29).** A meshed 2-D magnetostatic FEM gives K<sub>t</sub> = 11.228 N
-  per kA/m against the model's 11.22 — **ratio 1.0007**, ripple 1.25 % against 1.26 %. The
+  per kA/m against the model's 11.22, **ratio 1.0007**, ripple 1.25 % against 1.26 %. The
   number every headline descends from is no longer checked only analytic-against-analytic.
   Two of seven bands missed, both with identified causes and neither a model error (P20, P21).
 - **Not run:** A6, A7, A9.
 
 ## Charts
 
-Full set in **[`RESULTS.md`](RESULTS.md)** — all drawn by GitHub from text, no image files.
+Full set in **[`RESULTS.md`](RESULTS.md)**: all drawn by GitHub from text, no image files.
 Two that carry the argument:
 
 ```mermaid
@@ -205,40 +205,40 @@ xychart-beta
 ```
 
 A ±2.5 % velocity change moves the conjunction minimum from 4.6 km to 63.4 km. That is why
-the paper's safety claim rests on the realignment period — now 9.9 days at the current
-operating point — instead of a single distance (P1). The sweep above was computed at the
+the paper's safety claim rests on the realignment period, now 9.9 days at the current
+operating point, instead of a single distance (P1). The sweep above was computed at the
 superseded 20.37 m/s point and is kept as the evidence for P1; the fragility it demonstrates
 is a property of the beat geometry, not of any one velocity.
 
 ## Validation status
 
 Each analysis has its acceptance band declared **before** the run, in
-[`validation/`](validation/). A5 has now been run under GMAT; the rest have not — a cross-check whose target is chosen after seeing the
+[`validation/`](validation/). A5 has now been run under GMAT; the rest have not, a cross-check whose target is chosen after seeing the
 answer proves nothing.
 
 | Analysis | Tool | Closes | Status |
 |---|---|---|---|
 | A1 airgap field | FEMM | E1 (2-D half), E2 | specified |
-| **A4 sled chassis** | CalculiX ccx 2.21 | **P5, P8** | **run** — as-drawn plate passes; mass unchanged |
-| A5 lifetime & seeding | GMAT R2022a | E6 | **run** — see [`RESULTS.md`](RESULTS.md) |
+| **A4 sled chassis** | CalculiX ccx 2.21 | **P5, P8** | **run**: as-drawn plate passes; mass unchanged |
+| A5 lifetime & seeding | GMAT R2022a | E6 | **run**: see [`RESULTS.md`](RESULTS.md) |
 | A6 conjunction Pc | NASA CARA | P1 | specified |
 | A7 separation & tip-off | Project Chrono | E7 | specified |
-| A8 pulse-power chain | ngspice 42 | E17 | **run** — bands met, 2 findings |
+| A8 pulse-power chain | ngspice 42 | E17 | **run**: bands met, 2 findings |
 
 ## Host integration, worked against real vehicles
 
-The interface asks four things of any host: mass and control authority, a 150–300 W recharge
+The interface asks four things of any host: mass and control authority, a 150-300 W recharge
 feed, a serial command link, and an authorized firing window. Two Indian candidates are
 worked as examples in the paper because both exist today.
 
-**ISRO's POEM** is the flown precedent — a spent PS4 stage operated as a three-axis-stabilized
+**ISRO's POEM** is the flown precedent, a spent PS4 stage operated as a three-axis-stabilized
 hosted platform with solar power, NavIC navigation and helium attitude thrusters, retired by
 controlled reentry. It supplies everything the attached variant borrows, and its zero-debris
 closeout is the regulatory template.
 
-**Skyroot Aerospace's Vikram-1** carries a restartable liquid Orbit Adjustment Module — one
+**Skyroot Aerospace's Vikram-1** carries a restartable liquid Orbit Adjustment Module, one
 Raman-2 engine, four Raman Mini thrusters, eight cold-gas thrusters, stage-tested through more
-than a thousand pulses — whose stated multi-orbit deployment role is functionally the PS4's.
+than a thousand pulses, whose stated multi-orbit deployment role is functionally the PS4's.
 Against the vehicle's published 350 kg LEO capacity, a loaded EMOCD is **34 %**, falling to
 **22 %** and **13 %** on the announced 550 kg and 900 kg family members. Early flights are
 therefore dedicated demonstrations and later ones ordinary manifest items.
@@ -246,7 +246,7 @@ therefore dedicated demonstrations and later ones ordinary manifest items.
 One integration quantity cannot be closed from public data: the OAM's mass and control
 authority are undisclosed, which is why the recoil budget is parametric. Obtaining stage mass,
 thruster impulse budget and coast duration is the single data exchange that converts this
-analysis from parametric to specific — for any candidate vehicle, Indian or otherwise.
+analysis from parametric to specific, for any candidate vehicle, Indian or otherwise.
 
 Recoil is the satellite's momentum only, **66.1 N·s** per shot, nulled by a few grams of cold
 gas. Comparison against fielded deployers and transfer vehicles, including Dhruva Space's
@@ -254,35 +254,35 @@ flown DSOD, is in [`docs/LANDSCAPE.md`](docs/LANDSCAPE.md).
 
 ## Repository layout
 
-- `analysis/` — current scripts; these reproduce the numbers above
-- `analysis/femm/` — FEMM magnetostatics package: `emocd_cross_section.dxf` + `FEMM_RUN_SHEET.md` (analysis A1, not yet run)
-- `cad/` — Fusion 360 CAD: `parameters.json` (geometry source of truth, 9 documents),
+- `analysis/`, current scripts; these reproduce the numbers above
+- `analysis/femm/`, FEMM magnetostatics package: `emocd_cross_section.dxf` + `FEMM_RUN_SHEET.md` (analysis A1, not yet run)
+- `cad/`, Fusion 360 CAD: `parameters.json` (geometry source of truth, 9 documents),
   `step/gen1|gen2|gen3/` exports (**Gen3 current**), `stl/` (browser-viewable meshes),
   `renders/`, `CHANGELOG_CAD.md` (generation history and per-file defect list)
-- `legacy/` — superseded scripts, kept for history, **do not cite**
-- `paper/` — IEEE conference paper (LaTeX source, figures, PDF)
-- `validation/` — independent cross-check plan (FEMM, CalculiX, Orekit, CARA, Chrono),
+- `legacy/`, superseded scripts, kept for history, **do not cite**
+- `paper/`, IEEE conference paper (LaTeX source, figures, PDF)
+- `validation/`, independent cross-check plan (FEMM, CalculiX, Orekit, CARA, Chrono),
   each with an acceptance band declared before the run; nothing run yet
-- `docs/` — computation notes, FEMM run sheet, related work and comparator sources
-- `docs/PROJECT_NOTES.md` — working context: ground rules, layout, locked decisions
-- `docs/LANDSCAPE.md` — how this compares with deployers that actually fly
-- `docs/DESIGN_OPTIONS_exit_velocity.md` — options for the P15 velocity shortfall, costed
-- `INVENTORY.md` — complete indexed catalogue of every calculation, decision and artifact
-- `docs/DECISION_LOG.md` — why each design change happened, including two self-corrections
-- `PROVENANCE.md` — what came from where, and what was never verified
-- `OPEN_PROBLEMS.md` — known errors in the paper, and unsolved engineering
-- `PROGRAMME.md` — the four repositories and how they relate
-- `WHY.md` — why this programme exists, and why it is split into two phases
-- `BASELINE.md` — the frozen Phase I baseline (generated) and its change-control rule
-- `HISTORY.md` — project timeline since 2021, and how the git history was reconstructed
-- `docs/programme/` — the governing dossier, adopted verbatim, plus its amendment record
-- `docs/adr/` — seventeen architecture decision records
-- `docs/PHASE_II.md` — deferred work and the gate it must clear to return
-- `docs/MANUFACTURING.md` — tolerance stack, assembly hazard, make-vs-buy
-- `docs/CROSS_INDUSTRY.md` — which open items are actually solved elsewhere
-- `docs/QUALIFICATION_PLAN.md` — environmental and qualification campaign, specified not run
-- `docs/BENCHTOP_TESTS.md` — four cheap sub-scale experiments, bands declared in advance
-- `analysis/cost.py` — parametric BOM; every price assumed, structure is the deliverable
+- `docs/`, computation notes, FEMM run sheet, related work and comparator sources
+- `docs/PROJECT_NOTES.md`, working context: ground rules, layout, locked decisions
+- `docs/LANDSCAPE.md`, how this compares with deployers that actually fly
+- `docs/DESIGN_OPTIONS_exit_velocity.md`, options for the P15 velocity shortfall, costed
+- `INVENTORY.md`, complete indexed catalogue of every calculation, decision and artifact
+- `docs/DECISION_LOG.md`, why each design change happened, including two self-corrections
+- `PROVENANCE.md`, what came from where, and what was never verified
+- `OPEN_PROBLEMS.md`, known errors in the paper, and unsolved engineering
+- `PROGRAMME.md`, the four repositories and how they relate
+- `WHY.md`, why this programme exists, and why it is split into two phases
+- `BASELINE.md`, the frozen Phase I baseline (generated) and its change-control rule
+- `HISTORY.md`, project timeline since 2021, and how the git history was reconstructed
+- `docs/programme/`, the governing dossier, adopted verbatim, plus its amendment record
+- `docs/adr/`, seventeen architecture decision records
+- `docs/PHASE_II.md`, deferred work and the gate it must clear to return
+- `docs/MANUFACTURING.md`, tolerance stack, assembly hazard, make-vs-buy
+- `docs/CROSS_INDUSTRY.md`, which open items are actually solved elsewhere
+- `docs/QUALIFICATION_PLAN.md`, environmental and qualification campaign, specified not run
+- `docs/BENCHTOP_TESTS.md`, four cheap sub-scale experiments, bands declared in advance
+- `analysis/cost.py`, parametric BOM; every price assumed, structure is the deliverable
 
 ## Known issues
 
@@ -291,37 +291,37 @@ The published paper previously contained four numbers its own scripts did not re
 all found by reconstructing the analysis from scratch. **All four were corrected in
 `paper/paper.tex` on 2026-07-23 to match the scripts**, and the conjunction claim was
 additionally reframed because that minimum is not a robust quantity. Note that
-`paper/archive/EMOCD_submission_uncorrected.pdf` still carries the uncorrected values —
+`paper/archive/EMOCD_submission_uncorrected.pdf` still carries the uncorrected values,
 whether that build is the one that was submitted is open (`OPEN_PROBLEMS.md` P11). Full record with
 cause, before/after, and references is in `CHANGELOG.md`; the original defects remain
-documented in `OPEN_PROBLEMS.md` P1–P4 for the audit trail.
+documented in `OPEN_PROBLEMS.md` P1, P4 for the audit trail.
 
 **Two issues are live rather than historical, and both sit in the paper:**
 
-- **P16 — the invariance claim in the abstract is falsified.** GMAT reproduces the ×1.80
-  lifetime multiplier at mean and high solar activity but gives ×2.074 at low, an 18.5 %
+- **P16, the invariance claim in the abstract is falsified.** GMAT reproduces the x1.80
+  lifetime multiplier at mean and high solar activity but gives x2.074 at low, an 18.5 %
   spread against a ≤5 % band. The reason is that `astro.py` varies solar activity by scaling
-  density uniformly, which preserves a ratio *by construction* — and the ballistic-coefficient
+  density uniformly, which preserves a ratio *by construction*, and the ballistic-coefficient
   half of the same sentence is the identical construction, since `scale` and `1/BC` occupy the
   same slot in the drag term. Neither half of that claim was ever tested by a method capable
   of falsifying it. **`paper/paper.tex` still asserts it in five places, including the
   abstract**, because there is no TeX engine here and editing the source without rebuilding
   the PDF would split the two.
-- **P11 — which build was actually submitted is unresolved.** Until that is answered, it is
-  not known whether the version of record carries P1–P4 *and* the falsified abstract claim.
+- **P11, which build was actually submitted is unresolved.** Until that is answered, it is
+  not known whether the version of record carries P1, P4 *and* the falsified abstract claim.
 
-Newest entries: **P17** (the inter-array attraction feeding the A4 FEA is 37 % high — found
+Newest entries: **P17** (the inter-array attraction feeding the A4 FEA is 37 % high, found
 by an independent 3-D force integration, and it makes A4 more conservative rather than
-wrong), and **P18/E19–E22** (four physical terms no script contains, as distinct from
+wrong), and **P18/E19, E22** (four physical terms no script contains, as distinct from
 analyses not yet run).
 
 ## Author
 
-**Adityavardhan Mishra** — Department of Mechanical Engineering, Symbiosis Institute of
+**Adityavardhan Mishra**: Department of Mechanical Engineering, Symbiosis Institute of
 Technology, Symbiosis International (Deemed University), Pune. Project begun April 2021.
 
 📧 [adityavardhanmishr@gmail.com](mailto:adityavardhanmishr@gmail.com)
 
-Questions, corrections and reproduction attempts are all welcome — particularly reproduction
+Questions, corrections and reproduction attempts are all welcome, particularly reproduction
 attempts. If a number in this repository does not reproduce for you, that is a defect and I
 want to know. See [`CONTRIBUTING.md`](CONTRIBUTING.md).

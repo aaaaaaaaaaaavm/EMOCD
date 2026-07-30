@@ -1,4 +1,4 @@
-# ADR-009 — Coast-and-trim release zone
+# ADR-009: Coast-and-trim release zone
 
 **Status:** Accepted · **Date:** 2025 · **Phase:** I
 
@@ -17,9 +17,9 @@ is commanded from a measured position before release.
 
 ## Consequences
 This is what closes the tip-off budget to 3.9 °/s worst case, and it is what makes the
-closed-loop dispersion claim possible — the servo corrects against a photogate measurement in
+closed-loop dispersion claim possible, the servo corrects against a photogate measurement in
 this zone. It costs 0.2 m of a 1.5 m envelope that is already 44 % over ESPA Grande (P9).
 
 ## Validation
-Tip-off budget is a model output with **no multibody model behind it** — A7, unrun. The band
+Tip-off budget is a model output with **no multibody model behind it**: A7, unrun. The band
 it would be judged against may itself be mis-sourced (5 °/s vs the NRCSD ICD's 2 °/s).

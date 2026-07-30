@@ -1,4 +1,4 @@
-# ADR-011 — Publish publicly, defects included
+# ADR-011: Publish publicly, defects included
 
 **Status:** Accepted · **Date:** 2026-07 · **Phase:** I
 
@@ -6,7 +6,7 @@
 The work could have been kept private until it was tidy.
 
 ## Decision
-Publish the repository publicly under MIT, **including the defect ledger** — every error found,
+Publish the repository publicly under MIT, **including the defect ledger**: every error found,
 numbered, with what it cost.
 
 ## Alternatives
@@ -16,10 +16,10 @@ numbered, with what it cost.
 
 ## Consequences
 The strongest and riskiest decision in the programme. It means a reader's first impression may
-be nineteen numbered problems and a headline number that moved downward — and it means a
+be nineteen numbered problems and a headline number that moved downward, and it means a
 falsified claim in the paper's own abstract (P16) is on the front page rather than buried.
 It also forecloses the patent position (E14), which is irreversible.
 
 ## Validation
 The bet is that published defects read as rigour rather than as a broken project. The test is
-whether the thesis passes and whether recruiters engage — see `WHY.md`.
+whether the thesis passes and whether recruiters engage, see `WHY.md`.

@@ -1,7 +1,7 @@
 # Design options: recovering exit velocity
 
 **Status: exploration, not a result.** Every row below was computed on 2026-07-28 by driving
-`analysis/motor_model.py` with modified inputs — the repo's own field model and shot
+`analysis/motor_model.py` with modified inputs, the repo's own field model and shot
 integrator, no new physics. Nothing here has been adopted, no script or paper value has
 changed, and none of it is a substitute for A4.
 
@@ -22,10 +22,10 @@ model wherever the magnetic geometry changes.
 | **As drawn** | **9.45** | 11.22 | 140 | 1.30 m | **16.54 m/s** | 19.6 % |
 | Pocket 40 % of the titanium | 7.50 | 11.22 | 140 | 1.30 m | 17.88 m/s | 23.4 % |
 | Pocket 60 % (aggressive) | 6.53 | 11.22 | 140 | 1.30 m | 18.68 m/s | 25.9 % |
-| Magnets 8 → 6 mm | 8.53 | 9.30 | 140 | 1.30 m | **15.68 m/s** | 19.5 % |
-| Magnets 8 → 5 mm | 8.07 | 8.16 | 140 | 1.30 m | **15.01 m/s** | 19.0 % |
+| Magnets 8 to 6 mm | 8.53 | 9.30 | 140 | 1.30 m | **15.68 m/s** | 19.5 % |
+| Magnets 8 to 5 mm | 8.07 | 8.16 | 140 | 1.30 m | **15.01 m/s** | 19.0 % |
 | Raise sheet current | 9.45 | 11.22 | **213** | 1.30 m | 20.37 m/s | 18.4 % |
-| Lengthen the stroke | 9.45 | 11.22 | 140 | **1.97 m** | 20.37 m/s | — |
+| Lengthen the stroke | 9.45 | 11.22 | 140 | **1.97 m** | 20.37 m/s | |
 | **Two-layer stator** | 9.45 | **7.46** | **280** | 1.30 m | 19.06 m/s | 18.0 % |
 | **Two-layer + 40 % pocketing** | 7.50 | 7.46 | 280 | 1.30 m | **20.61 m/s** | 21.6 % |
 
@@ -49,8 +49,8 @@ of headroom at ΔT = 40 K; that analysis would have to be redone at 213.
 cheapest option electrically and the most expensive one architecturally.
 
 **The two-layer stator is the interesting one, and it is already an open decision (G3-D4).**
-Doubling the winding widens the magnetic gap 12 → 22 mm, which costs a third of the thrust
-constant — 11.22 → 7.46 N per kA/m. But sheet current doubles at *unchanged current
+Doubling the winding widens the magnetic gap 12 to 22 mm, which costs a third of the thrust
+constant, 11.22 to 7.46 N per kA/m. But sheet current doubles at *unchanged current
 density*, and that more than compensates. With ordinary pocketing it clears the target at
 J = 21 A/mm², the same copper loading as today.
 
@@ -59,21 +59,21 @@ already open on that) but not exit velocity.
 
 ## What two-layer costs, and why it is not free
 
-- **Copper loss doubles**, 672 J → roughly 1344 J per shot, and the campaign thermal case in
+- **Copper loss doubles**, 672 J to roughly 1344 J per shot, and the campaign thermal case in
   `sizing.py` doubles with it.
 - **Peak current goes to about 580 A** against 392 today. That collides with the A8 finding:
   the shot model has no ESR at all, and terminal sag is already 10.25 % rather than the
-  published 4.88 %. At 580 A through 12–20 mΩ the droop is worse again, and the servo
+  published 4.88 %. At 580 A through 12-20 mΩ the droop is worse again, and the servo
   headroom behind the 0.027 m/s dispersion claim needs recomputing before two-layer can be
   called a fix.
-- **Stator winding mass roughly doubles** — feeds directly into P10.
+- **Stator winding mass roughly doubles**: feeds directly into P10.
 - Gen1 built two layers and Gen2/Gen3 built one; `parameters.json` still flags the decision
   open. This analysis is the first time the electromagnetic consequence has been costed.
 
 ## A reconciliation worth checking
 
-Pocketing 40 % of the titanium gives 7.50 kg — **exactly the figure P5 quotes for the CAD
-sled** — and 17.88 m/s, exactly the figure P8 quotes. That suggests the 7.50 kg was never
+Pocketing 40 % of the titanium gives 7.50 kg, **exactly the figure P5 quotes for the CAD
+sled**, and 17.88 m/s, exactly the figure P8 quotes. That suggests the 7.50 kg was never
 the as-drawn mass but an estimate with lightening already assumed, in which case P15's
 9.445 kg and P5's 7.50 kg are the same design before and after pocketing rather than two
 conflicting measurements.
@@ -86,7 +86,7 @@ the 7.50 kg before treating it as settled.
 Every option costed so far accelerates sled and payload as one rigid mass to the same exit
 velocity, then releases them. They do not have to leave together. If a spring or cam does a
 momentum-conserving push between sled and payload over the last part of the stroke, the
-lighter payload leaves faster and the heavier sled recoils slower — and the sled's kinetic
+lighter payload leaves faster and the heavier sled recoils slower, and the sled's kinetic
 energy is thrown away in the eddy brake by design (E8), so slowing it costs the mission
 nothing and reduces brake duty.
 
@@ -109,7 +109,7 @@ duty *falls* from 1291 J to 1050 J.
 
 The energy is trivial; the question is whether the push can be delivered without exceeding
 the 25 g qualification limit that "unmodified CubeSat" depends on. Delivering 3.833 m/s to
-4.0 kg is a 15.33 N·s impulse — over a 2 ms release that is 195 g and the option is dead. It
+4.0 kg is a 15.33 N·s impulse, over a 2 ms release that is 195 g and the option is dead. It
 is only the interaction *time* that decides this, and time is a design variable. Held at
 exactly 25 g:
 
@@ -121,7 +121,7 @@ exactly 25 g:
 
 981 N over 43 mm is an ordinary spring, not a shock event. Across a 100 x 100 mm pusher face
 that is 98 kPa. The payload sees 10.7 g during the main stroke and 25 g during the kick,
-**sequentially rather than simultaneously**, so the peak is 25 g — at the limit, with no
+**sequentially rather than simultaneously**, so the peak is 25 g, at the limit, with no
 margin, which is itself a reason to target 19-20 m/s rather than the full 20.37.
 
 ### Why this is worth costing properly
@@ -129,7 +129,7 @@ margin, which is itself a reason to target 19-20 m/s rather than the full 20.37.
 Compare against the stroke-lengthening row in the table above. That buys the same velocity
 for **673 mm** of extra envelope on a machine already 44 % over ESPA Grande (P9). This buys
 it for **43 mm** of extra guided rail. It does not touch Kt, current density, magnet mass, or
-dry mass, so it is orthogonal to every other row — it can be combined with any of them.
+dry mass, so it is orthogonal to every other row, it can be combined with any of them.
 
 ### What it costs, stated honestly
 
@@ -137,7 +137,7 @@ dry mass, so it is orthogonal to every other row — it can be combined with any
   project's pitch claims to improve on, and 981 N is one to two orders of magnitude above a
   standard CubeSat separation spring. The answer, if there is one, is that the payload stays
   in the guide rails through all 43 mm of relative travel, so the guides carry any lateral
-  load and the release is still guided — but that is an assertion, not a result. **It makes
+  load and the release is still guided, but that is an assertion, not a result. **It makes
   A7 (separation and tip-off, unrun) load-bearing rather than optional.**
 - **A cocked 42 J spring is stored energy** on a machine whose safety case is built on a
   three-inhibit no-fire chain (B14) and a retention gate that separates preload from the
@@ -156,7 +156,7 @@ been sized, and the tip-off question is exactly the one thing that could kill it
 ## Recommended order
 
 1. ~~**Run A4.**~~ **Done 2026-07-28.** The as-drawn plate passes all three declared bands,
-   so there is no structural argument for a lighter chassis — a lighter one must be
+   so there is no structural argument for a lighter chassis, a lighter one must be
    *designed* (rib-stiffened), which is what the 60 % pocketing row now rests on and why
    that row is marked unsupported.
 2. **Cost the momentum-transfer release**, because it is the cheapest row in energy terms by
@@ -170,9 +170,9 @@ been sized, and the tip-off question is exactly the one thing that could kill it
 
 ## The option nobody wants to say out loud
 
-Re-scope the claim to 17–18 m/s. That is still eight times what a spring deployer delivers,
+Re-scope the claim to 17-18 m/s. That is still eight times what a spring deployer delivers,
 and it is what the machine as drawn will actually do. It is not free either: P8 puts the
-lifetime multiplier at ×1.68 at 17.88 m/s rather than ×1.80, so the astrodynamics headline
+lifetime multiplier at x1.68 at 17.88 m/s rather than x1.80, so the astrodynamics headline
 moves with it.
 
 How much it moves is worth stating, because the velocity number and the mission number are
@@ -180,15 +180,15 @@ not equally sensitive. Driving `astro.py` directly at 450 km:
 
 | Exit velocity | Boosted lifetime | Multiplier |
 |---|---|---|
-| 16.54 m/s (as-drawn) | 2.120 yr | **×1.624** |
-| 17.88 m/s (P8) | 2.198 yr | ×1.684 |
-| 20.37 m/s (headline) | 2.348 yr | **×1.799** |
+| 16.54 m/s (as-drawn) | 2.120 yr | **x1.624** |
+| 17.88 m/s (P8) | 2.198 yr | x1.684 |
+| 20.37 m/s (headline) | 2.348 yr | **x1.799** |
 
 A **23 % shortfall in velocity costs 9.7 % of the lifetime multiplier.** The re-scoped
 machine still nearly doubles a propulsion-less satellite's life. That does not make the
 shortfall acceptable, but it does mean the honest number is a design point rather than a
-collapse — and it should be argued in mission terms, not only in m/s.
+collapse, and it should be argued in mission terms, not only in m/s.
 
-On the ×1.80 itself: GMAT independently reproduces it at mean and high solar activity, but
+On the x1.80 itself: GMAT independently reproduces it at mean and high solar activity, but
 **falsified the claim that the ratio is invariant across activity** (P16), so the multiplier
 should be quoted at a stated activity level rather than as a constant.

@@ -1,4 +1,4 @@
-# EMOCD — Electromagnetic Orbital CubeSat Deployer
+# EMOCD: Electromagnetic Orbital CubeSat Deployer
 
 Wiki landing page. Source of truth stays in the repository:
 [aaaaaaaaaaaavm/emocd](https://github.com/aaaaaaaaaaaavm/emocd). This page summarises
@@ -17,12 +17,12 @@ has been measured, tested, or reviewed by a third party.
 ## What it is
 
 CubeSats flown as rideshare secondaries inherit the primary customer's orbit. The spring
-that ejects them adds 1–2 m/s — enough to drift clear of the stage, not enough to change
+that ejects them adds 1-2 m/s, enough to drift clear of the stage, not enough to change
 an orbit. A satellite with no propulsion of its own stays there for life.
 
 EMOCD replaces the spring with an ironless double-sided Halbach linear synchronous motor
 driving a reusable magnetic sled along a 1.5 m track. Twelve 3U CubeSats feed from two
-transverse cassettes and fire one at a time. The customer satellite is never modified —
+transverse cassettes and fire one at a time. The customer satellite is never modified,
 the magnets ride the sled, not the payload.
 
 The target regime is the gap between spring deployers (~2 m/s) and propulsive orbital
@@ -41,7 +41,7 @@ transfer vehicles (hundreds of m/s).
 
 Spin the geometry in the browser:
 [`cad/stl/EMOCD_Assembly_Gen3.stl`](https://github.com/aaaaaaaaaaaavm/emocd/blob/main/cad/stl/EMOCD_Assembly_Gen3.stl)
-— GitHub renders STL natively. Derived meshes; `cad/step/gen3/` is the master geometry.
+GitHub renders STL natively. Derived meshes; `cad/step/gen3/` is the master geometry.
 
 ## How a shot works
 
@@ -60,7 +60,7 @@ flowchart LR
 
 | | |
 |---|---|
-| TRL | 2–3 |
+| TRL | 2-3 |
 | Analysis | 5 Python scripts, reproducible, outputs committed as JSON |
 | CAD | 9 Fusion 360 documents in 3 generations, Gen3 current, STEP exports committed ([`cad/`](https://github.com/aaaaaaaaaaaavm/emocd/tree/main/cad)) |
 | FEA | none |
@@ -75,10 +75,10 @@ All figures are script outputs, not measurements.
 |---|---|---|
 | Thrust constant | 11.22 N per kA/m, ±1.26 % ripple | `motor_model.py` |
 | Exit velocity, 3U | **16.54 m/s at 10.7 g** | `motor_model.py` |
-| Electrical→payload efficiency | 20 % (2.80 kJ drawn, 547 J delivered) | `motor_model.py` |
-| Closed-loop dispersion | 0.027 m/s (3σ) at a 16.2 m/s setpoint → ±0.10 km apogee | `motor_model.py` |
-| Orbital lifetime multiplier | ×1.62 at mean activity — **not invariant, see P16** | `astro.py` |
-| Constellation seeding | 30° in 1.4–6.9 days vs 25 days by differential drag | `astro.py` |
+| Electrical to payload efficiency | 20 % (2.80 kJ drawn, 547 J delivered) | `motor_model.py` |
+| Closed-loop dispersion | 0.027 m/s (3σ) at a 16.2 m/s setpoint to ±0.10 km apogee | `motor_model.py` |
+| Orbital lifetime multiplier | x1.62 at mean activity, **not invariant, see P16** | `astro.py` |
+| Constellation seeding | 30° in 1.4-6.9 days vs 25 days by differential drag | `astro.py` |
 | Dry / loaded mass | 76.9 kg / 124.9 kg | `mass_properties.py` |
 | Recoil per shot | 66.1 N·s | `astro.py` |
 | Track first mode | 109 Hz fixed-fixed (target >70) | `sizing.py` |
@@ -92,9 +92,9 @@ consequences of the 3U design, not designed variants (see E9).
 > a 4.86 kg parametric sled; exact solid volumes from the Gen3 CAD give **9.445 kg** (P15).
 > The consequence of each mass band was declared in `validation/A4_sled_structural.md`
 > **before** the structural analysis ran, and the measurement landed in the ≥ 6.80 kg
-> branch — "the headline changes and the paper changes materially". A4 has since run and
+> branch, "the headline changes and the paper changes materially". A4 has since run and
 > the drawn plate passes all three bands, so nothing forces a lighter chassis. Scripts moved
-> first, then the paper. 9.445 kg is the as-drawn, unpocketed geometry and A4 reports a 17×
+> first, then the paper. 9.445 kg is the as-drawn, unpocketed geometry and A4 reports a 17x
 > stress margin, so a rib-stiffened redesign would recover mass; nobody has designed one.
 
 Two results have independent cross-checks: the Halbach airgap field (analytic wave model
@@ -130,11 +130,11 @@ These were argued out and should not be silently reopened; reasoning is in
 [`docs/DECISION_LOG.md`](https://github.com/aaaaaaaaaaaavm/emocd/blob/main/docs/DECISION_LOG.md).
 
 - **Linear synchronous motor, not a coilgun.** The payload's own g-limit caps exit
-  velocity near 26–35 m/s whatever the launcher, which erases the coilgun's only
-  advantage while keeping its costs: 1–2 % single-stage efficiency, an armature bolted to
+  velocity near 26-35 m/s whatever the launcher, which erases the coilgun's only
+  advantage while keeping its costs: 1-2 % single-stage efficiency, an armature bolted to
   the customer satellite, and no abort path.
 - **Ironless double-sided Halbach stator**, reusable sled carrying the magnets.
-- **Eddy-current brake for arrest.** Motor regeneration alone cannot stop the sled —
+- **Eddy-current brake for arrest.** Motor regeneration alone cannot stop the sled,
   braking force is bounded by the same thrust constant as acceleration.
 - **Sled kinetic energy is dissipated, not recovered.** The 20 % figure is therefore
   electrical-to-payload, with no regeneration credit.
@@ -142,7 +142,7 @@ These were argued out and should not be silently reopened; reasoning is in
 - **Two transverse cassettes of six**, alternating feed to keep the centre of mass
   symmetric.
 - **Retention gate carries ascent preload straight into structure**, bypassing the
-  release mechanism — this is the NanoRacks ball-lock lesson, and it is deliberate.
+  release mechanism, this is the NanoRacks ball-lock lesson, and it is deliberate.
 
 ## Repository map
 
@@ -153,10 +153,10 @@ These were argued out and should not be silently reopened; reasoning is in
 | `analysis/results/` | script outputs as JSON |
 | `cad/stl/` | browser-viewable meshes derived from the Gen3 STEP files |
 | [`cad/`](https://github.com/aaaaaaaaaaaavm/emocd/tree/main/cad) | `parameters.json` (geometry source of truth), `step/gen1\|gen2\|gen3/` exports (Gen3 current), `renders/`, `CHANGELOG_CAD.md` |
-| [`paper/`](https://github.com/aaaaaaaaaaaavm/emocd/tree/main/paper) | IEEE conference paper — LaTeX source, figures, PDF |
-| [`legacy/`](https://github.com/aaaaaaaaaaaavm/emocd/tree/main/legacy) | superseded scripts, kept for history — **do not cite** |
-| [`docs/`](https://github.com/aaaaaaaaaaaavm/emocd/tree/main/docs) | computation notes C1–C10, FEMM run sheet, decision log, related work |
-| [`validation/`](https://github.com/aaaaaaaaaaaavm/emocd/tree/main/validation) | cross-check plan — FEMM, CalculiX, Orekit, CARA, Chrono — with acceptance bands declared before the runs; nothing run yet |
+| [`paper/`](https://github.com/aaaaaaaaaaaavm/emocd/tree/main/paper) | IEEE conference paper, LaTeX source, figures, PDF |
+| [`legacy/`](https://github.com/aaaaaaaaaaaavm/emocd/tree/main/legacy) | superseded scripts, kept for history, **do not cite** |
+| [`docs/`](https://github.com/aaaaaaaaaaaavm/emocd/tree/main/docs) | computation notes C1, C10, FEMM run sheet, decision log, related work |
+| [`validation/`](https://github.com/aaaaaaaaaaaavm/emocd/tree/main/validation) | cross-check plan (FEMM, CalculiX, Orekit, CARA, Chrono) with acceptance bands declared before the runs; nothing run yet |
 | [`INVENTORY.md`](https://github.com/aaaaaaaaaaaavm/emocd/blob/main/INVENTORY.md) | indexed catalogue of every calculation, decision, and artifact |
 | [`OPEN_PROBLEMS.md`](https://github.com/aaaaaaaaaaaavm/emocd/blob/main/OPEN_PROBLEMS.md) | known paper errors and unsolved engineering |
 | [`CHANGELOG.md`](https://github.com/aaaaaaaaaaaavm/emocd/blob/main/CHANGELOG.md) | what changed, when, and why |
@@ -179,29 +179,29 @@ and you must update that constant, re-run the motor model, then update the paper
 
 ## Known errors and open work
 
-The paper once carried four numbers its own scripts did not reproduce — conjunction
+The paper once carried four numbers its own scripts did not reproduce, conjunction
 minimum, peak current, far-field stray values, and brake fin temperature rise. All four
 were found by rebuilding the analysis from scratch and were corrected in `paper.tex` on
 2026-07-23; the conjunction claim was also reframed, because that minimum turns out to be
 a near-resonant beat sample rather than a design property (a ±2.5 % velocity change moves
-it by an order of magnitude). The defects stay documented as P1–P4 for the audit trail.
+it by an order of magnitude). The defects stay documented as P1, P4 for the audit trail.
 
 Open items now, in rough order of how much they move the design:
 
-- **P5 / P8** — CAD sled mass contradicts the parametric assumption; exit velocity
+- **P5 / P8**: CAD sled mass contradicts the parametric assumption; exit velocity
   provisionally 17.88 m/s pending structural FEA.
-- **P9** — closed envelope exceeds the ESPA Grande class limit by roughly 44 %; the host
+- **P9**: closed envelope exceeds the ESPA Grande class limit by roughly 44 %; the host
   claim must be re-scoped or the machine repackaged.
-- **P10** — enclosure, radiator, and packaged avionics are missing from the mass rollup.
-- **P11** — the archived build in `paper/archive/` still carries the uncorrected P1–P4
+- **P10**: enclosure, radiator, and packaged avionics are missing from the mass rollup.
+- **P11**: the archived build in `paper/archive/` still carries the uncorrected P1, P4
   values; whether that is the version that was submitted is unconfirmed.
-- **P12** — the paper claims an ESPA-Grande-class envelope, which the CAD contradicts by
+- **P12**: the paper claims an ESPA-Grande-class envelope, which the CAD contradicts by
   ~44 %, and its limitations section still says masses are not from detailed CAD.
-- **E1** — three-dimensional field closure; the winding is resolved in 2-D, so end
+- **E1**: three-dimensional field closure; the winding is resolved in 2-D, so end
   effects of a few percent on Kt are uncomputed. The FEMM package (A1) is written but
   has not been run.
-- **E2 / E4** — no FEA of anything, no hardware at any level.
-- **E14** — disclosure has already happened; the patent position needs settling or
+- **E2 / E4**: no FEA of anything, no hardware at any level.
+- **E14**: disclosure has already happened; the patent position needs settling or
   closing out.
 
 Full list with detail: [`OPEN_PROBLEMS.md`](https://github.com/aaaaaaaaaaaavm/emocd/blob/main/OPEN_PROBLEMS.md).
@@ -223,5 +223,5 @@ CubeSat Orbit Seeding from Small Launch Vehicles*. Licence: MIT.
 
 ## Author
 
-Adityavardhan Mishra — Department of Mechanical Engineering, Symbiosis Institute of
+Adityavardhan Mishra, Department of Mechanical Engineering, Symbiosis Institute of
 Technology, Symbiosis International (Deemed University), Pune. Project begun April 2021.

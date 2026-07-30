@@ -1,4 +1,4 @@
-# ADR-014 — Fleet setpoint at 98.2 % of the open-loop ceiling
+# ADR-014: Fleet setpoint at 98.2 % of the open-loop ceiling
 
 **Status:** Accepted · **Date:** 2026-07-29 · **Phase:** I
 
@@ -10,8 +10,8 @@ shortfall**. The Monte Carlo was measuring saturation, not sensing noise, and it
 silently.
 
 ## Decision
-Set `V_FLEET = 16.2 m/s` — **98.2 % of the ceiling, the same fraction 20.0 held against the
-old 20.37** — and add a guard that raises if the servo fails to reach its setpoint.
+Set `V_FLEET = 16.2 m/s`, **98.2 % of the ceiling, the same fraction 20.0 held against the
+old 20.37**, and add a guard that raises if the servo fails to reach its setpoint.
 
 ## Alternatives
 - **Pick a round number (16.0).** Rejected: it would have worked, and it would have been a
@@ -22,7 +22,7 @@ old 20.37** — and add a guard that raises if the servo fails to reach its setp
   Phase II.
 
 ## Consequences
-Dispersion returns to 0.027 m/s, essentially unchanged — so the servo claim survives the mass
+Dispersion returns to 0.027 m/s, essentially unchanged, so the servo claim survives the mass
 change. The rule matters more than the number: **a setpoint above the open-loop ceiling makes
 the dispersion figure meaningless**, and nothing detected that before the guard existed.
 

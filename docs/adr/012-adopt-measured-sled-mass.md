@@ -1,4 +1,4 @@
-# ADR-012 — Adopt the measured 9.445 kg sled
+# ADR-012: Adopt the measured 9.445 kg sled
 
 **Status:** Accepted · **Date:** 2026-07-29 · **Phase:** I (error correction)
 
@@ -9,7 +9,7 @@ volumes from `cad/step/gen3/EMOCD_Sled_Gen3.step` gave **9.445 kg** (P15).
 
 **The decision rule was written before the analysis that resolved it.**
 `validation/A4_sled_structural.md` fixed the consequence of each outcome in advance: ≤ 5.35 kg
-the parametric model stands; 5.35–6.80 kg neither is right; **≥ 6.80 kg the headline changes
+the parametric model stands; 5.35-6.80 kg neither is right; **≥ 6.80 kg the headline changes
 and the paper changes materially.**
 
 ## Decision
@@ -24,17 +24,17 @@ Adopt 9.445 kg across `analysis/`. The rated point becomes **16.537 m/s at 10.72
   reflect what is drawn today. The rib-stiffened redesign is Phase II.
 
 ## Consequences
-The first time a value in `analysis/` has moved. Exit velocity −19 %, efficiency 31.5 → 19.6 %,
-lifetime multiplier ×1.80 → ×1.62. Three second-order effects that were not obvious:
+The first time a value in `analysis/` has moved. Exit velocity −19 %, efficiency 31.5 to 19.6 %,
+lifetime multiplier x1.80 to x1.62. Three second-order effects that were not obvious:
 
-- The closed-loop Monte Carlo **silently saturated** — its 20.0 m/s setpoint now sat above the
+- The closed-loop Monte Carlo **silently saturated**: its 20.0 m/s setpoint now sat above the
   open-loop ceiling (ADR-014).
-- Arrest loads nearly doubled, 9.5 → 18.5 kN. This is the one place a heavier sled makes the
+- Arrest loads nearly doubled, 9.5 to 18.5 kN. This is the one place a heavier sled makes the
   machine *harder*, not merely slower.
-- **It invalidated A5 and A8**, both run at the old point — discovered afterwards, logged as
+- **It invalidated A5 and A8**, both run at the old point, discovered afterwards, logged as
   P19, and the reason `BASELINE.md` now requires every change to declare what it invalidates.
 
-9.445 kg is the **as-drawn, unpocketed** geometry; A4 reports a 17× stress margin, so mass can
+9.445 kg is the **as-drawn, unpocketed** geometry; A4 reports a 17x stress margin, so mass can
 come out. Nobody has designed that chassis.
 
 ## Validation

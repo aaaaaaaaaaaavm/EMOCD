@@ -1,4 +1,4 @@
-# ADR-010 — Host-agnostic four-item interface
+# ADR-010: Host-agnostic four-item interface
 
 **Status:** Accepted · **Date:** 2026-07 · **Phase:** I
 
@@ -7,8 +7,8 @@ The paper was written host-specific, around POEM. That made it read as an ISRO p
 than a deployer design.
 
 ## Decision
-Specify the interface generically — mass and control authority, a 150–300 W recharge feed, a
-serial command link, an authorised firing window — and treat POEM and Vikram-1 as worked
+Specify the interface generically, mass and control authority, a 150-300 W recharge feed, a
+serial command link, an authorised firing window, and treat POEM and Vikram-1 as worked
 examples.
 
 ## Alternatives
@@ -22,5 +22,5 @@ specificity: the recoil table stays parametric because the OAM's mass and contro
 are not public (E5).
 
 ## Validation
-The interface is exercised against two real vehicles in the paper. One data exchange —
-stage mass, thruster impulse budget, coast duration — converts it from parametric to specific.
+The interface is exercised against two real vehicles in the paper. One data exchange,
+stage mass, thruster impulse budget, coast duration, converts it from parametric to specific.

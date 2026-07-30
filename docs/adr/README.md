@@ -11,19 +11,19 @@ validated. Where an ADR has a Context section, that prose usually came from the 
 ## Template
 
 ```
-# ADR-NNN — title
+# ADR-NNN, title
 
 Status · Date · Phase
-## Context      — the forces at play, including what was not known
-## Decision     — what was decided, stated flatly
-## Alternatives — what else was considered, and why it lost
-## Consequences — what this costs, including the bad parts
-## Validation   — how we would find out this was wrong
+## Context, the forces at play, including what was not known
+## Decision, what was decided, stated flatly
+## Alternatives, what else was considered, and why it lost
+## Consequences, what this costs, including the bad parts
+## Validation, how we would find out this was wrong
 ```
 
 **The Consequences and Validation sections are the ones that matter.** A record listing only
 benefits is advocacy, not a decision record, and one with no validation path violates dossier
-§7 — every feature needs a path toward validation.
+§7, every feature needs a path toward validation.
 
 ## Index
 
@@ -47,5 +47,5 @@ benefits is advocacy, not a decision record, and one with no validation path vio
 | [016](016-reconstructed-history.md) | Reconstruct git history with labelled dates | Accepted | I |
 | [017](017-four-repositories.md) | Four repositories, two of them generated | Accepted | I |
 
-Every decision in `DECISION_LOG.md` appears above. ADRs 012–017 record decisions that were
+Every decision in `DECISION_LOG.md` appears above. ADRs 012-017 record decisions that were
 never written down anywhere before.

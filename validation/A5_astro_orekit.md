@@ -1,10 +1,10 @@
-# A5 — Orbital lifetime and seeding (Orekit or GMAT)
+# A5: Orbital lifetime and seeding (Orekit or GMAT)
 
 **Closes:** `OPEN_PROBLEMS.md` E6 (absolute lifetimes uncertain), and converts the
-×1.80 multiplier from self-checked to independently checked.
+x1.80 multiplier from self-checked to independently checked.
 
 `astro.py` already cross-validates orbit-averaged Gauss against its own Cowell RK4 to
-99.4 %. That is one code, two integrators, one atmosphere model — it catches integration
+99.4 %. That is one code, two integrators, one atmosphere model, it catches integration
 error, not modelling error. Orekit and GMAT are different codebases with independently
 implemented force models, which is the check that is actually missing.
 
@@ -19,7 +19,7 @@ implemented force models, which is the check that is actually missing.
 
 | Quantity | Reference | Band |
 |---|---|---|
-| Lifetime multiplier, boosted vs unboosted | **×1.80** | ±5 % |
+| Lifetime multiplier, boosted vs unboosted | **x1.80** | ±5 % |
 | Multiplier invariance across low/mean/high activity | invariant | spread ≤ 5 % |
 | Seeding to 30°, 10 m/s | 1.4 days | ±20 % |
 | Seeding to 30°, 5 m/s | 2.8 days | ±20 % |
@@ -49,13 +49,13 @@ python3 parse_reports.py --invocation '<the command that worked>'
 ```
 
 Force models are recorded in the results JSON, not left implicit in the script: MSISE90
-atmosphere, 20×20 gravity, RK89, Luna and Sun as point masses, SRP on.
+atmosphere, 20x20 gravity, RK89, Luna and Sun as point masses, SRP on.
 
 One modelling gap is documented rather than papered over: `astro.py` scales *density* by
 0.5 / 1.0 / 2.5, GMAT takes *solar flux* (F10.7 = 70 / 150 / 250 here), and the two are not
 equivalent. That affects absolute lifetimes, which are not the claim. The invariance band
-applies to the spread of the multiplier, which should survive either parameterisation — and
-if it does not, that is a genuine finding about the ×1.80.
+applies to the spread of the multiplier, which should survive either parameterisation, and
+if it does not, that is a genuine finding about the x1.80.
 
 Orekit remains a valid substitute for the same bands; nothing above depends on GMAT beyond
 the script syntax.
@@ -64,9 +64,9 @@ the script syntax.
 
 Orekit agreeing with `astro.py` means two models agree. Reproducing a **measured** decay is
 a stronger claim and the data is free: CelesTrak and Space-Track publish TLE histories and
-reentry records for 3U CubeSats at 450–500 km with estimable ballistic coefficients.
+reentry records for 3U CubeSats at 450-500 km with estimable ballistic coefficients.
 
-Procedure: pick 3–5 non-manoeuvring 3U objects with clean TLE histories from deployment to
+Procedure: pick 3-5 non-manoeuvring 3U objects with clean TLE histories from deployment to
 decay, estimate BC from the observed decay, and run the same integration `astro.py` uses.
 
 | Quantity | Band |
@@ -80,14 +80,14 @@ above remains the claim EMOCD actually defends (E6).
 
 ## If the multiplier band is missed
 
-The ×1.80 appears in the abstract, the README headline table, and the paper's central
+The x1.80 appears in the abstract, the README headline table, and the paper's central
 value proposition. A miss is a paper-level correction, not a footnote. Record the
-discrepancy, open a P-item, and do not adjust `astro.py` until the cause is understood —
+discrepancy, open a P-item, and do not adjust `astro.py` until the cause is understood,
 force-model differences (drag coefficient convention, atmosphere epoch, third-body terms)
 are the first thing to check, not the last.
 
 ## Output
 
-`validation/results/A5_astro.json` — multiplier per activity level, seeding days per Δv,
+`validation/results/A5_astro.json`, multiplier per activity level, seeding days per Δv,
 absolute lifetimes for reference only, plus `tool`, `version`, `atmosphere_model`,
 `force_models`, `integrator`, `epoch`.

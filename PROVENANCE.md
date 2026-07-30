@@ -42,13 +42,13 @@ Everything else is single-sourced.
 
 Recorded because they calibrate how much to trust the rest:
 
-1. Regenerative braking was claimed to arrest the sled. False — braking force is bounded
+1. Regenerative braking was claimed to arrest the sled. False, braking force is bounded
    by the same thrust constant as acceleration and would need more track than exists.
    Led to the eddy-brake design.
-2. Abort was claimed to be available "anytime before release." False — the commit point
+2. Abort was claimed to be available "anytime before release." False, the commit point
    is ~45 % of stroke.
 3. The efficiency chain credited 55 % regeneration while the arrest architecture
-   dissipates that energy in the brake. Double-counting; efficiency corrected 40 % → 32 %.
+   dissipates that energy in the brake. Double-counting; efficiency corrected 40 % to 32 %.
 4. Two sign errors in the Halbach array convention, caught by empirically probing a
    single array rather than asserting the convention.
 5. A retention gate pin was sized at margin 0.5 (inadequate); resized to two D6 pins,
@@ -59,12 +59,12 @@ Recorded because they calibrate how much to trust the rest:
 
 ## Source material
 
-Three earlier working documents — a feasibility PDF, a consolidated report, and a
-strategy document — were checked against the analysis rather than trusted. They were
+Three earlier working documents, a feasibility PDF, a consolidated report, and a
+strategy document, were checked against the analysis rather than trusted. They were
 **sources of claims to check, not sources of truth**, and several of their numbers were
 found to be wrong or unattributable. They are not included in this repository.
 
 ## How to cite this work honestly
 
-This is a design study at TRL 2–3 with no experimental validation. Any publication or
+This is a design study at TRL 2-3 with no experimental validation. Any publication or
 presentation should say so.

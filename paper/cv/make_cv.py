@@ -3,10 +3,10 @@ Build the one-page CV, taking every EMOCD number from analysis/results/*.json.
 
 WHY THIS SCRIPT EXISTS
 ----------------------
-The three existing resumes disagree with the repository and with each other. One describes EMOCD
-as "coilgun-based", which has been the superseded architecture since mid-2025 (ADR-003). Another
-quotes "10-50 m/s" where the model gives 16.5 m/s at the rated point and 13.1-18.5 m/s across the
-payload family. A third carries a different email address.
+My older resumes disagree with this repository and with each other. One describes EMOCD as
+"coilgun-based", superseded since mid-2025 (ADR-003). Another quotes "10-50 m/s" where the model
+gives 16.5 m/s at the rated point and 13.1-18.5 m/s across the payload family. A third carries a
+different email address.
 
 That is the same class of failure as the paper drifting from the scripts, and it gets the same
 fix: the numbers are not typed into the CV, they are read from the JSON the analysis emits. If the
@@ -175,9 +175,8 @@ motor replace an ultra-high-speed unit; FMEA completed (ANSYS, MATLAB).
 
 \cvsection{Applied AI and software}
 
-%% Dates per LinkedIn, on the author's instruction (2026-07-30). The Cloudflare resume's
-%% "2021 - Present" for Avisys is NOT used -- it conflicts with both LinkedIn and the general
-%% resume's 05/2025, and LinkedIn is the structured public record.
+%% Dates follow LinkedIn. An older resume shows "2021 - Present" for Avisys, which conflicts
+%% with both LinkedIn and the 05/2025 on another version; LinkedIn is the structured record.
 \job{AI System Architect}{Avisys Services \textbullet\ AI Associate, Sep 2025 -- Jan 2026}{Jan 2026--present}
 \begin{tight}
   \item Own AI systems architecture and product design for AviateCX, an enterprise telecom CRM:

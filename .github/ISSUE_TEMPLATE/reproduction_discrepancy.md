@@ -1,7 +1,7 @@
 ---
 name: Reproduction discrepancy
 about: A script output does not match a value in the README or the paper
-title: "[discrepancy] <quantity> — script vs document"
+title: "[discrepancy] <quantity>, script vs document"
 labels: discrepancy
 ---
 
@@ -18,8 +18,8 @@ labels: discrepancy
 <!-- Where the differing value appears, with section or line. e.g. paper/paper.tex Sec. V-A -->
 
 **Is the document value traceable to any script?**
-- [ ] Yes — to: `analysis/<script>.py`
-- [ ] No — not traceable (do NOT reconstruct it; flag it)
+- [ ] Yes, to: `analysis/<script>.py`
+- [ ] No, not traceable (do NOT reconstruct it; flag it)
 
 **Environment**
 - OS:

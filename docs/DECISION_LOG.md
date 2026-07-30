@@ -7,17 +7,17 @@ earlier answer wrong.
 
 ---
 
-## 2021-04 — Concept, with the architecture deliberately left open
+## 2021-04: Concept, with the architecture deliberately left open
 Origin: watching a Rocket Lab Photon launch deploying CubeSats (22 March 2021). The
 observation was that rideshare secondaries inherit the primary's orbit and the spring
-that ejects them adds 1–2 m/s, which is enough for clearance and nothing else.
+that ejects them adds 1-2 m/s, which is enough for clearance and nothing else.
 
 The original framing explicitly left the mechanism open: *"this would use an
 electromagnetic rail such as what is used in maglev or we could use the coil gun tech
 whichever seems to be more feasible and more efficient on mass and space."* First
 concept was built around a coilgun and presented at ARDE / INSARM 2021.
 
-## 2023 — Host reframed: free-flyer → spent upper stage
+## 2023: Host reframed: free-flyer to spent upper stage
 Trigger: learning about ISRO's POEM, which keeps a spent PSLV fourth stage alive as a
 stabilised platform.
 
@@ -28,29 +28,29 @@ launch pad rather than debris.
 
 Consequence: the attached variant (later EMOCD-A) carries no CMGs and no thrusters.
 
-## mid-2025 — Coilgun → linear synchronous motor (the pivotal change)
+## mid-2025: Coilgun to linear synchronous motor (the pivotal change)
 This is the decision that reshaped everything downstream.
 
 The reasoning runs through the payload, not the launcher. Exit velocity is bounded by
-`v = sqrt(2 a L)`, and the payload's own qualification limit caps `a` at 25–30 g. Over
-any stroke that fits a secondary-payload envelope, that ceiling is 26–35 m/s **whatever
-the launcher is**. So the coilgun's single genuine advantage — a velocity ceiling in the
-km/s range — is unreachable by the satellite it would be launching, while every one of
+`v = sqrt(2 a L)`, and the payload's own qualification limit caps `a` at 25-30 g. Over
+any stroke that fits a secondary-payload envelope, that ceiling is 26-35 m/s **whatever
+the launcher is**. So the coilgun's single genuine advantage, a velocity ceiling in the
+km/s range, is unreachable by the satellite it would be launching, while every one of
 its costs remains:
 
-- 1–2 % single-stage efficiency (Sandia-lineage literature)
+- 1-2 % single-stage efficiency (Sandia-lineage literature)
 - microsecond pulse timing against the suck-back effect
 - a ferromagnetic or conductive armature bolted to the *customer's* satellite
 - no abort once fired
 
 A linear synchronous motor concedes nothing inside the reachable envelope (maglev
 traction exceeds 150 m/s) and inverts every cost: high drive efficiency, continuous
-servo control instead of fire-and-commit timing, and — decisively — a **reusable sled**
+servo control instead of fire-and-commit timing, and (decisively) a **reusable sled**
 that carries the magnets so the customer satellite carries nothing.
 
-Verified outcome: 32 % electrical-to-payload efficiency against the coilgun's 1–2 %.
+Verified outcome: 32 % electrical-to-payload efficiency against the coilgun's 1-2 %.
 
-## 2025 — Iron-core → ironless stator
+## 2025: Iron-core to ironless stator
 An iron-core double-sided stator computed to roughly 65 kg of laminations plus 32 kg of
 copper, which alone would have consumed the mass budget, and its permanent-magnet
 attraction preloads the sled bearings with kilonewtons. Going ironless drops the stator
@@ -62,59 +62,59 @@ Second-order benefit that mattered later: because the geometry is ironless, the 
 problem is linear and analytic superposition is *exact*, which is what made the
 independent magpylib cross-check meaningful.
 
-## 2025 — Regenerative arrest → eddy-current brake (correcting my own error)
+## 2025: Regenerative arrest to eddy-current brake (correcting my own error)
 I originally claimed regenerative braking would arrest the sled and credited 55 % energy
 recovery. That was wrong: braking force is bounded by the same thrust constant as
-acceleration, so motor-only braking needs 1.2–2.6 m of track — more than exists.
+acceleration, so motor-only braking needs 1.2-2.6 m of track, more than exists.
 
 Replaced with a copper-fin eddy-current brake: force proportional to velocity,
 contactless, no wear, flight heritage in the damper class. Authority turned out to be
-abundant, so the design constraint inverted — the pole entry is now *tapered* to cap
+abundant, so the design constraint inverted, the pole entry is now *tapered* to cap
 sled deceleration near 200 g and protect the sintered magnet bonds, rather than sized
 up for force.
 
 Knock-on correction: the sled's kinetic energy is dissipated in the brake by design and
 is **not** recovered. Crediting it as regeneration was double-counting; efficiency was
-restated 40 % → 32 %.
+restated 40 % to 32 %.
 
-## 2025 — Abort claim corrected
+## 2025: Abort claim corrected
 I originally described abort as available "anytime before release". Deceleration is
 limited by the same motor force, so with the loaded carriage the true commit point is
 ~45 % of stroke at ~13.5 m/s. The safety argument was moved upstream to a three-inhibit
 chain that must be green before the shot *starts*, making mid-stroke abort a
 contingency rather than a load-bearing safety feature.
 
-## 2025 — Magazine: dual transverse cassettes
+## 2025: Magazine: dual transverse cassettes
 Chosen over a revolver drum (wastes corners of every cylinder-to-rectangle interface,
 ~60 % packing), a 2-DOF conveying platform (needs a stator cell under every storage
 position, and random access is pointless when deployment order is fixed at integration),
-and a tandem in-tube stack (disqualified outright — the sled must return through that
+and a tandem in-tube stack (disqualified outright, the sled must return through that
 volume).
 
-Bonus property: alternating left–right feed keeps lateral CoM asymmetry to one satellite
+Bonus property: alternating left, right feed keeps lateral CoM asymmetry to one satellite
 at most, cutting the thrust-line offset that drives recoil torque.
 
-## 2025 — Retention gate architecture
+## 2025: Retention gate architecture
 Directly motivated by the NanoRacks ball-lock anomaly, where ascent preload ran
 *through* the release mechanism and jack-screw torque above 0.11 N·m drove it toward
 seizure. EMOCD routes stack preload through a one-shot retention gate straight into
 structure; the escapement is caged during ascent and sees launch loads never. This makes
 that failure mode geometrically impossible rather than merely unlikely.
 
-## 2025 — Coast-and-trim release zone
+## 2025: Coast-and-trim release zone
 The last 0.2 m of track applies only small servo corrections, so release happens at
 near-zero force. This is what makes the tip-off budget close: at full force the leading
 term alone would approach 34 °/s against a 5 °/s requirement.
 
-## 2026-07 — Framing: host-specific → host-agnostic
+## 2026-07: Framing: host-specific to host-agnostic
 The paper was briefly written around one launch provider. Reframed so the deployer is
 specified against a generic four-item host interface (secondary-payload mount,
-150–300 W, attitude reference with recoil authority, disposal path), with specific
+150-300 W, attitude reference with recoil authority, disposal path), with specific
 vehicles appearing only as worked candidate examples. The engineering did not change;
 the claim's scope did.
 
-## 2026-07 — Publish publicly
+## 2026-07: Publish publicly
 Concept and results released via LinkedIn and this repository. Detailed operating point
 was deliberately withheld from the public post but **is** disclosed by publishing these
-scripts. See `OPEN_PROBLEMS.md` E14 — this is irreversible and was not preceded by a
+scripts. See `OPEN_PROBLEMS.md` E14, this is irreversible and was not preceded by a
 provisional filing.

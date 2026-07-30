@@ -1,10 +1,10 @@
-# ADR-017 — Four repositories, two of them generated
+# ADR-017: Four repositories, two of them generated
 
 **Status:** Accepted · **Date:** 2026-07-29 · **Phase:** I
 
 ## Context
 The programme has four deliverables (`WHY.md`): portfolio, IEEE paper, thesis, and a
-continuing research track. Dossier §3 designates repositories 2–4 as *Future*; §4 requires
+continuing research track. Dossier §3 designates repositories 2-4 as *Future*; §4 requires
 explicit approval and warns *"never create new repositories merely because work can be
 modularised."*
 
@@ -16,7 +16,7 @@ hand-maintained. Recorded as an authorised amendment in `docs/programme/ADOPTION
 ## Alternatives
 - **Flagship only, defer the rest.** The dossier as written. Rejected for one specific reason:
   it leaves nowhere to spiral, and `WHY.md` names spiralling as the failure mode the whole
-  structure exists to contain. A Phase II track inside the flagship is a soft boundary — one
+  structure exists to contain. A Phase II track inside the flagship is a soft boundary, one
   `git checkout` from an edit to the frozen baseline.
 - **Four hand-maintained repositories.** Rejected as the failure §4 warns about. `16.537 m/s`
   appears in nine places in the flagship alone; four hand-maintained copies would diverge, and
@@ -30,7 +30,7 @@ until they have content, which is why each carries a README stating its role so 
 reads as structure rather than abandonment.
 
 **The mitigation is mechanical, not behavioural.** If `export_companion.py` is ever bypassed
-to hand-edit a companion, the mechanism is dead — and the correct response is to delete and
+to hand-edit a companion, the mechanism is dead, and the correct response is to delete and
 regenerate, never to reconcile.
 
 ## Validation

@@ -1,6 +1,6 @@
 # Why I'm doing this
 
-*Adityavardhan Mishra — 2026-07-29. The reasoning behind the structure of this programme,
+*Adityavardhan Mishra, 2026-07-29. The reasoning behind the structure of this programme,
 in my own words. Everything else in this repository is engineering; this is the part that
 explains what the engineering is for.*
 

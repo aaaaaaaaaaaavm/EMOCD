@@ -4,10 +4,10 @@
 > Every value below is read from the scripts at generation time, so this file cannot silently
 > disagree with them. Regenerate after any authorised baseline change.
 >
-> Flagship commit at generation: `7885d69` · Phase **I** · governed by
+> Flagship commit at generation: `1d01ba7` · Phase **I** · governed by
 > [`docs/programme/ENGINEERING_PROGRAMME.md`](docs/programme/ENGINEERING_PROGRAMME.md)
 
-This is the engineering baseline the Phase I deliverables — portfolio, IEEE paper, thesis —
+This is the engineering baseline the Phase I deliverables (portfolio, IEEE paper, thesis)
 are developed against. Dossier §2 requires it to be stable. The change-control rule below is
 what makes "stable" mean something.
 
@@ -32,7 +32,7 @@ what makes "stable" mean something.
 | Fleet setpoint | **16.2 m/s** | `motor_results.v_fleet_setpoint` |
 | Sled mass | **9.45 kg (measured)** | `mass_properties.sled_kg` |
 | Dry / loaded mass | **76.9 / 124.9 kg** | `mass_properties.dry_kg` |
-| Lifetime multiplier, mean activity | **×1.62** | `astro_results.lifetime.mean` |
+| Lifetime multiplier, mean activity | **x1.62** | `astro_results.lifetime.mean` |
 | Recoil per shot | **66.1 N·s** | `astro_results.recoil_Ns_per_shot` |
 | Phase realignment period | **9.9 days** | `astro_results.conjunction.realign_days` |
 | Energy closure | **100.0 %** | `sizing.energy_closure.closure_pct` |
@@ -43,8 +43,8 @@ what makes "stable" mean something.
 
 ### What may move the baseline during Phase I
 
-1. **Error correction.** A value that is wrong. P17 — the inter-array attraction being 37 %
-   high — qualifies, and stays Phase I even though correcting it moves three coupled numbers.
+1. **Error correction.** A value that is wrong. P17, the inter-array attraction being 37 %
+   high, qualifies, and stays Phase I even though correcting it moves three coupled numbers.
 2. **A validation outcome against a band declared before its run.** This is how the baseline
    last moved: `validation/A4_sled_structural.md` fixed the consequence of each sled-mass
    outcome *before* the analysis ran, the measurement landed in the ≥ 6.80 kg branch, and the
@@ -67,11 +67,11 @@ anything.
 
 ### Every baseline change must
 
-- **Name its trigger** — which P-item, E-item or validation outcome forced it.
+- **Name its trigger**, which P-item, E-item or validation outcome forced it.
 - **State which validations it invalidates.** This is the P19 lesson: moving the sled mass
   silently invalidated A5 and A8, both of which had been run at the old operating point. That
   was discovered afterwards. It should have been declared as a consequence at the time.
-- **Propagate in order: scripts → figures → paper.** Never the reverse. The scripts are
+- **Propagate in order: scripts, then figures, then paper.** Never the reverse. The scripts are
   authoritative; `paper/make_figures.py` and `tools/make_baseline.py` regenerate from them.
 - **Be recorded** in `CHANGELOG.md` and as an ADR under `docs/adr/`.
 

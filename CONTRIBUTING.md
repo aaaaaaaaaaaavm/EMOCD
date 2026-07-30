@@ -1,7 +1,7 @@
 # Contributing
 
 EMOCD is a **design study**, not a software product. It exists to be reproduced,
-scrutinised, and — eventually — replaced by measured data. Contributions are welcome on
+scrutinised, and (eventually) replaced by measured data. Contributions are welcome on
 those terms. The one thing this repository cares about above all is **provenance**: no
 generated number may ever pass as a measured one.
 
@@ -10,9 +10,9 @@ generated number may ever pass as a measured one.
 These mirror `docs/PROJECT_NOTES.md` and `PROVENANCE.md`. Read both before contributing.
 
 1. **The scripts in `analysis/` are the source of truth, not the paper.** If a script and
-   `paper/paper.tex` disagree, the paper is wrong — fix the paper to match the script,
+   `paper/paper.tex` disagree, the paper is wrong, fix the paper to match the script,
    never the reverse. This principle has already caught four paper errors (see
-   `CHANGELOG.md`, P2-01–P2-04).
+   `CHANGELOG.md`, P2-01, P2-04).
 2. **Do not reconstruct numbers from general knowledge.** If a value's origin cannot be
    traced to a script in `analysis/`, say "not traceable" rather than filling the gap
    plausibly. Several numbers here were wrong for exactly that reason and were only caught
@@ -35,7 +35,7 @@ python3 verify_field.py && python3 mass_properties.py && python3 motor_model.py 
 
 Results are written to `analysis/results/*.json`. `astro.py` and `motor_model.py` are the
 slow ones. Dependency note: `mass_properties.py` produces the sled mass that
-`motor_model.py` hard-codes as `M_SLED` — if you change the mass model, update that
+`motor_model.py` hard-codes as `M_SLED`, if you change the mass model, update that
 constant and re-run the motor model, then the paper.
 
 To run anything under `validation/` you also need the external solvers (gmsh,
@@ -50,7 +50,7 @@ the value in the document, and your environment (Python, numpy, magpylib version
 
 ## Scope
 
-By design this repository has **no CI, no test suite, and no build tooling** — it is a
+By design this repository has **no CI, no test suite, and no build tooling**, it is a
 research artifact, and the `analysis/` scripts are self-checking where a genuine
 cross-check exists (field model vs magpylib; orbit-averaged decay vs Cowell RK4). Please
 do not add software-product scaffolding without discussing it first.
@@ -58,5 +58,5 @@ do not add software-product scaffolding without discussing it first.
 ## Citation and licence
 
 Cite via `CITATION.cff`. The work is MIT-licensed (`LICENSE`). Any publication or
-presentation that uses it must state that it is a design study at TRL 2–3 with no
+presentation that uses it must state that it is a design study at TRL 2-3 with no
 experimental validation (`PROVENANCE.md`).

@@ -1,4 +1,4 @@
-# Benchtop tests — the cheapest route to a measured number
+# Benchtop tests: the cheapest route to a measured number
 
 **E4 says it plainly: nothing in this project has been built, fired, or measured.** Every
 number in this repository is a model output, and two of them are cross-checked only against
@@ -7,7 +7,7 @@ another model. That is the one gap no amount of further analysis closes.
 This document exists because closing it does not require a lab. Four experiments are listed,
 cheapest first. **The first one costs about the price of two magnets and would give this
 project its first measured number.** Each closes a *specific named claim*, and each has its
-acceptance band declared here — before the test — in the same discipline `validation/` uses
+acceptance band declared here (before the test) in the same discipline `validation/` uses
 for the analyses.
 
 None of these have been run. If you run one, record the result against the band as declared,
@@ -15,14 +15,14 @@ including if it fails.
 
 ---
 
-## The bands are now derived, not chosen — added 2026-07-30
+## The bands are now derived, not chosen: added 2026-07-30
 
 The bands below were declared before any test, which is the important part. But they were
 *chosen* (±15 %, ±20 %) rather than traced to an error budget, and a band with no derivation
 cannot be defended if a reading lands just outside it.
 
 [`validation/bench/bench_predict.py`](../validation/bench/bench_predict.py) now derives them. It
-**imports** `verify_field.py` and `motor_model.py` rather than reimplementing the geometry — and
+**imports** `verify_field.py` and `motor_model.py` rather than reimplementing the geometry, and
 carries a guard that fails loudly if its local field build ever drifts from
 `verify_field.make_array`, the same idea as `_check_operating_point()` in `sizing.py`. It
 perturbs what a bench build actually gets wrong (gap ±0.5 mm, Br ±3 %, block thickness ±0.1 mm),
@@ -52,20 +52,20 @@ B-1 below says "a two-block **opposed** pair", which is ambiguous in the one way
 
 | Two-block arrangement | Mean \|B_y\| at midgap |
 |---|---|
-| Polarizations facing each other across the gap | **0.00000 T** — cancels exactly |
+| Polarizations facing each other across the gap | **0.00000 T**: cancels exactly |
 | Polarizations both the same direction | **0.329 T** |
 
 Built the first way the rig reads **zero field and zero force**, which looks like a falsified model
 rather than a reversed magnet. `verify_field.py` probes for the correct convention automatically on
 the four-block array, so this trap exists only on the bench. **The pair also attracts hard across
-12 mm** — assemble with a captive non-magnetic spacer, shimming outward from a closed stack, never
+12 mm**, assemble with a captive non-magnetic spacer, shimming outward from a closed stack, never
 inward by hand.
 
 ### B-2's load cell should be sized to the smallest force, not the largest
 
 At low sheet current the force is small, and a load cell specified at 0.5 % of *full scale*
 contributes error inversely with the reading. Sizing the cell to the largest expected force makes
-the smallest reading the least trustworthy — the opposite of what B-2 needs, since low current is
+the smallest reading the least trustworthy, the opposite of what B-2 needs, since low current is
 where it is meant to operate. **Choose the cell for the lowest force in the sweep**, and if one
 cell cannot span the range, sweep current over a narrower band and rely on the linearity check.
 
@@ -73,16 +73,16 @@ cell cannot span the range, sweep current over a narrower band and rely on the l
 
 For the three stray rows the probe sits a fixed distance behind the **back face**, so changing block
 thickness moves the reference plane as well as the source. The budget's `thickness` term captures
-only the source movement. The affected contributions are 0.8–1.8 % against an RSS of 3.3–4.2 %, so
-it does not change any conclusion — but it is a known-incomplete term and is flagged in the script
+only the source movement. The affected contributions are 0.8-1.8 % against an RSS of 3.3-4.2 %, so
+it does not change any conclusion, but it is a known-incomplete term and is flagged in the script
 rather than left to be discovered.
 
 ---
 
-## B-1 — Halbach pair field profile
+## B-1: Halbach pair field profile
 
 **Closes:** the field model behind everything (**A24**, **E1**), and the keep-out in **P3**.
-**Cost:** low — two to four N45SH blocks, a Hall probe, printed spacers.
+**Cost:** low, two to four N45SH blocks, a Hall probe, printed spacers.
 **Time:** an afternoon.
 
 ### Method
@@ -112,27 +112,27 @@ a pass; the model does not deserve better than that.**
 ### Why this one first
 
 Every headline number descends from the field model, and the field model has only ever been
-checked analytic-against-analytic — a wave model against magpylib, which is two implementations
+checked analytic-against-analytic, a wave model against magpylib, which is two implementations
 of the same physics. A gaussmeter is a different *kind* of evidence entirely.
 
 ---
 
-## B-2 — Single-coil thrust constant
+## B-2: Single-coil thrust constant
 
-**Closes:** the analytic-only status of **K<sub>t</sub> = 11.22 N per kA/m** — the number every
+**Closes:** the analytic-only status of **K<sub>t</sub> = 11.22 N per kA/m**: the number every
 headline is downstream of. Partially closes **E1**.
-**Cost:** moderate — B-1's magnets, wound coil, load cell, bench supply.
+**Cost:** moderate, B-1's magnets, wound coil, load cell, bench supply.
 **Time:** a few days including winding.
 
 ### Method
 
 Mount the Halbach pair from B-1 on a load cell. Wind a single-phase coil to the design
-geometry (10 mm thick, 60 % fill) and energise at a **known, low** sheet current — a few
+geometry (10 mm thick, 60 % fill) and energise at a **known, low** sheet current, a few
 kA/m, DC or low duty, far below the 140 kA/m rating. Measure force against current at several
 positions through one wavelength (48 mm).
 
 Force scales linearly with sheet current, so a low-current measurement extrapolates. **Do not
-attempt rated current on a bench** — 330 A into an unrestrained coil next to a magnet array is
+attempt rated current on a bench**, 330 A into an unrestrained coil next to a magnet array is
 a genuine hazard, and the linearity is the whole point.
 
 ### Bands, declared now
@@ -152,16 +152,16 @@ scaling from one to the other is itself part of the model being tested. **A resu
 `motor_model.py` carries a warning worth repeating here: an early version held the field
 fixed while commutating current and produced near-zero mean thrust. The field must translate
 *with* the sled. On a bench the equivalent error is measuring at one position and calling it
-the mean — **sweep the wavelength.**
+the mean, **sweep the wavelength.**
 
 ---
 
-## B-3 — Capacitor discharge into a resistive load
+## B-3: Capacitor discharge into a resistive load
 
-**Closes:** the two open **E17** findings — no script defines a bank ESR, and the quoted sag
+**Closes:** the two open **E17** findings, no script defines a bank ESR, and the quoted sag
 is state-of-charge rather than the terminal voltage the drive sees. Gives **A8** a measured
 anchor.
-**Cost:** moderate — the bank is the expensive part; a sub-scale bank at lower voltage tests
+**Cost:** moderate, the bank is the expensive part; a sub-scale bank at lower voltage tests
 the same physics.
 **Time:** days.
 
@@ -176,7 +176,7 @@ state-of-charge sag.
 
 | Quantity | Model says | Accept if |
 |---|---|---|
-| Bank ESR | 12 mΩ assumed | measured value **recorded**; no pass/fail — this is a measurement, not a check |
+| Bank ESR | 12 mΩ assumed | measured value **recorded**; no pass/fail, this is a measurement, not a check |
 | SoC sag at equivalent energy | 5.19 % | within **±1.5 pts** |
 | Terminal droop | 10.25 % total per A8 | within **±3 pts** |
 
@@ -186,11 +186,11 @@ the project has not committed to would be inventing a target to hit.
 
 ---
 
-## B-4 — Eddy-brake coupon, drop test
+## B-4: Eddy-brake coupon, drop test
 
 **Closes:** the first measured point on **E20**, which records that no force-time profile for
-the arrest exists anywhere in the scripts — only a 200 g cap used for bond sizing.
-**Cost:** low — a copper plate, a magnet carriage, a vertical rail, a high-speed phone camera.
+the arrest exists anywhere in the scripts, only a 200 g cap used for bond sizing.
+**Cost:** low, a copper plate, a magnet carriage, a vertical rail, a high-speed phone camera.
 **Time:** an afternoon.
 
 ### Method
@@ -207,7 +207,7 @@ drag law predicts.
 | Drag constant | σ·t·B²·A from `legacy/c3_c4_em.py` | within **a factor of 2** |
 
 A factor of two is honest for a first-order law with no correction for finite plate width,
-edge effects or skin depth. **The form matters more than the constant** — if force is not
+edge effects or skin depth. **The form matters more than the constant**: if force is not
 proportional to velocity, the brake model is wrong in a way no amount of coefficient tuning
 fixes.
 
@@ -217,12 +217,12 @@ fixes.
 
 Right now `PROVENANCE.md` can say of every number that it is a model output. After B-1 alone
 that stops being true, and after all four the project has measured anchors on the field, the
-thrust constant, the pulse chain and the brake — the four subsystems the whole machine
+thrust constant, the pulse chain and the brake, the four subsystems the whole machine
 consists of.
 
 **None of it qualifies anything.** These are sub-scale, ambient, single-article experiments,
 and `docs/QUALIFICATION_PLAN.md` is what qualification actually requires. But the difference
-between a design study with no measurements and one with four is not a matter of degree — it
+between a design study with no measurements and one with four is not a matter of degree, it
 is the difference between a proposal and an experiment.
 
 Record results in `validation/results/` alongside the analysis outputs, in the same format,
