@@ -74,7 +74,9 @@ for t in "${TAGS[@]}"; do
     continue
   fi
   # Notes come from the annotated tag message, so the tag and the release cannot disagree.
-  notes="$(git for-each-ref "refs/tags/$t" --format='%(contents)')"
+  # :body, not :contents. %(contents) includes the subject line, which is already the
+  # release title, so using it prints the title twice on the release page.
+  notes="$(git for-each-ref "refs/tags/$t" --format='%(contents:body)')"
   title="$(git for-each-ref "refs/tags/$t" --format='%(contents:subject)')"
   latest=""
   [ "$t" = "v1.0" ] && latest="--latest"
