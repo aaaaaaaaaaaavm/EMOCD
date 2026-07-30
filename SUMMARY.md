@@ -79,7 +79,6 @@ claim in the paper's own abstract**, and that is recorded as P16 rather than qui
 The scripts are authoritative over the paper, never the reverse.
 
 **[`docs/PROGRAMME.md`](docs/PROGRAMME.md)**: the four repositories of this programme
-**[`docs/WHY.md`](docs/WHY.md)**: why it exists, and why it is deliberately split in two
 **[`docs/BASELINE.md`](docs/BASELINE.md)**: what is frozen, and what may move it
 **[`docs/ROADMAP.md`](docs/ROADMAP.md)**: what happens next, and when
 **[`docs/HISTORY.md`](docs/HISTORY.md)**: the project since 2021, and how this git history was built

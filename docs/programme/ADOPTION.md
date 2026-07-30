@@ -32,11 +32,11 @@ applied rather than skipped:
 | Keeping it inside would reduce clarity | **Met for all three.** University submission material pollutes a portfolio; a post-publication reproducibility package has a different audience; and Phase II redesign inside the flagship would directly threaten the baseline stability §2 requires. |
 | Explicit approval | **Given.** |
 
-**The reasoning that decided it**, recorded because it is the part worth auditing later: the
-statement of intent in `WHY.md` names a tendency to re-question foundations and
-spiral into redesign. A Phase II track kept *inside* the flagship is a soft boundary, one
-`git checkout` from becoming an edit to the frozen baseline. `EMOCD-lab` makes that boundary
-hard. The separation is a control against a known failure mode, not a filing preference.
+**The reasoning that decided it**, recorded because it is the part worth auditing later: §2
+requires the Phase I baseline to hold for the duration of Phase I, and a Phase II track kept
+*inside* the flagship is a soft boundary, one `git checkout` from becoming an edit to that
+baseline. `EMOCD-lab` makes the boundary hard. The separation exists to protect the freeze,
+not as a filing preference.
 
 **The risk this amendment creates, and its mitigation.** §4's warning, *"never create new
 repositories merely because work can be modularised"*, is aimed at exactly the failure this

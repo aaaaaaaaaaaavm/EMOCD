@@ -18,7 +18,7 @@ generations, STEP exports committed (`cad/`, Gen3 current); FEA and hardware sti
 outstanding.**
 **Read `docs/PROVENANCE.md` before citing anything here.**
 
-**[📄 One-page summary](SUMMARY.md)** · **[❓ Why](docs/WHY.md)** · **[🧊 Frozen baseline](docs/BASELINE.md)** · **[🗺 Roadmap](docs/ROADMAP.md)** · **[⚠ Open problems](OPEN_PROBLEMS.md)** · **[✓ Validation](docs/VALIDATION_REPORT.md)** · **[🏗 Manufacturing](docs/MANUFACTURING.md)** · **[📐 ADRs](docs/adr/)** · **[📚 Literature](docs/LITERATURE.md)**
+**[📄 One-page summary](SUMMARY.md)** · **[🧊 Frozen baseline](docs/BASELINE.md)** · **[🗺 Roadmap](docs/ROADMAP.md)** · **[⚠ Open problems](OPEN_PROBLEMS.md)** · **[✓ Validation](docs/VALIDATION_REPORT.md)** · **[🏗 Manufacturing](docs/MANUFACTURING.md)** · **[📐 ADRs](docs/adr/)** · **[📚 Literature](docs/LITERATURE.md)**
 
 <!-- PROGRAMME-HEADER-START -->
 | Repository | Role | You are here |
@@ -272,7 +272,6 @@ flown DSOD, is in [`docs/LANDSCAPE.md`](docs/LANDSCAPE.md).
 - `docs/PROVENANCE.md`, what came from where, and what was never verified
 - `OPEN_PROBLEMS.md`, known errors in the paper, and unsolved engineering
 - `docs/PROGRAMME.md`, the four repositories and how they relate
-- `docs/WHY.md`, why this programme exists, and why it is split into two phases
 - `docs/BASELINE.md`, the frozen Phase I baseline (generated) and its change-control rule
 - `docs/HISTORY.md`, project timeline since 2021, and how the git history was reconstructed
 - `docs/programme/`, the governing dossier, adopted verbatim, plus its amendment record

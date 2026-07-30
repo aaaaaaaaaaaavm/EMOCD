@@ -8,8 +8,8 @@ An unevidenced skills list is worth nothing, so this one carries the evidence in
 points at a file in this repository that you can open and run.** Where a claim rests on something
 outside the repository, the row says so and says what the evidence actually is.
 
-Read the two honesty caveats at the bottom before using this as a hiring signal. They are there
-because they belong there.
+The caveats at the bottom are part of the page, not a disclaimer appended to it. Read them with
+the rest.
 
 ---
 
@@ -141,7 +141,7 @@ Introduction to Mechatronics · Numerical Methods.
 
 ---
 
-## Two things this page will not pretend
+## What this page will not pretend
 
 **1. Nothing here has been built, fired, or measured.** This is a design study at TRL 2-3. Every
 number is a model output, and the two strongest results are cross-checks between models rather
@@ -155,13 +155,7 @@ contradicting the paper, the tolerance stack coming out 2.4x worse than claimed,
 found false, my own three retracted conclusions. That is deliberate: anyone can show you work that
 went well. What is hard to fake is a record of catching yourself.
 
-**3. This page is held to the same rule as the paper, and it has already failed it once.** The
-generated CV listed a **Communication Skills coursework assignment under "publications"**, copied
-from an earlier résumé line instead of from the document itself, which is precisely the failure the
-scripts-are-authoritative rule exists to prevent. Logged as **P23**, removed, and the generator now
-carries a comment forbidding its return.
-
-The rule that follows: **a claim on a CV or on this page has to be checkable against the artifact,
-not against another CV.** Anything peer-reviewed says so and names the venue; anything coursework
-says so and names the course; anything unsubmitted is called a manuscript. Two manuscripts here are
-written and unsubmitted, and both are described that way.
+**3. This page is held to the same rule as the paper.** A claim here has to be checkable against
+the artifact it names, not against a summary of it. Anything peer-reviewed says so and names the
+venue; anything coursework says so and names the course; anything unsubmitted is called a
+manuscript. Two manuscripts here are written and unsubmitted, and both are described that way.

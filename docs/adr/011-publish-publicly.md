@@ -21,5 +21,4 @@ falsified claim in the paper's own abstract (P16) is on the front page rather th
 It also forecloses the patent position (E14), which is irreversible.
 
 ## Validation
-The bet is that published defects read as rigour rather than as a broken project. The test is
-whether the thesis passes and whether recruiters engage, see `WHY.md`.
+The bet is that published defects read as rigour rather than as a broken project.

@@ -3,8 +3,8 @@
 **Status:** Accepted · **Date:** 2026-07-29 · **Phase:** I
 
 ## Context
-The programme has four deliverables (`WHY.md`): portfolio, IEEE paper, thesis, and a
-continuing research track. Dossier §3 designates repositories 2-4 as *Future*; §4 requires
+The programme has four deliverables: the flagship engineering record, the IEEE paper, the
+thesis, and a continuing research track. Dossier §3 designates repositories 2-4 as *Future*; §4 requires
 explicit approval and warns *"never create new repositories merely because work can be
 modularised."*
 
@@ -14,10 +14,10 @@ Create all four now. **`EMOCD-paper` and `EMOCD-thesis` are generated** by
 hand-maintained. Recorded as an authorised amendment in `docs/programme/ADOPTION.md`.
 
 ## Alternatives
-- **Flagship only, defer the rest.** The dossier as written. Rejected for one specific reason:
-  it leaves nowhere to spiral, and `WHY.md` names spiralling as the failure mode the whole
-  structure exists to contain. A Phase II track inside the flagship is a soft boundary, one
-  `git checkout` from an edit to the frozen baseline.
+- **Flagship only, defer the rest.** The dossier as written. Rejected because it leaves
+  redesign work with nowhere to go except the flagship itself. A Phase II track inside the
+  flagship is a soft boundary, one `git checkout` from an edit to the frozen baseline, and
+  §2 requires that baseline to hold for the duration of Phase I.
 - **Four hand-maintained repositories.** Rejected as the failure §4 warns about. `16.537 m/s`
   appears in nine places in the flagship alone; four hand-maintained copies would diverge, and
   this project has already produced two such forks (ADR-015).

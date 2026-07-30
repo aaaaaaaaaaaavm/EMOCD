@@ -7,8 +7,8 @@ Start here before changing anything.
 VOLLEY (Electromagnetic Orbital CubeSat Deployer) is a magazine-fed electromagnetic
 deployer that ejects unmodified CubeSats from a host stage at programmable velocity,
 targeting the gap between spring deployers (~2 m/s) and propulsive transfer vehicles
-(100s m/s). Owner: Adityavardhan Mishra (PRN 23070125054), 4th-year mechanical
-engineering, Symbiosis Institute of Technology, Pune. Project started April 2021.
+(100s m/s). Adityavardhan Mishra, Department of Mechanical Engineering, Symbiosis
+Institute of Technology, Pune. Project started April 2021.
 
 Current maturity: **TRL 2-3. Analysis and first-pass CAD. No FEA, no hardware.**
 

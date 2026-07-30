@@ -35,7 +35,7 @@ the simulation will not.
 ## A8-R: re-run at the current operating point, bands declared 2026-07-30 before running
 
 The bands above were set against the 20.37 m/s point and the 4.86 kg parametric sled. P15 moved
-the sled to a measured 9.445 kg, and P24 established that the recorded pass sits outside the band
+the sled to a measured 9.445 kg, and P23 established that the recorded pass sits outside the band
 the current model would produce. Re-running needs fresh bands, and rewriting the old ones to fit
 the new number would destroy the only thing that makes a declared band worth anything.
 
@@ -48,7 +48,7 @@ the new number would destroy the only thing that makes a declared band worth any
 | Bank sag over the shot | 5.19 % | +/-1.5 percentage points | Unchanged, absolute rather than relative because the number is small |
 | Energy drawn from the bank | 2796 J | +/-5 % | Unchanged |
 | Copper loss per shot | 828 J | +/-15 % | Still the loosest: the analytic model uses one temperature and the simulation does not |
-| Pulse duration to release | 157.3 ms | +/-10 % | The band that P24 is about. 141.6 to 173.0 ms |
+| Pulse duration to release | 157.3 ms | +/-10 % | The band that P23 is about. 141.6 to 173.0 ms |
 | Energy closure | 100.0 % accounted | 98-102 % | Unchanged |
 
 **What changes in the deck, and nothing else:** the sled mass 8.86 to 13.445 kg, and the two
@@ -58,6 +58,55 @@ numbers agree, that is a finding and gets recorded as one.
 
 **Falsification:** any row outside its band. The interesting failure would be pulse duration,
 because that is the row the old band failed, and passing it now is the whole point of re-running.
+
+## A8-R result, run 2026-07-30
+
+ngspice 44, deck `validation/spice/emocd_shot.cir`. Three parameters changed and nothing else:
+sled mass 8.86 to 13.445 kg, and the two measurement windows to 157.3 ms.
+
+| Quantity | Simulated | Reference | Delta | Band | Verdict |
+|---|---|---|---|---|---|
+| Peak current | 346.8 A | 330.3 A | +5.0 % | +/-10 % | pass |
+| Pulse duration to release | 157.26 ms | 157.3 ms | -0.03 % | +/-10 % | **pass** |
+| Energy drawn from the bank | 2880 J | 2796 J | +3.0 % | +/-5 % | pass |
+| Bank sag over the shot | 5.35 % | 5.19 % | +0.2 pts | +/-1.5 pts | pass |
+| Copper loss per shot | 827.7 J | 828 J | -0.04 % | +/-15 % | pass, but see below |
+| Energy closure | 97.0 % | 100 % | -3.0 pts | 98-102 % | **FAIL** |
+
+Five of six pass. The pulse-duration row, which is what P23 is about, now passes at 0.03 %.
+
+**The copper-loss row is not an independent check and should not be read as one.** The deck
+carries `Pcu` as a constant computed by `motor_model.py`, so the simulation returns `Pcu` times
+the shot duration by construction. It confirms the integration window, nothing more. Left in the
+table because removing a row after seeing the result is exactly the move these bands exist to
+prevent.
+
+### The closure failure, and what caused it
+
+The simulated draw exceeds the analytic accounting by **86.6 J**, 3 % of the shot.
+
+That gap is **bank ESR dissipation**, which the circuit models and the analytic ledger omits:
+
+```
+I^2 dt over the shot   7126.2 A^2 s      (ngspice, integrated)
+x ESR                  0.012 ohm
+= ESR loss                85.5 J          against an 86.6 J gap, agreeing to 98.7 %
+```
+
+With that term included the closure is **100.0 %** and the row passes.
+
+This is the open half of **E17**, and `sizing.py` says so in a comment at the point where it
+matters: `thermal_campaign()` carries a literal `Q_esr=160` J placeholder with the note that no
+script models a bank ESR at all, and `energy_closure()` omits the term entirely.
+
+A lumped energy ledger cannot see this term, because it has no state variable to attach it to; a
+circuit solve can, because it integrates the current it is already carrying. That is the reason
+A8 was specified. The placeholder it lands on was carrying **160 J against 85.5 J from the
+solve**, nearly a factor of two high.
+
+**85.5 J is a simulation result, not a measurement.** It is a second independent number against a
+placeholder that previously had none, which is what E17 asked for, and it is still one model
+checking another. Nothing in this repository has been measured. Logged as **P24**.
 
 ## What this can find that the analytic model cannot
 

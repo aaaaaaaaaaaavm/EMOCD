@@ -130,8 +130,3 @@ the dated sequence above because it depends on a budget and a bench, not on a da
 
 **Anything that would move a number without an analysis behind it.** The standing rule holds:
 record the discrepancy, run the analysis, propagate once.
-
-## Publication
-
-[`VENUE.md`](VENUE.md) records what the prior-art review turned up about where this belongs,
-and the four things that have to be true before it goes anywhere.

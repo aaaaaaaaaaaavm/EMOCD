@@ -42,13 +42,13 @@ file () {  # title, labels, body
 echo "== roadmap =="
 
 file "Re-run A8 at the current operating point" "validation,phase-I,stale-operating-point" \
-"Half of P19, and P24 gives it a number.
+"Half of P19, and P23 gives it a number.
 
 \`validation/spice/emocd_shot.cir\` still carries the superseded operating point. Peak current moved 392 to 330 A and the stroke 127.7 to 157.3 ms, which is exactly what A8 exists to check.
 
 A8's declared band was **127.7 ms +/-10 %**, so 114.9 to 140.5 ms. The current value of 157.3 ms is 23 % above the band centre and outside the band. The recorded pass is a pass against a superseded target.
 
-**Declare a fresh band before running, not after.** Rewriting the old band to fit the new number is the one move that would make the whole validation record worthless. Record: [OPEN_PROBLEMS.md]($B/OPEN_PROBLEMS.md) P24 and P19."
+**Declare a fresh band before running, not after.** Rewriting the old band to fit the new number is the one move that would make the whole validation record worthless. Record: [OPEN_PROBLEMS.md]($B/OPEN_PROBLEMS.md) P23 and P19."
 
 file "A7, separation and tip-off" "validation,phase-I" \
 "Gates the momentum-transfer option and closes E7. \`pychrono\` ships on conda-forge rather than PyPI, which is the likely cause of the 'not installable' note.
@@ -87,7 +87,7 @@ Two claims were retracted and one ADR argument was found false. That work is don
 
 Full record: [docs/PRIOR_ART.md]($B/docs/PRIOR_ART.md)."
 
-file "P24, the stroke time was stale in six places" "defect,phase-I,stale-operating-point" \
+file "P23, the stroke time was stale in six places" "defect,phase-I,stale-operating-point" \
 "127.7 ms belongs to the superseded 20.37 m/s point. Under constant acceleration the stroke time is 2s/v, and at 16.537 m/s over the 1.30 m accel zone that is 157.3 ms.
 
 The prose is corrected. **A8's declared band is not**, deliberately. See the A8 re-run issue."

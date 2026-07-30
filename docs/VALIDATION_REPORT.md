@@ -109,13 +109,31 @@ terminal.
 | Quantity | `motor_model.py` | ngspice | Deviation | Band | |
 |---|---|---|---|---|---|
 | Exit velocity | 20.372 m/s | 20.366 | −0.03 % | ±10 % | pass |
-| Pulse duration | 127.7 ms | 127.66 | −0.03 % | ±10 % | pass **at the superseded operating point**, see P24. The current value is 157.3 ms, outside this band |
+| Pulse duration | 127.7 ms | 127.66 | −0.03 % | ±10 % | pass **at the superseded operating point**, see P23. The current value is 157.3 ms, outside this band |
 | Peak current | 391.7 A | **415.2 A** | +5.98 % | ±10 % | pass |
 | Bank sag | 4.88 % | 5.06 % | +0.18 pts | ±1.5 pts | pass |
 | Energy drawn | 2634 J | 2729 J | +3.59 % | ±5 % | pass |
 
 Two different integrators landing within 0.03 % on exit velocity is a real check of the
 shot model's arithmetic. All five declared bands met, **and two findings fell out anyway.**
+
+### A8-R: re-run at the current operating point, 2026-07-30
+
+The table above belongs to the 20.37 m/s point. The deck was re-run at 16.537 m/s against bands
+declared fresh and committed before the deck was touched.
+
+| Quantity | Reference | ngspice | Deviation | Band | |
+|---|---|---|---|---|---|
+| Peak current | 330.3 A | 346.8 A | +5.0 % | ±10 % | pass |
+| Pulse duration | 157.3 ms | 157.26 | −0.03 % | ±10 % | **pass**, and this closes the P23 row |
+| Energy drawn | 2796 J | 2880 J | +3.0 % | ±5 % | pass |
+| Bank sag | 5.19 % | 5.35 % | +0.2 pts | ±1.5 pts | pass |
+| Copper loss | 828 J | 827.7 J | −0.04 % | ±15 % | pass, but not independent: `Pcu` is a constant in the deck |
+| Energy closure | 100.0 % | **97.0 %** | −3.0 pts | 98-102 % | **fail** |
+
+**Five of six.** The closure failure is bank ESR dissipation, 85.5 J per shot, which the circuit
+models and the analytic ledger has no term for at all. With it included the closure is 100.0 %.
+It also puts the selected 6.0 F bank below its own required capacitance. Logged as **P24**.
 
 Detail: [`validation/results/A8_pulse.json`](../validation/results/A8_pulse.json), netlist at
 [`validation/spice/emocd_shot.cir`](../validation/spice/emocd_shot.cir).

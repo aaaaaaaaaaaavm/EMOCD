@@ -16,18 +16,16 @@ engineering record.** If any other repository disagrees with this one, this one 
 
 ## Why four
 
-The programme has two competing goals, stated plainly in [`WHY.md`](WHY.md): finish
-high-quality work now, and stay free to question everything later. Those goals fight each
-other inside a single repository. So they are separated by structure rather than by
-discipline, because my own account names spiralling into redesign as the failure
-mode, and discipline is what fails first under that pressure.
+The programme has two goals that pull against each other: deliver a frozen, citable body of
+work now, and keep the design open to revision as evidence arrives. Inside a single repository
+one of the two always loses. Separating them by structure means neither has to.
 
-| | Stability requirement | Who reads it |
-|---|---|---|
-| **VOLLEY** | High, it is a Phase I deliverable | Aerospace companies, recruiters, reviewers |
-| **EMOCD-paper** | Follows the flagship exactly | Researchers reproducing the work |
-| **EMOCD-thesis** | Follows the flagship, plus university material | Examiners, viva panel |
-| **EMOCD-lab** | **None. Instability is the point** | Me, and anyone curious about what comes next |
+| | Stability requirement |
+|---|---|
+| **VOLLEY** | High. It is a Phase I deliverable and carries the baseline |
+| **EMOCD-paper** | Follows the flagship exactly |
+| **EMOCD-thesis** | Follows the flagship, plus university submission material |
+| **EMOCD-lab** | None. Phase II work is expected to change under you |
 
 ## Which are generated, and why that matters
 
@@ -87,8 +85,7 @@ criteria written when they were deferred, see [`docs/PHASE_II.md`](PHASE_II.md).
 **If you want to know whether to trust it:** [`PROVENANCE.md`](PROVENANCE.md), then
 [`OPEN_PROBLEMS.md`](../OPEN_PROBLEMS.md).
 **If you want to know what it currently claims:** [`BASELINE.md`](BASELINE.md).
-**If you want to know why any of it is the way it is:** [`WHY.md`](WHY.md), then
-[`docs/adr/`](adr/).
+**If you want to know why any of it is the way it is:** [`docs/adr/`](adr/).
 
 ## Governance
 

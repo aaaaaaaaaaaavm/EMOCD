@@ -25,11 +25,8 @@ The [flagship](https://github.com/aaaaaaaaaaaavm/EMOCD) is a Phase I deliverable
 stability is a design requirement. This repository is the pressure valve that lets it stay
 frozen.
 
-The reasoning is in the flagship's
-[`WHY.md`](https://github.com/aaaaaaaaaaaavm/EMOCD/blob/main/docs/WHY.md): the stated
-failure mode is spiralling into redesign. A Phase II track kept *inside* the flagship is a soft
-boundary, one `git checkout` from becoming an edit to the frozen baseline. This is a hard wall
-instead of a line on the floor.
+A Phase II track kept *inside* the flagship is a soft boundary, one `git checkout` from
+becoming an edit to the frozen baseline. This is a hard wall instead of a line on the floor.
 
 **Redesign freely here. Do not touch the baseline there.**
 
