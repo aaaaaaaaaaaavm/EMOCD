@@ -84,7 +84,7 @@ architecture solved for a different payload.
 | | |
 |---|---|
 | Concept | Magazine-fed electromagnetic launch: belt-feed indexing, pulsed coilgun ejection, ignition deferred to 20 m altitude so no thermal event occurs inside the structure |
-| Scale | 500 kg booster class, 50 m/s exit, **2.50–4.17 MJ per launch** across a sourced 15–25 % efficiency band, **10.6–18.5 cycles/min** on a 1 MW supply |
+| Scale | 500 kg booster class, 50 m/s exit, **2.50–4.17 MJ per launch** across a sourced 15–25 % efficiency band, **10.6–15.0 cycles/min** on a 1 MW supply — *corrected; the paper prints 18.5* |
 | Method | First-order energy, ballistic and g-load analysis. Names its own next step: ANSYS structural validation plus a subscale coilgun efficiency test |
 
 **The reason it belongs next to EMOCD.** It selects a **coilgun**; EMOCD

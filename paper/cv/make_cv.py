@@ -131,7 +131,7 @@ calibration, 2nd globally at IREC 2025. Seeking propulsion, structures, or test 
   \item Applied the same magazine-fed electromagnetic launch architecture to a 500\,kg booster
         class: belt-feed indexing, pulsed coilgun ejection, ignition deferred to 20\,m altitude.
         \textbf{2.50--4.17\,MJ per launch} across a sourced 15--25\,\% efficiency band,
-        \textbf{10.6--18.5 cycles/min} on a 1\,MW supply.
+        \textbf{10.6--15.0 cycles/min} on a 1\,MW supply.
   \item \textbf{Selected a coilgun here and rejected one for the CubeSat deployer} --- the same
         trade, resolved oppositely, because both are sized by the payload's g-limit via
         $s_{\min}=v^2/2ng$. A 15\,m rail holds 8.5\,g against a 10--15\,g propellant grain; a
@@ -175,7 +175,10 @@ motor replace an ultra-high-speed unit; FMEA completed (ANSYS, MATLAB).
 
 \cvsection{Applied AI and software}
 
-\job{AI System Architect}{Avisys Services \textbullet\ previously AI Associate}{2025--present}
+%% Dates per LinkedIn, on the author's instruction (2026-07-30). The Cloudflare resume's
+%% "2021 - Present" for Avisys is NOT used -- it conflicts with both LinkedIn and the general
+%% resume's 05/2025, and LinkedIn is the structured public record.
+\job{AI System Architect}{Avisys Services \textbullet\ AI Associate, Sep 2025 -- Jan 2026}{Jan 2026--present}
 \begin{tight}
   \item Own AI systems architecture and product design for AviateCX, an enterprise telecom CRM:
         shipped a \textbf{RAG} retrieval assistant (pipeline, vector store, prompt engineering) and a
