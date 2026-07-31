@@ -39,7 +39,7 @@ def facts():
     f = {
         "v_exit": shot["v_exit"],
         "a_peak_g": shot["a_g"],
-        "energy_kJ": sizing["energy_closure"]["drawn_J"] / 1000.0,
+        "energy_kJ": sizing["energy_closure"]["drawn_net_J"] / 1000.0,
         "kt": motor["Kt_N_per_kA"],
         "v_fam_lo": min(v["v_exit"] for v in fam.values()),
         "v_fam_hi": max(v["v_exit"] for v in fam.values()),

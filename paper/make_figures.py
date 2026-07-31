@@ -23,6 +23,7 @@ Run:  python3 paper/make_figures.py
 import math
 import os
 import sys
+import json
 
 import numpy as np
 import matplotlib
@@ -308,8 +309,8 @@ def main():
     os.makedirs(OUT, exist_ok=True)
     print("regenerating figures from analysis/ ...")
     Kt, ripple, xs, Fs = mm.thrust_constant(profile=True)
-    s = mm.shot(Kt)
-    dv = s['v_exit']
+    s_ = mm.shot(Kt)
+    dv = s_['v_exit']
     print(f"  operating point: Kt = {Kt*1e3:.2f} N per kA/m, "
           f"v_exit = {dv:.3f} m/s, sled {mm.M_SLED} kg")
 
@@ -319,10 +320,24 @@ def main():
     f04_life(dv)
     f05_dragvs()
     f06_conj(dv)
-    f07_family(Kt, s['F_cmd'])
-    f08_brake(Kt, dv, mm.V0 * (1 - s['sag_pct'] / 100))
+    f07_family(Kt, s_['F_cmd'])
+    f08_brake(Kt, dv, mm.V0 * (1 - s_['sag_pct'] / 100))
     f09_tipoff()
     f11_uq(dv)
+
+    # A rebuild that produces byte-identical PNGs leaves no trace in git, and
+    # tools/check_artifacts.py compares commit times, so it cannot tell "not rebuilt"
+    # from "rebuilt, unchanged". This stamp is what it checks instead: it records the
+    # operating point the figures were actually drawn from, so a stale figure set is
+    # visible as a stale stamp even when the images happen not to move.
+    stamp = dict(v_exit=round(float(dv), 3), Kt_N_per_kA=round(float(Kt) * 1e3, 2),
+                 sled_kg=float(mm.M_SLED), E_drawn_J=round(float(s_['E_drawn']), 1),
+                 E_recovered_J=round(float(mm.regen_brake(
+                     Kt, dv, mm.V0 * (1 - s_['sag_pct'] / 100))['E_recovered']), 1))
+    with open(os.path.join(OUT, 'BUILD.json'), 'w') as fh:
+        json.dump(stamp, fh, indent=2)
+        fh.write("\n")
+    print("  BUILD.json", stamp)
     print("done.")
 
 

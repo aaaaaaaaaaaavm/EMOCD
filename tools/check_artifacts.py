@@ -39,10 +39,16 @@ PAIRS = [
                           "analysis/results/sizing.json",
                           "analysis/results/astro_results.json",
                           "tools/make_baseline.py"]),
-    ("paper/figures/F01_shot.png", ["analysis/results/motor_results.json",
-                                    "paper/make_figures.py"]),
-    ("paper/figures/shot.gif", ["analysis/results/motor_results.json",
-                                "paper/make_animation.py"]),
+    # The figures are checked through their build stamp, not through the PNGs. A rebuild
+    # whose output happens to be byte-identical leaves nothing in git, so commit times
+    # cannot distinguish "not rebuilt" from "rebuilt, unchanged" -- and F01 hit exactly
+    # that on 2026-07-31, when the shot was untouched but the figure script was not.
+    # make_figures.py writes BUILD.json with the operating point it drew from, so the
+    # stamp moves whenever the figures are actually regenerated.
+    ("paper/figures/BUILD.json", ["analysis/results/motor_results.json",
+                                  "paper/make_figures.py"]),
+    ("paper/figures/BUILD_anim.json", ["analysis/results/motor_results.json",
+                                       "paper/make_animation.py"]),
 ]
 
 

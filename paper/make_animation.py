@@ -12,6 +12,7 @@ Run:  python3 paper/make_animation.py
 Out:  paper/figures/shot.gif
 """
 import os
+import json
 import sys
 
 import matplotlib
@@ -97,6 +98,15 @@ def main():
     print(f"wrote {os.path.relpath(dest)}  ({n} frames, {kb:.0f} kB)")
     print(f"  exit velocity {out['v_exit']:.3f} m/s at {out['a_g']:.2f} g, "
           f"{out['t_ms']:.1f} ms, peak {out['I_peak']:.0f} A")
+    # Same reason make_figures.py writes one: a rebuild whose GIF comes out
+    # byte-identical is invisible to git, so tools/check_artifacts.py has nothing to
+    # compare commit times against. The stamp is what it checks.
+    stamp = dict(v_exit=round(float(out['v_exit']), 3), a_g=round(float(out['a_g']), 2),
+                 t_ms=round(float(out['t_ms']), 1), I_peak=round(float(out['I_peak']), 1),
+                 frames=n)
+    with open(os.path.join(HERE, "figures", "BUILD_anim.json"), "w") as fh:
+        json.dump(stamp, fh, indent=2)
+        fh.write("\n")
 
 
 if __name__ == "__main__":
