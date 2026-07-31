@@ -9,6 +9,28 @@ list these changes close) and `docs/DECISION_LOG.md` (why design choices were ma
 
 ---
 
+## 2026-07-31 (third pass): two analyses close, and the run sheets start recording their own results
+
+| ID | Item | Detail |
+|---|---|---|
+| REC-01 | **A1 and A5 write their results into their own sheets** | Both were pure specifications. A1 ran 2026-07-29 and A5 the same day with verdict **FAIL**, but the outcomes lived only in `OPEN_PROBLEMS.md`, `CHANGELOG.md` and `RESULTS.md`, while A4, A8, A10 and A11 carried theirs inline. `validation/` is the directory this project's credibility rests on and two of its sheets read as unrun. **A run sheet that does not record its own result is not a record.** |
+| REC-02 | **The index was wrong about A1 for a day, and the cause is the point** | It said "specified, not run", contradicting `OPEN_PROBLEMS.md` E1 and `ROADMAP.md`. A search of `validation/` for completed runs found the sheets that record their results and missed the two that do not. Corrected, with the reason kept. |
+| A12-01 | **P17 closed by a second independent method** | A Maxwell stress tensor integrated over the mid-gap plane gives **2627.6 N** against magpylib's volume integral of the field gradient at **2686.6 N**, 2.2 % apart, sharing only the block model of the magnets. Five of five declared bands. The second method was chosen *because it could disagree*: refining one method's mesh only shows it agreeing with itself. |
+| A12-02 | **`sizing.py` adopts 2686.6 N under a rule declared before the run** | Attraction 3.68 → **2.69 kN**, plate stress 33 → **24 MPa**, margin 20.2 → **28.1**. **A4 is not re-run**: it was loaded 37 % heavy, so it is conservative and its verdict stands, and repeating a passing analysis at a lighter load would replace a real result with a weaker one. Its JSON records the overload. |
+| A12-03 | **P17's explanation of its own finding was backwards** | It blamed Jensen's inequality. `mean(B²) ≥ mean(B)²` means a one-point form at the **true** mean field *under*estimates — Jensen cannot be why the analytic value is high. The cause is the input: 0.55 T is not the mean normal field on the stress plane, which is 0.4127 T. **x1.776** from the assumed field, **x1.267** back from Jensen, net **x1.402** against an observed **x1.402**. Struck through and corrected in place: a right number with a wrong explanation survives review and then misleads whoever picks it up next. |
+| A6-01 | **A6's bands re-declared at the current operating point** | The 2026-07-27 bands are written at **20.37 m/s**, superseded. Running against them would have been **P19** a second time. |
+| A6-02 | **A6 runs reduced; three of five bands come back VOID** | No GMAT, no CARA, no Space-Track, so a 2-D P<sub>c</sub> against `astro.py`'s own propagator with an assumed covariance. At 14–63 km miss distances against a hundreds-of-metres sigma, P<sub>c</sub> **underflows double precision**, and a spread of zeros is not a number. Recorded void, the call A10 made on its own row 4. |
+| A6-03 | **What it found instead is better than what it asked for** | P<sub>c</sub> has a **maximum over covariance scale** — a covariance wide enough to reach a 14.5 km miss is too diffuse to put probability inside a 5 m disc. **P<sub>c</sub> ≤ 3.7e-8 for any covariance whatsoever, 2700x below the 1e-4 anyone would act on.** So P<sub>c</sub> is not *robust* where distance is fragile; it is **irrelevant**. **P1 stays open** — a bound is not a probability — but the paper's realignment-plus-COLA position is now supported rather than merely honest. |
+| SW-01 | **Every current-state count recomputed** | `ROADMAP.md` said 27 problems, 24 E-items, "4 of 9" and "3 of 9" validations, 179 result fields. Actual: **29, 25, 8 of 10, 611**. `KILL_CRITERIA.md` said 27 defects. The README's first screen said FEA was outstanding, which stopped being true when A4 and A1 ran. `SUMMARY.md` said four of nine. |
+| SW-02 | **A cwd-relative output path that had already fired** | Every script in `analysis/` wrote to a relative `results/`, so running one from the repository root created a **second, silently stale copy** of its JSON. One had been committed on 2026-07-30 carrying the superseded inter-array force. Removed; all eight now write next to themselves. |
+
+**What authorised it.** A12 is an error correction admitted by `docs/BASELINE.md`, taken
+band-first so it does not repeat the procedural failure P17 logs against itself. A6 changes no
+baseline value. Everything under REC and SW is documentation catching up with what the scripts
+already said.
+
+---
+
 ## 2026-07-31 (second pass): the payload ladder, the market case, and the bank as the real constraint
 
 Four pieces of work that share one finding: **the bank, not the winding, is what limits this
