@@ -5,6 +5,10 @@
 > shown. This file was first written from abstracts alone on 2026-07-29 and **three of its
 > conclusions were wrong**; the corrections are listed at the bottom rather than silently applied.
 
+**What to do about all of it is in [`RESEARCH_POSITION.md`](RESEARCH_POSITION.md)**, organised
+by adopt / cite / avoid / replicate / concede. This file is the evidence; that one is the
+position.
+
 This file exists because a literature check on 2026-07-29 found **published work on this exact
 concept that the paper did not cite**. Two claims in `paper/paper.tex` did not survive it, and one
 argument in `ADR-003` turned out to be false. All are corrected rather than defended. Logged as
