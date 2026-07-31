@@ -67,6 +67,71 @@ knows what they want the answer to be.
 
 ---
 
+## Amendment 3: regenerative recovery adopted into the Phase I baseline
+
+**The dossier and [`../BASELINE.md`](../BASELINE.md) say** that Phase I deliverables develop
+against a frozen baseline (§2), that the baseline moves only for an error correction, a
+validation outcome against a pre-declared band, or a defect that makes a deliverable wrong, and
+that **performance improvement is Phase II** — §5, *finished engineering before better
+engineering*, which the adoption record calls "the hardest line in the document to hold".
+
+**What was done instead:** regenerative braking was added to the Phase I design and its credit
+taken into the baseline numbers.
+
+**Authorisation:** programme author, 2026-07-31, explicitly and after the rule was put in front
+of them.
+
+### The two halves, because only one of them needed authorising
+
+| | Route |
+|---|---|
+| **The analysis** ([`../../validation/A11_regen_braking.md`](../../validation/A11_regen_braking.md)) | **Error correction, no amendment needed.** `DECISION_LOG.md`, `RESULTS.md`, `SUMMARY.md`, `README.md` and `motor_model.py`'s docstring all assert that the sled's energy is not recoverable. The 2025 decision argued only that the motor cannot *arrest* the sled. The published claim is wider than its evidence, which is the defect class this repository logs as P-items |
+| **The design change** | **Improvement. This amendment.** Adding a regen stator section downstream of release makes the machine better, not correct. Nothing in Phase I is wrong without it |
+
+### The reasoning that decided it, and the argument against
+
+**For.** The sled carries 44.8 % of every shot into the brake, the largest single loss in the
+machine. A11 puts about a quarter of it back inside the existing envelope, at the existing
+sheet-current rating, with peak current below the shot's own. A deployer whose thesis defence
+includes "44.8 % is thrown away" when 23.6 % of it is retrievable with no envelope change is a
+design that has to be defended rather than presented.
+
+**Against, recorded because it is the stronger procedural argument.** This is exactly the
+reasoning §5 exists to refuse. Every deferred item in [`../PHASE_II.md`](../PHASE_II.md) had a
+sponsor who thought it was worth the exception, and PII-1 recovers the entire velocity shortfall
+for 1.5 % of shot energy — a better return than this one — and still defers. **The honest
+alternative was to open PII-11 and leave it there.**
+
+The author chose adoption. That choice is recorded here rather than absorbed into a commit
+message, so that a reader who disagrees can see precisely what was traded and by whom.
+
+### The risk this creates, and its mitigation
+
+**The risk is precedent, not physics.** The improvement/correction boundary is what the baseline
+is made of, and `BASELINE.md` says so in terms: *"If that distinction ever bends toward whichever
+is easier, the baseline has stopped meaning anything."* This is the first time it has been
+crossed by authorisation rather than by type, and the second time is always easier than the
+first.
+
+Four things bound it:
+
+1. **Scope.** This amendment authorises one item. It does not reopen PII-1 through PII-10, and
+   it is not a general licence to promote improvements. Any further promotion needs its own
+   numbered amendment with its own argument, and the argument may not be "Amendment 3".
+2. **The bands gate the change.** A11's acceptance bands were committed in `6606567`, before the
+   sweep. **If the run misses them, the design change does not happen** and this amendment
+   lapses. An authorised change that is also allowed to move its own target is not a change
+   control, it is a formality.
+3. **`v_exit` must not move.** Regeneration acts after release. If 16.537 m/s changes by so much
+   as a rounding digit, the model has coupled the loss ledger to the performance claim and the
+   change is reverted rather than explained.
+4. **The packaging question stays open.** The 240 mm of stator is assumed to fit the arrest
+   section; no fin or ring-spring layout has been drawn against it. That stays a Phase I defect,
+   recorded as one. Adopting the electromagnetic result does not adopt a mechanical design
+   nobody has done.
+
+---
+
 ## What has *not* been amended
 
 The parts of the dossier that constrain rather than enable are unchanged and binding:
@@ -75,7 +140,8 @@ The parts of the dossier that constrain rather than enable are unchanged and bin
 - **§4**: the flagship is a deliverable and its stability is a design requirement. It is not
   split or substantially reorganised.
 - **§5**: *finished engineering before better engineering.* The hardest line in the document
-  to hold, and the reason the baseline exists.
+  to hold, and the reason the baseline exists. **Amendment 3 is a scoped, recorded departure
+  from it and the only one.** Everything else deferred stays deferred.
 - **§7**: every feature needs a path toward validation.
 
 ## How to record the next amendment
