@@ -9,6 +9,29 @@ list these changes close) and `docs/DECISION_LOG.md` (why design choices were ma
 
 ---
 
+## 2026-07-31 (second pass): the payload ladder, the market case, and the bank as the real constraint
+
+Four pieces of work that share one finding: **the bank, not the winding, is what limits this
+machine**, and three separate lines of enquiry arrived at it independently.
+
+| ID | Item | Detail |
+|---|---|---|
+| PL-01 | **`analysis/payload_family.py`, and the packing counts corrected downward** | `PAYLOAD_CLASSES.md` carried four hand-typed tables whose counts were raw volumetric bounds, published alongside a note that realistic packing is 40–60 % of them and then quoted unadjusted. PocketQube 1P appeared as **546 per load and 0.14 kg per satellite**. The script calibrates packing efficiency against the one configuration laid out in CAD — the 3U case, where a volume ratio predicts 21 and the magazine holds 12 — and applies the same 56.2 % to every class: **326 and 0.236 kg**. `KILL_CRITERIA.md` threat 1 still closes, by 2–5x rather than 6x. The ladder now runs from chipsats to 12U, and classes beyond what a twelve-shot escapement and thermal case support are flagged rather than tabulated as available. |
+| PL-02 | **A payload-class subsection in the paper** | Velocity is flat across the family because the sled is most of the moving mass; deployer mass per satellite moves by a factor of thirty. That is the answer to the cold-gas comparison and it turns on payload class, not on any machine parameter. Its three qualifications are in the section rather than beneath it. |
+| MK-01 | **`docs/MARKET.md`** | Kept out of the paper deliberately. The number it turns on is not a forecast: of the 4,800-odd nanosatellites catalogued as of January 2026, about **222 carry propulsion**. The other 92 % did not decline propulsion because they had no use for orbital control. The CubeSat market projections are third-party research and the file tabulates five firms disagreeing — 15.6 to 18.3 % CAGR, USD 1.65 to 1.98 B, same market, same year — rather than picking one. Section 5 is where VOLLEY loses. Two sourced sentences and two references into the paper's introduction. |
+| LV-01 | **`analysis/velocity_levers.py`, and the ranking inverts** | The lever table was hand-computed on 2026-07-28, before anything modelled bank ESR. The new column is the **highest bank ESR at which each lever's shot still completes**, bisected on the real integrator because the ceiling is set at the sagged voltage, not at 96 V. Two-layer stator draws **597 A and needs 39 mohm**; raised sheet current **749 A and 31 mohm**; as drawn, 347 A and 66 mohm. A single commercial string is 116–185. **No row in the table clears it.** |
+| LV-02 | **PII-3 gated behind PII-7, in the entry criterion rather than in prose** | The two levers with the best electromagnetic case are the two that make the bank hardest to buy. `PHASE_II.md` now says PII-3 may not be reviewed before PII-7 closes. |
+| LV-03 | **A modelling error in the old table, found by generating it** | The two-layer rows were reported at 42 A/mm² because nothing told the model the winding got thicker. It runs at 21, the same as today. The 2026-07-28 prose had this right and the arithmetic did not. |
+| PI1-01 | **PII-1 re-modelled, and it compounds with regeneration** | Regeneration takes a fixed ~296 J over 240 mm of stator whatever speed the sled enters at, so the spring moves energy to the payload and regeneration takes its slice of what remains. Together: efficiency **21.2 to 31.6 %**, brake duty **1291 to 711 J**. Past what the superseded 4.86 kg design claimed, on a sled twice the mass. **It still defers**, and the file now states why the risk is not comparable to regeneration's. |
+| LIT-01 | **The pulsed-power cluster, 2 entries to 29** | PII-7's entry criterion names this gap. Filled by database search rather than reference harvesting, and marked as a **different provenance** inside its own section: where the search did not return volume, issue or pagination, the fields are marked unverified rather than filled in plausibly. Two findings already sharpen P26 — end of life for these parts is a **two-fold ESR increase**, and −40 °C can **double ESR without shortening life**. |
+
+**What authorised it.** PL-01 and LV-01/LV-03 are error corrections: published numbers that
+disagreed with their own stated method. MK-01, PL-02 and LIT-01 add documentation and change no
+baseline value. PI1-01 quantifies a deferred item and leaves it deferred. Nothing here needed an
+amendment.
+
+---
+
 ## 2026-07-31: the sled's energy stops being a write-off
 
 A11 asked a question the record had closed without answering. The 2025 arrest decision
