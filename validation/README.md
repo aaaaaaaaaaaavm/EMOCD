@@ -1,7 +1,8 @@
 # Validation plan
 
-Independent cross-checks of the claims in `analysis/`. **Six of the eleven below have run.**
-One of them failed.
+Independent cross-checks of the claims in `analysis/`. **Eight of the ten below have run.**
+One of them failed, one returned three rows that could not be evaluated at all, and one found a
+published number 37 % high.
 
 ## Why it exists
 
@@ -33,10 +34,11 @@ another model (E4). Each analysis closes a specific named item.
 | A12 | Inter-array attraction, two numerical methods | magpylib + surface Maxwell stress | **P17** | **RUN 2026-07-31**: 2686.6 N adopted, five of five bands |
 
 A10 and A11 are cross-checks of the model against its own physics rather than against an
-external tool, which is a weaker class of check and is labelled as one. A12 is stronger than
-both: its two methods share only the block model of the magnets. They are here because
-both ask a question no external solver was going to be pointed at: whether the bank can source
-the shot at all, and whether the sled's energy has to be thrown away.
+external tool, which is a weaker class of check and is labelled as one. They are here because each
+asks a question no external solver was going to be pointed at: whether the bank can source the
+shot at all, and whether the sled's energy has to be thrown away. **A12 is stronger than both** —
+its two methods share only the block model of the magnets — and **A6 is weaker than any of them**,
+since both its geometry and its covariance come from inside this project.
 
 > **This table was wrong about A1 for a day**, from 2026-07-30 to 2026-07-31: it said "specified,
 > not run" while `OPEN_PROBLEMS.md` E1 and `docs/ROADMAP.md` both recorded A1 as run on
@@ -64,6 +66,14 @@ sheet can no longer function as a test and is marked superseded. The replacement
 they predated the P3 correction, and was fixed on 2026-07-27.
 
 When a band is missed, the outcome is a new P-item, not a quietly widened band.
+
+**And when a band cites an external document, record which document, which revision, and whether
+a tighter comparator exists in the same family.** Added 2026-07-31 after **P30**: A7's tip-off
+band was set at 5 °/s from the external NRCSD-E, whose publisher calls that figure provisional,
+while the internal NRCSD that has actually flown specifies 2 °/s. Nobody picked the easy number
+on purpose — it is what happens when a band cites one source and nobody asks what else that source
+set contains. **A band may still be tightened before a run**, which is how that one was fixed; it
+may never be touched after one.
 
 ## Conventions
 

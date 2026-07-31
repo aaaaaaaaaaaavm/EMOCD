@@ -48,6 +48,14 @@ earlier on PSLV-C53. It uses a **non-pyrotechnic hold-down and release mechanism
 carries **onboard telemetry for deployment confirmation and ejection-velocity measurement**.
 Published ejection velocity is **< 2 m/s** across the whole family.
 
+**A sourced upper bound on the whole spring class, added 2026-07-31.** The NanoRacks NRCSD-E
+interface document specifies that a CubeSat *"shall be capable of withstanding a deployment
+velocity of **0.5 to 2.5 m/s** at ejection"*. That is the widest published figure in the flown
+spring family, and it is the number the "eight times a spring" comparison should be made against
+rather than the 2 m/s used elsewhere here: **16.5 / 2.5 = 6.6x, not 8x.** The comparison is
+weaker than the one this project has been making, and the honest version is still an order of
+magnitude in the regime that matters.
+
 Three things follow, and none of them are comfortable:
 
 - **It is the exact product VOLLEY argues against**, built by the Indian company whose

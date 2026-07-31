@@ -59,9 +59,11 @@ spring, not a shock event. Full working in
 [`DESIGN_OPTIONS_exit_velocity.md`](DESIGN_OPTIONS_exit_velocity.md).
 
 > **Entry criterion.** A7 (separation and tip-off) must run and show that a guided release
-> through 43 mm of relative travel holds tip-off inside the band **against its correctly
-> sourced value**, the run sheet declares ≤5 °/s citing NRCSD-E while the sibling NRCSD ICD
-> says 2 °/s, and that must be resolved first. Plus a mechanism concept that resets twelve
+> through 43 mm of relative travel holds tip-off inside the band. ~~against its correctly
+> sourced value, the run sheet declares ≤5 °/s citing NRCSD-E while the sibling NRCSD ICD
+> says 2 °/s, and that must be resolved first.~~ **Resolved 2026-07-31: no conflict, two
+> different deployers. The band is now the flown NRCSD figure of 2 °/s** rather than the
+> provisional NRCSD-E 5 °/s, which makes this criterion materially harder (P30). Plus a mechanism concept that resets twelve
 > times and has a safing path for a cocked 42 J spring through the existing three-inhibit
 > chain.
 

@@ -246,7 +246,8 @@ what the Phase II gate is for.
 
 ## The option nobody wants to say out loud
 
-Re-scope the claim to 17-18 m/s. That is still eight times what a spring deployer delivers,
+Re-scope the claim to 17-18 m/s. That is still seven times what the fastest published spring
+deployer delivers (NRCSD-E, 2.5 m/s),
 and it is what the machine as drawn will actually do. It is not free either: P8 puts the
 lifetime multiplier at x1.68 at 17.88 m/s rather than x1.80, so the astrodynamics headline
 moves with it.

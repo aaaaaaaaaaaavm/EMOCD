@@ -6,7 +6,7 @@ BTech Mechanical Engineering, Symbiosis Institute of Technology, Pune · 2023-20
 
 In 2021 I got stuck on a dumb question: why do we still deploy CubeSats with springs. I never
 really got unstuck. That question is now **VOLLEY**: an electromagnetic deployer that ejects
-unmodified 3U CubeSats at a programmable velocity, eight times what a spring gives you, from a
+unmodified 3U CubeSats at a programmable velocity, around seven times what a spring gives you, from a
 spent rideshare upper stage. I've presented it at DRDO ARDE and the India Science Festival.
 
 Before that there was rocketry, where our payload took **2nd globally** at the SDL Payload

@@ -111,12 +111,23 @@ failing at 3U.
 If the satellite leaves tumbling faster than it can detumble, the customer has lost the mission,
 and no customer accepts that risk twice.
 
-> **Kill threshold: tip-off above the deployer ICD limit.** The run sheet declares ≤5 °/s citing
-> NRCSD-E; the sibling NRCSD ICD says **2 °/s**. That discrepancy has to be resolved before the
-> band means anything.
+> **Kill threshold: tip-off above 2 °/s per axis**, the flown NRCSD figure.
 
-**Status: unmodelled.** A7 is specified and not run; E7 is open. This is the least validated part
-of the design and it gates PII-1, the best available velocity lever.
+**Resolved 2026-07-31, and the resolution made the threshold harder.** This entry used to say the
+run sheet declared ≤5 °/s citing NRCSD-E while a sibling NRCSD ICD said 2 °/s, and that the
+discrepancy had to be settled first. **There was no discrepancy — they are two different
+deployers.** NRCSD is the internal one, flown through the ISS airlock hundreds of times, at
+**< 2 °/s/axis**. NRCSD-E is the external Cygnus-mounted one at < 5 °/s/axis, a figure its own
+publisher describes as pending further testing.
+
+So the band was set against the looser comparator, from the provisional document, with no record
+that the tighter flown number existed. **A7's band is now 2 °/s** and is 2.5x harder to pass than
+it was. See **P30**.
+
+**Status: unmodelled, and the threshold just moved the wrong way for us.** A7 is specified and not
+run; E7 is open. This is the least validated part of the design, it gates PII-1, and the payload's
+centre of mass sits 70 mm off the thrust line, which is the term that drives tip-off in the first
+place.
 
 ---
 
