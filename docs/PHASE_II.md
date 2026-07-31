@@ -43,9 +43,16 @@ it was given.
 
 Sled and payload need not separate at the same speed. A momentum-conserving spring push at the
 end of the stroke recovers the entire velocity shortfall for **41.8 J against a 2881 J shot
-(1.5 %)**, and brake duty *falls*, 1291 to 1050 J, because the sled leaves slower. Against
-stroke-lengthening, which needs **673 mm** more envelope on a machine already 44 % over ESPA,
-this needs **43 mm** of guided rail.
+(1.5 %)**, and brake duty *falls* because the sled leaves slower. Against stroke-lengthening,
+which needs **673 mm** more envelope on a machine already 44 % over ESPA, this needs **43 mm** of
+guided rail.
+
+**Re-run 2026-07-31 with regeneration in the model, and the two compound.** Regeneration takes a
+fixed ~296 J over the 240 mm of regen stator whatever speed the sled enters at, so the kick and
+the recovery act on different terms rather than competing. Together they take
+electrical-to-payload efficiency from **21.2 % to 31.6 %** and brake duty from **1291 J with
+neither to 711 J with both**. That is past the 31.5 % the superseded 4.86 kg design claimed, on a
+sled twice the mass.
 
 Held at the 25 g qualification limit the kick is 15.6 ms over 42.7 mm at 981 N, an ordinary
 spring, not a shock event. Full working in
@@ -83,10 +90,13 @@ current doubles at unchanged current density: **20.61 m/s at a 7.50 kg sled, J s
 21 A/mm²**. The stator does not ride the sled, so its copper costs dry mass, not velocity.
 
 > **Entry criterion.** A1 must run first, this trades one K<sub>t</sub> against another, and
-> both are currently checked only analytic-against-analytic. Then peak current at roughly 580 A
-> must be shown compatible with the bank, and **P26 makes that harder than it looks**: the ESR
-> ceiling is set by deliverable power `V^2/4R`, so roughly doubling the current roughly quarters
-> the ceiling. A two-layer stator would need PII-7 settled first, not alongside.
+> both are currently checked only analytic-against-analytic. **Then PII-7 must be settled, and
+> that is now a gate rather than a caution.** `analysis/velocity_levers.py` computes the bank ESR
+> ceiling for every lever by bisecting the real integrator: two-layer draws **597 A** and drops
+> the ceiling from 66 to **39 mohm**, which needs four parallel strings with no margin, and with
+> 40 % pocketing it is 637 A and 36 mohm. The electromagnetic case for two-layer is the best in
+> the table and its power-system case is the worst. **PII-3 may not be reviewed before PII-7
+> closes.**
 
 ### PII-4: Envelope repackaging (P9)
 
