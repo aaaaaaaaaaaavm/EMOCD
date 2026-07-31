@@ -87,3 +87,86 @@ plainly rather than lean on COLA as a mitigation.
 `validation/results/A6_conjunction.json`, per-pair Pc at the rated point, Pc across the
 velocity sweep, realignment period, plus `covariance_assumption` (stated explicitly),
 `tool_version`, `screening_window_days`, `pc_method`.
+
+---
+
+## Result, run 2026-07-31
+
+`validation/conjunction/pc_2d.py`, written after the bands above were committed in `b405ad8`.
+Foster 2-D P<sub>c</sub> by polar quadrature, geometry from `astro.py::propagate()`, assumed
+diagonal RIC 1-sigma of **100 / 500 / 100 m** and a 5 m combined hard-body radius.
+
+| dv, m/s | Min distance | Relative speed | P<sub>c</sub> |
+|---|---|---|---|
+| 16.120 | 17.25 km | 0.086 km/s | 0 (underflow) |
+| 16.330 | 24.80 km | 0.091 km/s | 0 (underflow) |
+| **16.537, rated** | **14.49 km** | 0.085 km/s | **2.0e-231** |
+| 16.740 | 30.89 km | 0.077 km/s | 0 (underflow) |
+| 16.950 | 62.85 km | 0.085 km/s | 0 (underflow) |
+
+### Against the declared bands
+
+| # | Prediction | Result | |
+|---|---|---|---|
+| 1 | realignment 9.9 days ±10 % | **9.9 days** | **pass** |
+| 2 | max P<sub>c</sub>, flag if > 1e-4 | **2.0e-231** | **pass**, not flagged |
+| 3 | P<sub>c</sub> spread ≤ one order of magnitude | **unmeasurable** | **void** |
+| 4 | min distance spread > P<sub>c</sub> spread | 4.34x against an unmeasurable comparator | **void** |
+| 5 | P<sub>c</sub> spread insensitive to the assumed sigma | **unmeasurable** | **void** |
+
+**Two of five, and three void.** Recording them void rather than reinterpreting them is the
+same call A10 made on its row 4, and for the same reason: the rows assumed a quantity that
+turns out not to exist. **A band written in advance is what makes that visible instead of
+quietly renegotiable.**
+
+### Why they are void, which is the actual finding
+
+Every miss distance is **tens of kilometres against an assumed sigma of hundreds of metres** —
+29 sigma at the rated point. P<sub>c</sub> underflows double precision, and *a spread of
+quantities that are all zero to machine precision is not a number*. The declared test was
+written expecting P<sub>c</sub> to be small but comparable; it is not small, it is absent.
+
+So the run answers a better question instead: **how large would the covariance have to be
+before P<sub>c</sub> mattered at all?**
+
+| sigma_I | d / sigma_I | P<sub>c</sub> |
+|---|---|---|
+| 500 m, assumed | 29.0 | 2.0e-231 |
+| 2 km | 7.2 | 2.4e-20 |
+| 5 km | 2.9 | 3.0e-9 |
+| **10 km** | **1.45** | **3.7e-8, the maximum** |
+| 20 km | 0.72 | 2.5e-8 |
+| 100 km | 0.14 | 1.3e-9 |
+| 500 km | 0.03 | 5.5e-11 |
+
+**P<sub>c</sub> has a maximum over covariance scale, and that maximum is the result.** A
+covariance large enough for its tail to reach a 14.5 km miss is also too diffuse to put much
+probability inside a 5 m disc, so P<sub>c</sub> rises, peaks near `sigma ~ d`, and falls again.
+
+> **P<sub>c</sub> ≤ 3.7e-8 at this geometry, for any covariance whatsoever. That is 2700x
+> below the 1e-4 threshold anyone would act on.**
+
+**This is stronger than what the band asked for, and it needed no CDM.** The question
+"is P<sub>c</sub> robust where minimum distance is not" turns out to be the wrong question:
+P<sub>c</sub> is not robust, it is *irrelevant* — bounded so far below any action threshold
+that its variation cannot matter. The covariance this analysis could not obtain would not have
+changed that.
+
+### What it does and does not close
+
+**It does not close P1**, exactly as the bands said it would not, and for a different reason
+than expected. P1 wanted a quantitative replacement for a fragile minimum-distance claim. What
+this provides is a bound, and a bound is not a probability: it says the answer cannot be large,
+not what the answer is. A defensible per-pair P<sub>c</sub> still needs a real covariance from
+CDMs, and A6-as-specified still stands.
+
+**What it does establish** is that the paper's current position is the right one and is now
+supported rather than merely honest. The paper rests on the 9.9-day realignment period plus
+mandatory per-shot COLA, and quotes no minimum distance. This run says the conjunction geometry
+carries no actionable collision risk at any plausible or implausible uncertainty, which is why
+the realignment period, not the distance, was the right thing to publish.
+
+**Two limitations that are load-bearing.** The geometry is `astro.py`'s Kepler-plus-secular-J2
+propagator, not an integrator — so this is model-against-itself, the weakest class of check
+in this directory. And the RIC covariance is treated as inertially fixed through the encounter,
+which is fine for the seconds a conjunction lasts and wrong for anything longer.

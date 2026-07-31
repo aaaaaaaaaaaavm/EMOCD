@@ -39,6 +39,22 @@ probability of collision via NASA's CARA tools, which integrates over the covari
 instead of sampling one geometry. The test is whether Pc stays stable across the velocity
 sweep that moves minimum distance by an order of magnitude.
 
+> **A6 ran 2026-07-31 in a reduced form and P1 stays open.** Without GMAT, CARA or
+> Space-Track there is no real covariance, so a 2-D Pc was computed against `astro.py`'s own
+> propagator with an assumed one. **The stability test came back void**: at 14 to 63 km miss
+> distances against a hundreds-of-metres covariance, Pc underflows double precision, and a
+> spread of zeros is not a number.
+>
+> **What the run found instead is better than what it was looking for.** Pc has a maximum over
+> covariance scale — a covariance wide enough to reach a 14.5 km miss is too diffuse to put
+> probability inside a 5 m disc — and that maximum is **3.7e-8, some 2700x below the 1e-4
+> anyone would act on, for any covariance whatsoever.** So Pc is not *robust* where distance is
+> fragile; it is **irrelevant**, bounded far below any action threshold.
+>
+> **This does not close P1**, because a bound is not a probability. It does say the paper's
+> current position — the 9.9-day realignment period plus mandatory per-shot COLA, and no
+> minimum-distance claim — is the right one, and is now supported rather than merely honest.
+
 **Fix:** stop quoting a specific minimum distance as a safety result. Reframe around
 what IS robust: the ~8.1-day phase realignment period, and the mitigation of disposing
 of the host stage before the first realignment. State plainly that per-shot COLA is

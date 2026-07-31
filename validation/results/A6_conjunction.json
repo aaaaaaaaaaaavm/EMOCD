@@ -1,0 +1,135 @@
+{
+  "analysis": "A6",
+  "method": "Foster 2-D Pc, polar quadrature, astro.propagate geometry",
+  "bands_declared_in": "validation/A6_conjunction_cara.md",
+  "covariance_assumption": {
+    "sigma_R_m": 100.0,
+    "sigma_I_m": 500.0,
+    "sigma_C_m": 100.0,
+    "frame": "diagonal RIC, treated as inertially fixed over the encounter",
+    "provenance": "ASSUMED. No CDM was available; Space-Track is unreachable here. The Pc VALUES inherit this assumption and are not defensible on their own. Only the SPREAD is claimed, and band 5 tests it."
+  },
+  "hard_body_radius_m": 5.0,
+  "screening_window_days": 30,
+  "dv_sweep_m_s": [
+    16.12,
+    16.33,
+    16.537,
+    16.74,
+    16.95
+  ],
+  "sweep": {
+    "0.5x": [
+      {
+        "dv": 16.12,
+        "min_km": 17.25,
+        "pc": 0.0,
+        "rel_speed_km_s": 0.086
+      },
+      {
+        "dv": 16.33,
+        "min_km": 24.8,
+        "pc": 0.0,
+        "rel_speed_km_s": 0.091
+      },
+      {
+        "dv": 16.537,
+        "min_km": 14.49,
+        "pc": 0.0,
+        "rel_speed_km_s": 0.085
+      },
+      {
+        "dv": 16.74,
+        "min_km": 30.89,
+        "pc": 0.0,
+        "rel_speed_km_s": 0.077
+      },
+      {
+        "dv": 16.95,
+        "min_km": 62.85,
+        "pc": 0.0,
+        "rel_speed_km_s": 0.085
+      }
+    ],
+    "1x": [
+      {
+        "dv": 16.12,
+        "min_km": 17.25,
+        "pc": 0.0,
+        "rel_speed_km_s": 0.086
+      },
+      {
+        "dv": 16.33,
+        "min_km": 24.8,
+        "pc": 0.0,
+        "rel_speed_km_s": 0.091
+      },
+      {
+        "dv": 16.537,
+        "min_km": 14.49,
+        "pc": 2.0120343690080195e-231,
+        "rel_speed_km_s": 0.085
+      },
+      {
+        "dv": 16.74,
+        "min_km": 30.89,
+        "pc": 0.0,
+        "rel_speed_km_s": 0.077
+      },
+      {
+        "dv": 16.95,
+        "min_km": 62.85,
+        "pc": 0.0,
+        "rel_speed_km_s": 0.085
+      }
+    ],
+    "2x": [
+      {
+        "dv": 16.12,
+        "min_km": 17.25,
+        "pc": 0.0,
+        "rel_speed_km_s": 0.086
+      },
+      {
+        "dv": 16.33,
+        "min_km": 24.8,
+        "pc": 0.0,
+        "rel_speed_km_s": 0.091
+      },
+      {
+        "dv": 16.537,
+        "min_km": 14.49,
+        "pc": 3.3521947098382214e-62,
+        "rel_speed_km_s": 0.085
+      },
+      {
+        "dv": 16.74,
+        "min_km": 30.89,
+        "pc": 3.5875980338597315e-239,
+        "rel_speed_km_s": 0.077
+      },
+      {
+        "dv": 16.95,
+        "min_km": 62.85,
+        "pc": 0.0,
+        "rel_speed_km_s": 0.085
+      }
+    ]
+  },
+  "min_distance_spread": 4.337,
+  "pc_spread": 1.0,
+  "pc_spread_by_sigma_scale": {
+    "0.5x": null,
+    "1x": 1.0,
+    "2x": 9.343841417573054e+176
+  },
+  "pc_spread_sensitivity": 9.343841417573054e+176,
+  "pc_sigma_crossings_m": {},
+  "pc_upper_bound": 3.707146254494633e-08,
+  "pc_upper_bound_at_sigma_I_m": 10000.0,
+  "pc_bound_margin_below_1e4": 2697.5,
+  "bands_3_and_5": "VOID -- Pc underflows at every point; see the sheet",
+  "realign_days": 9.9,
+  "pc_max": 2.0120343690080195e-231,
+  "does_not_close": "P1. A real covariance needs CDMs."
+}
