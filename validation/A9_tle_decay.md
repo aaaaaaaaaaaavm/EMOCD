@@ -94,3 +94,89 @@ uncertain, against reality rather than against another model.
 A pass here would not change that for the machine, but it would mean the astrodynamics half
 reproduces something that physically occurred, which is a different class of claim from
 anything the repository currently makes.
+
+---
+
+## Candidate objects, assembled 2026-07-31
+
+**Re-tested on 2026-07-31 and the block is real.** `celestrak.org:443` returns 403 at the CONNECT,
+logged by this environment's proxy as a policy denial rather than an upstream failure. Space-Track
+needs an account regardless. **A9 still cannot run here.**
+
+What was missing besides the data was the *object selection*, and that can be built from published
+mission records without touching the element feed. It is done below, so this run becomes an
+afternoon on a machine with ordinary internet rather than an open-ended research task.
+
+### Why QB50 is the right cohort
+
+QB50 was a constellation of 2U and 3U CubeSats built to measure the lower thermosphere. It has
+three properties nothing else in this altitude band has together:
+
+1. **No propulsion, by design.** The orbits decayed under drag alone, which was the point of the
+   mission.
+2. **Two cohorts at two altitudes.** Twenty-eight deployed from the ISS in May 2017 at ~400 km,
+   all reentered by December 2018 — nineteen months of continuous decay. Eight more launched on
+   **PSLV-C38, 23 June 2017, into ~505 km SSO**, which is the band A9 specifies.
+3. **Long element histories**, because they were tracked from deployment to reentry.
+
+### The shortlist
+
+| Object | SATCAT | Form | Orbit at launch | Decayed | |
+|---|---|---|---|---|---|
+| **Aalto-1** | **42775** | 3U | ~505 km SSO | 2024-09-01 | **Primary candidate**, seven years of history — *conditional on the check below* |
+| URSA MAIOR | 42776 | 3U | ~505 km SSO | | QB50 |
+| UCLSat | 42789 | 3U | ~505 km SSO | | QB50 |
+| VZLUSAT-1 | 42790 | **2U** | ~505 km SSO | 2023-06-06 | Six years. **2U, so a different area-to-mass ratio** — usable as a cross-check, not as a 3U datum |
+
+**Aalto-1 carries an electrostatic plasma brake payload and that must be checked before it is
+used.** If the brake was deployed, Aalto-1 is a manoeuvring object under the sheet's own exclusion
+rule and must be discarded — a deorbit device is exactly the class of thing that rule exists to
+catch. If it was never successfully deployed, Aalto-1 is the best object available. **This is the
+first thing to verify and it decides the primary candidate.**
+
+### Explicit exclusions
+
+| | |
+|---|---|
+| **InflateSail** (same launch) | deployed a drag sail and decayed in about 72 days. A deorbit device, excluded by the rule |
+| **QARMAN** (QB50) | carried an aerobrake for a re-entry experiment. Excluded for the same reason |
+| **Planet Flock** | flies differential-drag attitude control, which the sheet already names as a manoeuvre |
+
+### What is verified here and what is not
+
+- **Launch dates, altitudes, form factors and the two decay dates** come from published mission
+  records and are reliable at the level quoted.
+- **The SATCAT numbers are not confirmed against the catalogue.** They trace to a Doppler-based
+  identification of the PSLV-C38 cluster, which is how objects from a multi-satellite deployment
+  get attributed before official association settles. That is exactly the kind of provisional
+  identification that is sometimes revised. **Confirm each against the catalogue before fitting**,
+  and if an object's launch epoch and initial orbit do not match the table above, it is the wrong
+  object.
+- **This is a candidate list, not a selection.** The exclusion rule in the sheet above is applied
+  at run time against the actual element history, not here.
+
+### Worth considering: widen the band to include the ISS cohort
+
+A9 specifies 450–500 km. The ISS-deployed QB50 cohort sits at ~400 km and is otherwise ideal —
+twenty-eight objects, no propulsion, complete decay histories, all reentered inside nineteen
+months. **Widening to 380–520 km would take the sample from three or four objects to roughly
+thirty**, which matters because the declared band is a *median across the set*.
+
+**That is a change to a declared band and it is not made here.** If it is wanted, it should be
+declared as an amended band, dated, and before any fitting — the way A7's band was tightened on
+2026-07-31 and the way A6's was re-declared.
+
+### To run it
+
+```
+export SPACETRACK_USER=... SPACETRACK_PASS=...
+python3 validation/tle/fit_decay.py --norad 42775 42776 42789 --out validation/results/A9_tle_decay.json
+```
+
+A free Space-Track account takes a few minutes to obtain. The script is 180 lines and has never
+been executed — **expect to debug it**, and note that a first run that crashes is not a band
+failure and must not be recorded as one.
+
+**Why this is worth an afternoon.** Every result in this repository is one model checked against
+another model. Eight validations have run and not one of them has compared anything here to a
+measurement. A9 is the only specified analysis anywhere in the project that would.

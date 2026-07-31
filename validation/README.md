@@ -25,7 +25,7 @@ another model (E4). Each analysis closes a specific named item.
 | A1 | Airgap field, 2-D magnetostatic | scikit-fem + gmsh (FEMM substituted) | E1 (2-D half), E2 (partly) | **RUN 2026-07-29**, verdict **PARTIAL**: K<sub>t</sub> agrees to 0.07 %, two bands missed with causes (P20, P21) |
 | A4 | Sled chassis structural | CalculiX ccx 2.21 | **P5, P8** | **RUN 2026-07-28**: as-drawn plate passes all three bands |
 | A5 | Orbital lifetime and seeding | GMAT R2022a | E6, hardens x1.80 | **RUN**, verdict **FAIL** on invariance. See [`../docs/RESULTS.md`](../docs/RESULTS.md) |
-| A9 | Decay rate against flown CubeSats (TLE history) | Space-Track + numpy | **E6, against reality rather than another model** | **SPECIFIED, NOT RUN**: CelesTrak and Space-Track blocked by network policy here |
+| A9 | Decay rate against flown CubeSats (TLE history) | Space-Track + numpy | **E6, against reality rather than another model** | **NOT RUN**, blocked by network policy here and re-tested 2026-07-31. **Candidate objects now shortlisted** in the sheet, so this is an afternoon elsewhere |
 | A6 | Conjunction probability | scipy 2-D Pc (CARA substituted) | P1 — **not closed** | **RUN 2026-07-31**: P<sub>c</sub> ≤ 3.7e-8 for **any** covariance, two of five bands, three **void** |
 | A7 | Separation and tip-off | Project Chrono | E7-adjacent | specified, not run |
 | A8 | Pulse-power chain | ngspice / PySpice | E17 | **RUN 2026-07-30** as A8-R, at the current operating point |
