@@ -34,7 +34,7 @@ Computing it turns "we cannot quote a minimum distance" into a defensible statem
 2-D Pc and Monte-Carlo-from-covariance routines are the relevant ones. Parts run under
 Octave; check before assuming.
 
-## Acceptance band (declared 2026-07-27, before running)
+## Acceptance band (declared 2026-07-27, before running) — SUPERSEDED
 
 There is deliberately **no band on minimum distance**: P1 established that it is not a
 robust quantity, and re-adopting it as a criterion would repeat the original error.
@@ -45,11 +45,42 @@ robust quantity, and re-adopting it as a criterion would repeat the original err
 | Pc stability across the velocity sweep 20.0-21.0 m/s | **order of magnitude or less** variation |
 | Realignment period | 8.1 days ± 10 % (`astro_results.json` `conjunction.realign_days`) |
 
-The middle row is the real test. If Pc swings as violently as minimum distance did, then
-the conjunction geometry is genuinely chaotic at this operating point and the paper needs
-to say so plainly rather than lean on COLA as a mitigation. If Pc is stable while distance
-is not, the reframing in P2-01 is vindicated and the paper gains a quantitative safety
-statement.
+> **Superseded 2026-07-31 and not used.** Every number above is written at **20.37 m/s**, the
+> operating point the project abandoned when the sled was measured. A band anchored to a
+> superseded value cannot test anything — that is **P19**, and running against it would have
+> been the second time. The replacement below is declared at the current point, before the
+> computation existed.
+
+## Acceptance band, re-declared 2026-07-31 at the current operating point
+
+**Scope, stated first, because it is narrower than the sheet above.** GMAT is not installed
+here, `validation/gmat/output/` is a gitignored regenerable, CARA is MATLAB, and Space-Track is
+unreachable under this environment's network policy — so there are no OEM ephemerides and no
+CDM-derived covariance. What runs instead is a **2-D P<sub>c</sub> computed in scipy against
+`astro.py`'s own `propagate()`, with an assumed covariance stated in the output**.
+
+**This does not close P1** and nothing below should be read as closing it. A real covariance
+needs CDMs. What this *can* settle is the question P1 actually raised — whether
+P<sub>c</sub> is a robust quantity where minimum distance is not — because that is a question
+about the *shape* of the answer, and a shape survives a wrong covariance scale.
+
+| # | Quantity | Prediction | Accept if |
+|---|---|---|---|
+| 1 | Realignment period at 16.537 m/s | 9.9 days | within ±10 % of `astro_results.json` `conjunction.realign_days` |
+| 2 | Max per-pair P<sub>c</sub>, 30 days, at the rated 16.537 m/s | report, no pass/fail | flagged if > 1e-4 |
+| 3 | **P<sub>c</sub> stability across a ±2.5 % velocity sweep** | **stable** | **spread ≤ one order of magnitude**, against the ≥ 13x that minimum distance shows over the same sweep |
+| 4 | Minimum distance over the same sweep, recomputed as the comparator | **unstable** | spread **greater than** the P<sub>c</sub> spread. If it is not, P1's premise is wrong |
+| 5 | Sensitivity of the P<sub>c</sub> *spread* to the assumed covariance | weak | halving and doubling the assumed sigma changes the row-3 spread by less than a factor of 2 |
+
+**Row 3 is the test and row 5 is what makes it worth running with an invented covariance.** If
+the spread in P<sub>c</sub> is insensitive to the covariance scale, then the robustness
+conclusion does not depend on the number nobody has. If it *is* sensitive, the whole exercise
+has to wait for CDMs and this sheet says so.
+
+**Falsification.** Row 4 failing would mean minimum distance is not actually the fragile
+quantity P1 claims, and P1 would need reopening. Row 3 failing would mean the conjunction
+geometry is genuinely chaotic at this operating point, and the paper would have to say so
+plainly rather than lean on COLA as a mitigation.
 
 ## Output
 
