@@ -173,14 +173,19 @@ line at 17.8 %.
   ESR ceiling. This trades exit velocity for a buildable bank and needs the trade curve
   computed before it can be argued.
 - **Change technology.** Lithium-ion capacitors trade ESR for energy density; a battery plus a
-  small capacitor front end moves the pulse burden elsewhere. Neither can be argued from this
-  repository's current reading: `LITERATURE.md`'s pulsed-power cluster has two entries and
-  that is the gap P26 names.
+  small capacitor front end moves the pulse burden elsewhere. **The reading gap that blocked this
+  is now closed**: `LITERATURE.md`'s pulsed-power cluster went from 2 entries to 29 on
+  2026-07-31, covering ESR definition and measurement, ageing and derating, pulse-forming
+  networks, and lithium-ion capacitors including one flown system (NESSIE, 2013). None of it has
+  been *read* yet, and the entry criterion below is unchanged by that.
 
-> **Entry criterion.** The pulsed-power literature gap filled first, then a cell selected from
-> a manufacturer datasheet rather than a distributor listing, with DC ESR at the operating
-> temperature and its derating with age. **A bank chosen on an interpolated ESR would repeat
-> the error that produced P26.**
+> **Entry criterion.** ~~The pulsed-power literature gap filled first~~ **(done 2026-07-31,
+> 29 entries)**, then that cluster actually read, and then a cell selected from a manufacturer
+> datasheet rather than a distributor listing, with **DC** ESR at the operating temperature and
+> its derating with age. Two things the new reading list already flags make this sharper: the
+> published end-of-life criterion for these parts is a **two-fold ESR increase**, and operation
+> to −40 °C can double ESR without shortening life. A10's ceiling has no room for either.
+> **A bank chosen on an interpolated ESR would repeat the error that produced P26.**
 
 **Why this is not simply Phase I.** It is a sizing decision with a 4x cost and mass
 consequence, and the honest Phase I position is the one now published: the rated point assumes

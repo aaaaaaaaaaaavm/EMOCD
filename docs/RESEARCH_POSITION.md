@@ -1,7 +1,7 @@
 # Where this project stands against the published work, and what to do about it
 
 [`PRIOR_ART.md`](PRIOR_ART.md) records what five works say and what reading them changed.
-[`LITERATURE.md`](LITERATURE.md) is a 136-entry reading list with provenance markers. Neither
+[`LITERATURE.md`](LITERATURE.md) is a 163-entry reading list with provenance markers. Neither
 answers the question a reviewer will actually ask, which is what this project intends to *do*
 about any of it.
 
@@ -82,10 +82,10 @@ claiming a lead that a reviewer with the comparison memorised will not grant.
 
 ## The gap the reading list found in itself, and what it cost
 
-[`LITERATURE.md`](LITERATURE.md) sorts 136 entries into nine clusters. **Pulsed power and
-capacitors has two**, and the file names that cluster as the sample's blind spot in its own
-words: reference harvesting inherits the biases of the papers harvested, and the source set was
-coilgun-heavy and deployer-heavy.
+[`LITERATURE.md`](LITERATURE.md) sorts 163 entries into nine clusters. Until 2026-07-31,
+**pulsed power and capacitors had two**, and the file named that cluster as the sample's blind
+spot in its own words: reference harvesting inherits the biases of the papers harvested, and the
+source set was coilgun-heavy and deployer-heavy.
 
 On 2026-07-30 the supercapacitor bank was found to be specified at an ESR no commercial cell of
 that capacitance achieves, and the shot does not close at a realistic value. That is **P26**, and
@@ -95,7 +95,16 @@ it is currently the largest open defect in the project.
 the machine.** That is worth more than any single citation in this file: a reading list that
 honestly reports its own coverage tells you where to expect trouble, and this one did.
 
-**Next reading, therefore, is not more prior art.** It is 20 to 25 entries on supercapacitor
-pulse discharge and ESR modelling, EDLC derating and space qualification, SiC bridge design for
-pulsed loads, and capacitor-bank architectures for electromagnetic launch, with the three to
-five bearing directly on P26 read in full. PII-7 cannot be argued either way without it.
+**So the next reading was not more prior art.** The cluster was filled on 2026-07-31 by a
+targeted database search rather than by harvesting, taking it from 2 entries to 29: ESR
+definition and measurement, ageing and derating, pulse-forming networks and capacitor-bank
+architectures from the railgun community, lithium-ion capacitors including one flown system, and
+SiC device literature for the drive the paper specifies without citing anything.
+
+**That is a list, not an argument, and the distinction is the whole point of this file.** None of
+it has been read. Two things the search surfaced already sharpen P26 — the published end-of-life
+criterion for these parts is a **two-fold ESR increase**, and operation to −40 °C can **double
+ESR without shortening life**, against an A10 ceiling with no margin for either — but a headline
+returned by a search engine is not a result. PII-7 still cannot be argued until the three to five
+entries bearing directly on P26 are read in full and a cell is chosen from a manufacturer
+datasheet.

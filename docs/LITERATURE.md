@@ -35,9 +35,14 @@ claims they changed, are in [`PRIOR_ART.md`](PRIOR_ART.md).
 ## The gap this file exposes
 
 Reference harvesting inherits the biases of the papers harvested. The source set is
-coilgun-heavy and deployer-heavy, so the linear-machine and pulsed-power clusters come out thin,
+coilgun-heavy and deployer-heavy, so the linear-machine and pulsed-power clusters came out thin,
 which says more about the sample than the field. Filling those needs a database search, and this
-list is the wrong tool for it.
+list was the wrong tool for it.
+
+**The pulsed-power cluster was filled that way on 2026-07-31**, going from 2 entries to 29, and
+it is marked as a separate provenance inside its own section because search results and harvested
+references are not the same kind of evidence. The linear-machine cluster still has the original
+problem.
 
 
 ---
@@ -50,13 +55,13 @@ list is the wrong tool for it.
 | Coilgun and reluctance launchers, with measurements | 25 |
 | Railguns, mass drivers and launch to space | 14 |
 | Linear machines, magnetics and actuators | 11 |
-| Pulsed power, capacitors and drive circuits | 2 |
+| Pulsed power, capacitors and drive circuits | 29 |
 | CubeSat platforms, missions and standards | 18 |
 | Attitude control, vibration and flexible spacecraft | 3 |
 | Reachable domain, orbital manoeuvre and pursuit | 10 |
 | Robotics, mechanisms and path planning | 8 |
 | Unclassified | 30 |
-| **Total** | **136** |
+| **Total** | **163** |
 
 ---
 
@@ -155,10 +160,70 @@ The topology this design uses. Thinner than it should be, because the source pap
 
 ## Pulsed power, capacitors and drive circuits
 
-Two entries, which understates the field badly and reflects how the list was built rather than what exists. A8 validated the pulse chain against ngspice and would benefit from more here.
+**Filled 2026-07-31, and by a different method from the rest of this file.** The two entries below the rule arrived by reference harvesting; everything above it came from a targeted database search, because P26 is the largest open defect in the project and PII-7's entry criterion names this gap explicitly. It cannot be argued from a cluster of two.
+
+> **These entries carry a weaker provenance than the harvested ones, in a specific way.** A harvested entry is reproduced as the citing paper printed it, which at least means some author checked it. These were found by search, and **several are recorded without volume, issue or pagination because the search did not return them**. Those fields are marked `[details unverified]` rather than filled in plausibly. Fabricating a page range to make a bibliography look finished is exactly the failure P22 records, and no entry here may support a number in `paper/paper.tex` until it has been read against the publisher record.
+
+### Supercapacitor ESR: how it is defined, measured and specified
+
+The cluster that matters most. P26 turned on the distinction between AC and DC ESR and on the observation that ESR x C is roughly constant within a cell technology; neither claim is currently supported from primary literature in this repository.
+
+- S. Chakraborty et al. (attribution unverified), "Experimental determination of Equivalent Series Resistance of a supercapacitor," IEEE conference publication, 2009. Compares constant-current discharge against a dynamic discharge cycle on a 350 F cell `[details unverified]`
+- "How to Measure and Calculate Equivalent Series Resistance of Electric Double-Layer Capacitors," *Molecules*, vol. 24, 2019, PMC6515551. Derives an Ohm-like relation for the galvanostatic charge-discharge method and notes the factor-of-two normalisation on the voltage drop. **The most directly useful entry here**
+- "Estimation of Equivalent Series Resistance (ESR) of Supercapacitors Using Charging/Discharging Kinetics," 2025, PMC12256924 `[details unverified]`
+- "Studies on the equivalent serial resistance of carbon supercapacitor," *Electrochimica Acta*, 2015, doi:10.1016/j.electacta.2015.07.081 `[details unverified]`
+- "The Influence of the Equivalent Series Resistance (ESR) on the Functional Behaviour of Electrochemical Double Layer Capacitors (EDLCs)," IEEE conference publication, 2023 `[details unverified]`
+- "Capacitance and equivalent series resistance (ESR) optimization using the Taguchi technique for EDLC's," IEEE conference publication, 2010 `[details unverified]`
+- Gamry Instruments, "Testing Super-Capacitors," white paper. Vendor application note, not peer-reviewed, recorded because it documents the measurement practice the datasheets follow
+
+### Ageing and derating, which move ESR the wrong way
+
+A10's ceiling has no margin for either. A bank selected at datasheet ESR is a bank selected at beginning of life at room temperature.
+
+- R. German et al. (attribution unverified), "Study of Supercapacitor Aging and Lifetime Estimation According to Voltage, Temperature, and RMS Current," IEEE Transactions on Industrial Electronics, 2014 `[details unverified]`
+- P. Kreczanik et al. (attribution unverified), "How supercapacitors reach end of life criteria during calendar life and power cycling tests," *Microelectronics Reliability*, 2011. **Carries the end-of-life criterion: 20 % capacitance loss or a two-fold ESR increase** `[details unverified]`
+- "Calendar and cycling ageing of activated carbon supercapacitor for automotive application," *Microelectronics Reliability*, 2012 `[details unverified]`
+- Abracon, "Supercapacitor Lifetime Explained," application note, April 2024. Vendor document. Records the 10 °C halving rule and, more relevantly here, that operation to −40 °C can **double ESR without shortening life**
+
+### Pulse-forming networks and capacitor-bank pulsed power
+
+The engineering that transfers from the railgun and EML community, where bank design against a specified current waveform is routine and this project's 6 F single string is not.
+
+- "Design and Development of 4-MJ Capacitor Bank-Based Pulsed Power System for Electromagnetic Launcher," *IEEE Transactions on Plasma Science*, vol. 47, no. 3, pp. 1681–1689, 2019. Ten 400 kJ modules; the modular argument is the one PII-7 reaches by a different route
+- "Pulse forming network optimal design for the power supply of EML launchers," IEEE journal publication. Given pulse duration, rise time, amplitude and load resistance, returns the L-C ladder values `[details unverified]`
+- "Development of a 500 kJ Pulsed Forming Network for EML System," IEEE publication. Ten 50 kJ modules shaping various current waveforms `[details unverified]`
+- "Design and Development of 10 MJ Capacitor Bank Pulsed Power Source for Electromagnetic Railgun," Springer, 2024, doi:10.1007/978-981-97-0337-1_30
+- "Design and Optimization of Pulse Forming Networks for Electromagnetic Manufacturing Systems," IEEE conference publication, 2022 `[details unverified]`
+- "High current pulse forming by modularized capacitor banks," IEEE conference publication, 2001 `[details unverified]`
+
+### Alternative chemistries, which is the other half of PII-7
+
+PII-7 names two escape routes from the ESR ceiling and can argue neither: more parallel strings, or a different technology.
+
+- "Lithium-ion supercapacitors for pulsed power applications," IEEE ECCE conference publication, 2011. Puts LIC gravimetric energy at 50–60 J/g, **comparable to flywheels**, as a pulsed-power storage medium `[details unverified]`
+- "A comprehensive review of lithium ion capacitor: development, modelling, thermal management and applications," *Journal of Energy Storage*, 2021, doi:10.1016/j.est.2020.102064 `[details unverified]`
+- "A Comprehensive Review of Lithium-Ion Capacitor Technology: Theory, Development, Modeling, Thermal Management Systems, and Applications," *Materials*, 2022, PMC9147202
+- "Development and On-Orbit Demonstration of Lithium-Ion Capacitor-Based Power System for Small Spacecraft," IntechOpen book chapter. **NESSIE, launched with HISAKI in September 2013: the flight heritage entry, and the only one in this cluster**
+- "Enhanced hybrid energy storage system combining battery and supercapacitor to extend nanosatellite lifespan," *Results in Engineering*, 2024, doi:10.1016/j.rineng.2024.103129 `[details unverified]`
+
+### The drive side
+
+`paper/paper.tex` specifies six SiC half-bridges on a 96 V rail at 20–40 kHz with a 97 J/shot switching budget, against no cited device literature at all.
+
+- Y. Shi et al., "A review of silicon carbide MOSFETs in electrified vehicles: Application, challenges, and future development," *IET Power Electronics*, 2023, doi:10.1049/pel2.12524
+- "A 6.5 kV SiC MOSFET based Inverter for Medium Voltage (2.3 kV) High-Speed Motor Drive Applications," IEEE conference publication, 2023 `[details unverified]`
+- "Evaluation of All SiC MOSFET Based Voltage Source Inverter With Open Loop Induction Motor," IEEE conference publication, 2018 `[details unverified]`
+- "High-efficiency three-phase inverter with SiC MOSFET power modules for motor-drive applications," IEEE conference publication, 2014 `[details unverified]`
+- "A Compact Model for SiC Power MOSFETs for Large Current and High Voltage Operation," arXiv:2104.14733, 2021
+
+---
+
+The two entries this cluster started with, both harvested from the coilgun source set:
 
 - Kim, S. & Kim, J. Control of discharge time using physical contact in a two-stage coil gun. Adv. Mech. Eng. 11(9), 1–8 (2019) `E`
 - Akay, C., Bavuk, U., Tunçdamar, A. & Özer, M. Coilgun design and evaluation without capacitor. J. Mechatron. Artif. Intell. Eng. 1(2), 53–62 (2020) `E`
+
+**What this cluster still does not contain, and PII-7 needs:** a manufacturer datasheet for a specific cell, with DC ESR at the operating temperature and its derating with age. That is a procurement document rather than literature, and the entry criterion in [`PHASE_II.md`](PHASE_II.md) says so.
 
 ---
 
