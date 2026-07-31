@@ -1,5 +1,43 @@
 # A5: Orbital lifetime and seeding (Orekit or GMAT)
 
+> ## RUN 2026-07-29, GMAT R2022a headless. Verdict **FAIL**
+>
+> **This is the only validation in the project that failed, and the claim it falsified was in the
+> paper's own abstract.** It is written here in full rather than summarised, because the run
+> sheets are the record.
+>
+> | Band (declared below, before the run) | Result | |
+> |---|---|---|
+> | Lifetime multiplier x1.80, ±5 % | **x1.775 at mean activity**, −1.39 % | **pass** |
+> | | x1.7302 at high activity, −3.88 % | **pass** |
+> | | **x2.0739 at low activity, +15.21 %** | **fail** |
+> | **Multiplier invariance across activity, spread ≤ 5 %** | **18.48 %** | **FAIL** |
+> | Seeding to 30° at 10 / 5 / 2 m/s, ±20 % | not re-run under GMAT | not tested |
+>
+> Force model: MSISE90 atmosphere, 20x20 gravity, RungeKutta89, Luna and Sun point masses,
+> solar radiation pressure. Full output in `validation/results/A5_astro.json`.
+>
+> **The point value survives; the invariance does not.** An earlier version of this work claimed
+> the multiplier was invariant to two decimal places across ballistic coefficients of 40–90 kg/m²
+> and a fivefold density range, and offered that invariance as the result the analysis could
+> defend. An independent propagator says otherwise.
+>
+> **The cause is a defect in how the sweep was posed, not in the arithmetic.** `astro.py`
+> represents solar activity as a uniform multiplicative scale on density, and ballistic
+> coefficient enters the drag term in the same multiplicative slot. Both sweeps therefore divide
+> the two lifetimes being compared by the same factor, and their ratio *cannot* move whatever the
+> atmosphere does. A real atmosphere changes the **shape** of the density–altitude profile with
+> activity, the boosted orbit's apogee samples that profile some 37 km higher than the baseline's,
+> and the ratio then does move. Logged as **P16**; the root-cause fix is deferred as **PII-5**.
+>
+> **What was done about it.** `analysis/astro.py` was **not** edited to match — the run sheet's
+> own instruction below. The paper now quotes the multiplier **at a stated activity level and
+> claims no invariance**, which is the honest version and is already published.
+>
+> **The window leg is a separate matter and is not a failure.** GMAT gives an SMA decay rate of
+> −0.162 km/day against `astro.py`'s −0.122, a ratio of 1.33. That is a static exponential
+> atmosphere against MSIS and is expected; E6 defends the ratio, not the absolutes.
+
 **Closes:** `OPEN_PROBLEMS.md` E6 (absolute lifetimes uncertain), and converts the
 x1.80 multiplier from self-checked to independently checked.
 

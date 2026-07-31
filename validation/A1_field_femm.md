@@ -1,8 +1,46 @@
 # A1: Airgap field, 2-D magnetostatic (FEMM)
 
+> ## RUN 2026-07-29. Verdict **PARTIAL**: five of seven bands, and the one that matters is met
+>
+> | Band (declared below, before the run) | FEM | Reference | Ratio | |
+> |---|---|---|---|---|
+> | Double-sided mid-gap peak, ±5 % | 0.6947 T | 0.6942 T | 1.0007 | **pass** |
+> | Array-surface peak, ±5 % | 1.4641 T | 0.7714 T | 1.8979 | **fail, see P20** |
+> | Winding mean \|B\|, ±5 % | 0.5523 T | 0.5518 T | 1.0010 | **pass** |
+> | **Thrust at 140 kA/m, ±10 %** | **1571.9 N** | **1570.8 N** | **1.0007** | **pass** |
+> | Stray \|B\| at 10 mm, factor 1.5 | 26.33 mT | 22.7 mT | 1.16 | **pass** |
+> | Stray \|B\| at 20 mm, factor 1.5 | 4.91 mT | 4.3 mT | 1.14 | **pass** |
+> | Stray \|B\| at 50 mm, factor 2 | 0.93 mT | 0.4 mT | 2.32 | **fail, see P21** |
+>
+> **K<sub>t</sub> = 11.228 N per kA/m against the model's 11.22, a ratio of 1.0007**, with force
+> ripple 1.25 % against 1.26 %. Full results in `validation/results/A1_femm.json`.
+>
+> **Neither missed band is a model error, and both are logged rather than argued away.**
+> **P20**: the array-surface reference in this sheet is mis-specified — it names a *single*
+> array's fundamental where any plane in a double-sided machine also sees the opposing array.
+> Against the correct double-sided value of 0.9317 T the FEM's fundamental is 0.9312 T, a ratio
+> of 0.9994. **The row failed as declared and the model is right**, and both statements are
+> recorded. **P21**: a 2-D solve has infinite depth, so it must overestimate far field; 50 mm is
+> where that shows.
+>
+> **The bands below are left exactly as written on 2026-07-27.** A run sheet edited after seeing
+> its results is worth nothing, so the P20 correction belongs in A2's sheet, not this one.
+>
+> **Solver substitution, recorded rather than presented as FEMM.** FEMM is Windows-only and was
+> not available. This is a meshed differential-FEM solve of the same 2-D problem — scikit-fem
+> 12.0.2 P1 Lagrange on a gmsh 4.15.2 mesh, 140,750 elements, 0.6 mm airgap mesh, 500 mm box,
+> `Az = 0` on the far boundary. A differential solve on a mesh is what E2 asked for; FEMM was
+> only ever the named tool for it.
+
 **Closes:** the 2-D half of `OPEN_PROBLEMS.md` E1, and gives E2 its first
 non-analytic check.
 **Does not close:** 3-D end effects on Kt. Those need a 3-D solver (A2).
+
+**What it establishes.** K<sub>t</sub> had only ever been checked analytic-against-analytic: a
+closed-form travelling-wave model against magpylib, both superposing analytic solutions for
+uniform blocks, neither solving a field equation. This solves the PDE on a mesh and agrees to
+0.07 %. It was the project's largest single gap until it ran; the largest now is that **nothing
+has been measured at any scale** (E4).
 
 ## Procedure
 
