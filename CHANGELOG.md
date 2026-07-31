@@ -9,6 +9,29 @@ list these changes close) and `docs/DECISION_LOG.md` (why design choices were ma
 
 ---
 
+## 2026-07-31 (fourth pass): a band chosen at the easy end, and a mass nobody was watching
+
+| ID | Item | Detail |
+|---|---|---|
+| P30-01 | **A "discrepancy" three documents gated work on turns out to be two deployers** | `A7_separation_chrono.md`, `KILL_CRITERIA.md` §4 and PII-1's entry criterion all carried a flag that A7's band declares ≤5 °/s citing NRCSD-E while a sibling NRCSD ICD says 2 °/s, unresolved. **Both are right.** NRCSD is the internal ISS-airlock deployer at **< 2 °/s/axis**, flown hundreds of times; NRCSD-E is the external Cygnus-mounted one at < 5, a figure its own publisher describes as *"additional testing and analysis are being completed... to refine and verify this value"*. |
+| P30-02 | **What the flag was hiding is worse than what it claimed** | The band was set at the **looser** of two comparators, from the **provisional** document, with nothing recorded about the tighter flown number existing. Nobody chose the easy number on purpose — it is what happens when a band cites one source and no one asks what else that source set contains. **That is the failure mode acceptance bands exist to prevent, occurring inside the band-setting step.** Logged as **P30**. |
+| P30-03 | **A7's band tightened to 2 °/s, before the run and not after** | A7 has never run, so there are no results to have tightened it against. `A1_field_femm.md` kept a band it *failed* for exactly the opposite reason. The sheet states the distinction above its own table, because a reader who sees "band changed" and stops there will draw the wrong conclusion. **The cost is real: A7 is now 2.5x harder to pass**, on a release path with no multibody model and a payload CoM 70 mm off the thrust line. |
+| P30-04 | **A rule that would have caught it**, added to `validation/README.md` | *When a band cites an external document, record which document, which revision, and whether a tighter comparator exists in the same family.* A band may still be tightened **before** a run; it may never be touched after one. |
+| P30-05 | **The spring comparison was softer than advertised** | The same document specifies deployment at **0.5 to 2.5 m/s**. Against the fastest published spring the claim is **6.6x, not 8x**. Corrected in `SUMMARY.md`, `LANDSCAPE.md`, `DESIGN_OPTIONS` and the profile README. |
+| A13-01 | **E24 closed, verdict FAIL, four of seven bands** | `astro.py`'s entire host-interaction budget was `4.0 * DV` — the payload's momentum, the shot alone. A13 adds the masses that move *between* shots. |
+| A13-02 | **The indexing is negligible and E24 was worried about it** | 0.208 N·s, **0.31 % of the shot impulse**, 0.007 °/s at a 500 kg host. E24's own instinct that a few kg against 124.9 kg would not matter was right. |
+| A13-03 | **The sled return is the disturbance, and it is in no budget anywhere** | 9.445 kg over 1.5 m back to the breech: **4.723 N·s, 7.14 % of the shot, 23x the indexing term.** At a 500 kg host that leaves **0.161 °/s** against a 0.05 band, needing **8.2 s** to null against a 2 s band and a 10–20 s cadence. **Nothing inside the cadence passes** — the bands are met only at a 30 s return, which does not fit. |
+| A13-04 | **The velocity servo cannot see any of it** | It measures position along the track, not the track's orientation. Residual attitude rate at trigger is a pointing error the 0.027 m/s dispersion figure neither includes nor can detect. |
+| A13-05 | **Why E24 missed it, which is the part worth keeping** | E24 came from reading Xu et al., whose deployer moves satellites and **does not return a sled**. The competitor's problem was the indexing; this design's problem is where their paper never had to look. **Reading someone else's problem statement finds their gaps, not yours.** |
+| A9-01 | **A9's candidate objects shortlisted so it can run elsewhere** | The block is real and was re-tested: 403 at the CONNECT, logged as a policy denial. What was missing *besides* the data was the object selection, and that needs no element feed. QB50 is the cohort — no propulsion by design, eight of them on PSLV-C38 into the ~505 km SSO A9 specifies. **Aalto-1 (42775) is primary, conditional on whether its plasma brake deployed**; if it did, the sheet's own exclusion rule discards it. InflateSail and QARMAN excluded as drag devices. SATCAT numbers flagged unconfirmed. |
+
+**What authorised it.** P30 is an error correction to how a band was sourced, taken before A7
+runs — the only time it could be taken honestly. A13 closes E24, which is a budget published as
+complete that omitted a term the hardware will have, the same class as the bank ESR. A9 changes
+nothing; it removes an excuse.
+
+---
+
 ## 2026-07-31 (third pass): two analyses close, and the run sheets start recording their own results
 
 | ID | Item | Detail |
