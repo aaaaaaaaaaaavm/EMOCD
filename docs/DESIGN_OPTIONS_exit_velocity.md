@@ -69,6 +69,19 @@ so at PII-3's entry criterion.
 The one row that gets *easier* on the bank is thinning the magnets, which reaches 95 mohm — and
 it is also the row that goes backwards on velocity. Nothing is free in the direction anyone wants.
 
+### A lever that is not in the table because it is not a lever
+
+**Block-commutating the stator.** Every row above assumes the whole 1.30 m winding is energised
+for the whole stroke, because that is what `motor_model.shot()` computes. If the winding is
+driven segment by segment — energising the 340 mm under the sled — copper loss falls from
+**828 J to about 217 J**, efficiency rises from 21.2 % to about **24.4 %**, peak current falls
+347 to 296 A, and the bank ESR ceiling rises 66 to about 79 mohm.
+
+That is a bigger efficiency gain than any row in the table, and it costs nothing, which is why it
+is not listed as an option. **It is either already true and mis-modelled, or a real design choice
+nobody has recorded.** Logged as **P29**, because it is a question about the machine as built
+rather than a proposal.
+
 ### Reading the rest of the table
 
 **Mass reduction alone cannot close the gap.** Even 60 % pocketing of every titanium part

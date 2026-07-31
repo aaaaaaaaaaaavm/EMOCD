@@ -853,6 +853,45 @@ authority rather than on heat, checked against the 200 g deceleration cap and th
 handover below 1.5 m/s. It is mechanical design, and it is the reason A11 says plainly that it
 answers the electromagnetic question only.
 
+### P29. The paper says the winding is segmented; the model charges copper for all 1.3 m: MEDIUM, NEW 2026-07-31
+Found while pricing a longer track, and it is a question about the machine as built rather than
+about any proposal.
+
+`paper/paper.tex` §VII states, under redundancy: *"the winding is segmented so a shorted coil
+degrades thrust rather than ending the campaign."* `motor_model.shot()` computes copper loss as
+`RHO_CU * J^2 * vol_cu` with `vol_cu = ACCEL_ZONE * DEPTH * WIND_THICK * FILL`, that is, **the
+whole 1.30 m winding carrying full current density for the entire 157 ms stroke**.
+
+Those are not consistent with each other. A segmented long-stator machine energises the section
+under the mover — roughly the sled's 340 mm active length — and switches segments as it passes.
+
+**What it is worth.** Energising 340 mm rather than 1300 mm takes copper loss from **827.9 J to
+about 217 J**, and electrical-to-payload efficiency from 21.2 % to roughly **24.4 %**, with no
+design change whatsoever. It also drops peak current from 347 to about 296 A, which raises the
+A10 bank ESR ceiling from 66 to about 79 mohm — relevant to P26, though not enough to reach a
+single commercial string at 116.
+
+**Three possibilities and this repository cannot currently distinguish them.**
+
+1. The winding is segmented for *fault tolerance* but driven as one, in which case the model is
+   right and the paper's sentence is about failure modes only. Then nothing is wrong and the
+   distinction needs stating, because a reader will assume block commutation.
+2. The winding is block-commutated and the model is deliberately conservative. Then the
+   conservatism is real engineering judgement and **it is written down nowhere**, which is the
+   same defect class as the 12 mohm ESR (E17): a value with no provenance.
+3. It is simply inconsistent, and `Q_copper` is overstated by a factor of about 3.8.
+
+**Why this is logged rather than fixed.** Changing `vol_cu` moves a baseline number, and which
+way it should move depends on a design decision nobody has recorded. Guessing in either direction
+would put an unsourced value into the baseline, which is exactly what P24 and E17 exist to stop.
+`cad/parameters.json` `groups.stator` records conductor counts and belt geometry but says nothing
+about drive segmentation, so the CAD cannot settle it either.
+
+**What would close it.** A recorded decision on how many stator segments exist and how many are
+energised at once, then `motor_model.py` computing `vol_cu` from that rather than from
+`ACCEL_ZONE`, with the paper's redundancy sentence and the drive description made to agree.
+Both numbers then follow from one stated fact instead of two unstated ones.
+
 > **Not all of these weigh the same.** Three of the entries below are threats to whether the
 > machine has a reason to exist rather than engineering work, and they are hard to see in a
 > numbered list. [`docs/KILL_CRITERIA.md`](docs/KILL_CRITERIA.md) separates them, with the value
