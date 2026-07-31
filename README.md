@@ -13,9 +13,11 @@ A magazine-fed electromagnetic deployer that ejects unmodified CubeSats from a h
 stage at programmable velocity, aimed at the unserved regime between spring deployers
 (~2 m/s) and propulsive orbital transfer vehicles (hundreds of m/s).
 
-**Status: design study, TRL 2-3. CAD complete across 9 Fusion 360 documents in three
-generations, STEP exports committed (`cad/`, Gen3 current); FEA and hardware still
-outstanding.**
+**Status: design study, TRL 2-3.** CAD complete across 9 Fusion 360 documents in three
+generations, STEP exports committed (`cad/`, Gen3 current). **Eight of ten planned validations
+have run** — one of them failed, one found a published number 37 % high, and one returned three
+rows that could not be evaluated at all. **Nothing has been built and nothing has been measured
+at any scale.**
 **Read `docs/PROVENANCE.md` before citing anything here.**
 
 **[📄 One-page summary](SUMMARY.md)** · **[🧊 Frozen baseline](docs/BASELINE.md)** · **[🗺 Roadmap](docs/ROADMAP.md)** · **[⚠ Open problems](OPEN_PROBLEMS.md)** · **[✓ Validation](docs/VALIDATION_REPORT.md)** · **[🏗 Manufacturing](docs/MANUFACTURING.md)** · **[📐 ADRs](docs/adr/)** · **[📚 Literature](docs/LITERATURE.md)** · **[🎯 Research position](docs/RESEARCH_POSITION.md)** · **[⛔ Velocity ceiling](docs/VELOCITY_CEILING.md)** · **[☠ Kill criteria](docs/KILL_CRITERIA.md)** · **[📦 Payload classes](docs/PAYLOAD_CLASSES.md)** · **[📈 Market](docs/MARKET.md)**

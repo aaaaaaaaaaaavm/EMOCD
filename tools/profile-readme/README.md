@@ -23,15 +23,20 @@ proven it yet.
 ### The thing I'd actually like you to look at
 
 **[VOLLEY](https://github.com/aaaaaaaaaaaavm/VOLLEY)**, a magazine-fed ironless double-sided
-Halbach linear synchronous motor that ejects unmodified CubeSats at 16.5 m/s, 10.7 g, on 2.88 kJ
-a shot. TRL 2-3, nothing built.
+Halbach linear synchronous motor that ejects unmodified CubeSats at 16.5 m/s, 10.7 g, on a net
+2.58 kJ a shot. TRL 2-3, nothing built, nothing measured.
 
-**Open it for the defect record, not the numbers.** Every error I've found in my own work is
-published and numbered, including the ones that damage the claims. An independent propagator
-falsified a claim in my paper's own abstract; that's logged as P16 rather than quietly dropped. My
-cost model contradicted my own paper about which parts dominate. A literature check found prior art
-I'd missed and retracted two claims. Acceptance bands are written down *before* each analysis runs,
-so a failure can't be rationalised afterwards.
+**Open it for the defect record, not the numbers.** Twenty-nine numbered defects, published as I
+find them, including the ones that damage the claims. An independent propagator falsified a claim
+in my paper's own abstract; that's P16, logged rather than quietly dropped. The supercapacitor bank
+turns out not to be buyable at the resistance the design assumes, which is P26 and is on the front
+page. A force I'd been feeding into my own structural FEA was 37 % too high, and when I chased it
+down, the *explanation* I'd written for it was backwards too.
+
+**Acceptance bands go in the repository before each analysis runs**, so a miss can't be
+rationalised afterwards. Three rows of one analysis came back not-pass and not-fail but **void** —
+the quantity they tested didn't exist — and they're recorded that way, because a band you can
+reinterpret isn't a band.
 
 That habit is the actual portfolio: **[skills, with the file that proves each one](https://github.com/aaaaaaaaaaaavm/VOLLEY/blob/main/docs/SKILLS.md)**
 
