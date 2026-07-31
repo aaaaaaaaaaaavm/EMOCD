@@ -143,7 +143,7 @@ The shot integrates sled-plus-satellite dynamics against the supercapacitor circ
 
 \section{Performance Results}
 \subsection{Launch Performance}
-At the rated point (3U reference, 9.445~kg sled measured from the CAD solids, 1.3~m acceleration): exit velocity \textbf{16.5~m/s} at \textbf{10.7~g}, pulse 157~ms, peak current 347~A, bank state\-of\-charge sag 5.4\%, with roughly 4\% additional resistive dip at peak current (Fig.~\ref{fig:shot}). Energy drawn is 2.88~kJ per shot, with copper heat of 828~J and a further 86~J dissipated in the bank's own series resistance. Regenerative braking returns 297~J after release, so the net draw is 2.58~kJ. The payload receives 547~J, a \textbf{21.2\% electrical\-to\-payload efficiency}; 64\% of gross drawn energy becomes kinetic energy overall, of which the sled's share is now split between 297~J recovered and 952~J dissipated in the arrest brake. Efficiency falls with the heavier sled for two compounding reasons: a larger fraction of the same mechanical work goes into a mass that is then braked away, and the longer 157~ms pulse accrues more copper loss at unchanged current density. Recovery is what partially offsets the first of those, and it is bounded by geometry rather than by loss: over the available 240~mm the braking pulse lasts 15.6~ms and burns 15~J of copper, against 828~J over the 157~ms shot, so recovered energy rises monotonically with braking force up to the winding's rating and with distance beyond it. A 500~mm section would return 581~J and a 1~m section would arrest the sled outright, but the closed envelope already exceeds its target class by 44\% (Sec.~\ref{sec:lim}), so distance is not available here. Peak current during recovery is 225~A, below the shot's own 347~A, so the drive is not re-rated. The closed-loop Monte Carlo returns a dispersion of \textbf{0.027~m/s (3$\sigma$)} at a 16.2~m/s fleet setpoint (Fig.~\ref{fig:mc}), dominated by the sensing chain rather than plant tolerances. The setpoint must sit below the open-loop ceiling for the servo to retain authority; at 98.2\% of it, the headroom is the same fraction the superseded 20.0~m/s setpoint held. Table~\ref{tab:family} gives the payload family: the system is force-limited above 1U, so heavier payloads trade velocity, never structural margin.
+At the rated point (3U reference, 9.445~kg sled measured from the CAD solids, 1.3~m acceleration): exit velocity \textbf{16.5~m/s} at \textbf{10.7~g}, pulse 157~ms, peak current 347~A, bank state\-of\-charge sag 5.4\%, with roughly 4\% additional resistive dip at peak current (Fig.~\ref{fig:shot}). Energy drawn is 2.88~kJ per shot, with copper heat of 828~J and a further 86~J dissipated in the bank's own series resistance. Regenerative braking returns 297~J after release, so the net draw is 2.58~kJ. The payload receives 547~J, a \textbf{21.2\% electrical\-to\-payload efficiency}; 64\% of gross drawn energy becomes kinetic energy overall, of which the sled's share is now split between 297~J recovered and 952~J dissipated in the arrest brake. Efficiency falls with the heavier sled for two compounding reasons: a larger fraction of the same mechanical work goes into a mass that is then braked away, and the longer 157~ms pulse accrues more copper loss at unchanged current density. Recovery is what partially offsets the first of those, and it is bounded by geometry rather than by loss: over the available 240~mm the braking pulse lasts 15.6~ms and burns 15~J of copper, against 828~J over the 157~ms shot, so recovered energy rises monotonically with braking force up to the winding's rating and with distance beyond it. A 500~mm section would return 581~J and a 1~m section would arrest the sled outright, but the closed envelope already exceeds its target class by 44\% (Sec.~\ref{sec:lim}), so distance is not available here. Peak current during recovery is 225~A, below the shot's own 347~A, so the drive is not re-rated. The closed-loop Monte Carlo returns a dispersion of \textbf{0.027~m/s (3$\sigma$)} at a 16.2~m/s fleet setpoint (Fig.~\ref{fig:mc}), dominated by the sensing chain rather than plant tolerances. The setpoint must sit below the open-loop ceiling for the servo to retain authority; at 98.2\% of it, the headroom is the same fraction the superseded 20.0~m/s setpoint held. Table~\ref{tab:family} gives the payload family: the system is force-limited above 1U, so heavier payloads trade velocity, never structural margin, and the deployer mass each customer pays for varies by a factor of thirty across the family (Sec.~\ref{sec:family}).
 
 \begin{figure}[t]
 \centering\includegraphics[width=\columnwidth]{F01_shot.png}
@@ -158,20 +158,31 @@ At the rated point (3U reference, 9.445~kg sled measured from the CAD solids, 1.
 \end{figure}
 
 \begin{table}[t]
-\caption{Payload family at the rated point (1.3 m acceleration, 9.445 kg measured sled)}
+\caption{Payload family at the rated point (1.3 m acceleration, 9.445 kg measured sled). Deployer mass per satellite uses the 76.9 kg dry mass and a packing model calibrated so the 3U case returns the twelve the magazine is laid out for}
 \label{tab:family}
 \centering\footnotesize
-\begin{tabular}{lcc}
+\begin{tabular}{lccrr}
 \toprule
-Class & Exit velocity & Acceleration\\
+Class & Exit vel. & Accel. & Per load & kg/sat.\\
 \midrule
-1U (1.3 kg) & 18.5 m/s & 13.4 g\\
-3U (4 kg) & 16.5 m/s & 10.7 g\\
-6U (8 kg) & 14.5 m/s & 8.3 g\\
-12U (12 kg) & 13.1 m/s & 6.7 g\\
+PocketQube 1P (0.25 kg) & 19.5 m/s & 14.9 g & 326 & \textbf{0.24}\\
+ThinSat (0.28 kg) & 19.4 m/s & 14.8 g & 123 & 0.63\\
+PocketQube 3P (0.75 kg) & 19.0 m/s & 14.1 g & 108 & 0.71\\
+TubeSat (0.75 kg) & 19.0 m/s & 14.1 g & 41 & 1.88\\
+1U (1.33 kg) & 18.5 m/s & 13.4 g & 40 & 1.92\\
+3U (4 kg) & 16.5 m/s & 10.7 g & 12 & \textbf{6.41}\\
+6U (8 kg) & 14.5 m/s & 8.3 g & 6 & 12.82\\
+12U (12 kg) & 13.1 m/s & 6.7 g & 3 & 25.63\\
 \bottomrule
 \end{tabular}
 \end{table}
+
+\subsection{Payload Class and the Mass-per-Satellite Argument}\label{sec:family}
+Table~\ref{tab:family} is read most usefully from its last column rather than its first. Exit velocity is nearly flat across the family, because the 9.445~kg sled is most of the moving mass: removing the payload entirely buys 19\% of velocity, so velocity is a property of the sled and the stroke and not of the customer. Shortening the magnet array does not recover it either, since array length sets thrust and sled mass together---a 150~mm array gives a 5.15~kg sled but a 4.95~N per kA/m thrust constant, and the 3U case falls to 13.3~m/s.
+
+The column that does move is deployer mass per satellite, by a factor of thirty. At 3U the machine spends \textbf{6.41~kg of deployer per customer}, which loses to a cold-gas propulsion module delivering the same 16.5~m/s at 0.5--1.2~kg by roughly a factor of eight. At PocketQube it spends \textbf{0.24~kg} and wins by two to five. The comparison inverts entirely on payload class, and on no machine parameter at all: not the thrust constant, not the stroke, not the sheet current.
+
+Three qualifications belong with those counts rather than beneath them. First, they are volumetric. The packing efficiency is calibrated against the one configuration that has been laid out in CAD---the 3U case, where a raw volume ratio predicts 21 and the magazine holds 12---and the resulting 56\% is then applied to classes for which no cassette exists. Second, the feed engages the CubeSat Design Specification corner-rail interface at the cradle, the escapement and the retention gate; PocketQubes, ThinSats and TubeSats do not have that interface, so a smaller class needs its own cassette, cradle and gate, which is mechanical design rather than a parameter change. Third, hundreds of satellites per load is a different machine from twelve: the campaign thermal case, the bank recharge duty and the escapement cycle life were all sized for twelve shots, and the bank is already the binding constraint at that number (Sec.~\ref{sec:lim}). What Table~\ref{tab:family} establishes is that payload class dominates the economic argument, not that a small-payload variant has been designed.
 
 \subsection{Astrodynamic Utility}
 A prograde ejection raises apogee while leaving perigee at the deployment altitude, so the correct claim is a longer-lived ellipse. At 450~km with ballistic coefficient 61~kg/m$^2$, one 16.5~m/s shot multiplies lifetime by \textbf{1.62} at mean solar activity (base lifetimes 0.52--2.61~yr across the activity range; Figs.~\ref{fig:life} and \ref{fig:uq}).

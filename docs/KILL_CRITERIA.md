@@ -44,13 +44,18 @@ Smaller payloads. The deployer mass is fixed; the number of satellites it carrie
 | Payload | Fits the existing magazine volume | Deployer mass per satellite |
 |---|---|---|
 | 3U CubeSat | 12 | 6.41 kg, **fails** |
-| 1U | 36 | 2.14 kg, marginal |
-| TubeSat | 40 | 1.92 kg, passes |
-| **PocketQube 1P** | ~546 | **0.14 kg, passes by 6x** |
+| 1U | 40 | 1.92 kg, marginal |
+| TubeSat | 41 | 1.88 kg, marginal |
+| PocketQube 3P | 108 | 0.71 kg, passes |
+| **PocketQube 1P** | 326 | **0.24 kg, passes by 2 to 5x** |
 
-Packing counts are volumetric bounds ignoring septa, follower plates and the escapement;
-realistic packing is likely 40 to 60 % of them. Even at 40 %, PocketQube gives 0.35 kg per
-satellite. See [`PAYLOAD_CLASSES.md`](PAYLOAD_CLASSES.md).
+**These counts were wrong here until 2026-07-31 and the correction is downward.** They were
+raw volumetric bounds carrying a note that realistic packing is 40 to 60 % of them, and then
+quoted unadjusted anyway: PocketQube 1P appeared as ~546 per load and **0.14 kg**, passing by
+6x. `analysis/payload_family.py` now calibrates the packing efficiency so the 3U case returns
+the twelve the machine is actually laid out for, and applies the same 56.2 % to every class.
+The threat still closes, by a smaller margin than was published. See
+[`PAYLOAD_CLASSES.md`](PAYLOAD_CLASSES.md).
 
 ### The argument that survives even at 3U, stated after the number and not instead of it
 

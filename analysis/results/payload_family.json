@@ -1,0 +1,170 @@
+{
+  "pack_efficiency": 0.562,
+  "bay_mm3": 72612384,
+  "deployer_dry_kg": 76.9,
+  "F_cmd": 1413.4,
+  "mechanism_shot_limit": 200,
+  "classes": [
+    {
+      "tag": "ChipSat / femtosat",
+      "mass_kg": 0.005,
+      "box_mm": [
+        35,
+        35,
+        2.5
+      ],
+      "a_g": 15.2,
+      "v_exit": 19.7,
+      "n_per_load": 13322,
+      "kg_per_satellite": 0.006,
+      "mechanism_limited": true,
+      "note": "Sprite class. Volumetric only -- see mechanism_limited"
+    },
+    {
+      "tag": "PocketQube 1P",
+      "mass_kg": 0.25,
+      "box_mm": [
+        50,
+        50,
+        50
+      ],
+      "a_g": 14.9,
+      "v_exit": 19.5,
+      "n_per_load": 326,
+      "kg_per_satellite": 0.236,
+      "mechanism_limited": true,
+      "note": "PocketQube standard, 1P"
+    },
+    {
+      "tag": "ThinSat",
+      "mass_kg": 0.28,
+      "box_mm": [
+        114,
+        114,
+        25.4
+      ],
+      "a_g": 14.8,
+      "v_exit": 19.4,
+      "n_per_load": 123,
+      "kg_per_satellite": 0.625,
+      "mechanism_limited": false,
+      "note": "ThinSat published envelope"
+    },
+    {
+      "tag": "PocketQube 3P",
+      "mass_kg": 0.75,
+      "box_mm": [
+        50,
+        50,
+        150
+      ],
+      "a_g": 14.1,
+      "v_exit": 19.0,
+      "n_per_load": 108,
+      "kg_per_satellite": 0.712,
+      "mechanism_limited": false,
+      "note": "PocketQube standard, 3P"
+    },
+    {
+      "tag": "TubeSat",
+      "mass_kg": 0.75,
+      "box_mm": [
+        88,
+        88,
+        127
+      ],
+      "a_g": 14.1,
+      "v_exit": 19.0,
+      "n_per_load": 41,
+      "kg_per_satellite": 1.876,
+      "mechanism_limited": false,
+      "note": "Boxed from the 88 mm cylinder"
+    },
+    {
+      "tag": "1U CubeSat",
+      "mass_kg": 1.33,
+      "box_mm": [
+        100,
+        100,
+        100
+      ],
+      "a_g": 13.4,
+      "v_exit": 18.5,
+      "n_per_load": 40,
+      "kg_per_satellite": 1.923,
+      "mechanism_limited": false,
+      "note": "Typical flight mass, CDS allows 2 kg"
+    },
+    {
+      "tag": "3U CubeSat",
+      "mass_kg": 4.0,
+      "box_mm": [
+        340,
+        100,
+        100
+      ],
+      "a_g": 10.7,
+      "v_exit": 16.5,
+      "n_per_load": 12,
+      "kg_per_satellite": 6.408,
+      "mechanism_limited": false,
+      "note": "The reference payload, and the only one laid out"
+    },
+    {
+      "tag": "6U CubeSat",
+      "mass_kg": 8.0,
+      "box_mm": [
+        340,
+        200,
+        100
+      ],
+      "a_g": 8.3,
+      "v_exit": 14.5,
+      "n_per_load": 6,
+      "kg_per_satellite": 12.817,
+      "mechanism_limited": false,
+      "note": "Arithmetic only, no cassette exists"
+    },
+    {
+      "tag": "12U CubeSat",
+      "mass_kg": 12.0,
+      "box_mm": [
+        340,
+        200,
+        200
+      ],
+      "a_g": 6.7,
+      "v_exit": 13.1,
+      "n_per_load": 3,
+      "kg_per_satellite": 25.633,
+      "mechanism_limited": false,
+      "note": "Arithmetic only, no cassette exists"
+    }
+  ],
+  "sled_scaling": [
+    {
+      "array_mm": 340,
+      "Kt_N_per_kA": 11.22,
+      "sled_kg": 9.45,
+      "F_N": 1413.0,
+      "a_g": 10.7,
+      "v_exit": 16.5
+    },
+    {
+      "array_mm": 240,
+      "Kt_N_per_kA": 7.92,
+      "sled_kg": 7.18,
+      "F_N": 998.0,
+      "a_g": 9.1,
+      "v_exit": 15.2
+    },
+    {
+      "array_mm": 150,
+      "Kt_N_per_kA": 4.95,
+      "sled_kg": 5.15,
+      "F_N": 624.0,
+      "a_g": 7.0,
+      "v_exit": 13.3
+    }
+  ]
+}
