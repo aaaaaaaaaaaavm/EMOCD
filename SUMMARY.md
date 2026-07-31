@@ -28,7 +28,7 @@ constellation phase spacing in **1.4-6.9 days** against roughly 25 for different
 
 | | | |
 |---|---|---|
-| Exit velocity, 3U | **16.5 m/s at 10.7 g** | Eight times a spring. From a sled mass *measured* in CAD (9.445 kg), not estimated, the earlier 4.86 kg parametric estimate gave 20.4 m/s |
+| Exit velocity, 3U | **16.5 m/s at 10.7 g** | Eight times a spring. The ceiling is the payload's g-limit, not the machine: 25.3 m/s at the 25 g cap, see [`VELOCITY_CEILING.md`](docs/VELOCITY_CEILING.md). From a sled mass *measured* in CAD (9.445 kg), not estimated, the earlier 4.86 kg parametric estimate gave 20.4 m/s |
 | Velocity dispersion | **0.027 m/s (3σ)** | Closed-loop, at a 16.2 m/s setpoint. Rests on *assumed* sensor noise (E7), the differentiator, and the least validated part |
 | Thrust constant | **11.22 N per kA/m** | Winding-resolved, and **confirmed 2026-07-29 by a meshed magnetostatic FEM to 0.07 %**, a PDE solve, not another superposition |
 | Energy per shot | **2.88 kJ**, 19 % electrical-to-payload | Under one watt-hour. No regeneration credit, the sled's energy is dissipated by design |

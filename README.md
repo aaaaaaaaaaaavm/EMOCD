@@ -18,7 +18,7 @@ generations, STEP exports committed (`cad/`, Gen3 current); FEA and hardware sti
 outstanding.**
 **Read `docs/PROVENANCE.md` before citing anything here.**
 
-**[📄 One-page summary](SUMMARY.md)** · **[🧊 Frozen baseline](docs/BASELINE.md)** · **[🗺 Roadmap](docs/ROADMAP.md)** · **[⚠ Open problems](OPEN_PROBLEMS.md)** · **[✓ Validation](docs/VALIDATION_REPORT.md)** · **[🏗 Manufacturing](docs/MANUFACTURING.md)** · **[📐 ADRs](docs/adr/)** · **[📚 Literature](docs/LITERATURE.md)** · **[🎯 Research position](docs/RESEARCH_POSITION.md)**
+**[📄 One-page summary](SUMMARY.md)** · **[🧊 Frozen baseline](docs/BASELINE.md)** · **[🗺 Roadmap](docs/ROADMAP.md)** · **[⚠ Open problems](OPEN_PROBLEMS.md)** · **[✓ Validation](docs/VALIDATION_REPORT.md)** · **[🏗 Manufacturing](docs/MANUFACTURING.md)** · **[📐 ADRs](docs/adr/)** · **[📚 Literature](docs/LITERATURE.md)** · **[🎯 Research position](docs/RESEARCH_POSITION.md)** · **[⛔ Velocity ceiling](docs/VELOCITY_CEILING.md)**
 
 <!-- PROGRAMME-HEADER-START -->
 | Repository | Role | You are here |

@@ -5,6 +5,10 @@
 integrator, no new physics. Nothing here has been adopted, no script or paper value has
 changed, and none of it is a substitute for A4.
 
+> **Read [`VELOCITY_CEILING.md`](VELOCITY_CEILING.md) first.** Every lever below moves the design
+> toward a ceiling of **25.3 m/s** set by the payload's 25 g cap over the 1.30 m zone. Only stroke
+> length moves the ceiling itself, and only the momentum-transfer release gets round it.
+
 ## The problem
 
 P15: the Gen3 sled measured from CAD solid volumes is **9.445 kg**, against the 4.86 kg
