@@ -5,11 +5,11 @@
 > placement season running from now. If your actual dates differ, correct this file first;
 > everything downstream is sequenced from it.
 >
-> Last updated **2026-07-29**.
+> Last updated **2026-07-31**.
 
-This project publishes its own defects, twenty-seven numbered problems and twenty-four open
-engineering items. That is deliberate, and it only reads as rigour if there is also a plan
-for closing them. This is that plan.
+This project publishes its own defects: **29 numbered problems and 25 open engineering
+items**. That is deliberate, and it only reads as rigour if there is also a plan for closing
+them. This is that plan.
 
 ---
 
@@ -17,11 +17,14 @@ for closing them. This is that plan.
 
 | | |
 |---|---|
-| Maturity | TRL 2-3. Analysis and CAD complete; nothing built or measured |
+| Maturity | TRL 2-3. Analysis and CAD complete; **nothing built or measured** |
 | Rated performance | **16.5 m/s at 10.7 g**, from a sled mass measured in CAD, not estimated |
-| Validations run | **4 of 9**: A1 and A8 are at the current operating point; A5 still predates it (P19) |
-| Biggest single gap | ~~K<sub>t</sub> single-method~~ **closed 2026-07-29 by A1** (FEM agrees to 0.07 %). Now: nothing has been measured at any scale (E4) |
-| Paper | Source and PDF both current as of 2026-07-29, rebuilt, 10 pages, zero undefined references |
+| Efficiency | **21.2 %** electrical-to-payload, net of the regeneration adopted 2026-07-31 (A11) |
+| Validations run | **8 of 10**. A7 (tip-off) and A9 (flown decay) outstanding; A9 is blocked by network policy, not difficulty |
+| Of those eight | **one failed** (A5, invariance), one is PARTIAL (A1), one returned three **void** rows (A6), and one found a published number 37 % high (A12) |
+| Biggest single gap | ~~K<sub>t</sub> single-method~~ closed by A1. Now: **nothing has been measured at any scale** (E4) |
+| Largest open defect | **P26** — the supercapacitor bank cannot source the shot on purchasable cells |
+| Paper | Source and PDF current as of 2026-07-31, 12 pages, zero undefined references |
 
 ---
 
@@ -37,9 +40,10 @@ run sheet's array-surface reference was mis-specified, against the correct doubl
 the FEM matches to 0.06 %) and P21 (2-D has infinite depth and cannot test far field).
 **What is now the top gap: nothing has been measured at any scale.**
 
-**2. Re-run A8.** *Closes half of P19.*
-Minutes of work, `validation/spice/emocd_shot.cir` needs its `.param` line moved to the
-current operating point. Re-read the declared bands **before** running, not after.
+**2. ~~Re-run A8.~~ DONE 2026-07-30 as A8-R.** *Closed half of P19.*
+Re-run at the current operating point with bands re-declared first. It failed its
+energy-closure band at 97.0 %, and the missing term was **bank ESR**, which the circuit deck
+carried and no analysis script did. That became **P24**, and chasing it produced **P26**.
 
 **3. Answer the rib-stiffened chassis question.** *Closes P5, P8, E2 properly.*
 A4 says the drawn plate passes with a 17x stress margin, so mass can come out, but nobody
@@ -54,24 +58,32 @@ Retry `pychrono` from conda-forge (it is not on PyPI, which is the likely cause 
 "not installable" note). **Check the acceptance band against its source first**, the run
 sheet declares ≤5 °/s citing NRCSD-E, and the sibling NRCSD ICD says 2 °/s.
 
-**5. Cost the momentum-transfer release properly.** *Attacks P8 from a new direction.*
-`docs/DESIGN_OPTIONS_exit_velocity.md` shows it recovers the full velocity shortfall for
-41.8 J against a 2630 J shot, and for 43 mm of guided rail against the 673 mm that
-lengthening the stroke would need. It needs a mechanism design and A7 behind it. This is
-the most promising unexplored direction in the project.
+**5. ~~Cost the momentum-transfer release properly.~~ DONE 2026-07-31.** *Attacks P8 from a
+new direction.* Re-modelled against the current draw and with regeneration applied to the
+recoiling sled: the two **compound** rather than compete, taking efficiency **21.2 to 31.6 %**
+and brake duty **1291 to 711 J**, for 41.8 J of spring energy and 43 mm of guided rail. It
+still defers as **PII-1**, and `docs/DESIGN_OPTIONS_exit_velocity.md` now states why the risk
+is not comparable to regeneration's: this one adds a cocked spring to the release path and its
+failure mode is a tumbling customer satellite.
 
-**6. Close P17.** Write the run sheet with a band declared **in advance**, then propagate
-`sizing.py` once, the corrected attraction moves plate stress, retention-gate sizing and
-the A4 load together.
+**6. ~~Close P17.~~ DONE 2026-07-31 as A12.** Bands and an adoption rule declared in advance,
+then a **second independent method** — a surface Maxwell-stress integral against magpylib's
+volume integral — agreeing to 2.2 %. `sizing.py` adopted 2686.6 N: attraction 3.68 to
+**2.69 kN**, plate stress 33 to **24 MPa**. A4 is not re-run; it was loaded 37 % heavy and is
+therefore conservative. A12 also found that **P17's explanation of its own finding was
+backwards**, and the retention gate never depended on it.
 
 ## Then: December 2026 to February 2027
 
 **7. Re-run A5** once the mass is settled, at the current operating point. Days of wall
 time for the low-activity leg; schedule it, do not babysit it.
 
-**8. A6, conjunction P<sub>c</sub>.** ~50 lines of scipy against the OEM ephemerides
-`validation/gmat/` already emits. E18's covariance problem stands regardless, so state the
-assumption rather than pretending to a covariance that does not exist.
+**8. ~~A6, conjunction P<sub>c</sub>.~~ RUN 2026-07-31 in reduced form; **P1 stays open**.*
+No GMAT, no CARA, no Space-Track, so a 2-D P<sub>c</sub> against `astro.py`'s own propagator
+with an assumed covariance. **Three of five bands came back void**: at 14 to 63 km miss
+distances P<sub>c</sub> underflows and a spread of zeros is not a number. The run found
+something better instead — **P<sub>c</sub> ≤ 3.7e-8 for *any* covariance**, 2700x below any
+action threshold. A bound is not a probability, so A6-as-specified still stands.
 
 **9. Run A9, decay against flown CubeSats.** `validation/A9_tle_decay.md`, bands already
 declared, script already written (`validation/tle/fit_decay.py`). Needs only a machine with
@@ -87,7 +99,7 @@ credibility improvement available: one modelled number becomes one measured numb
 
 **11. ~~Rebuild the paper~~**: done 2026-07-29; TeX Live installed and the PDF now matches source.
 **12. Final consistency sweep**: every number in every document against
-`analysis/results/*.json`, the way the 173-value reproduction check was run.
+`analysis/results/*.json`, the way the 173-value reproduction check was run against what is now a 611-field set.
 **13. Thesis document** assembled from the paper, the CAD record and the validation
 history.
 
@@ -106,8 +118,8 @@ flowchart LR
 | Rung | Status |
 |---|---|
 | Concept | complete, `docs/adr/`, `DECISION_LOG.md` |
-| Analysis | complete, `analysis/`, 179 result fields |
-| **Simulation** | **where the project is.** 3 of 9 validations run, all predating the current operating point (P19) |
+| Analysis | complete, `analysis/`, **611 result fields** across eight scripts |
+| **Simulation** | **where the project is.** **8 of 10** validations run, all at the current operating point since A8-R closed half of P19 |
 | Prototype | **specified, none built**: `docs/BENCHTOP_TESTS.md` |
 | Experiment | specified, none run |
 | Repeatability | **no rung yet.** Nothing has been run twice by anyone |
