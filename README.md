@@ -14,9 +14,9 @@ stage at programmable velocity, aimed at the unserved regime between spring depl
 (~2 m/s) and propulsive orbital transfer vehicles (hundreds of m/s).
 
 **Status: design study, TRL 2-3.** CAD complete across 9 Fusion 360 documents in three
-generations, STEP exports committed (`cad/`, Gen3 current). **Eight of ten planned validations
-have run** — one of them failed, one found a published number 37 % high, and one returned three
-rows that could not be evaluated at all. **Nothing has been built and nothing has been measured
+generations, STEP exports committed (`cad/`, Gen3 current). **Nine of eleven planned validations
+have run** — **two of them failed**, one found a published number 37 % high, and one returned
+three rows that could not be evaluated at all. **Nothing has been built and nothing has been measured
 at any scale.**
 **Read `docs/PROVENANCE.md` before citing anything here.**
 

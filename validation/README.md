@@ -1,8 +1,8 @@
 # Validation plan
 
-Independent cross-checks of the claims in `analysis/`. **Eight of the ten below have run.**
-One of them failed, one returned three rows that could not be evaluated at all, and one found a
-published number 37 % high.
+Independent cross-checks of the claims in `analysis/`. **Nine of the eleven below have run.**
+**Two of them failed**, one returned three rows that could not be evaluated at all, and one found
+a published number 37 % high.
 
 ## Why it exists
 
@@ -32,6 +32,7 @@ another model (E4). Each analysis closes a specific named item.
 | A10 | Shot against a realistic bank ESR | `motor_model.shot()` | nothing; **opened P26** | **RUN 2026-07-30**: hard ceiling 65 mohm, five of six bands, one void |
 | A11 | Regenerative recovery of sled energy | `motor_model.regen_brake()` | nothing; asks what R5 did not | **RUN 2026-07-31**: 296.6 J recovered, eight of eight bands |
 | A12 | Inter-array attraction, two numerical methods | magpylib + surface Maxwell stress | **P17** | **RUN 2026-07-31**: 2686.6 N adopted, five of five bands |
+| A13 | Indexing and sled-return attitude disturbance | momentum bookkeeping | **E24** | **RUN 2026-07-31**, verdict **FAIL**: four of seven. The sled return is 23x the indexing term and nothing budgets it |
 
 A10 and A11 are cross-checks of the model against its own physics rather than against an
 external tool, which is a weaker class of check and is labelled as one. They are here because each

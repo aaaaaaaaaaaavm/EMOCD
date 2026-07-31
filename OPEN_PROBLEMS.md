@@ -1350,3 +1350,32 @@ trigger, and the settling time to reach it**, and neither number exists anywhere
 against the campaign's inter-shot interval. Cheap (it is bookkeeping, not a new solver) and it
 belongs with the recoil analysis in `sizing.py` rather than with the motor model. Explicitly *not*
 claimed to be negligible until that is done.
+
+> ## Done 2026-07-31 as A13. **Verdict FAIL, and this entry was worried about the wrong mass.**
+>
+> **Indexing is negligible**, exactly as the paragraph above guessed: 0.208 N·s, **0.31 % of the
+> shot impulse**, 0.007 °/s at a 500 kg host.
+>
+> **The sled return is not, and it appears nowhere in this entry or anywhere else.** 9.445 kg
+> travelling 1.5 m back to the breech is **4.723 N·s, 7.14 % of the shot, 23x the indexing
+> momentum** — the largest unbudgeted term in the host interaction by a wide margin.
+>
+> | Band | Result | |
+> |---|---|---|
+> | peak rate below 0.05 °/s at a 500 kg host | **0.161 °/s** | **FAIL, 3.2x over** |
+> | peak rate below 0.2 °/s at 200 kg | **0.740 °/s** | **FAIL, 3.7x over** |
+> | settle to 0.01 °/s in under 2 s at 0.1 N·m | **8.2 s** | **FAIL, 4x over** |
+>
+> Four of seven bands; the three that failed are the three that mattered. **Nothing inside the
+> 10–20 s cadence passes** — the bands are only met at a 30 s sled return, which does not fit.
+>
+> **The velocity servo cannot see this.** It measures position along the track, not the track's
+> orientation, so residual attitude rate at trigger is a pointing error the 0.027 m/s dispersion
+> figure neither includes nor can detect.
+>
+> **Why this entry missed it is worth keeping.** E24 came from reading Xu et al., whose deployer
+> moves satellites and does not return a sled — so the competitor's problem was the indexing, and
+> this design's problem is in a place their paper never had to look. **Reading someone else's
+> problem statement finds their gaps, not yours.**
+>
+> Full working, the three fixes and what each costs: [`validation/A13_indexing_disturbance.md`](validation/A13_indexing_disturbance.md).

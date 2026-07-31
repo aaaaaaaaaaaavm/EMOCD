@@ -26,7 +26,7 @@ proven it yet.
 Halbach linear synchronous motor that ejects unmodified CubeSats at 16.5 m/s, 10.7 g, on a net
 2.58 kJ a shot. TRL 2-3, nothing built, nothing measured.
 
-**Open it for the defect record, not the numbers.** Twenty-nine numbered defects, published as I
+**Open it for the defect record, not the numbers.** Thirty numbered defects, published as I
 find them, including the ones that damage the claims. An independent propagator falsified a claim
 in my paper's own abstract; that's P16, logged rather than quietly dropped. The supercapacitor bank
 turns out not to be buyable at the resistance the design assumes, which is P26 and is on the front

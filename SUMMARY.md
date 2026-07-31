@@ -40,7 +40,7 @@ constellation phase spacing in **1.4-6.9 days** against roughly 25 for different
 > of that capacitance achieves, and the shot does not close at a realistic value (**P26**). The
 > velocity and dispersion figures are unaffected, the bank sizing is. Not quietly re-sized.
 
-**Maturity: TRL 2-3. Nothing has been built, fired, or measured.** **Eight of ten** specified
+**Maturity: TRL 2-3. Nothing has been built, fired, or measured.** **Nine of eleven** specified
 validations have been run, each against an acceptance band declared *before* the run — and the
 results are mixed on purpose:
 
@@ -49,6 +49,7 @@ results are mixed on purpose:
 | **A5 FAILED** | an independent propagator falsified an invariance claim that was in the paper's own abstract (P16) |
 | **A12** | found the inter-array force feeding the structural FEA **37 % high** — and that the explanation first written for it was backwards |
 | **A6** | returned three rows **void**: the quantity they tested does not exist at these separations |
+| **A13 FAILED** | the sled returning to the breech disturbs host attitude 23x more than the magazine indexing everyone was worried about, and nothing budgets it (E24) |
 | A1, A4, A8, A10, A11 | passed, partially or fully, with every miss logged as a numbered defect |
 
 **A7 (tip-off) and A9 (decay against flown CubeSats) are outstanding.** A9 is the only analysis

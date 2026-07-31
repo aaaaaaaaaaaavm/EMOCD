@@ -1,6 +1,6 @@
 # What would make VOLLEY pointless
 
-`OPEN_PROBLEMS.md` lists 29 numbered defects of very different weight. Most are engineering work.
+`OPEN_PROBLEMS.md` lists 30 numbered defects of very different weight. Most are engineering work.
 A few are threats to whether the machine has any reason to exist, and they are hard to see when
 they sit in a numbered list next to a stale cross-reference.
 
@@ -141,9 +141,20 @@ the structure.
 > the deterministic-placement claim collapses, and deterministic placement is the entire
 > differentiator against a spring.
 
-**Status: unmodelled, and found by reading a competitor's problem statement rather than this
-design.** Open as **E24**. Xu et al. build a cost model for exactly this. The bookkeeping is
-cheap, a rigid-body momentum budget rather than a new solver, and nobody has done it.
+**Status: MODELLED 2026-07-31 as A13, and it FAILED.** Open as **E24**.
+
+**The indexing is fine and the sled return is not.** Advancing a satellite costs 0.31 % of the
+shot impulse; returning the 9.445 kg sled down 1.5 m of track costs **7.14 %**, twenty-three times
+as much, and it is in no budget anywhere in this repository. At a 500 kg host that is **0.16 °/s**
+residual, needing **8.2 s** to null against a 10–20 s inter-shot interval.
+
+**Nothing inside the cadence meets the declared bands.** The fixes are a slower return with a
+longer cadence, more host control authority (which becomes a fifth item on a four-item interface
+spec), or a counter-mass — the last being the only one that removes the disturbance rather than
+absorbing it, and it costs deployer mass on a design already failing threat 1.
+
+**Status against the threshold: crossed at hosts below 1000 kg**, and the deterministic-placement
+claim is what it threatens.
 
 ---
 

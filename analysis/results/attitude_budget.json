@@ -1,0 +1,126 @@
+{
+  "analysis": "A13",
+  "bands_declared_in": "validation/A13_indexing_disturbance.md",
+  "return_duration_sweep": [
+    {
+      "T_s": 4.0,
+      "p_peak_Ns": 7.08375,
+      "rate_deg_s": 0.23778,
+      "settle_s": 12.104305
+    },
+    {
+      "T_s": 6.0,
+      "p_peak_Ns": 4.7225,
+      "rate_deg_s": 0.160781,
+      "settle_s": 8.18463
+    },
+    {
+      "T_s": 10.0,
+      "p_peak_Ns": 2.8335,
+      "rate_deg_s": 0.099182,
+      "settle_s": 5.04889
+    },
+    {
+      "T_s": 15.0,
+      "p_peak_Ns": 1.889,
+      "rate_deg_s": 0.068382,
+      "settle_s": 3.48102
+    },
+    {
+      "T_s": 20.0,
+      "p_peak_Ns": 1.41675,
+      "rate_deg_s": 0.052982,
+      "settle_s": 2.697085
+    },
+    {
+      "T_s": 30.0,
+      "p_peak_Ns": 0.9445,
+      "rate_deg_s": 0.037582,
+      "settle_s": 1.91315
+    }
+  ],
+  "index": {
+    "v_peak": 0.052,
+    "p_peak": 0.208,
+    "force_N": 0.104,
+    "impulse_Ns": 0.208,
+    "accel_m_s2": 0.026,
+    "h_peak_Nms": 0.034528,
+    "mass_kg": 4.0,
+    "distance_m": 0.104,
+    "duration_s": 4.0
+  },
+  "sled_return": {
+    "v_peak": 0.5,
+    "p_peak": 4.7225,
+    "force_N": 1.574167,
+    "impulse_Ns": 4.7225,
+    "accel_m_s2": 0.166667,
+    "h_peak_Nms": 0.783935,
+    "mass_kg": 9.445,
+    "distance_m": 1.5,
+    "duration_s": 6.0
+  },
+  "shot_impulse_Ns": 66.1,
+  "index_pct_of_shot": 0.315,
+  "return_pct_of_shot": 7.144,
+  "host_sweep": [
+    {
+      "host_kg": 200.0,
+      "inertia_kgm2": 63.3,
+      "rate_index_deg_s": 0.031235,
+      "rate_return_deg_s": 0.709168,
+      "rate_total_deg_s": 0.740403,
+      "settle_s": 8.18463,
+      "settle_frac_of_interval": 0.818463
+    },
+    {
+      "host_kg": 500.0,
+      "inertia_kgm2": 291.7,
+      "rate_index_deg_s": 0.006783,
+      "rate_return_deg_s": 0.153998,
+      "rate_total_deg_s": 0.160781,
+      "settle_s": 8.18463,
+      "settle_frac_of_interval": 0.818463
+    },
+    {
+      "host_kg": 1000.0,
+      "inertia_kgm2": 926.0,
+      "rate_index_deg_s": 0.002136,
+      "rate_return_deg_s": 0.048506,
+      "rate_total_deg_s": 0.050643,
+      "settle_s": 8.18463,
+      "settle_frac_of_interval": 0.818463
+    },
+    {
+      "host_kg": 2000.0,
+      "inertia_kgm2": 2939.8,
+      "rate_index_deg_s": 0.000673,
+      "rate_return_deg_s": 0.015279,
+      "rate_total_deg_s": 0.015952,
+      "settle_s": 8.18463,
+      "settle_frac_of_interval": 0.818463
+    },
+    {
+      "host_kg": 5000.0,
+      "inertia_kgm2": 13538.0,
+      "rate_index_deg_s": 0.000146,
+      "rate_return_deg_s": 0.003318,
+      "rate_total_deg_s": 0.003464,
+      "settle_s": 8.18463,
+      "settle_frac_of_interval": 0.818463
+    }
+  ],
+  "rcs_torque_Nm": 0.1,
+  "inter_shot_s": [
+    10.0,
+    20.0
+  ],
+  "campaign_secular_Ns": 0.0,
+  "campaign_impulse_Ns": 980.0,
+  "assumptions": {
+    "host_inertia": "uniform cylinder, r and L scaled from mass at constant density, anchored 1 m x 2 m at 500 kg. Swept, not chosen.",
+    "motion": "constant acceleration, half accelerating and half decelerating. These are the SLOWEST plausible moves that fit the inter-shot interval, which MINIMISES the disturbance -- a faster mechanism makes every number worse.",
+    "rigid_body": "Structural modes not modelled. 'Settling' is RCS nulling a rigid-body rate, NOT structure ringing down. E24's concern about undamped structural motion is only half answered here."
+  }
+}

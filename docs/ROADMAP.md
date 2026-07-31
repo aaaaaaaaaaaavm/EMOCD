@@ -7,7 +7,7 @@
 >
 > Last updated **2026-07-31**.
 
-This project publishes its own defects: **29 numbered problems and 25 open engineering
+This project publishes its own defects: **30 numbered problems and 25 open engineering
 items**. That is deliberate, and it only reads as rigour if there is also a plan for closing
 them. This is that plan.
 
@@ -20,8 +20,8 @@ them. This is that plan.
 | Maturity | TRL 2-3. Analysis and CAD complete; **nothing built or measured** |
 | Rated performance | **16.5 m/s at 10.7 g**, from a sled mass measured in CAD, not estimated |
 | Efficiency | **21.2 %** electrical-to-payload, net of the regeneration adopted 2026-07-31 (A11) |
-| Validations run | **8 of 10**. A7 (tip-off) and A9 (flown decay) outstanding; A9 is blocked by network policy, not difficulty |
-| Of those eight | **one failed** (A5, invariance), one is PARTIAL (A1), one returned three **void** rows (A6), and one found a published number 37 % high (A12) |
+| Validations run | **9 of 11**. A7 (tip-off) and A9 (flown decay) outstanding; A9 is blocked by network policy, not difficulty |
+| Of those nine | **two failed** — A5 (invariance) and A13 (host attitude) — one is PARTIAL (A1), one returned three **void** rows (A6), and one found a published number 37 % high (A12) |
 | Biggest single gap | ~~K<sub>t</sub> single-method~~ closed by A1. Now: **nothing has been measured at any scale** (E4) |
 | Largest open defect | **P26** — the supercapacitor bank cannot source the shot on purchasable cells |
 | Paper | Source and PDF current as of 2026-07-31, 12 pages, zero undefined references |
@@ -119,7 +119,7 @@ flowchart LR
 |---|---|
 | Concept | complete, `docs/adr/`, `DECISION_LOG.md` |
 | Analysis | complete, `analysis/`, **611 result fields** across eight scripts |
-| **Simulation** | **where the project is.** **8 of 10** validations run, all at the current operating point since A8-R closed half of P19 |
+| **Simulation** | **where the project is.** **9 of 11** validations run, all at the current operating point since A8-R closed half of P19 |
 | Prototype | **specified, none built**: `docs/BENCHTOP_TESTS.md` |
 | Experiment | specified, none run |
 | Repeatability | **no rung yet.** Nothing has been run twice by anyone |

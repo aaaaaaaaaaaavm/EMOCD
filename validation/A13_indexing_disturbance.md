@@ -79,5 +79,110 @@ campaign.
 
 ## Output
 
-`validation/results/A13_indexing.json`: impulses, peak rate against host mass, settling time,
+`analysis/results/attitude_budget.json`: impulses, peak rate against host mass, settling time,
 campaign momentum, and the assumed host inertia model stated explicitly.
+
+---
+
+## Result, run 2026-07-31. Verdict **FAIL**, four of seven
+
+`analysis/attitude_budget.py`, written after the bands above were committed in `f11a93d`.
+
+### One index cycle
+
+| | Mass | Distance | Duration | Peak momentum | Against the shot's 66.1 N·s |
+|---|---|---|---|---|---|
+| Satellite advanced | 4.00 kg | 104 mm | 4 s | 0.208 N·s | **0.31 %** |
+| **Sled returned** | **9.445 kg** | **1500 mm** | **6 s** | **4.723 N·s** | **7.14 %** |
+
+### Attitude rate, host inertia swept
+
+| Host | Inertia | From indexing | **From sled return** | Total | Settling at 0.1 N·m |
+|---|---|---|---|---|---|
+| 200 kg | 63 kg·m² | 0.031 °/s | **0.709 °/s** | **0.740 °/s** | 8.2 s |
+| **500 kg** | 292 kg·m² | 0.007 °/s | **0.154 °/s** | **0.161 °/s** | **8.2 s** |
+| 1000 kg | 926 kg·m² | 0.002 °/s | 0.049 °/s | 0.051 °/s | 8.2 s |
+| 2000 kg | 2940 kg·m² | 0.001 °/s | 0.015 °/s | 0.016 °/s | 8.2 s |
+| 5000 kg | 13538 kg·m² | 0.0002 °/s | 0.003 °/s | 0.003 °/s | 8.2 s |
+
+### Against the declared bands
+
+| # | Prediction | Result | |
+|---|---|---|---|
+| 1 | indexing impulse below 10 % of shot | **0.31 %** | **pass** |
+| 2 | sled-return impulse below 20 % of shot | **7.14 %** | **pass** |
+| 3 | peak rate below 0.05 °/s at 500 kg | **0.161 °/s** | **FAIL, 3.2x over** |
+| 4 | peak rate below 0.2 °/s at 200 kg | **0.740 °/s** | **FAIL, 3.7x over** |
+| 5 | settle below 0.01 °/s in under 2 s | **8.2 s** | **FAIL, 4x over** |
+| 6 | campaign secular momentum near zero | 0, by construction | **pass** |
+| 7 | campaign propellant bill unchanged | unchanged | **pass** |
+
+**Four of seven, and the three that failed are the three that mattered.**
+
+### E24 was worried about the wrong mass
+
+E24 is titled *"Attitude disturbance from magazine indexing"* and its argument is about
+satellites moving inside the deployer. **Indexing is negligible: 0.31 % of the shot impulse, and
+0.007 °/s at a 500 kg host.** E24's own instinct that "the indexed mass is a few kg against a
+124.9 kg loaded system" was right.
+
+**It is the sled return that does the damage, and nothing in E24 or anywhere else in this
+repository mentions it.** 9.445 kg travelling 1.5 m is **23x the indexing momentum** — a heavier
+mass over fourteen times the distance — and it is the largest unbudgeted term in the host
+interaction by a wide margin.
+
+That is the finding. The gap was found by reading a competitor's problem statement, the
+competitor's problem was the indexing, and **this design's problem is somewhere that paper never
+had to look** — because a machine that does not reuse its sled does not return one.
+
+### What this costs the deterministic-placement claim
+
+At a 500 kg host, one index cycle leaves **0.16 °/s** and nulling it takes **8.2 s against a
+10–20 s inter-shot interval**. That is most of the cadence spent settling, and the settling time
+is independent of host mass — the momentum to remove is fixed and so is the assumed authority.
+
+**The velocity servo cannot see any of it.** It measures position along the track, not the
+track's orientation, so a residual attitude rate at trigger becomes a pointing error that the
+0.027 m/s dispersion figure does not include and cannot detect.
+
+### What would pass, which is not the same as passing
+
+The sled return duration is a **free variable nobody has specified**. Peak momentum goes as
+`1/T`, so:
+
+| Return duration | Peak momentum | Rate at 500 kg | Settling | Band 3 | Band 5 |
+|---|---|---|---|---|---|
+| 4 s | 7.08 N·s | 0.238 °/s | 12.1 s | FAIL | FAIL |
+| **6 s, assumed** | **4.72 N·s** | **0.161 °/s** | **8.2 s** | **FAIL** | **FAIL** |
+| 10 s | 2.83 N·s | 0.099 °/s | 5.1 s | FAIL | FAIL |
+| 15 s | 1.89 N·s | 0.068 °/s | 3.5 s | FAIL | FAIL |
+| 20 s | 1.42 N·s | 0.053 °/s | 2.7 s | FAIL | FAIL |
+| 30 s | 0.94 N·s | 0.038 °/s | 1.9 s | pass | pass |
+
+**Nothing inside the cadence passes.** The inter-shot interval is 10–20 s, and the bands are only
+met at a 30 s return, which does not fit. **The bands failed and this table does not un-fail
+them**; it says what the design would have to become.
+
+Three routes, none costed here:
+
+1. **Slow the return and lengthen the cadence.** A 30 s return inside a 40 s interval. Costs
+   campaign duration, which nothing currently constrains.
+2. **More control authority.** Settling scales as `1/torque`; 0.4 N·m brings 8.2 s to 2.0 s. That
+   is a *host* requirement, not a deployer one, and it belongs in the four-item interface spec,
+   which currently does not ask for it.
+3. **Return the sled against a counter-mass.** A reaction mass moving opposite cancels the
+   momentum at source. It is the only route that fixes the disturbance rather than absorbing it,
+   and it costs deployer mass on a design already failing kill criterion 1.
+
+### The honest limits of this
+
+**Rigid-body only.** "Settling" is reaction control nulling a rate. It is **not** structure
+ringing down, so E24's concern about "structural motion that has not damped out" is only half
+answered.
+
+**The motion profiles are assumed, and they are the optimistic end.** Both are the slowest
+constant-acceleration moves that plausibly fit the interval. A faster mechanism makes every number
+here worse.
+
+**The host inertia is a uniform cylinder scaled from mass.** It is swept rather than chosen for
+exactly that reason, and **the failure holds across the whole sweep below 1000 kg**.
