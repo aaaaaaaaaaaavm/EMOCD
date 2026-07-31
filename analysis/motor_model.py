@@ -23,9 +23,16 @@ An early version held the field fixed while commutating the current, which produ
 a near-zero mean thrust. If Kt comes out ~0, check that first.
 
 Provenance: model output, not independently re-derived.
-Efficiency figure is electrical-to-payload; the sled's kinetic energy is dissipated
-in the arrest brake by design and is NOT recovered (an earlier draft wrongly credited
-55 % regeneration, giving 40 %; corrected to 32 %).
+
+Efficiency is electrical-to-payload. It used to be quoted with the note that the sled's
+kinetic energy "is dissipated in the arrest brake by design and is NOT recovered". The
+first half was right and the second half was never argued: the 2025 decision established
+that the motor cannot ARREST the sled, not that none of its energy can be taken back.
+A11 asked the second question and regen_brake() below answers it -- about a quarter of
+the sled's energy returns to the bank inside the existing envelope, and the eddy brake is
+still required for the rest. The original caution came from a real error (a 2021 draft
+credited 55 % regeneration, giving 40 %, corrected to 32 %), and crediting nothing was the
+safe response to it rather than the correct one.
 """
 import numpy as np
 import magpylib as magpy
@@ -197,6 +204,77 @@ def shot(Kt, K_lim=K_RATED, dt=1e-4, trace=False):
     return out
 
 
+# --- regenerative braking after release (A11) ----------------------------------
+S_REGEN = 0.240                 # m of added stator downstream of the 1500 mm release point.
+#                                 The closed envelope is 1839 mm, so the arrest section is
+#                                 339 mm; roughly 100 mm of it goes to the eddy fin and the
+#                                 ring-spring stack. This is a packaging ASSUMPTION, not a
+#                                 layout anyone has drawn -- see A11's "what this run cannot
+#                                 settle". regen_brake(s=...) is the sweep handle.
+
+
+def copper_coeff(length):
+    """W per N^2 of braking force, for a stator section of the given energised length.
+
+    Sheet current for a commanded force is K = F/(0.9*Kt) and current density is
+    J = 0.9*K/(WIND_THICK*FILL), so J = F/(Kt*WIND_THICK*FILL) and P_cu = RHO_CU*J^2*vol.
+    The length passed in is the copper that is ENERGISED, which for regeneration is the
+    added section and not the 1.30 m acceleration winding the sled has already left.
+    That choice is the one modelling decision in A11 that moves the answer, so it is a
+    parameter here rather than a constant.
+    """
+    def coeff(Kt):
+        vol = length * DEPTH * WIND_THICK * FILL
+        return RHO_CU * vol / (Kt * WIND_THICK * FILL) ** 2
+    return coeff
+
+
+def regen_brake(Kt, v0, Vc0, s=S_REGEN, K_lim=K_RATED, energised=None, dt=1e-5):
+    """Brake the sled regeneratively over s metres of stator, after payload release.
+
+    The sled alone decelerates: the payload is gone, which is why this cannot move
+    v_exit. Force is constant at the commanded sheet current, capped at K_lim by the
+    same rating that bounds acceleration -- that inequality IS the 2025 arrest argument,
+    and it is why the eddy brake survives this.
+
+    Charging mirrors shot()'s discharge: the bank terminal sits R_ESR*I ABOVE the cell
+    voltage when current flows in, so delivering P at the terminal means
+        R I^2 + Vc I - P = 0  ->  I = (-Vc + sqrt(Vc^2 + 4 R P)) / (2 R)
+    and the energy reaching the cell is Vc*I, not P. Omitting that would credit the ESR
+    loss twice over: once on the way out, not at all on the way back.
+    """
+    m = M_SLED                                   # payload already released
+    F = 0.9 * Kt * K_lim
+    P_cu = copper_coeff(s if energised is None else energised)(Kt) * F * F
+    v = v0                                       # from shot(), never a literal
+    Vc = Vc0                                     # bank voltage the shot left behind
+    x = t = W = Q = Q_esr = E_rec = 0.0
+    Imax = 0.0
+    while x < s and v > 0:
+        dv = F / m * dt
+        if dv > v:
+            dv = v
+        W += F * v * dt
+        v -= dv
+        x += v * dt
+        t += dt
+        Q += P_cu * dt
+        P_term = (F * v - P_cu) * CONV_EFF - P_AUX
+        if P_term > 0:
+            I = (-Vc + math.sqrt(Vc * Vc + 4 * R_ESR * P_term)) / (2 * R_ESR)
+            Imax = max(Imax, I)
+            E_rec += Vc * I * dt
+            Q_esr += I * I * R_ESR * dt
+            Vc += I * dt / C_BANK
+    KE0 = 0.5 * m * v0 * v0
+    return dict(s_m=s, F_brake=F, K_kA=K_lim / 1e3, mult_of_rated=K_lim / K_RATED,
+                W_mech=W, Q_copper=Q, Q_esr=Q_esr, E_recovered=E_rec,
+                Q_converter=(W - Q) * (1 - CONV_EFF), Q_aux=P_AUX * t,
+                t_ms=t * 1e3, v_end=v, I_peak=Imax,
+                KE_sled_in=KE0, KE_to_brake=0.5 * m * v * v,
+                frac_recovered_pct=E_rec / KE0 * 100)
+
+
 def closed_loop_mc(Kt, n=800, v_target=V_FLEET, seed0=0):
     """Position-scheduled profile + coast-trim correction from photogate measurement."""
     m = M_SAT + M_SLED
@@ -245,8 +323,29 @@ if __name__ == '__main__':
     fam = payload_family(Kt, s['F_cmd'])
     print("payload family:", fam)
 
+    # A11. Regeneration runs off the shot's own end state -- exit velocity and the bank
+    # voltage the shot left behind -- so it cannot be quoted against a stale operating
+    # point, which is the failure P19 records.
+    rg = regen_brake(Kt, s['v_exit'], V0 * (1 - s['sag_pct'] / 100))
+    rg_pess = regen_brake(Kt, s['v_exit'], V0 * (1 - s['sag_pct'] / 100),
+                          energised=ACCEL_ZONE)
+    net_draw = s['E_drawn'] - rg['E_recovered']
+    print(f"regen over {rg['s_m']*1e3:.0f} mm: {rg['E_recovered']:.1f} J recovered "
+          f"({rg['frac_recovered_pct']:.1f} % of sled KE), {rg['KE_to_brake']:.0f} J still "
+          f"to the brake, peak {rg['I_peak']:.0f} A")
+    print(f"  efficiency {s['eff_pct']:.2f} % -> {s['KE_payload']/net_draw*100:.2f} % "
+          f"(pessimistic copper convention: "
+          f"{s['KE_payload']/(s['E_drawn']-rg_pess['E_recovered'])*100:.2f} %)")
+    if abs(s['v_exit'] - shot(Kt)['v_exit']) > 1e-9:
+        raise SystemExit("regen changed v_exit; it acts after release and must not.")
+
     res = dict(Kt_N_per_kA=round(Kt * 1e3, 2), ripple_pct=round(ripple, 2),
                K_rated_kA=K_RATED / 1e3,
+               regen={k: round(v, 3) for k, v in rg.items()},
+               regen_copper_pessimistic_J=round(rg_pess['Q_copper'], 1),
+               regen_E_recovered_pessimistic_J=round(rg_pess['E_recovered'], 1),
+               E_drawn_net_J=round(net_draw, 1),
+               eff_net_pct=round(s['KE_payload'] / net_draw * 100, 2),
                shot={k: round(v, 3) for k, v in s.items()},
                v_fleet_setpoint=V_FLEET,
                closed_loop_mean=round(mc['mean'], 3),

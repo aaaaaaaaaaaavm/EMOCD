@@ -4,7 +4,7 @@
 > Every value below is read from the scripts at generation time, so this file cannot silently
 > disagree with them. Regenerate after any authorised baseline change.
 >
-> Flagship commit at generation: `ab149e6` · Phase **I** · governed by
+> Flagship commit at generation: `a6c7060` · Phase **I** · governed by
 > [`docs/programme/ENGINEERING_PROGRAMME.md`](programme/ENGINEERING_PROGRAMME.md)
 
 This is the engineering baseline the Phase I deliverables (portfolio, IEEE paper, thesis)
@@ -24,10 +24,13 @@ what makes "stable" mean something.
 | Pulse duration | **157.3 ms** | `motor_results.shot.t_ms` |
 | Peak current | **347 A** | `motor_results.shot.I_peak` |
 | Bank sag | **5.35 %** | `motor_results.shot.sag_pct` |
-| Energy drawn per shot | **2881 J** | `motor_results.shot.E_drawn` |
-| Copper loss per shot | **828 J** | `motor_results.shot.Q_copper` |
+| Energy drawn per shot, gross | **2881 J** | `motor_results.shot.E_drawn` |
+| Energy recovered per shot | **297 J (23.0 % of sled KE)** | `motor_results.regen.E_recovered` |
+| Energy drawn per shot, net | **2585 J** | `motor_results.E_drawn_net_J` |
+| Sled energy to the brake | **952 J** | `motor_results.regen.KE_to_brake` |
+| Copper loss per shot | **843 J (shot + regen)** | `motor_results.shot.Q_copper` |
 | Payload kinetic energy | **547 J** | `motor_results.shot.KE_payload` |
-| Electrical-to-payload efficiency | **19.0 %** | `motor_results.shot.eff_pct` |
+| Electrical-to-payload efficiency | **21.2 % (net of regeneration)** | `motor_results.eff_net_pct` |
 | Closed-loop dispersion | **0.0271 m/s (3σ)** | `motor_results.closed_loop_3sigma` |
 | Fleet setpoint | **16.2 m/s** | `motor_results.v_fleet_setpoint` |
 | Sled mass | **9.45 kg (measured)** | `mass_properties.sled_kg` |

@@ -52,6 +52,19 @@ P_AUX = 200.0          # W
 ACCEL_ZONE = 1.30      # m
 BRAKE_CAP_G = 200      # g, taper-limited sled deceleration
 
+# --- regenerative braking after release (A11, adopted under ADOPTION.md Amendment 3) ---
+# The sled used to carry its whole 1291 J into the brake. It now gives back the first
+# 240 mm of it through added stator at the same sheet-current rating that bounds
+# acceleration. Every figure here comes from motor_model.regen_brake() and is checked
+# against its JSON by _check_operating_point().
+S_REGEN = 0.240        # m of added stator downstream of the 1500 mm release point
+E_RECOVERED = 296.6    # J per shot returned to the bank cells
+KE_TO_BRAKE = 952.1    # J per shot still arriving at the eddy brake (was 1291.4)
+Q_COPPER_REGEN = 15.2  # J, winding I^2R during the 15.6 ms braking pulse
+Q_ESR_REGEN = 8.2      # J, bank ESR on the way back IN
+Q_CONV_REGEN = 16.2    # J, converter loss on the recovered power
+Q_AUX_REGEN = 3.1      # J, hotel load over the braking pulse
+
 
 def capacitor_sizing(E=E_DRAWN, V0=96.0, sag_frac=SAG_FRAC, C_selected=6.0):
     """C from energy and allowed state-of-charge droop.
@@ -156,7 +169,7 @@ def magnet_temperature(alpha=-0.0011, dT=40, K_rated=140e3, K_nom=126e3):
                 within_rating=bool(K_needed < K_rated))
 
 
-def thermal_campaign(n_shots=12, Q_coil=None, Q_fin=None, Q_esr=Q_ESR,
+def thermal_campaign(n_shots=12, Q_coil=None, Q_fin=None, Q_esr=None,
                      Q_conv=None, Q_aux=None, C_th=13500.0):
     # Derived from the operating point rather than pasted, so a change to the sled
     # mass or stroke cannot leave these behind. Q_esr was a literal 160 J until
@@ -165,14 +178,25 @@ def thermal_campaign(n_shots=12, Q_coil=None, Q_fin=None, Q_esr=Q_ESR,
     # the old placeholder was 1.9x high. E17 still carries the provenance gap on
     # the 12 mohm itself, which is assumed rather than sourced.
     if Q_coil is None:
-        Q_coil = Q_COPPER
+        Q_coil = Q_COPPER + Q_COPPER_REGEN
     if Q_fin is None:
-        Q_fin = 0.5 * M_SLED * V_EXIT ** 2       # all of it, dissipated in the brake
+        # No longer the sled's whole kinetic energy: regeneration takes the first
+        # 240 mm of it. The brake is still required for what is left, which is the
+        # point A11 was careful about -- 952 J is not a residual the eddy fin can be
+        # deleted over.
+        Q_fin = KE_TO_BRAKE
+    if Q_esr is None:
+        Q_esr = Q_ESR + Q_ESR_REGEN
     if Q_conv is None:
-        Q_conv = 0.5 * (M_SAT + M_SLED) * V_EXIT ** 2 * (1 / CONV_EFF - 1)
+        Q_conv = (0.5 * (M_SAT + M_SLED) * V_EXIT ** 2 * (1 / CONV_EFF - 1)
+                  + Q_CONV_REGEN)
     if Q_aux is None:
-        Q_aux = P_AUX * T_PULSE
+        Q_aux = P_AUX * T_PULSE + Q_AUX_REGEN
     total = n_shots * (Q_coil + Q_fin + Q_esr + Q_conv + Q_aux)
+    # The 300 mm fin is sized on heat and passes easily at the reduced duty. What it
+    # does NOT pass is geometry: 240 mm of regen stator plus a 300 mm fin do not both
+    # fit the 339 mm arrest section, and no repartitioned layout has been drawn. That
+    # is logged rather than resolved here by quietly shortening the fin.
     fin_mass = 0.004 * 0.08 * 0.30 * 8960
     fin_dT = Q_fin / (fin_mass * 385)
     # radiator to reject the burst average over the following orbit
@@ -194,12 +218,27 @@ def energy_closure():
     # The ESR term closes what A8-R found open: the bank dissipates Q_ESR before any of
     # the draw reaches the load, so a ledger that omits it balances against a draw that
     # also omits it and reads 100 % while understating both sides by 3 %.
-    accounted = KE_sat + KE_sled + Q_COPPER + Q_ESR + conv + aux
+    # With regeneration the sled's kinetic energy is no longer a single line: it splits
+    # into what the brake still takes and what the added stator extracts, and the
+    # extracted part splits again into copper, converter, aux and what reaches the
+    # cells. The draw side falls by exactly the last of those, so the ledger closes on
+    # the NET draw or it does not close at all.
+    net_drawn = E_DRAWN - E_RECOVERED
+    accounted = (KE_sat + KE_TO_BRAKE
+                 + Q_COPPER + Q_COPPER_REGEN
+                 + Q_ESR + Q_ESR_REGEN
+                 + conv + Q_CONV_REGEN
+                 + aux + Q_AUX_REGEN)
     return dict(KE_payload_J=round(KE_sat, 0), KE_sled_J=round(KE_sled, 0),
-                copper_J=round(Q_COPPER, 0), esr_J=round(Q_ESR, 0),
-                converter_J=round(conv, 0), aux_J=round(aux, 0),
-                accounted_J=round(accounted, 0), drawn_J=E_DRAWN,
-                closure_pct=round(100 * accounted / E_DRAWN, 1))
+                KE_to_brake_J=round(KE_TO_BRAKE, 0),
+                regen_recovered_J=round(E_RECOVERED, 0),
+                copper_J=round(Q_COPPER + Q_COPPER_REGEN, 0),
+                esr_J=round(Q_ESR + Q_ESR_REGEN, 0),
+                converter_J=round(conv + Q_CONV_REGEN, 0),
+                aux_J=round(aux + Q_AUX_REGEN, 0),
+                accounted_J=round(accounted, 0),
+                drawn_gross_J=E_DRAWN, drawn_net_J=round(net_drawn, 1),
+                closure_pct=round(100 * accounted / net_drawn, 1))
 
 
 def pole_pitch_sweep(gap_half=0.006, th=0.008):
@@ -227,7 +266,9 @@ def _check_operating_point():
                         'results', 'motor_results.json')
     if not os.path.exists(path):
         return                                   # nothing to check against yet
-    shot = json.load(open(path))['shot']
+    doc = json.load(open(path))
+    shot = doc['shot']
+    rg = doc.get('regen', {})
     for name, here, there, tol in (
             ('V_EXIT', V_EXIT, shot['v_exit'], 0.01),
             ('E_DRAWN', E_DRAWN, shot['E_drawn'], 1.0),
@@ -235,7 +276,14 @@ def _check_operating_point():
             ('T_PULSE', T_PULSE * 1e3, shot['t_ms'], 0.5),
             ('Q_COPPER', Q_COPPER, shot['Q_copper'], 1.0),
             ('Q_ESR', Q_ESR, shot.get('Q_esr', Q_ESR), 1.0),
-            ('SAG_FRAC', SAG_FRAC * 100, shot['sag_pct'], 0.05)):
+            ('SAG_FRAC', SAG_FRAC * 100, shot['sag_pct'], 0.05),
+            ('S_REGEN', S_REGEN, rg.get('s_m', S_REGEN), 1e-6),
+            ('E_RECOVERED', E_RECOVERED, rg.get('E_recovered', E_RECOVERED), 0.5),
+            ('KE_TO_BRAKE', KE_TO_BRAKE, rg.get('KE_to_brake', KE_TO_BRAKE), 0.5),
+            ('Q_COPPER_REGEN', Q_COPPER_REGEN, rg.get('Q_copper', Q_COPPER_REGEN), 0.5),
+            ('Q_ESR_REGEN', Q_ESR_REGEN, rg.get('Q_esr', Q_ESR_REGEN), 0.5),
+            ('Q_CONV_REGEN', Q_CONV_REGEN, rg.get('Q_converter', Q_CONV_REGEN), 0.5),
+            ('Q_AUX_REGEN', Q_AUX_REGEN, rg.get('Q_aux', Q_AUX_REGEN), 0.5)):
         if abs(here - there) > tol:
             raise SystemExit(
                 f"sizing.py {name} = {here} disagrees with motor_model's {there}. "

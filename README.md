@@ -71,9 +71,10 @@ flowchart LR
     E -.->|"payload departs"| H["Own orbit<br/>x1.62 lifetime"]
 ```
 
-The satellite is never modified: the magnets ride the sled, not the payload. The sled's
-kinetic energy is dissipated in the brake by design, which is why efficiency is quoted
-electrical-to-payload and carries no regeneration credit.
+The satellite is never modified: the magnets ride the sled, not the payload. The sled leaves
+release carrying 1291 J; 240 mm of stator past that point takes **296 J of it back into the
+bank**, and the eddy brake absorbs the remaining 952 J. Efficiency is quoted
+electrical-to-payload, net of that credit.
 
 ## Headline results (all model outputs, not measurements)
 
@@ -94,7 +95,7 @@ electrical-to-payload and carries no regeneration credit.
 |---|---|---|
 | Thrust constant | 11.22 N per kA/m, ±1.26 % ripple, **confirmed by FEM to 0.07 %** | `analysis/motor_model.py`, A1 |
 | Exit velocity, 3U | **16.54 m/s at 10.7 g** | `analysis/motor_model.py` |
-| Electrical to payload efficiency | 19 % (2.88 kJ drawn, 547 J delivered) | `analysis/motor_model.py` |
+| Electrical to payload efficiency | 21.2 % (2.58 kJ net of regeneration, 547 J delivered) | `analysis/motor_model.py` |
 | Closed-loop dispersion | 0.027 m/s (3σ) at a 16.2 m/s setpoint to ±0.10 km apogee | `analysis/motor_model.py` |
 | Orbital lifetime multiplier | x1.62 at mean activity, **not invariant, see P16** | `analysis/astro.py` |
 | Constellation seeding | 30° in 1.4-6.9 days vs 25 days by differential drag | `analysis/astro.py` |
@@ -125,7 +126,8 @@ electrical-to-payload and carries no regeneration credit.
 > rather than a preference.
 >
 > **What this costs and does not cost.** Exit velocity is down 19 % and efficiency from
-> 32 % to 20 %, and to 19 % after the ESR correction of 2026-07-30 (P24). The lifetime multiplier is down only 10 %, x1.80 to x1.62, because lifetime
+> 32 % to 20 %, and to 19 % after the ESR correction of 2026-07-30 (P24); regeneration has
+> since taken it to 21.2 % (A11). The lifetime multiplier is down only 10 %, x1.80 to x1.62, because lifetime
 > is a weak function of Δv, the mission case survives better than the machine spec does.
 > 9.445 kg is the **as-drawn, unpocketed** geometry, and A4 reports a 17x stress margin, so
 > a rib-stiffened chassis would recover mass. Nobody has designed one
@@ -198,19 +200,25 @@ Two that carry the argument:
 ```mermaid
 pie showData
     title Energy per shot (J) - sizing.py energy_closure
-    "Sled KE, dissipated in the brake" : 1291
+    "Sled KE to the eddy brake" : 952
     "Payload KE, the useful output" : 547
-    "Copper loss" : 828
-    "Converter loss" : 97
-    "Bank ESR loss" : 86
-    "Auxiliary" : 31
+    "Copper loss, shot + regen" : 843
+    "Converter loss" : 113
+    "Bank ESR loss" : 94
+    "Auxiliary" : 35
 ```
 
-547 J of 2881 J drawn reaches the payload. That is the 19 %, and it carries no regeneration
-credit because the sled's 1291 J is thrown away in the brake by design. Efficiency fell with
-the heavier sled twice over: more of the same mechanical work goes into a mass that is then
-braked away, and the longer 157 ms pulse accrues more copper loss at unchanged current
-density.
+547 J reaches the payload out of a **net 2585 J**: 2881 J leaves the bank and 296 J returns.
+That is the 21.2 %. Efficiency fell with the heavier sled twice over, because more of the same
+mechanical work goes into a mass that is then braked away and the longer 157 ms pulse accrues
+more copper loss at unchanged current density. Regeneration is the first thing that has moved
+it the other way.
+
+**This page said "no regeneration credit" until 2026-07-31**, on the strength of a 2025
+decision that argued the motor cannot *arrest* the sled. It cannot, and the brake stays. It was
+never shown that no energy could be recovered, and
+[`validation/A11_regen_braking.md`](validation/A11_regen_braking.md) found 23.0 % of the sled's
+energy available inside the existing envelope at the existing current rating.
 
 The 86 J ESR slice was not here until 2026-07-30. No script modelled the bank's series
 resistance, so the loss existed in the hardware and nowhere in the accounting. A circuit

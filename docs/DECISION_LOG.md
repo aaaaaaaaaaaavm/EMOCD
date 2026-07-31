@@ -81,6 +81,26 @@ Knock-on correction: the sled's kinetic energy is dissipated in the brake by des
 is **not** recovered. Crediting it as regeneration was double-counting; efficiency was
 restated 40 % to 32 %.
 
+> **Amended 2026-07-31 by A11. The paragraph above stays as written because it is what was
+> decided and the arrest half of it is still right. The knock-on was drawn wider than the
+> argument supported.**
+>
+> "Motor braking cannot *arrest* the sled" and "none of the sled's energy can be recovered"
+> are different claims, and only the first was ever argued. Nobody asked the second question
+> for five years, and the reason is legible: after a 55 % regeneration credit turned out to be
+> a double-count, crediting zero was the safe response. Safe is not the same as correct.
+>
+> [`../validation/A11_regen_braking.md`](../validation/A11_regen_braking.md) asked it. Braking
+> at the same sheet-current rating over 240 mm of added stator downstream of release returns
+> **296.6 J, 23.0 % of the sled's 1291 J**, and lifts efficiency from 19.0 to **21.2 %**.
+> Copper during the braking pulse is 15 J, because it is 15.6 ms over 240 mm of winding rather
+> than 157 ms over 1300 mm.
+>
+> **The eddy brake stays.** It still absorbs 952 J of every shot. This supplements the decision
+> above; it does not reverse it. Adopted into the Phase I baseline under
+> [`programme/ADOPTION.md`](programme/ADOPTION.md) Amendment 3, and it opened P28: the regen
+> stator and the fin do not both fit the arrest section as currently sized.
+
 ## 2025: Abort claim corrected
 I originally described abort as available "anytime before release". Deceleration is
 limited by the same motor force, so with the loaded carriage the true commit point is

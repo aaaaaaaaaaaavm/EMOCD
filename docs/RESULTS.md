@@ -11,25 +11,38 @@ carry an independent cross-check. See [`PROVENANCE.md`](PROVENANCE.md).
 
 ## Where the energy goes
 
-2881 J leaves the capacitor bank per shot. 547 J of it ends up as payload kinetic energy,
-that is the 19 % figure, and it is electrical-to-payload with **no regeneration credit**,
-because the sled's 1291 J is dissipated in the eddy brake by design.
+2881 J leaves the capacitor bank per shot and **296 J comes back**, so the net draw is
+2585 J. 547 J of it ends up as payload kinetic energy, and that is the **21.2 %** figure.
 
 ```mermaid
 pie showData
-    title Energy per shot (J), sizing.py energy_closure
-    "Sled KE, dissipated in the brake" : 1291
+    title Energy per shot (J), net of regeneration, sizing.py energy_closure
+    "Sled KE to the eddy brake" : 952
     "Payload KE, the useful output" : 547
-    "Copper loss" : 828
-    "Converter loss" : 97
-    "Bank ESR loss" : 86
-    "Auxiliary" : 31
+    "Copper loss, shot + regen" : 843
+    "Converter loss" : 113
+    "Bank ESR loss" : 94
+    "Auxiliary" : 35
 ```
 
-Accounted 2880 J against 2881 J drawn, 100.0 % closure. Efficiency was 32 % until
-2026-07-29; adopting the measured 9.445 kg sled moved it to 20 %, because more of the same
-mechanical work now goes into a mass that is braked away and the longer 157 ms pulse accrues
-more copper loss. The ESR correction of 2026-07-30 moved it again, to 19 %.
+Accounted 2583 J against 2585 J net drawn, 100.0 % closure.
+
+**The regeneration credit is new and it reverses a five-year-old flat statement**, so the
+history matters more than the number. This page said until 2026-07-31 that the figure carried
+*no regeneration credit, because the sled's 1291 J is dissipated in the eddy brake by design*.
+The 2025 decision it rested on argued only that the motor cannot **arrest** the sled, which is
+still true and still why the brake exists. It never argued that no energy could be taken back,
+and nobody asked, because the previous regeneration claim had been a double-count and crediting
+zero felt safe. [`../validation/A11_regen_braking.md`](../validation/A11_regen_braking.md)
+asked: 240 mm of added stator returns 296.6 J, **23.0 % of the sled's energy**, at the same
+sheet-current rating and with peak current below the shot's own. **952 J still goes to the
+brake**, which is why this supplements the arrest decision rather than replacing it.
+
+Efficiency was 32 % until 2026-07-29; adopting the measured 9.445 kg sled moved it to 20 %,
+because more of the same mechanical work goes into a mass that is braked away and the longer
+157 ms pulse accrues more copper loss. The ESR correction of 2026-07-30 moved it to 19 %.
+Regeneration moved it to **21.2 %**. Every one of those steps is a correction to a published
+number, and two of the three moved it the wrong way.
 
 **A closing budget is weaker evidence than it looks, and this chart is the reason.** Until
 2026-07-30 it closed at 100.0 % without the 86 J ESR slice, because both sides of the ledger
@@ -39,9 +52,13 @@ arithmetic is consistent, not that the physics is complete. Recorded as P24. Sou
 `analysis/results/sizing.json` to `energy_closure`.
 
 An earlier version of this project claimed 52 % efficiency by crediting 55 % of the sled's
-energy back as regeneration. That was double-counting: the arrest architecture throws that
-energy away. That correction, 52 % to 32 %, is recorded as A25/A27 in
-[`INVENTORY.md`](INVENTORY.md).
+energy back as regeneration. That was double-counting, and the correction, 52 % to 32 %, is
+recorded as A25/A27 in [`INVENTORY.md`](INVENTORY.md). **A11's 23.0 % is not that claim
+returning**, and the difference is worth being precise about: the 55 % was asserted against an
+arrest architecture that throws the energy away, while 23.0 % is integrated against 240 mm of
+stator that has to be built, at a rated current the winding already carries, with the copper it
+burns subtracted and the brake still absorbing 952 J. It is less than half the retracted figure
+and it has a run sheet.
 
 ---
 
@@ -173,7 +190,8 @@ well past the top band; A4 then ran and found the drawn plate passes all three s
 bands, so nothing forces a lighter chassis either. `analysis/` moved first and the paper
 followed, the first time a script value has changed in this project.
 
-What it cost: exit velocity 20.37 to **16.54 m/s**, efficiency 32 % to **20 %**. What it did
+What it cost: exit velocity 20.37 to **16.54 m/s**, efficiency 32 % to **20 %** (19 % after
+the ESR correction, 21.2 % after regeneration). What it did
 not cost: the lifetime multiplier fell only x1.80 to **x1.62**, because lifetime is a weak
 function of Δv. The mission case survives considerably better than the machine spec does.
 

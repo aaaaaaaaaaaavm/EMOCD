@@ -121,9 +121,10 @@ code{font-family:var(--mono);font-size:.92em;background:var(--panel);
 <section>
   <h2>A shot, end to end</h2>
   <p class="sub">Feed, retention gate, 1.3 m of acceleration at 10.7 g, coast and trim, release at
-  1500 mm, eddy brake at 1530-1740 mm, sled recovered for the next shot. The
-  sled's kinetic energy is dissipated in the brake by design, which is why efficiency is
-  quoted electrical-to-payload and carries no regeneration credit.</p>
+  1500 mm, regenerative braking over the next 240 mm, eddy brake, sled recovered for the next
+  shot. Regeneration returns 296 J of the sled's 1291 J to the bank and the brake absorbs the
+  remaining 952 J, so efficiency is quoted electrical-to-payload net of a 23 % sled-energy
+  credit.</p>
   <div class="grid g3">
     <figure><img src="https://raw.githubusercontent.com/aaaaaaaaaaaavm/VOLLEY/main/cad/renders/seq2_midstroke.png" alt="Mid-stroke">
       <figcaption><b>Mid-stroke.</b> Under thrust, payload cradled.</figcaption></figure>
@@ -152,7 +153,7 @@ code{font-family:var(--mono);font-size:.92em;background:var(--panel);
     <tr><th>Quantity</th><th>Value</th><th>Source</th></tr>
     <tr><td>Thrust constant</td><td class="num">11.22 N per kA/m, ±1.26 % ripple</td><td><code>motor_model.py</code></td></tr>
     <tr><td>Exit velocity, 3U</td><td class="num"><b>16.54 m/s at 10.7 g</b></td><td><code>motor_model.py</code></td></tr>
-    <tr><td>Electrical to payload efficiency</td><td class="num">19 %</td><td><code>motor_model.py</code></td></tr>
+    <tr><td>Electrical to payload efficiency</td><td class="num">21.2 %</td><td><code>motor_model.py</code></td></tr>
     <tr><td>Closed-loop dispersion</td><td class="num">0.027 m/s (3σ) to ±0.10 km apogee</td><td><code>motor_model.py</code></td></tr>
     <tr><td>Orbital lifetime multiplier</td><td class="num">x1.62 at mean activity, <b>not invariant, P16</b></td><td><code>astro.py</code></td></tr>
     <tr><td>Constellation seeding, 30°</td><td class="num">1.4-6.9 days vs 25 by differential drag</td><td><code>astro.py</code></td></tr>
@@ -168,7 +169,8 @@ code{font-family:var(--mono);font-size:.92em;background:var(--panel);
   and the measurement landed in the ≥ 6.80 kg branch, "the headline changes and the paper
   changes materially". A4 has since run and the drawn plate passes all three bands, so
   nothing forces a lighter chassis. The scripts moved first, then the paper. Exit velocity is
-  down 19 % and efficiency from 32 % to 19 %, but the lifetime multiplier fell only
+  down 19 % and efficiency from 32 % to 19 %, since taken back to 21.2 % by regeneration
+  (A11), but the lifetime multiplier fell only
   x1.80 to x1.62, lifetime is a weak function of Δv, so the mission case survives better than
   the machine spec. 9.445 kg is the as-drawn, unpocketed geometry and A4 reports a 17x stress
   margin, so a rib-stiffened redesign would recover mass; nobody has designed one.</div>
@@ -182,19 +184,24 @@ code{font-family:var(--mono);font-size:.92em;background:var(--panel);
 
 <section>
   <h2>Where the energy goes</h2>
-  <p class="sub">2881 J leaves the capacitor bank per shot and 547 J reaches the payload,
-  the 19 %. No regeneration credit: the sled's 1291 J is dissipated in the eddy brake by
-  design. Source <code>sizing.py</code> <code>energy_closure</code>; 100.0 % accounted.
-  The 86 J ESR bar was not in this chart until 2026-07-30: no script modelled the bank's
-  series resistance, so the loss was real in hardware and absent from the accounting until a
-  circuit simulation found it.</p>
+  <p class="sub">2881 J leaves the capacitor bank per shot, 296 J comes back through the
+  regenerative section, and 547 J of the net 2585 J reaches the payload &mdash; the 21.2 %.
+  Source <code>sizing.py</code> <code>energy_closure</code>; 100.0 % accounted.
+  This chart said "no regeneration credit" and put the sled's whole 1291 J in the brake until
+  2026-07-31. The 2025 decision behind that argued the motor cannot <em>arrest</em> the sled,
+  which it cannot &mdash; the brake still takes 952 J of every shot. It never argued that none
+  of the energy could be recovered, and A11 found 23 % of it available. The 86 J ESR bar has
+  its own history: no script modelled the bank's series resistance until 2026-07-30, so the
+  loss was real in hardware and absent from the accounting until a circuit simulation found
+  it.</p>
   <div class="chart">
-    <div class="row"><span class="lbl">Sled KE (brake)</span><span class="track"><span class="fill dim" style="width:100%"></span></span><span class="val">1291 J</span></div>
-    <div class="row"><span class="lbl">Copper loss</span><span class="track"><span class="fill dim" style="width:64.1%"></span></span><span class="val">828 J</span></div>
-    <div class="row"><span class="lbl">Payload KE</span><span class="track"><span class="fill" style="width:42.4%"></span></span><span class="val">547 J</span></div>
-    <div class="row"><span class="lbl">Converter loss</span><span class="track"><span class="fill dim" style="width:7.5%"></span></span><span class="val">97 J</span></div>
-    <div class="row"><span class="lbl">Bank ESR loss</span><span class="track"><span class="fill dim" style="width:6.7%"></span></span><span class="val">86 J</span></div>
-    <div class="row"><span class="lbl">Auxiliary</span><span class="track"><span class="fill dim" style="width:2.4%"></span></span><span class="val">31 J</span></div>
+    <div class="row"><span class="lbl">Sled KE (brake)</span><span class="track"><span class="fill dim" style="width:100%"></span></span><span class="val">952 J</span></div>
+    <div class="row"><span class="lbl">Copper, shot + regen</span><span class="track"><span class="fill dim" style="width:88.6%"></span></span><span class="val">843 J</span></div>
+    <div class="row"><span class="lbl">Payload KE</span><span class="track"><span class="fill" style="width:57.5%"></span></span><span class="val">547 J</span></div>
+    <div class="row"><span class="lbl">Recovered to the bank</span><span class="track"><span class="fill" style="width:31.2%"></span></span><span class="val">297 J</span></div>
+    <div class="row"><span class="lbl">Converter loss</span><span class="track"><span class="fill dim" style="width:11.9%"></span></span><span class="val">113 J</span></div>
+    <div class="row"><span class="lbl">Bank ESR loss</span><span class="track"><span class="fill dim" style="width:9.9%"></span></span><span class="val">94 J</span></div>
+    <div class="row"><span class="lbl">Auxiliary</span><span class="track"><span class="fill dim" style="width:3.7%"></span></span><span class="val">35 J</span></div>
   </div>
 </section>
 

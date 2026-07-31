@@ -9,6 +9,34 @@ list these changes close) and `docs/DECISION_LOG.md` (why design choices were ma
 
 ---
 
+## 2026-07-31: the sled's energy stops being a write-off
+
+A11 asked a question the record had closed without answering. The 2025 arrest decision
+established that motor braking cannot *stop* the sled, which is true; five documents and one
+docstring had turned that into "the sled's energy is not recovered", which does not follow and
+was never argued. Braking regeneratively over the 240 mm the closed envelope allows past the
+release point returns 296.6 J, 23.0 % of the sled's 1291 J.
+
+| ID | Item | Detail |
+|---|---|---|
+| RG-01 | **Bands declared before the sweep, in `6606567`** | Eight of eight held. The one that mattered was "no interior optimum below the winding's rating": the braking pulse is 15.6 ms over 240 mm of stator against the shot's 157 ms over 1300 mm, so copper during regeneration is **15 J against the shot's 828**, and recovery rises monotonically with force to the rating. The intuition that resistive loss defeats regenerative braking is an intuition about long duty cycles. |
+| RG-02 | **`motor_model.regen_brake()`, integrating from the shot's own end state** | Exit velocity and post-shot bank voltage are read from `shot()`, never typed, so this cannot be quoted against a stale operating point (P19). Charging solves `R I^2 + Vc I - P = 0`, the mirror of the discharge solve, so the ESR is paid in both directions rather than credited on the way back. `copper_coeff(length)` makes the energised-copper length a parameter, because it is the one modelling choice that moves the answer: the pessimistic 1.30 m convention gives 235.9 J and 20.68 % rather than 296.6 J and 21.16 %, and both sit inside the declared efficiency band. |
+| RG-03 | **`sizing.py` follows on all four loss terms** | Brake duty 1291 to **952 J**, winding heat 828 to **843 J**, converter 97 to **113 J**, bank ESR 86 to **94 J**. `energy_closure()` now closes on the *net* draw, 2583 J accounted against 2584.6 J, with the sled's energy split three ways instead of dumped in one. Campaign heat 28.0 to **24.4 kJ**, bulk rise 2.1 to 1.8 K, fin transient 4.0 to 3.0 K. `_check_operating_point()` gained seven regen rows so the two scripts cannot fork. |
+| RG-04 | **Exit velocity unchanged, and asserted rather than hoped** | 16.537 m/s. Regeneration acts after release, so it cannot reach back through it; `motor_model.__main__` raises if it does. That was band 6 and it is the one whose failure would have meant a modelling defect rather than a result. |
+| RG-05 | **The old claim corrected in place, not deleted** | `DECISION_LOG.md`'s 2025 entry keeps its text and gains an amendment underneath it; `PROJECT_NOTES.md` keeps the line struck through; `RESULTS.md`, `README.md`, `SUMMARY.md`, `wiki/Home.md` and the Pages site each say what they used to say and why it changed. P25 exists because a retraction once reached four artifacts and none of the places asserting it. |
+| RG-06 | **Distinguished from the 55 % claim this project already retracted** | A reader who remembers that correction will assume this is it returning. It is less than half the size, it is integrated against stator that has to be built, the copper it burns is subtracted, the brake still absorbs 952 J, and it has a run sheet. `RESULTS.md` says so at the point of the old retraction. |
+| RG-07 | **P28 opened: the regen stator and the fin do not both fit** | 240 mm plus a 300 mm fin against a 339 mm arrest section. Thermally trivial, mechanically not: arrest in the remaining ~99 mm needs the eddy coefficient up 1.8x, which puts peak deceleration at 186 g against the 200 g cap protecting the magnet bonds. Logged rather than fixed by shortening `fin_mass` in a script, which is the hand-edit `validation/README.md` forbids. |
+| RG-08 | **Paper, figures and baseline follow** | Abstract, prior-art comparison row, architecture, results, thermal and conclusion. `F08_brake.png` now draws both arrest stages from `regen_brake()` rather than a second copy of the physics. `docs/BASELINE.md` goes from 20 to **23 values**, gross and net draw now distinguished. The thermal section's stale 160 J ESR and 28.9 kJ campaign, which the 2026-07-30 propagation missed, are corrected in the same pass. |
+
+**What authorised it.** Two different things, and only one needed authorising. The *analysis* is
+an error correction, which `docs/BASELINE.md` admits into Phase I: a published claim was wider
+than its evidence. The *design change* is an improvement, which the same rule puts in Phase II,
+so it went through `docs/programme/ADOPTION.md` **Amendment 3** with the argument against it
+recorded alongside the argument for. The amendment is gated on the bands declared in `6606567`:
+had the run missed them, it lapsed.
+
+---
+
 ## 2026-07-30 (propagation): the bank's own resistance enters the model
 
 A8-R, the pulse simulation re-run at the current operating point, failed its energy-closure

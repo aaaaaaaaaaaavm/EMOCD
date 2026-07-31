@@ -87,9 +87,13 @@ constant and re-run the motor model, then the paper.
 - Reusable sled carries the magnets; the customer CubeSat is never modified.
 - Eddy-current brake for arrest. Motor regeneration alone cannot stop the sled,
   braking force is bounded by the same thrust constant as acceleration.
-- Sled kinetic energy is dissipated in the brake, NOT recovered. Efficiency is
-  therefore electrical-to-payload (**19.0 %** at the measured sled mass; it was 32 % at the
-  superseded 4.86 kg parametric estimate), not a regeneration-credited number.
+- ~~Sled kinetic energy is dissipated in the brake, NOT recovered.~~ **Corrected 2026-07-31
+  by A11:** 240 mm of added stator downstream of release returns **296.6 J, 23.0 % of the
+  sled's 1291 J**, at the same sheet-current rating. 952 J still goes to the brake, so the
+  arrest decision above is unaffected. Efficiency is electrical-to-payload net of that credit,
+  **21.2 %** at the measured sled mass (19.0 % before regeneration; 32 % at the superseded
+  4.86 kg parametric estimate). The old line stays struck through rather than deleted: the
+  claim was published for five years and a reader should be able to see it change.
 - Attached mode carries no CMGs or thrusters; the host stage absorbs recoil.
 - Two transverse cassettes of six, alternating feed for CoM symmetry.
 - Retention gate carries ascent preload directly into structure, bypassing the release

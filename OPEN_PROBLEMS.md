@@ -816,6 +816,43 @@ other guard in this repository fails loudly: `_check_operating_point()` exits, `
 value and continued. A guard that degrades silently is worse than no guard, because it converts
 a detectable failure into a credible wrong answer.
 
+### P28. The regen stator and the eddy fin do not both fit the arrest section: MEDIUM, NEW 2026-07-31
+Opened by A11 in the act of adopting regenerative braking, and recorded rather than designed
+around.
+
+The closed envelope is 1839 mm and release is at 1500 mm, so the arrest section is **339 mm**.
+A11 assumes 240 mm of it carries regenerative stator. The eddy fin as sized in `sizing.py` is
+**300 mm** long (0.86 kg of 4 mm copper). **240 + 300 > 339.** Both live in the same airgap, so
+they cannot overlap.
+
+**The thermal half is not the problem.** Regeneration cuts the fin's duty from 1291 to 952 J, a
+26 % reduction, and the fin's adiabatic rise falls from 4.0 to 3.0 K. A fin a third of the
+length would still hold its transient.
+
+**The mechanical half is unresolved, and it is tighter than it looks.** Eddy force is
+proportional to velocity, so distance to arrest is linear in the velocity removed:
+`x = (m/c)*(v0 - v1)`. At the first-order coefficient `paper/make_figures.py` uses,
+`c = 670 N*s/m`, the sled needs **186 mm** to fall from 14.2 to 1.0 m/s, and only about 99 mm
+would remain. Closing that means **c rising to roughly 1210 N*s/m, a factor of 1.8**, which puts
+peak deceleration at **186 g against the 200 g taper cap** — inside it, with 7 % to spare, on a
+cap that exists to protect the bonded magnet interfaces. That is not a comfortable margin, and
+it is the reason this is a numbered defect and not a note.
+
+**Regeneration is what makes the repartition even arguable.** Without it the sled enters the
+brake at 16.5 m/s and the same 99 mm would need `c = 1440`, putting peak deceleration past the
+cap outright. The 240 mm of regenerative stator pays part of its own packaging cost.
+
+**Why this is logged instead of fixed.** The obvious fix is to shorten `fin_mass` in
+`thermal_campaign()` until the numbers fit. `validation/README.md`'s conventions forbid exactly
+that: *"do not hand-edit a script to match an FEA result, record the discrepancy first, decide
+second."* The same applies to hand-editing one to match a packaging wish. `sizing.py` keeps the
+300 mm fin and carries a comment saying it does not fit.
+
+**What would close it.** A repartitioned arrest-section layout with the fin resized on eddy
+authority rather than on heat, checked against the 200 g deceleration cap and the ring-spring
+handover below 1.5 m/s. It is mechanical design, and it is the reason A11 says plainly that it
+answers the electromagnetic question only.
+
 > **Not all of these weigh the same.** Three of the entries below are threats to whether the
 > machine has a reason to exist rather than engineering work, and they are hard to see in a
 > numbered list. [`docs/KILL_CRITERIA.md`](docs/KILL_CRITERIA.md) separates them, with the value

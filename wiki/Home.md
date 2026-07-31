@@ -75,7 +75,7 @@ All figures are script outputs, not measurements.
 |---|---|---|
 | Thrust constant | 11.22 N per kA/m, ±1.26 % ripple | `motor_model.py` |
 | Exit velocity, 3U | **16.54 m/s at 10.7 g** | `motor_model.py` |
-| Electrical to payload efficiency | 19 % (2.88 kJ drawn, 547 J delivered) | `motor_model.py` |
+| Electrical to payload efficiency | 21.2 % (2.58 kJ net of regeneration, 547 J delivered) | `motor_model.py` |
 | Closed-loop dispersion | 0.027 m/s (3σ) at a 16.2 m/s setpoint to ±0.10 km apogee | `motor_model.py` |
 | Orbital lifetime multiplier | x1.62 at mean activity, **not invariant, see P16** | `astro.py` |
 | Constellation seeding | 30° in 1.4-6.9 days vs 25 days by differential drag | `astro.py` |
@@ -108,13 +108,13 @@ is single-sourced and correspondingly weaker.
 
 ```mermaid
 pie showData
-    title Energy per shot (J)
-    "Sled KE, dissipated in the brake" : 1291
+    title Energy per shot (J), net of regeneration
+    "Sled KE to the eddy brake" : 952
     "Payload KE, the useful output" : 547
-    "Copper loss" : 828
-    "Converter loss" : 97
-    "Bank ESR loss" : 86
-    "Auxiliary" : 31
+    "Copper loss, shot + regen" : 843
+    "Converter loss" : 113
+    "Bank ESR loss" : 94
+    "Auxiliary" : 35
 ```
 
 ```mermaid
@@ -142,8 +142,10 @@ These were argued out and should not be silently reopened; reasoning is in
 - **Ironless double-sided Halbach stator**, reusable sled carrying the magnets.
 - **Eddy-current brake for arrest.** Motor regeneration alone cannot stop the sled,
   braking force is bounded by the same thrust constant as acceleration.
-- **Sled kinetic energy is dissipated, not recovered.** The 19 % figure is therefore
-  electrical-to-payload, with no regeneration credit.
+- **Most of the sled's kinetic energy is dissipated; 23 % of it is recovered.** 240 mm of
+  stator downstream of release returns 296 J of the sled's 1291 J to the bank, and the brake
+  takes the other 952 J. The 21.2 % figure is electrical-to-payload net of that. This page
+  said "not recovered" until 2026-07-31, which was wider than the decision it rested on.
 - **No CMGs or thrusters in attached mode**; the host stage absorbs recoil.
 - **Two transverse cassettes of six**, alternating feed to keep the centre of mass
   symmetric.
