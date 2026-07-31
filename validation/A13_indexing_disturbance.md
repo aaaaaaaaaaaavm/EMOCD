@@ -186,3 +186,76 @@ here worse.
 
 **The host inertia is a uniform cylinder scaled from mass.** It is swept rather than chosen for
 exactly that reason, and **the failure holds across the whole sweep below 1000 kg**.
+
+---
+
+## How it gets fixed, costed 2026-07-31
+
+The three routes named above were uncosted. They are costed here, and doing so found that
+**the question is not mechanical at all.**
+
+### First: the disturbance does not set the rate, it sets the cadence
+
+Peak attitude rate during an index cycle is not what threatens anything. **Nothing is fired
+during an index cycle.** What matters is the residual rate *at trigger*, which is settling time
+against the interval — band 5, not bands 3 and 4.
+
+So the cost of this failure is measured in **seconds of cadence**, and that can be computed:
+
+| Sled return | Settling | Index + return + settle | Recharge, 300 W | Recharge, 150 W | Binds |
+|---|---|---|---|---|---|
+| 4.0 s | 12.10 s | 20.1 s | 8.6 s | 17.2 s | attitude |
+| 6.0 s | 8.18 s | 18.2 s | 8.6 s | 17.2 s | attitude |
+| **6.9 s** | **7.16 s** | **18.1 s** | 8.6 s | 17.2 s | **attitude** |
+| 10.0 s | 5.05 s | 19.0 s | 8.6 s | 17.2 s | attitude |
+| 20.0 s | 2.70 s | 26.7 s | 8.6 s | 17.2 s | attitude |
+| 30.0 s | 1.91 s | 35.9 s | 8.6 s | 17.2 s | attitude |
+
+**The return duration has an optimum rather than being monotone**, because settling falls as
+`1/T` while the return itself grows as `T`. The minimum is **18.1 s at a 6.9 s return**, and the
+6 s originally assumed sits almost exactly on it — by luck, not design.
+
+### The finding that came out of costing it
+
+`paper/paper.tex` §III-C said: *"Cadence is set by supercapacitor recharge, 10–20 s at a
+150–300 W allocation."*
+
+**That is wrong at 300 W and marginal at 150.** Recharge is 8.6 s and 17.2 s respectively;
+the mechanical chain is 18.1 s at best. **Attitude settling binds at both allocations**, and the
+paper attributed the cadence to the wrong subsystem. Corrected 2026-07-31.
+
+The 10–20 s *range* survives — 18.1 s sits inside it. Only the stated cause was wrong, which is
+the more insidious kind of error: the number looked right, so nobody checked what produced it.
+
+### And a second cadence nobody reconciled
+
+`analysis/astro.py` models the deployment at **`spacing_s = 1200.0`** — twenty minutes — and the
+conjunction geometry, the realignment period and the safety case are all computed at that
+spacing. The thermal case is argued at 10–20 s.
+
+**At 1200 s the 8.2 s settling is 0.7 % of the interval and this entire failure is irrelevant. At
+the 18.1 s floor it is 45 % of it.** The same result is dominant or negligible depending on a
+number that appears nowhere. Logged as **P31**.
+
+### The three routes, costed
+
+| | What it buys | What it costs |
+|---|---|---|
+| **1. Accept the 18.1 s floor** | nothing to build | Nothing, **if the ConOps cadence is ≥ 18.1 s** — and at `astro.py`'s own 1200 s it is free thirty times over. **This is the recommended route and it turns on P31, not on hardware** |
+| **2. Raise host control authority** | 0.2 N·m → **13.9 s** floor; 0.5 N·m → **10.2 s**; 1.0 N·m → **8.4 s**, at which recharge binds again | A **fifth item on a four-item interface spec**, and it asks the host to size RCS for a disturbance the deployer creates. It narrows the host set, which is the opposite of the generic-interface positioning the paper is built on |
+| **3. Counter-mass** | removes the momentum at source; floor drops to index + return, about 11 s at a 6.9 s return | **~9.4 kg** — matching 4.723 N·s over the same 1.5 m in the same time needs the sled's own mass. A lighter counter-mass needs *more* travel than the track has: 4.7 kg would need 3 m. On a design failing kill criterion 1 at 6.41 kg/satellite, this takes it to **7.2 kg** |
+
+**Route 3 is the only one that fixes the physics and it is the worst deal available.** Route 2
+buys real cadence and spends the generic-host claim. **Route 1 costs nothing and requires
+answering a question the project should answer anyway.**
+
+### What is not fixed by any of them
+
+**Bands 3 and 4 still fail on their own terms.** 0.161 °/s at a 500 kg host and 0.740 °/s at
+200 kg are the rates, and no route above reduces them except the counter-mass. What the other two
+do is give time to null the rate before the next trigger. That is a legitimate answer to the
+*operational* question and it is not an answer to the *declared band*, which asked about the rate
+itself. **The bands failed and they stay failed.**
+
+**And the rigid-body limit still stands.** None of this touches structural ringing, which is the
+other half of what E24 was worried about and remains unmodelled.

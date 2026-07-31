@@ -1,6 +1,6 @@
 # What would make VOLLEY pointless
 
-`OPEN_PROBLEMS.md` lists 30 numbered defects of very different weight. Most are engineering work.
+`OPEN_PROBLEMS.md` lists 31 numbered defects of very different weight. Most are engineering work.
 A few are threats to whether the machine has any reason to exist, and they are hard to see when
 they sit in a numbered list next to a stale cross-reference.
 
@@ -148,13 +148,25 @@ shot impulse; returning the 9.445 kg sled down 1.5 m of track costs **7.14 %**, 
 as much, and it is in no budget anywhere in this repository. At a 500 kg host that is **0.16 °/s**
 residual, needing **8.2 s** to null against a 10–20 s inter-shot interval.
 
-**Nothing inside the cadence meets the declared bands.** The fixes are a slower return with a
-longer cadence, more host control authority (which becomes a fifth item on a four-item interface
-spec), or a counter-mass — the last being the only one that removes the disturbance rather than
-absorbing it, and it costs deployer mass on a design already failing threat 1.
+**Costed 2026-07-31, and the answer is not mechanical.** The disturbance does not threaten the
+rate at trigger — nothing is fired during an index cycle — it threatens the *cadence*, because the
+rate has to be nulled before the next shot.
 
-**Status against the threshold: crossed at hosts below 1000 kg**, and the deterministic-placement
-claim is what it threatens.
+| Route | Buys | Costs |
+|---|---|---|
+| **Accept an 18.1 s floor** | nothing to build | **free if the ConOps cadence is ≥ 18.1 s.** `astro.py` already models the deployment at **1200 s**, at which this is free thirty times over |
+| Raise host control authority | 0.5 N·m → 10.2 s floor | a **fifth item on a four-item interface spec**, and it narrows the host set the generic-interface positioning depends on |
+| Counter-mass | removes the momentum at source | **~9.4 kg**, taking 6.41 kg/satellite to 7.2 — on the threat above |
+
+**A published claim fell out of costing it.** The paper said cadence is set by supercapacitor
+recharge. Recharge is 8.6 s at 300 W and 17.2 s at 150; the mechanical chain floors at **18.1 s**.
+**Attitude settling binds at both allocations** and the paper attributed the cadence to the wrong
+subsystem. Corrected.
+
+**Status: the threshold turns on a number nobody has written down.** The repository carries
+**two** inter-shot intervals — 10–20 s in the paper, 1200 s in `astro.py`'s conjunction model —
+and never reconciles them (**P31**). At 1200 s this is a non-issue; at 18.1 s the settling is 45 %
+of the interval. **The same failure is dominant or irrelevant depending on which is the ConOps.**
 
 ---
 

@@ -9,6 +9,25 @@ list these changes close) and `docs/DECISION_LOG.md` (why design choices were ma
 
 ---
 
+## 2026-07-31 (fifth pass): costing A13's failure found a wrong cause and a second cadence
+
+| ID | Item | Detail |
+|---|---|---|
+| FIX-01 | **The disturbance costs cadence, not pointing** | Peak attitude rate during an index cycle threatens nothing — **nothing is fired during an index cycle.** What matters is residual rate *at trigger*, which is settling against the interval. So the failure is priced in seconds of cadence, and that is computable. |
+| FIX-02 | **The sled return duration has an optimum, and 6 s was on it by luck** | Settling falls as `1/T` while the return grows as `T`, so `index + return + settle` has a minimum: **18.1 s at a 6.9 s return.** The 6 s originally assumed sits almost exactly there, which nobody designed. |
+| FIX-03 | **A published claim fell out of costing it** | `paper.tex` §III-C said *"Cadence is set by supercapacitor recharge, 10–20 s at a 150–300 W allocation."* Recharge is **8.6 s at 300 W** and **17.2 s at 150 W**; the mechanical chain floors at **18.1 s**. **Attitude settling binds at both allocations** and the paper attributed the cadence to the wrong subsystem. The 10–20 s *range* survives, which is why nobody checked — **the number looked right, so the cause went unexamined.** Corrected. |
+| P31-01 | **The repository carries two inter-shot cadences and reconciles neither** | `paper.tex` §III-C says **10–20 s**. `analysis/astro.py` models the deployment at **`spacing_s = 1200.0`** — twenty minutes — and the conjunction geometry, realignment period and safety case are all computed at it. **Twenty seconds and twenty minutes, same event, same repository.** Logged as **P31**. |
+| P31-02 | **Which one it is decides whether A13 matters at all** | At 1200 s the 8.2 s settling is **0.7 %** of the interval and the failure is irrelevant. At the 18.1 s floor it is **45 %** and it dominates. **The same result is negligible or binding depending on a number that appears nowhere.** |
+| FIX-04 | **The three routes, costed** | **Accept the 18.1 s floor**: free if the ConOps cadence is ≥ 18.1 s, and free thirty times over at `astro.py`'s own 1200 s. **Raise host control authority**: 0.5 N·m → 10.2 s floor, but it is a fifth item on a four-item interface spec and narrows the host set the generic-interface positioning depends on. **Counter-mass**: removes the momentum at source and costs **~9.4 kg**, taking 6.41 kg/satellite to 7.2 on a design already failing kill criterion 1. |
+| FIX-05 | **The bands stay failed** | Routes 1 and 2 give time to null the rate; they do not reduce it. Bands 3 and 4 asked about the rate itself and **that is still 0.161 °/s at 500 kg**. A legitimate answer to the operational question is not an answer to the declared band. Nothing here touches structural ringing either, which is the other half of E24. |
+
+**What authorised it.** FIX-03 is an error correction to a published claim about which subsystem
+sets an operating parameter. P31 records an inconsistency rather than resolving it — resolving it
+is a ConOps decision, and re-declaring A13's bands against a 1200 s interval would be a band
+change and belongs declared and dated rather than quietly applied to an existing failure.
+
+---
+
 ## 2026-07-31 (fourth pass): a band chosen at the easy end, and a mass nobody was watching
 
 | ID | Item | Detail |

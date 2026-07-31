@@ -976,6 +976,35 @@ with no multibody model behind it and a payload centre of mass 70 mm off the thr
 document, record which document, which revision, and whether a tighter comparator exists in the
 same family.* One line, and it would have caught this.
 
+### P31. The repository carries two different inter-shot cadences and reconciles neither: MEDIUM, NEW 2026-07-31
+Found while costing A13's failure, and it decides whether that failure matters.
+
+| Where | Interval | For what |
+|---|---|---|
+| `paper/paper.tex` §III-C | **10–20 s** | described as "set by supercapacitor recharge, at a 150–300 W allocation" |
+| `analysis/astro.py` `conjunction(spacing_s=1200.0)` | **1200 s** | the spacing the 30-day conjunction analysis actually models |
+
+**Twenty seconds and twenty minutes, in the same repository, for the same event.** They are not
+necessarily contradictory — a machine able to fire every 18 s may still be *operated* every
+20 minutes — but **nothing anywhere states which is the ConOps**, and two published analyses
+depend on different ones. The conjunction geometry, the realignment period and the whole safety
+case are computed at 1200 s. The thermal case is argued at 10–20 s.
+
+**The recharge claim is also wrong, which A13 established separately.** The mechanical chain
+between shots — index, sled return, attitude settling — has a floor of **18.1 s** at a 6.9 s
+return, against a recharge of 8.6 s at 300 W and 17.2 s at 150 W. **Attitude settling binds at
+both allocations.** The paper's sentence has been corrected; this entry is about the second
+number, which the correction does not touch.
+
+**Why it matters for A13.** At 1200 s the 8.2 s settling is 0.7 % of the interval and A13's band 5
+tested against the wrong quantity. At the 18.1 s floor it is 45 % of it. **The same failure is
+either irrelevant or dominant depending on a number nobody has written down.**
+
+**What would close it:** state the ConOps cadence once, in one place, with the reason — and make
+`astro.py`'s `spacing_s` default read from it rather than carry an independent literal. If the
+answer is 1200 s, A13's bands 3–5 should be re-declared against it and re-run; **that is a band
+change and belongs declared and dated, not quietly applied to an existing failure.**
+
 > **Not all of these weigh the same.** Three of the entries below are threats to whether the
 > machine has a reason to exist rather than engineering work, and they are hard to see in a
 > numbered list. [`docs/KILL_CRITERIA.md`](docs/KILL_CRITERIA.md) separates them, with the value

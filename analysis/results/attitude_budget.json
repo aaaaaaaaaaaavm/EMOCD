@@ -1,6 +1,14 @@
 {
   "analysis": "A13",
   "bands_declared_in": "validation/A13_indexing_disturbance.md",
+  "cadence": {
+    "floor_s": 18.06,
+    "optimum_return_s": 6.9,
+    "recharge_300W_s": 8.62,
+    "recharge_150W_s": 17.23,
+    "binds": "attitude settling, at both power allocations",
+    "paper_claim": "Cadence is set by supercapacitor recharge, 10-20 s at a 150-300 W allocation -- wrong at 300 W, marginal at 150"
+  },
   "return_duration_sweep": [
     {
       "T_s": 4.0,

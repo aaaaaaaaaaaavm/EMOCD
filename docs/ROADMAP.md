@@ -7,7 +7,7 @@
 >
 > Last updated **2026-07-31**.
 
-This project publishes its own defects: **30 numbered problems and 25 open engineering
+This project publishes its own defects: **31 numbered problems and 25 open engineering
 items**. That is deliberate, and it only reads as rigour if there is also a plan for closing
 them. This is that plan.
 

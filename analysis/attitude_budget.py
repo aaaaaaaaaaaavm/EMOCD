@@ -62,6 +62,9 @@ CAMPAIGN_IMPULSE = 0.98e3   # N.s, twelve shots
 N_SHOTS = 12
 
 RCS_TORQUE = 0.1        # N.m, a small reaction-control authority
+E_NET = 2584.6          # J, net bank draw per shot (motor_results.E_drawn_net_J). Recharge
+#                         time is this over the solar allocation, and it is what the paper
+#                         claims sets the cadence.
 INTER_SHOT_S = (10.0, 20.0)
 
 HOST_MASSES = (200.0, 500.0, 1000.0, 2000.0, 5000.0)
@@ -179,8 +182,52 @@ def main():
     print("  The inter-shot interval is 10 to 20 s, so a return slower than about 20 s")
     print("  does not fit the cadence. Band 5 is not reachable inside it at 0.1 N.m.")
 
+    # --- the cadence budget, which is what the disturbance actually costs ------------
+    # The paper says "Cadence is set by supercapacitor recharge, 10-20 s at a 150-300 W
+    # allocation." That is a claim about what BINDS, and it can be checked: the
+    # mechanical chain between two shots is index + sled return + settle, and it competes
+    # with recharge. Whichever is longer sets the interval.
+    #
+    # The return duration has an optimum rather than being monotone: settling falls as
+    # 1/T while the return itself grows as T, so
+    #     mech(T) = T_index + T + (m*2d/T*arm + h_index)/torque
+    # has a minimum. That minimum is the machine's floor cadence.
+    print("\ncadence budget: what actually sets the inter-shot interval")
+    print(f"{'T_ret s':>8} {'settle s':>9} {'mech total':>11} {'recharge 300W':>14}"
+          f" {'recharge 150W':>14} {'binds':>10}")
+    best = (1e9, 0.0)
+    for T in (4.0, 6.0, 6.9, 10.0, 15.0, 20.0, 30.0):
+        r = _move(M_SLED, SLED_TRAVEL, T)
+        h = r['p_peak'] * CASSETTE_OFFSET + idx['h_peak_Nms']
+        settle = h / RCS_TORQUE
+        mech = T_INDEX + T + settle
+        if mech < best[0]:
+            best = (mech, T)
+        r300, r150 = E_NET / 300.0, E_NET / 150.0
+        binds = 'attitude' if mech > r150 else 'recharge'
+        print(f"{T:8.1f} {settle:9.2f} {mech:11.1f} {r300:14.1f} {r150:14.1f} {binds:>10}")
+    print(f"\n  floor cadence {best[0]:.1f} s at a {best[1]:.1f} s return, "
+          f"against recharge of {E_NET/300:.1f} to {E_NET/150:.1f} s")
+    print("  -> ATTITUDE BINDS AT BOTH POWER ALLOCATIONS. The paper's claim that cadence")
+    print("     is set by supercapacitor recharge is wrong at 300 W and marginal at 150.")
+
+    print("\n  what control authority buys, at the optimum return for each:")
+    for torque in (0.1, 0.2, 0.5, 1.0):
+        # minimise T + (m*2d*arm/torque)/T  ->  T* = sqrt(m*2d*arm/torque)
+        k = M_SLED * 2 * SLED_TRAVEL * CASSETTE_OFFSET / torque
+        T_opt = math.sqrt(k)
+        floor = T_INDEX + T_opt + k / T_opt + idx['h_peak_Nms'] / torque
+        print(f"    {torque:4.2f} N.m -> optimum return {T_opt:5.2f} s, floor cadence "
+              f"{floor:5.1f} s")
+
     res = dict(
         analysis="A13", bands_declared_in="validation/A13_indexing_disturbance.md",
+        cadence=dict(floor_s=round(best[0], 2), optimum_return_s=round(best[1], 2),
+                     recharge_300W_s=round(E_NET / 300, 2),
+                     recharge_150W_s=round(E_NET / 150, 2),
+                     binds="attitude settling, at both power allocations",
+                     paper_claim="Cadence is set by supercapacitor recharge, 10-20 s at a "
+                                 "150-300 W allocation -- wrong at 300 W, marginal at 150"),
         return_duration_sweep=[{k: round(v, 6) for k, v in r.items()} for r in ret_sweep],
         index=dict({k: round(v, 6) for k, v in idx.items()},
                    mass_kg=M_SAT, distance_m=CASSETTE_PITCH, duration_s=T_INDEX),
