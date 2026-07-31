@@ -117,6 +117,75 @@ of the same physics. A gaussmeter is a different *kind* of evidence entirely.
 
 ---
 
+### B-1 bill of materials
+
+Written 2026-07-30 so B-1 stops being a procedure and becomes a purchase order. **Every price
+below is an estimate, not a quotation.** `analysis/cost.py` carries the same caveat for the
+machine itself and it applies with more force here, where the quantities are ones and twos.
+
+**The magnets are not one part number, and this is the thing most likely to go wrong.** A
+Halbach wavelength needs four blocks magnetised in four different directions. In practice that
+is two part numbers, each ordered four times per side:
+
+| | Block | Magnetisation | Qty for a double-sided pair |
+|---|---|---|---|
+| Type A | 12 x 8 x 90 mm N45SH | through the **8 mm** thickness | 4 |
+| Type B | 12 x 8 x 90 mm N45SH | along the **12 mm** length | 4 |
+
+Dimensions are from `cad/parameters.json`: wavelength 48 mm over four blocks gives 12 mm each,
+magnet thickness 8 mm, array depth 90 mm. Each block is 8.64 cm3, about 65 g; eight of them
+about 520 g.
+
+**Specify the magnetisation direction explicitly on the order, with a sketch.** A supplier
+given "12 x 8 x 90, N45SH" will magnetise through the largest face by default, which gives four
+identical blocks and no Halbach array.
+
+| Item | Spec | Qty | Est. INR | Source |
+|---|---|---|---|---|
+| N45SH block, magnetised through thickness | 12 x 8 x 90 mm | 4 | 2,000-4,000 | Magnaplast Technologies (Pune) or Meena Magnetic; both list custom NdFeB blocks |
+| N45SH block, magnetised along length | 12 x 8 x 90 mm | 4 | 2,000-4,000 | as above, same order |
+| Digital teslameter with transverse Hall probe | **1 T minimum range**, 2 % or better | 1 | 15,000-45,000 | Permanent Magnets Ltd (TM-901EXP class), or an imported PCE unit |
+| Aluminium plate for the fixture | 200 x 150 x 10 mm, 2 off | 2 | 1,500 | any local stockist |
+| Non-magnetic fasteners | A4 / 316 stainless M6 | 10 | 500 | local |
+| Printed spacers | PETG or nylon, 12.0 mm nominal plus a shim set | set | 500 | own printer |
+| Feeler gauges | 0.05 to 1.00 mm | 1 set | 700 | local |
+| **Total** | | | **22,000-52,000** | |
+
+The teslameter dominates and is the only line worth shopping hard. **1 T range is the binding
+requirement**: the model predicts 0.694 T at midgap, so a 200 mT instrument, which is what most
+cheap "gauss meters" are, saturates and reads nothing useful. If a lab at SIT has one, borrowing
+it removes two thirds of the cost.
+
+### The safety item, quantified
+
+The two arrays attract. Over one wavelength at the design gap, Maxwell stress on
+48 x 90 mm at 0.694 T gives roughly
+
+```
+F = B^2 A / 2 mu_0 = 0.694^2 x 0.0043 / (2 x 4pi x 10^-7) = 828 N
+```
+
+**About 84 kgf, across a 12 mm gap, on brittle sintered NdFeB.** That is not a handling
+inconvenience, it is the hazard in this experiment. Nothing else on the bench stores that much
+energy.
+
+- Build the fixture so the gap is **set by a captive spacer that cannot be removed while the
+  magnets are mounted**, and shim outward from a closed stack. Never approach the gap from open.
+- Keep fingers out of the plane of the gap during assembly.
+- The 37 % overestimate in P17 applies to the flat-plate formula used above, so the real figure
+  is likely nearer 600 N. **Design the fixture for 828 N anyway**: the error is in the
+  conservative direction and the cost of over-building an aluminium bracket is nothing.
+
+### What a result buys
+
+The first measured number in this project at any scale. Every headline descends from a field
+model checked twice against other models and never against a magnet, and
+[`../validation/bench/bench_predict.py`](../validation/bench/bench_predict.py) has already
+derived the bands, so the reading is interpretable the day it is taken: the rig contributes
+4.4 % against a declared 15 %, which means a miss cannot be blamed on the build.
+
+---
+
 ## B-2: Single-coil thrust constant
 
 **Closes:** the analytic-only status of **K<sub>t</sub> = 11.22 N per kA/m**: the number every
