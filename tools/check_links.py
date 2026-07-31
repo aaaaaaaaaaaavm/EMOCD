@@ -33,9 +33,16 @@ SKIP_DIRS = {".git", "legacy", "paper/archive", "node_modules", "__pycache__"}
 EXTS = (".md", ".html")
 
 REL = re.compile(r"\]\(([^)\s#]+\.(?:md|py|sh|json|tex|png|gif|stl|step|dxf|cir|csv))(?:#[^)]*)?\)")
+
+# Only FLAGSHIP links are resolved against this checkout. Links to the sibling repositories
+# (VOLLEY-lab, VOLLEY-paper, VOLLEY-thesis) point at files that do not exist here and must not
+# be reported broken -- the trailing slash after the repo name is what stops "VOLLEY" matching
+# "VOLLEY-lab". Found when tools/lab-seed/README.md gained links to two files that live in the
+# lab repository by design.
+FLAGSHIP = "VOLLEY"
 ABS = re.compile(
-    r"https://(?:github\.com/%s/[A-Za-z-]+/(?:blob|tree)/main|"
-    r"raw\.githubusercontent\.com/%s/[A-Za-z-]+/main)/([^)\s\"'>]+)" % (OWNER, OWNER))
+    r"https://(?:github\.com/%s/%s/(?:blob|tree)/main|"
+    r"raw\.githubusercontent\.com/%s/%s/main)/([^)\s\"'>]+)" % (OWNER, FLAGSHIP, OWNER, FLAGSHIP))
 
 
 def tracked_files():

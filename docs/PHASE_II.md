@@ -176,6 +176,24 @@ line at 17.8 %.
 consequence, and the honest Phase I position is the one now published: the rated point assumes
 a bank that cannot be bought, and that is stated rather than quietly re-sized.
 
+### PII-8 to PII-10: recorded in the lab, not here
+
+Three items live in [VOLLEY-lab](https://github.com/aaaaaaaaaaaavm/VOLLEY-lab) rather than this
+file, because they are programme directions and scaling studies rather than deferred fixes to
+this design. **The flagship stays authoritative for PII numbering**, so they are listed here to
+stop the numbers forking, which they briefly did.
+
+| | |
+|---|---|
+| **PII-8** | **VOLLEY as a free-flyer.** A long deployed track plus release at perigee reaches TLI and Mars-class C3 without exceeding CubeSat qualification. Three unsolved problems in front of it: airgap straightness at 0.7 to 2 ppm over a deployed structure, a 294 kJ shot against a bank that already fails at 2.88, and whether 25 g survives review as a *sustained* load rather than a transient |
+| **PII-9** | **The lunar case.** Where this technology has always belonged, and the O'Neill mass driver it descends from. 1.33 MJ/kg to lunar orbit, so 15 kW launches a tonne a day. The payload is ore, so the g-limit that governs this entire design disappears |
+| **PII-10** | **Magazine indexing disturbance** (E24). Designing an indexing sequence that minimises attitude disturbance. The *bookkeeping* half is an error correction and belongs upstream in Phase I; only the optimisation belongs in the lab |
+
+> **Entry criterion for PII-8 and PII-9: none, deliberately.** Neither is a candidate for this
+> baseline. The correct outcome for the thesis is that both stay closed until the Phase I
+> deliverables ship, and the flagship currently has three crossed kill criteria and no measured
+> number.
+
 ---
 
 ## Review log
