@@ -337,10 +337,12 @@ documented in `OPEN_PROBLEMS.md` P1, P4 for the audit trail.
 - **P11, which build was actually submitted is unresolved.** Until that is answered, it is
   not known whether the version of record carries P1, P4 *and* the falsified abstract claim.
 
-Newest entries: **P17** (the inter-array attraction feeding the A4 FEA is 37 % high, found
-by an independent 3-D force integration, and it makes A4 more conservative rather than
-wrong), and **P18/E19, E22** (four physical terms no script contains, as distinct from
-analyses not yet run).
+Newest entries: **P26** (the supercapacitor bank cannot source the shot on purchasable
+cells), **P28** (the regeneration stator and the eddy fin do not both fit the arrest section)
+and **P29** (the paper says the winding is segmented; the model charges copper for all
+1.3 m). Most recently closed: **P17**, the inter-array attraction feeding the A4 FEA, 37 %
+high — resolved by A12, which also found that P17's *explanation* of its own finding was
+backwards.
 
 ## Author
 

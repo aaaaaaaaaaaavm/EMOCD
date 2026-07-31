@@ -97,7 +97,7 @@
       "payload_com_offset_above_thrust_line": 70,
       "gap_shim_tolerance": 0.05,
       "status": "PROVISIONAL_PENDING_FEA",
-      "provisional_note": "The 6 mm chassis is a first-pass stiffness-driven design (0.0115 mm deflection under 3.7 kN inter-array attraction, against a +/-0.05 mm gap budget) with NO structural FEA behind it. Sled mass from this geometry contradicts the 4.86 kg assumed by mass_properties.py and drives exit velocity. Open problems P5/P8. ANSYS analysis A4 must close this before any number downstream is locked."
+      "provisional_note": "The 6 mm chassis is a first-pass stiffness-driven design (0.0115 mm deflection under 3.7 kN inter-array attraction -- superseded, A12 gives 2.69 kN, so the deflection is conservative -- against a +/-0.05 mm gap budget) with NO structural FEA behind it. Sled mass from this geometry contradicts the 4.86 kg assumed by mass_properties.py and drives exit velocity. Open problems P5/P8. ANSYS analysis A4 must close this before any number downstream is locked."
     },
 
     "magazine": {

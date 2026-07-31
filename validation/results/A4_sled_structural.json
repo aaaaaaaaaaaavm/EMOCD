@@ -68,5 +68,12 @@
     "Magnets bonded to the plate would stiffen it locally -- not modelled, conservative.",
     "Static Maxwell attraction only. No launch loads, no arrest event, no thermal."
   ],
-  "verdict": "pass on all three declared bands for the as-drawn plate. The sled mass question stays open, and the decision rule's >=6.80 kg branch stands: at 9.445 kg the machine delivers 16.53 m/s."
+  "verdict": "pass on all three declared bands for the as-drawn plate. The sled mass question stays open, and the decision rule's >=6.80 kg branch stands: at 9.445 kg the machine delivers 16.53 m/s.",
+  "load_superseded_2026_07_31": {
+    "applied_N": 3672,
+    "corrected_N": 2686.6,
+    "overload_pct": 36.7,
+    "by": "validation/A12_inter_array_force.md",
+    "note": "A4 was run at 3672 N, 37 % heavier than the field model supports. Its results are therefore CONSERVATIVE and all three declared bands still pass. It is deliberately not re-run: repeating a passing structural analysis at a lighter load establishes nothing that is not already known, and re-running it would replace a real result with a weaker one."
+  }
 }

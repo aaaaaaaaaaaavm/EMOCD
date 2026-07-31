@@ -40,6 +40,14 @@ import os
 
 import motor_model as mm
 
+# Outputs go next to this script, not next to whoever ran it. Every script here used to
+# write to a cwd-relative "results/", so running one from the repository root created a
+# SECOND, silently stale copy of its JSON at the root -- which is exactly what happened on
+# 2026-07-30 and left a results/sizing.json carrying a superseded inter-array force. A
+# duplicate that nothing regenerates is the defect class this repository logs twice
+# already (P16, P19).
+RESULTS = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'results')
+
 G = 9.81
 G_QUAL = 25.0                   # g, CubeSat Design Specification design cap (docs/VELOCITY_CEILING.md)
 
@@ -205,7 +213,7 @@ if __name__ == '__main__':
         print(f"  {r['array_mm']:3d} mm  Kt {r['Kt_N_per_kA']:5.2f}  sled {r['sled_kg']:5.2f} kg"
               f"  {r['a_g']:4.1f} g  {r['v_exit']:5.1f} m/s")
 
-    os.makedirs('results', exist_ok=True)
-    json.dump(res, open('results/payload_family.json', 'w'), indent=2)
+    os.makedirs(RESULTS, exist_ok=True)
+    json.dump(res, open(os.path.join(RESULTS, 'payload_family.json'), 'w'), indent=2)
     print("\n-> results/payload_family.json")
     write_doc(res)

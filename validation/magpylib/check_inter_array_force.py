@@ -34,7 +34,11 @@ import magpylib as magpy
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
 from analysis.motor_model import build_field
-from analysis.sizing import inter_array_attraction
+
+# The superseded flat-plate value, kept as a literal on purpose. sizing.py no longer
+# computes it: A12 adopted the numerical force on 2026-07-31, so calling
+# inter_array_attraction() here would compare this method against itself.
+ANALYTIC_N = 0.550 ** 2 / (2 * 4e-7 * 3.141592653589793) * 0.34 * 0.09
 
 # Finite-difference step for the gradient. magpylib recommends
 # 1e-5 * characteristic system size; blocks are ~10 mm, so 1e-7.
@@ -46,9 +50,8 @@ MESHES = [(2, 2, 2), (4, 4, 4), (6, 6, 6), (8, 8, 8), (10, 10, 10),
 
 
 def main():
-    analytic = inter_array_attraction()
-    print(f"analytic (sizing.py)      : {analytic['force_kN'] * 1000:.0f} N")
-    print(f"  pressure                : {analytic['pressure_kPa']:.0f} kPa")
+    print(f"superseded flat-plate form: {ANALYTIC_N:.0f} N")
+    print("  (0.55 T assumed at the face, one point, times 340 x 90 mm)")
     print()
 
     system = build_field()
@@ -67,10 +70,13 @@ def main():
         print(f"  mesh {str(mesh):12} {force:8.1f} N{delta}")
         previous = force
 
-    ratio = force / (analytic['force_kN'] * 1000)
+    ratio = force / ANALYTIC_N
     print()
     print(f"finest mesh / analytic    : {ratio:.3f}")
     print(f"analytic is high by       : {1 / ratio - 1:.1%}")
+    print()
+    print("A12 adopted this value on 2026-07-31. The cause is NOT the Jensen term P17")
+    print("blamed -- that acts the other way. See validation/A12_inter_array_force.md.")
 
 
 if __name__ == "__main__":

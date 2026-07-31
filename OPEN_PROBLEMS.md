@@ -103,7 +103,7 @@ Original item follows for the audit trail.
 > designed (rib-stiffened), not assumed. Combined with P15's measured 9.445 kg, the decision
 > rule's ≥6.80 kg branch stands and the machine as it exists delivers **16.53 m/s**.
 The first-pass Fusion sled (6 mm Ti-6Al-4V chassis, stiffness-driven by the ±0.05 mm gap
-tolerance under 3.7 kN inter-array attraction, **no structural FEA behind it**) implies a
+tolerance under 3.7 kN inter-array attraction — 2.69 kN since A12 — **no structural FEA behind it**) implies a
 sled mass of **~7.50 kg**. `analysis/mass_properties.py` assumes **4.86 kg**, which
 `motor_model.py` hard-codes as `M_SLED` and which sets the headline exit velocity. Both
 are estimates (one CAD-geometric, one parametric-solid) and neither is FEA-verified. Do
@@ -401,7 +401,17 @@ parameterisation cannot express the effect being claimed. The fix is either a va
 atmosphere in the script or dropping the invariance claim and keeping the point value,
 that is a judgement, not a patch. Paper edits batch with P11/P12.
 
-### P17. The inter-array attraction feeding the A4 FEA is 37 % high: HIGH, NEW 2026-07-29
+### P17. The inter-array attraction feeding the A4 FEA is 37 % high: **RESOLVED 2026-07-31 by A12**
+> **Closed by [`validation/A12_inter_array_force.md`](validation/A12_inter_array_force.md), five
+> of five declared bands.** A second numerical method — a Maxwell stress tensor integrated over
+> the mid-gap plane, sharing only the block model of the magnets — gives **2627.6 N** against
+> magpylib's **2686.6 N**, 2.2 % apart. `sizing.py` adopted 2686.6 N under an adoption rule
+> declared before the run: attraction 3.68 → **2.69 kN**, plate stress 33 → **24 MPa**, margin
+> 20.2 → **28.1**. A4 is not re-run; it was loaded 37 % heavy, so it was conservative and its
+> verdict stands.
+>
+> **The number below was right and the mechanism below is wrong**, which is why the entry is
+> corrected in place rather than deleted. See the correction at the end.
 `analysis/sizing.py::inter_array_attraction()` computes the force between the two opposed
 Halbach faces from a flat-plate Maxwell-stress formula, a uniform pressure
 `B_face**2 / (2*mu0)` at a mean face field of 0.55 T over the 340 x 90 mm footprint,
@@ -427,10 +437,30 @@ Converged (successive deltas halve (-8.3, -4.3, -2.5 N)) and insensitive to the
 finite-difference step across four orders of magnitude (1e-5 to 1e-8, identical to 0.1 N).
 **The analytic formula is high by 36.7 %.**
 
-**The mechanism is understood, which is why this is a defect and not a disagreement.**
+~~**The mechanism is understood, which is why this is a defect and not a disagreement.**
 Maxwell stress needs the mean of `B**2`; the analytic form uses the square of the mean `B`;
 and `mean(B**2) >= mean(B)**2` for any non-uniform field, by Jensen. A Halbach face field is
-strongly non-uniform along the wavelength, so the analytic form must overestimate. It does.
+strongly non-uniform along the wavelength, so the analytic form must overestimate. It does.~~
+
+> **CORRECTED 2026-07-31 by A12. The inequality is right and the conclusion drawn from it is
+> the wrong way round.** If `mean(B^2) >= mean(B)^2`, a one-point form evaluated at the *true*
+> mean field **under**estimates. Jensen cannot be why the analytic value is high.
+>
+> A12 decomposed it against M2's own field statistics on the stress plane:
+>
+> | | Force | |
+> |---|---|---|
+> | Analytic, `B_face = 0.550 T` assumed | 3683 N | as published |
+> | Same one-point form at the **actual** mean, 0.4127 T | 2073 N | **x1.776 from the assumed field** |
+> | Full integral, `mean(B_y^2)` | 2628 N | **x1.267 back the other way, from Jensen** |
+>
+> Net x1.402 against an observed x1.402. **The cause is the input, not the formula:** 0.55 T is
+> not the mean normal field on the plane where the stress acts. The flat-plate form's own Jensen
+> error is 27 % and in the *safe* direction; it was fed a field 0.33x too high, which swamps it.
+>
+> **A right number with a wrong explanation attached is worse than an open question**, because
+> it survives review and then misleads whoever picks it up next. That is why this is struck
+> through and left visible rather than quietly rewritten.
 
 **What this does and does not damage.** The real force is *lower*, so A4's structural
 results are conservative, not wrong: 0.0194 mm airgap closure and 33.7 MPa were computed
@@ -445,8 +475,12 @@ magpylib 5.2.3 is already in `requirements.txt`).
 was declared for it, which inverts this project's own rule. It is therefore logged as a
 discrepancy, not as a validated result. Proper closure needs a run sheet with a band declared
 in advance, and a decision about whether `sizing.py` adopts a corrected formula, which would
-move `plate_stress_MPa`, the retention-gate sizing, and the A4 load together. **Do not edit
+move `plate_stress_MPa`, ~~the retention-gate sizing,~~ and the A4 load together. **Do not edit
 `sizing.py` on the strength of this entry.**
+
+> **Done 2026-07-31.** A12 declared the bands and the adoption rule first, then ran. The
+> retention gate is struck above because it does not depend on this: `retention_gate()` is sized
+> from a 24 kg ascent stack at 25 g. This entry was wrong about its own blast radius.
 
 ### P18. Four physical effects are absent from the model, not merely unvalidated: MEDIUM, NEW 2026-07-29
 Distinct from the E-items, which record analyses not yet run. These are terms that no script
@@ -473,7 +507,7 @@ them currently validates the design as it stands:
 |---|---|---|
 | **A5** GMAT lifetime | dv = 20.37 m/s | **No.** Both baseline and boosted orbits change; the multiplier the scripts now give is x1.62, not x1.80. The *falsification* of the invariance claim (P16) survives, because that is about the shape of the model and not the velocity, but the numbers do not. |
 | **A8** ngspice pulse chain | F = 1413.4 N, m = 8.86 kg, 2630 J | **Re-run 2026-07-30 as A8-R** against fresh bands, at 16.537 m/s. Five of six met; the closure row failed and produced P24. This half of the item is closed. |
-| **A4** CalculiX chassis | 3672 N Maxwell attraction | **Yes, structurally.** The load is magnetostatic and does not depend on sled mass or velocity. Separately 37 % high, see P17. |
+| **A4** CalculiX chassis | 3672 N Maxwell attraction | **Yes, structurally.** The load is magnetostatic and does not depend on sled mass or velocity. **37 % heavy**, corrected to 2686.6 N by A12 — so A4 is conservative and is deliberately not re-run. |
 
 **What this costs.** The validation table on the front pages says four of nine analyses have
 run (A1 added 2026-07-29, and A1 alone is at the current operating point). Strictly, three have run *against a superseded design*. That is not the same claim, and

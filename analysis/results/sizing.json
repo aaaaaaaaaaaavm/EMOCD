@@ -18,11 +18,14 @@
     "margin": 84.0
   },
   "inter_array": {
-    "pressure_kPa": 120.0,
-    "force_kN": 3.68,
-    "plate_stress_MPa": 33.0,
+    "pressure_kPa": 88.0,
+    "force_kN": 2.69,
+    "plate_stress_MPa": 24.0,
     "Ti_yield_MPa": 880.0,
-    "margin": 20.2
+    "margin": 28.1,
+    "superseded_analytic_N": 3683,
+    "a4_applied_load_N": 3672,
+    "source": "validation/A12_inter_array_force.md"
   },
   "arrest": {
     "axial_kN": 18.53,

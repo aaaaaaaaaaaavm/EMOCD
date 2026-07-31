@@ -24,6 +24,14 @@ import math
 import json
 import os
 
+# Outputs go next to this script, not next to whoever ran it. Every script here used to
+# write to a cwd-relative "results/", so running one from the repository root created a
+# SECOND, silently stale copy of its JSON at the root -- which is exactly what happened on
+# 2026-07-30 and left a results/sizing.json carrying a superseded inter-array force. A
+# duplicate that nothing regenerates is the defect class this repository logs twice
+# already (P16, P19).
+RESULTS = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'results')
+
 MU = 3.986004418e14
 RE = 6378.137e3
 J2 = 1.08263e-3
@@ -236,6 +244,6 @@ if __name__ == '__main__':
     print(f"\napogee placement +/-{res['apogee_placement_km']} km | "
           f"recoil {res['recoil_Ns_per_shot']} N.s | plane ceiling {res['plane_change_ceiling_deg']} deg")
 
-    os.makedirs('results', exist_ok=True)
-    json.dump(res, open('results/astro_results.json', 'w'), indent=2)
+    os.makedirs(RESULTS, exist_ok=True)
+    json.dump(res, open(os.path.join(RESULTS, 'astro_results.json'), 'w'), indent=2)
     print("\n-> results/astro_results.json")

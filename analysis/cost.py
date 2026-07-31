@@ -35,6 +35,14 @@ import os
 
 import mass_properties
 
+# Outputs go next to this script, not next to whoever ran it. Every script here used to
+# write to a cwd-relative "results/", so running one from the repository root created a
+# SECOND, silently stale copy of its JSON at the root -- which is exactly what happened on
+# 2026-07-30 and left a results/sizing.json carrying a superseded inter-array force. A
+# duplicate that nothing regenerates is the defect class this repository logs twice
+# already (P16, P19).
+RESULTS = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'results')
+
 # --- assumed unit prices ------------------------------------------------------
 # UNVERIFIED. Single-unit, space-grade or near-space-grade, INR. No quotations.
 # The `basis` string records what each figure is a guess AT, so a reader can judge it.
@@ -177,8 +185,8 @@ def main():
                      **{k: v['basis'] for k, v in BOUGHT_IN_INR.items()}},
         machining_factors=MACHINING_FACTOR,
     )
-    os.makedirs('results', exist_ok=True)
-    json.dump(res, open('results/cost.json', 'w'), indent=2)
+    os.makedirs(RESULTS, exist_ok=True)
+    json.dump(res, open(os.path.join(RESULTS, 'cost.json'), 'w'), indent=2)
     print("\n-> results/cost.json")
 
 

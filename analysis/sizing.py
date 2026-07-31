@@ -11,7 +11,7 @@ launch-hardware practice (GEVS-class qualification philosophy).
 Reproduces:
     capacitor sizing            5.97 F  -> 6 F selected
     magnet bond shear           0.118 MPa vs 10 MPa allowable, MoS ~84
-    inter-array attraction      3.7 kN, side plate 33 MPa vs 880 MPa Ti yield
+    inter-array attraction      2.69 kN, side plate 24 MPa vs 880 MPa Ti yield (A12)
     arrest load                 9.5 kN axial, ~0.76 kN per roller pair
     abort latch                 0.64 kN, M4 A-286 margin ~5
     retention gate              5.9 kN, two D6 A-286 pins, MoS 1.2
@@ -27,6 +27,14 @@ No margin here has been checked by a structural analyst or by FEA.
 import math
 import json
 import os
+
+# Outputs go next to this script, not next to whoever ran it. Every script here used to
+# write to a cwd-relative "results/", so running one from the repository root created a
+# SECOND, silently stale copy of its JSON at the root -- which is exactly what happened on
+# 2026-07-30 and left a results/sizing.json carrying a superseded inter-array force. A
+# duplicate that nothing regenerates is the defect class this repository logs twice
+# already (P16, P19).
+RESULTS = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'results')
 
 G = 9.81
 MU0 = 4e-7 * math.pi
@@ -97,18 +105,43 @@ def magnet_bond():
                 allowable_MPa=allow, margin=round(allow / tau - 1, 0))
 
 
-def inter_array_attraction(B_face=0.55):
-    """Maxwell stress between the two opposed Halbach faces."""
-    p = B_face ** 2 / (2 * MU0)                 # Pa
+F_INTER_ARRAY = 2686.6    # N, between the two opposed Halbach faces.
+#   ADOPTED 2026-07-31 under the rule declared in validation/A12_inter_array_force.md
+#   BEFORE that analysis ran. It supersedes a flat-plate Maxwell-stress formula,
+#   p = B_face**2/(2*mu0) at an assumed B_face = 0.55 T over the 340 x 90 mm footprint,
+#   which gave 3683 N and had never been checked against anything (P17). That number was
+#   the applied load in the A4 CalculiX run.
+#
+#   Two numerical methods sharing only the block model of the magnets agree on it:
+#   magpylib.getFT() integrating the field gradient over magnet volumes converges to
+#   2686.6 N, and a Maxwell stress tensor integrated over the mid-gap plane gives
+#   2627.6 N, 2.2 % apart. The higher and more direct of the two is taken.
+#
+#   P17 blamed Jensen's inequality and had the direction backwards: mean(B^2) >= mean(B)^2
+#   means a one-point form at the TRUE mean field underestimates. The real cause is the
+#   input -- 0.55 T is not the mean normal field on the plane where the stress acts, which
+#   is 0.4127 T. A12 decomposes it: x1.776 from the assumed field, x1.267 back from Jensen,
+#   net x1.402 against an observed x1.402.
+
+
+def inter_array_attraction(F=F_INTER_ARRAY):
+    """Attraction between the two opposed Halbach faces, and what it does to the side plate.
+
+    A4 was run at the superseded 3672 N, 37 % heavier than the field model supports, so its
+    results are conservative and its verdict stands. It is not re-run: repeating a passing
+    structural analysis at a lighter load establishes nothing new.
+    """
     A = 0.34 * 0.09
-    F = p * A
+    p = F / A                                   # Pa, implied face pressure
     M = F * 0.015 / 2                           # bending, half-gap arm
     Z = 0.008 * 0.025 ** 2 / 6                  # Ti side-plate section modulus
     sigma = M / Z / 1e6
     yield_ti = 880.0
     return dict(pressure_kPa=round(p / 1e3, 0), force_kN=round(F / 1e3, 2),
                 plate_stress_MPa=round(sigma, 0), Ti_yield_MPa=yield_ti,
-                margin=round(yield_ti / (1.25 * sigma) - 1, 1))
+                margin=round(yield_ti / (1.25 * sigma) - 1, 1),
+                superseded_analytic_N=3683, a4_applied_load_N=3672,
+                source='validation/A12_inter_array_force.md')
 
 
 def arrest_loads():
@@ -306,6 +339,6 @@ if __name__ == '__main__':
         for k, v in vals.items():
             print(f"  {k:26s} {v}")
 
-    os.makedirs('results', exist_ok=True)
-    json.dump(res, open('results/sizing.json', 'w'), indent=2)
+    os.makedirs(RESULTS, exist_ok=True)
+    json.dump(res, open(os.path.join(RESULTS, 'sizing.json'), 'w'), indent=2)
     print("\n-> results/sizing.json")

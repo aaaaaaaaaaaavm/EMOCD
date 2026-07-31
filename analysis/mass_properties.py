@@ -22,6 +22,14 @@ No component mass has been checked against a vendor datasheet.
 import json
 import os
 
+# Outputs go next to this script, not next to whoever ran it. Every script here used to
+# write to a cwd-relative "results/", so running one from the repository root created a
+# SECOND, silently stale copy of its JSON at the root -- which is exactly what happened on
+# 2026-07-30 and left a results/sizing.json carrying a superseded inter-array force. A
+# duplicate that nothing regenerates is the defect class this repository logs twice
+# already (P16, P19).
+RESULTS = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'results')
+
 # densities, kg/m^3
 AL, TI, CU, PEEK, NDFEB, STEEL = 2700, 4430, 8960, 1320, 7500, 7800
 
@@ -99,6 +107,6 @@ if __name__ == '__main__':
                cg_m=round(cg, 2), sled_kg=round(sled, 2),
                sled_parametric_kg=round(sled_parametric, 2),
                parts=[[n, round(m, 2), c] for n, m, c in parts])
-    os.makedirs('results', exist_ok=True)
-    json.dump(res, open('results/mass_properties.json', 'w'), indent=2)
+    os.makedirs(RESULTS, exist_ok=True)
+    json.dump(res, open(os.path.join(RESULTS, 'mass_properties.json'), 'w'), indent=2)
     print("\n-> results/mass_properties.json")

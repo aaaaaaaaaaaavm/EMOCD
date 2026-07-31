@@ -40,6 +40,14 @@ import math
 import json
 import os
 
+# Outputs go next to this script, not next to whoever ran it. Every script here used to
+# write to a cwd-relative "results/", so running one from the repository root created a
+# SECOND, silently stale copy of its JSON at the root -- which is exactly what happened on
+# 2026-07-30 and left a results/sizing.json carrying a superseded inter-array force. A
+# duplicate that nothing regenerates is the defect class this repository logs twice
+# already (P16, P19).
+RESULTS = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'results')
+
 # --- geometry / materials -----------------------------------------------------
 LAM, NBLK, TH, GAP, DEPTH, BR = 0.048, 4, 0.008, 0.012, 0.09, 1.32
 W = LAM / NBLK
@@ -350,6 +358,6 @@ if __name__ == '__main__':
                v_fleet_setpoint=V_FLEET,
                closed_loop_mean=round(mc['mean'], 3),
                closed_loop_3sigma=round(mc['sigma3'], 4), family=fam)
-    os.makedirs('results', exist_ok=True)
-    json.dump(res, open('results/motor_results.json', 'w'), indent=2)
+    os.makedirs(RESULTS, exist_ok=True)
+    json.dump(res, open(os.path.join(RESULTS, 'motor_results.json'), 'w'), indent=2)
     print("\n-> results/motor_results.json")

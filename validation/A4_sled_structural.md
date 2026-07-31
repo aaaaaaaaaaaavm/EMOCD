@@ -40,6 +40,10 @@ open to ±0.05 mm under load?** Mass is the output of that constraint, not an in
   flagged `PROVISIONAL_PENDING_FEA`)
 - Loads, from `analysis/results/sizing.json`:
   - Inter-array attraction **3.68 kN** (`inter_array.force_kN`), the sizing case
+    > **Superseded 2026-07-31 by A12: the real force is 2.69 kN and this run was 37 % heavy.**
+    > A4's results are conservative and its verdict stands. **It is not re-run** — repeating a
+    > passing structural analysis at a lighter load replaces a real result with a weaker one.
+    > The bands below are left exactly as declared.
   - Axial acceleration **16.3 g** at the script operating point (12.5 g if the CAD sled
     mass holds, run both)
   - Arrest **9.54 kN** axial (`arrest.axial_kN`), a separate load case

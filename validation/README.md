@@ -1,15 +1,23 @@
 # Validation plan
 
-Independent cross-checks of the claims in `analysis/`. Nothing here has been run yet,
-this directory is the specification, not the result.
+Independent cross-checks of the claims in `analysis/`. **Six of the eleven below have run.**
+One of them failed.
 
 ## Why it exists
 
-`PROVENANCE.md` admits that only two results carry a genuine cross-check: the Halbach
-field (analytic vs magpylib) and orbital decay (orbit-averaged vs Cowell RK4). Both are
-internal, and the field one is analytic-vs-analytic, so it is not confirmation by a
-different physical method (`OPEN_PROBLEMS.md` E2). Everything else is single-sourced.
-Each analysis below closes a specific named item.
+This directory was written when `PROVENANCE.md` could point at only two cross-checks — the
+Halbach field (analytic vs magpylib) and orbital decay (orbit-averaged vs Cowell RK4) — both
+internal, and the field one analytic-against-analytic, so not confirmation by a different
+physical method (`OPEN_PROBLEMS.md` E2).
+
+**That has changed, and not uniformly in the project's favour.** A1 put a meshed PDE solve
+against K<sub>t</sub> and agreed to 0.07 %. A4 put CalculiX against the chassis and it passed.
+A12 put two independent numerical methods against the array attraction and found the published
+value **37 % high**. And **A5 failed**: an independent propagator falsified an invariance claim
+that was in the paper's own abstract.
+
+**What has still never happened is a measurement.** Every row below is one model against
+another model (E4). Each analysis closes a specific named item.
 
 | # | Analysis | Tool | Closes | Status |
 |---|---|---|---|---|
@@ -21,10 +29,12 @@ Each analysis below closes a specific named item.
 | A7 | Separation and tip-off | Project Chrono | E7-adjacent | specified, not run |
 | A8 | Pulse-power chain | ngspice / PySpice | E17 | **RUN 2026-07-30** as A8-R, at the current operating point |
 | A10 | Shot against a realistic bank ESR | `motor_model.shot()` | nothing; **opened P26** | **RUN 2026-07-30**: hard ceiling 65 mohm, five of six bands, one void |
-| A11 | Regenerative recovery of sled energy | `motor_model.regen_brake()` | nothing; asks what R5 did not | **bands declared 2026-07-31, not yet run** |
+| A11 | Regenerative recovery of sled energy | `motor_model.regen_brake()` | nothing; asks what R5 did not | **RUN 2026-07-31**: 296.6 J recovered, eight of eight bands |
+| A12 | Inter-array attraction, two numerical methods | magpylib + surface Maxwell stress | **P17** | **RUN 2026-07-31**: 2686.6 N adopted, five of five bands |
 
 A10 and A11 are cross-checks of the model against its own physics rather than against an
-external tool, which is a weaker class of check and is labelled as one. They are here because
+external tool, which is a weaker class of check and is labelled as one. A12 is stronger than
+both: its two methods share only the block model of the magnets. They are here because
 both ask a question no external solver was going to be pointed at: whether the bank can source
 the shot at all, and whether the sled's energy has to be thrown away.
 

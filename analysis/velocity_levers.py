@@ -30,6 +30,14 @@ import os
 
 import motor_model as mm
 
+# Outputs go next to this script, not next to whoever ran it. Every script here used to
+# write to a cwd-relative "results/", so running one from the repository root created a
+# SECOND, silently stale copy of its JSON at the root -- which is exactly what happened on
+# 2026-07-30 and left a results/sizing.json carrying a superseded inter-array force. A
+# duplicate that nothing regenerates is the defect class this repository logs twice
+# already (P16, P19).
+RESULTS = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'results')
+
 G = 9.81
 
 # (label, sled kg, Kt N per A/m, K_lim A/m, accel zone m, winding thickness m, note)
@@ -170,8 +178,8 @@ if __name__ == '__main__':
           f"mohm (A10).\nNo row above clears it, which is P26 restated: the bank, not the "
           f"winding, is the binding\nconstraint on every one of these levers.")
 
-    os.makedirs('results', exist_ok=True)
+    os.makedirs(RESULTS, exist_ok=True)
     json.dump(dict(levers=rows, string_esr_mohm=[STRING_ESR_LO, STRING_ESR_HI]),
-              open('results/velocity_levers.json', 'w'), indent=2)
+              open(os.path.join(RESULTS, 'velocity_levers.json'), 'w'), indent=2)
     print("\n-> results/velocity_levers.json")
     write_doc(rows)
