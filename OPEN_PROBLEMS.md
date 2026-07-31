@@ -816,6 +816,11 @@ other guard in this repository fails loudly: `_check_operating_point()` exits, `
 value and continued. A guard that degrades silently is worse than no guard, because it converts
 a detectable failure into a credible wrong answer.
 
+> **Not all of these weigh the same.** Three of the entries below are threats to whether the
+> machine has a reason to exist rather than engineering work, and they are hard to see in a
+> numbered list. [`docs/KILL_CRITERIA.md`](docs/KILL_CRITERIA.md) separates them, with the value
+> at which each becomes fatal.
+
 ## E: Unsolved engineering
 
 ### E1. Three-dimensional field closure: 2-D HALF CLOSED 2026-07-29 by A1

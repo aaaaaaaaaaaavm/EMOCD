@@ -27,6 +27,11 @@ unmodified CubeSat. Springs cannot, and OTVs solve a different problem at a diff
 
 ## Against the incumbents, honestly
 
+> **This comparison is against dispensers, and that is the wrong benchmark.** A customer wanting
+> 16.5 m/s can fit a 0.5 to 1.2 kg cold-gas module instead, which VOLLEY loses to by about 8x at
+> 3U. See [`KILL_CRITERIA.md`](KILL_CRITERIA.md) threat 1 and
+> [`PAYLOAD_CLASSES.md`](PAYLOAD_CLASSES.md), where smaller payloads reverse it.
+
 **Mass per satellite is the surprise, and it is not embarrassing.** VOLLEY's 76.9 kg dry
 carries twelve 3U satellites, **6.4 kg of deployer per satellite**. Planetary Systems'
 canisterized dispensers run about 2 kg per U (12 kg for 6U, 24 kg for 12U, 54 kg for 27U),
