@@ -1,3 +1,20 @@
+# Correction, 2026-08-03
+
+The original M2 plane stopped at the 340 x 90 mm magnet footprint and omitted fringe stress.
+Extending the mid-gap plane to 600 x 220 mm and refining from 100 x 37 to 800 x 293 points
+converges to **2680.0 N**, not 2627.6 N. A separate 1 mm-grid extent sweep from 340 x 90 mm
+to 1000 x 400 mm converges to 2679.961 N; the largest two planes differ by less than 0.0001%.
+The 600 x 220 mm result is 0.25% below the 2686.6 N volume-force calculation. All five declared bands still pass and the adopted conservative value remains
+2686.6 N.
+
+I also removed the source comment that invoked Jensen's inequality in the wrong direction.
+The old flat-plate estimate was high because 0.55 T was an assumed face field, not the mean
+normal field on the stress plane. The two A12 methods share the same Magpylib block-field
+model, so this is model-to-model agreement, not experimental validation.
+
+The original footprint-plane result remains below as the superseded run record.
+
+---
 # A12: the inter-array attraction, and whether `sizing.py` adopts a corrected value
 
 **Closes:** `OPEN_PROBLEMS.md` **P17**, which is HIGH and has been open since 2026-07-29.
@@ -29,7 +46,7 @@ knowing-the-answer run still cannot fake:
    with itself at finer mesh is not.
 2. **The adoption rule** — what happens to `sizing.py` at each possible outcome, written down
    before the outcome is known. This is the same device `validation/A4_sled_structural.md` used
-   for the sled mass, where the decision rule was fixed before the measurement that triggered it.
+   for the sled mass, where the decision rule was fixed before the CAD result that triggered it.
 
 ## The two methods
 

@@ -1,43 +1,135 @@
 {
   "analysis": "A12",
   "method": "M2, Maxwell stress integrated over the mid-gap plane",
+  "software": {
+    "python": "3.11.9",
+    "numpy": "2.3.5",
+    "numpy_license": "BSD-3-Clause",
+    "magpylib": "5.2.3",
+    "magpylib_license": "BSD-3-Clause",
+    "source_sha256": "a77e5b95f7f5fd6e09d645c46d265dd0093c6282327615b6d85e61968641c2dd",
+    "motor_model_sha256": "e9475bec37f83fa9e1c78c99968ac599504bd492ee891d4e61f651d94a4b047b"
+  },
+  "solver_settings": {
+    "integration": "midpoint rule",
+    "grids": [
+      [
+        100,
+        37
+      ],
+      [
+        200,
+        73
+      ],
+      [
+        400,
+        147
+      ],
+      [
+        800,
+        293
+      ]
+    ],
+    "plane_extents": [
+      [
+        0.34,
+        0.09
+      ],
+      [
+        0.45,
+        0.15
+      ],
+      [
+        0.6,
+        0.22
+      ],
+      [
+        0.8,
+        0.3
+      ],
+      [
+        1.0,
+        0.4
+      ]
+    ],
+    "extent_spacing_m": 0.001,
+    "convergence_comparison": "finest grid and largest plane extents"
+  },
   "plane": {
-    "x_span_m": 0.34,
-    "z_span_m": 0.09,
+    "x_span_m": 0.6,
+    "z_span_m": 0.22,
     "y_m": 0.0
   },
   "grids": [
     {
-      "nx": 96,
-      "nz": 12,
-      "F_N": 2643.1313481746897,
-      "mean_abs_By_T": 0.41463620294899145,
-      "mean_By2_T2": 0.21708868041564683
+      "nx": 100,
+      "nz": 37,
+      "F_N": 2678.6750644969584,
+      "mean_abs_By_T": 0.10619560358339354,
+      "mean_By2_T2": 0.05100185396350186
     },
     {
-      "nx": 192,
-      "nz": 24,
-      "F_N": 2630.660306521033,
-      "mean_abs_By_T": 0.41331840716504,
-      "mean_By2_T2": 0.21606439458971893
+      "nx": 200,
+      "nz": 73,
+      "F_N": 2679.954921513224,
+      "mean_abs_By_T": 0.10452006874367042,
+      "mean_By2_T2": 0.05102622238410761
     },
     {
-      "nx": 384,
-      "nz": 48,
-      "F_N": 2628.2107206173205,
-      "mean_abs_By_T": 0.4128105361544553,
-      "mean_By2_T2": 0.21586320240463552
+      "nx": 400,
+      "nz": 147,
+      "F_N": 2679.9575582487637,
+      "mean_abs_By_T": 0.10407138531332984,
+      "mean_By2_T2": 0.05102627258743488
     },
     {
-      "nx": 768,
-      "nz": 96,
-      "F_N": 2627.618128215489,
-      "mean_abs_By_T": 0.4126754321383001,
-      "mean_By2_T2": 0.21581453092918018
+      "nx": 800,
+      "nz": 293,
+      "F_N": 2679.9575576975208,
+      "mean_abs_By_T": 0.10399777226546386,
+      "mean_By2_T2": 0.051026272576939244
     }
   ],
-  "F_N": 2627.618128215489,
-  "grid_convergence_pct": 0.023,
-  "jensen_ratio": 1.2673,
+  "F_N": 2679.9575576975208,
+  "grid_convergence_pct": 0.0,
+  "plane_extent_sweep": [
+    {
+      "x_span_m": 0.34,
+      "z_span_m": 0.09,
+      "nx": 340,
+      "nz": 90,
+      "F_N": 2627.665011749781
+    },
+    {
+      "x_span_m": 0.45,
+      "z_span_m": 0.15,
+      "nx": 450,
+      "nz": 150,
+      "F_N": 2679.926599597125
+    },
+    {
+      "x_span_m": 0.6,
+      "z_span_m": 0.22,
+      "nx": 600,
+      "nz": 220,
+      "F_N": 2679.9575578420745
+    },
+    {
+      "x_span_m": 0.8,
+      "z_span_m": 0.3,
+      "nx": 800,
+      "nz": 300,
+      "F_N": 2679.9602373232647
+    },
+    {
+      "x_span_m": 1.0,
+      "z_span_m": 0.4,
+      "nx": 1000,
+      "nz": 400,
+      "F_N": 2679.960730087928
+    }
+  ],
+  "plane_extent_convergence_pct": 1.8e-05,
+  "jensen_ratio": 4.7179,
   "bands_declared_in": "validation/A12_inter_array_force.md"
 }

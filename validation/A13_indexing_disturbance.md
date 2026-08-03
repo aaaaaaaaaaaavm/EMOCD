@@ -1,3 +1,32 @@
+# Correction, 2026-08-03
+
+I found that the 2026-07-31 result below violates angular-momentum conservation in its own
+ideal rigid-body model. It treated peak momentum while an internal mass was moving as a
+residual host rate after that mass stopped. The host counter-rotates during the move, returns
+to zero rigid-body rate when the mass stops, and retains an attitude offset.
+
+I reran A13 with the 124.5 kg deployer inertia included and with index and return treated as
+sequential moves. At the assumed 166 mm lever arm:
+
+| Host | Index peak | Return peak | Residual ideal rate | Worst-case attitude offset |
+|---|---:|---:|---:|---:|
+| 200 kg | 0.0195 deg/s | **0.4427 deg/s** | 0 | 1.367 deg |
+| 500 kg | 0.0060 deg/s | **0.1362 deg/s** | 0 | 0.421 deg |
+
+Rows 3 and 4 remain **FAIL** on their declared transient-rate bands. Row 5 is **PASS only in
+the ideal rigid-body model**; structural ringing is not modelled. Row 7 is **VOID**, because
+there is no attitude controller, thruster geometry, or propellant model from which to compute
+a propellant change. The earlier 8.2 s rate-null time, 18.1 s cadence floor, 6.9 s optimum,
+and counter-mass recommendation are **superseded**. Attitude restoration and cadence require
+a controller and a resolved ConOps schedule.
+
+The shot impulse is 65.552 N s and the twelve-shot campaign impulse is 786.624 N s. The
+0.98 kN s figure below belonged to an older operating point.
+
+Everything below this notice is retained as the superseded 2026-07-31 record. It is not the
+current result.
+
+---
 # A13: what indexing and sled return do to the host's attitude
 
 **Closes:** `OPEN_PROBLEMS.md` **E24**, and `docs/KILL_CRITERIA.md` §5.

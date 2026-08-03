@@ -38,13 +38,17 @@ Run:  python3 validation/conjunction/pc_2d.py
 
 Bands are declared in validation/A6_conjunction_cara.md, committed before this file existed.
 """
+import hashlib
 import json
 import math
+import platform
 import os
 import sys
 from pathlib import Path
 
 import numpy as np
+from scipy.optimize import minimize_scalar
+from scipy.special import ndtr
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / 'analysis'))
@@ -62,7 +66,7 @@ SIGMA_C = 100.0      # m, cross-track
 # Hard-body radius: 3U CubeSat plus a spent upper stage, both boxed generously.
 HBR = 5.0            # m, combined
 
-DV_SWEEP = [16.12, 16.33, 16.537, 16.74, 16.95]     # +/-2.5 % about the rated point
+DV_SWEEP = [15.978, 16.183, 16.388, 16.593, 16.798]   # +/-2.5 % about the rated point
 SIGMA_SCALES = [0.5, 1.0, 2.0]                       # band 5
 
 
@@ -100,6 +104,24 @@ def pc_2d(miss_vec, rel_vel, sigma_ric, hbr=HBR, n_r=400, n_th=720):
     pdf = np.exp(-0.5 * ((X / sx) ** 2 + (Z / sz) ** 2)) / (2 * math.pi * sx * sz)
     dA = (hbr / n_r) * (2 * math.pi / n_th) * R
     return float(np.sum(pdf * dA))
+
+
+def slab_upper_bound(miss_distance, hbr=HBR):
+    """Covariance-independent bound from the Gaussian marginal along the miss vector.
+
+    The hard-body disc is contained in the slab d-R <= x <= d+R. For any 2-D
+    Gaussian covariance, x is a 1-D zero-mean Gaussian with some sigma. Maximising
+    that interval probability over sigma therefore bounds every covariance shape and
+    orientation. The bound is conservative because the slab contains the disc.
+    """
+    def negative_probability(log_sigma):
+        sigma = math.exp(log_sigma)
+        return -(ndtr((miss_distance + hbr) / sigma)
+                 - ndtr((miss_distance - hbr) / sigma))
+    fit = minimize_scalar(negative_probability,
+                          bounds=(math.log(hbr / 100), math.log(miss_distance * 100)),
+                          method="bounded", options={"xatol": 1e-12})
+    return -float(fit.fun), math.exp(float(fit.x))
 
 
 def closest_approach(dv, alt_m=450e3, inc_deg=51.6, k=0, spacing_s=1200.0, days=30):
@@ -172,7 +194,7 @@ def main():
     # covariance have to be before Pc mattered at all?
     print("\nPc is unmeasurably small at every point, so the declared spread test is void.")
     print("The quantity that is meaningful instead: how big would sigma have to be?\n")
-    miss, rel_v, dmin = closest_approach(16.537)
+    miss, rel_v, dmin = closest_approach(16.388)
     print(f"{'sigma_I (m)':>12} {'d/sigma_I':>10} {'Pc':>12}")
     crossings = {}
     for sig_i in (500, 1000, 2000, 3000, 4000, 5000, 7500, 10000):
@@ -187,13 +209,13 @@ def main():
         print(f"  Pc reaches {thr:.0e} at sigma_I ~ "
               + (f"{got:.0f} m" if got else "> 10 km"))
 
-    # --- the result worth having: an upper bound that needs no covariance at all -------
+    # --- fixed-shape sensitivity; this is not a covariance-independent bound -------------
     # Pc is bounded by (hard-body area) x (peak of the 2-D Gaussian), and the peak falls
     # as 1/(sx*sz). So a covariance large enough for its tail to reach the miss distance
     # is also too diffuse to put much probability inside a 5 m disc. Pc therefore has a
     # MAXIMUM over sigma, and that maximum is a statement about this geometry that does
     # not depend on the covariance nobody has.
-    print("\nUpper bound on Pc, maximised over the assumed covariance scale:")
+    print("\nFixed-shape covariance-scale sensitivity (not an upper bound):")
     print(f"{'sigma_I (m)':>12} {'d/sigma_I':>10} {'Pc':>12}")
     pc_bound, sig_bound = 0.0, 0.0
     for sig_i in (2e3, 5e3, 1e4, 1.5e4, 2e4, 3e4, 5e4, 1e5, 2e5, 5e5):
@@ -201,11 +223,15 @@ def main():
         if pc > pc_bound:
             pc_bound, sig_bound = pc, sig_i
         print(f"{sig_i:12.0f} {dmin/sig_i:10.2f} {pc:12.3e}")
-    print(f"\n  MAX Pc over all covariance scales : {pc_bound:.3e} "
+    print(f"\n  MAX Pc over this fixed 5:1:1 shape : {pc_bound:.3e} "
           f"at sigma_I ~ {sig_bound/1e3:.0f} km")
-    print(f"  against the 1e-4 flag threshold   : {1e-4/pc_bound:.0f}x below")
-    print("  -> no covariance makes this conjunction actionable. The safety question")
-    print("     does not need the CDMs this analysis could not get.")
+    print("  This does not bound other covariance shapes or orientations.")
+    print("  At the superseded 14.49 km geometry an anisotropic counterexample reaches 1.67e-4.")
+
+    rigorous_bound, bound_sigma = slab_upper_bound(dmin)
+    print(f"  Current {dmin/1e3:.2f} km geometry: covariance-independent slab bound "
+          f"{rigorous_bound:.3e} at sigma {bound_sigma/1e3:.2f} km")
+    print("  This bounds Pc for the current geometry; it does not make the fragile geometry robust.")
 
     print(f"\nband 5, sensitivity of the Pc SPREAD to the assumed covariance:")
     spreads = {}
@@ -215,24 +241,33 @@ def main():
               + (f"{spreads[k]:.2f} x" if spreads[k] else "unmeasurable"))
     measurable = [v for v in spreads.values() if v]
     ratio = (max(measurable) / min(measurable)) if len(measurable) > 1 else None
-    print("  -> VOID for the same reason: a spread of quantities that are all zero to")
-    print("     machine precision is not a number.")
+    print("  -> VOID: zeros and extreme subnormal values make max/min an underflow artifact,")
+    print("     not a stable probability comparison.")
 
-    realign = astro.conjunction(dv=16.537)['realign_days']
+    realign = astro.conjunction(dv=16.388)['realign_days']
     pc_max = max(r['pc'] for r in nominal)
-    print(f"\nrealignment period at 16.537 m/s : {realign} days")
+    print(f"\nrealignment period at 16.388 m/s : {realign} days")
     print(f"max Pc at the rated point        : {pc_max:.3e}"
           f"{'   FLAGGED > 1e-4' if pc_max > 1e-4 else ''}")
 
     out = dict(
         analysis="A6", method="Foster 2-D Pc, polar quadrature, astro.propagate geometry",
+        software=dict(python=platform.python_version(), numpy=np.__version__,
+                      numpy_license="BSD-3-Clause", scipy=__import__("scipy").__version__,
+                      scipy_license="BSD-3-Clause",
+                      source_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+                      astro_sha256=hashlib.sha256(Path(astro.__file__).read_bytes()).hexdigest()),
+        solver_settings=dict(probability_integral="polar midpoint quadrature",
+                             slab_optimizer="scipy.optimize.minimize_scalar bounded",
+                             optimizer_xatol=1e-12),
         bands_declared_in="validation/A6_conjunction_cara.md",
         covariance_assumption=dict(
             sigma_R_m=SIGMA_R, sigma_I_m=SIGMA_I, sigma_C_m=SIGMA_C,
             frame="diagonal RIC, treated as inertially fixed over the encounter",
             provenance="ASSUMED. No CDM was available; Space-Track is unreachable here. "
                        "The Pc VALUES inherit this assumption and are not defensible on "
-                       "their own. Only the SPREAD is claimed, and band 5 tests it."),
+                       "their own. The fixed-shape sweep is sensitivity only; the slab "
+                       "bound is covariance-independent but conditional on the geometry."),
         hard_body_radius_m=HBR, screening_window_days=30,
         dv_sweep_m_s=DV_SWEEP, sweep=sweep,
         min_distance_spread=round(d_spread, 3),
@@ -241,11 +276,13 @@ def main():
                                   for k, v in spreads.items()},
         pc_spread_sensitivity=(round(ratio, 3) if ratio else None),
         pc_sigma_crossings_m={f"{k:.0e}": v for k, v in crossings.items()},
-        pc_upper_bound=pc_bound, pc_upper_bound_at_sigma_I_m=sig_bound,
-        pc_bound_margin_below_1e4=round(1e-4 / pc_bound, 1),
-        bands_3_and_5="VOID -- Pc underflows at every point; see the sheet",
+        pc_fixed_shape_max=pc_bound, pc_fixed_shape_max_at_sigma_I_m=sig_bound,
+        pc_fixed_shape_note="Not a covariance-independent upper bound.",
+        pc_covariance_independent_slab_bound=rigorous_bound,
+        pc_slab_bound_sigma_m=bound_sigma,
+        bands_3_and_5="VOID -- nominal Pc underflows at every point and sensitivity ratios are numerical artifacts; see the sheet",
         realign_days=realign, pc_max=pc_max,
-        does_not_close="P1. A real covariance needs CDMs.")
+        does_not_close="P1. The bound is conditional on the propagator's fragile miss geometry.")
     dest = ROOT / 'validation' / 'results' / 'A6_conjunction.json'
     os.makedirs(dest.parent, exist_ok=True)
     with open(dest, 'w') as fh:

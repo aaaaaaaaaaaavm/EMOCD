@@ -1,135 +1,151 @@
 {
   "analysis": "A6",
   "method": "Foster 2-D Pc, polar quadrature, astro.propagate geometry",
+  "software": {
+    "python": "3.11.9",
+    "numpy": "2.3.5",
+    "numpy_license": "BSD-3-Clause",
+    "scipy": "1.17.1",
+    "scipy_license": "BSD-3-Clause",
+    "source_sha256": "c6da31e2920518c0e301caff87632ad07e8a11120e7c99a41cfe5105a4b6e6c9",
+    "astro_sha256": "d046747bd80e4c9b43b0b8c60186cf9cca24c25530bda99507e42383294c677b"
+  },
+  "solver_settings": {
+    "probability_integral": "polar midpoint quadrature",
+    "slab_optimizer": "scipy.optimize.minimize_scalar bounded",
+    "optimizer_xatol": 1e-12
+  },
   "bands_declared_in": "validation/A6_conjunction_cara.md",
   "covariance_assumption": {
     "sigma_R_m": 100.0,
     "sigma_I_m": 500.0,
     "sigma_C_m": 100.0,
     "frame": "diagonal RIC, treated as inertially fixed over the encounter",
-    "provenance": "ASSUMED. No CDM was available; Space-Track is unreachable here. The Pc VALUES inherit this assumption and are not defensible on their own. Only the SPREAD is claimed, and band 5 tests it."
+    "provenance": "ASSUMED. No CDM was available; Space-Track is unreachable here. The Pc VALUES inherit this assumption and are not defensible on their own. The fixed-shape sweep is sensitivity only; the slab bound is covariance-independent but conditional on the geometry."
   },
   "hard_body_radius_m": 5.0,
   "screening_window_days": 30,
   "dv_sweep_m_s": [
-    16.12,
-    16.33,
-    16.537,
-    16.74,
-    16.95
+    15.978,
+    16.183,
+    16.388,
+    16.593,
+    16.798
   ],
   "sweep": {
     "0.5x": [
       {
-        "dv": 16.12,
-        "min_km": 17.25,
+        "dv": 15.978,
+        "min_km": 57.56,
         "pc": 0.0,
-        "rel_speed_km_s": 0.086
+        "rel_speed_km_s": 0.161
       },
       {
-        "dv": 16.33,
-        "min_km": 24.8,
+        "dv": 16.183,
+        "min_km": 56.95,
         "pc": 0.0,
-        "rel_speed_km_s": 0.091
+        "rel_speed_km_s": 0.16
       },
       {
-        "dv": 16.537,
-        "min_km": 14.49,
+        "dv": 16.388,
+        "min_km": 59.45,
         "pc": 0.0,
-        "rel_speed_km_s": 0.085
+        "rel_speed_km_s": 0.161
       },
       {
-        "dv": 16.74,
-        "min_km": 30.89,
+        "dv": 16.593,
+        "min_km": 37.55,
         "pc": 0.0,
-        "rel_speed_km_s": 0.077
+        "rel_speed_km_s": 0.163
       },
       {
-        "dv": 16.95,
-        "min_km": 62.85,
+        "dv": 16.798,
+        "min_km": 34.79,
         "pc": 0.0,
-        "rel_speed_km_s": 0.085
+        "rel_speed_km_s": 0.157
       }
     ],
     "1x": [
       {
-        "dv": 16.12,
-        "min_km": 17.25,
+        "dv": 15.978,
+        "min_km": 57.56,
         "pc": 0.0,
-        "rel_speed_km_s": 0.086
+        "rel_speed_km_s": 0.161
       },
       {
-        "dv": 16.33,
-        "min_km": 24.8,
+        "dv": 16.183,
+        "min_km": 56.95,
         "pc": 0.0,
-        "rel_speed_km_s": 0.091
+        "rel_speed_km_s": 0.16
       },
       {
-        "dv": 16.537,
-        "min_km": 14.49,
-        "pc": 2.0120343690080195e-231,
-        "rel_speed_km_s": 0.085
+        "dv": 16.388,
+        "min_km": 59.45,
+        "pc": 0.0,
+        "rel_speed_km_s": 0.161
       },
       {
-        "dv": 16.74,
-        "min_km": 30.89,
+        "dv": 16.593,
+        "min_km": 37.55,
         "pc": 0.0,
-        "rel_speed_km_s": 0.077
+        "rel_speed_km_s": 0.163
       },
       {
-        "dv": 16.95,
-        "min_km": 62.85,
+        "dv": 16.798,
+        "min_km": 34.79,
         "pc": 0.0,
-        "rel_speed_km_s": 0.085
+        "rel_speed_km_s": 0.157
       }
     ],
     "2x": [
       {
-        "dv": 16.12,
-        "min_km": 17.25,
+        "dv": 15.978,
+        "min_km": 57.56,
         "pc": 0.0,
-        "rel_speed_km_s": 0.086
+        "rel_speed_km_s": 0.161
       },
       {
-        "dv": 16.33,
-        "min_km": 24.8,
+        "dv": 16.183,
+        "min_km": 56.95,
         "pc": 0.0,
-        "rel_speed_km_s": 0.091
+        "rel_speed_km_s": 0.16
       },
       {
-        "dv": 16.537,
-        "min_km": 14.49,
-        "pc": 3.3521947098382214e-62,
-        "rel_speed_km_s": 0.085
-      },
-      {
-        "dv": 16.74,
-        "min_km": 30.89,
-        "pc": 3.5875980338597315e-239,
-        "rel_speed_km_s": 0.077
-      },
-      {
-        "dv": 16.95,
-        "min_km": 62.85,
+        "dv": 16.388,
+        "min_km": 59.45,
         "pc": 0.0,
-        "rel_speed_km_s": 0.085
+        "rel_speed_km_s": 0.161
+      },
+      {
+        "dv": 16.593,
+        "min_km": 37.55,
+        "pc": 1.9385979423839633e-220,
+        "rel_speed_km_s": 0.163
+      },
+      {
+        "dv": 16.798,
+        "min_km": 34.79,
+        "pc": 2.4900648675169292e-142,
+        "rel_speed_km_s": 0.157
       }
     ]
   },
-  "min_distance_spread": 4.337,
-  "pc_spread": 1.0,
+  "min_distance_spread": 1.709,
+  "pc_spread": null,
   "pc_spread_by_sigma_scale": {
     "0.5x": null,
-    "1x": 1.0,
-    "2x": 9.343841417573054e+176
+    "1x": null,
+    "2x": 1.2844668887117498e+78
   },
-  "pc_spread_sensitivity": 9.343841417573054e+176,
+  "pc_spread_sensitivity": null,
   "pc_sigma_crossings_m": {},
-  "pc_upper_bound": 3.707146254494633e-08,
-  "pc_upper_bound_at_sigma_I_m": 10000.0,
-  "pc_bound_margin_below_1e4": 2697.5,
-  "bands_3_and_5": "VOID -- Pc underflows at every point; see the sheet",
-  "realign_days": 9.9,
-  "pc_max": 2.0120343690080195e-231,
-  "does_not_close": "P1. A real covariance needs CDMs."
+  "pc_fixed_shape_max": 5.12271395231179e-10,
+  "pc_fixed_shape_max_at_sigma_I_m": 100000.0,
+  "pc_fixed_shape_note": "Not a covariance-independent upper bound.",
+  "pc_covariance_independent_slab_bound": 4.069886873303563e-05,
+  "pc_slab_bound_sigma_m": 59453.9158518509,
+  "bands_3_and_5": "VOID -- nominal Pc underflows at every point and sensitivity ratios are numerical artifacts; see the sheet",
+  "realign_days": 10.0,
+  "pc_max": 0.0,
+  "does_not_close": "P1. The bound is conditional on the propagator's fragile miss geometry."
 }

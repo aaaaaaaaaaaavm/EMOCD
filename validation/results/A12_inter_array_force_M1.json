@@ -1,0 +1,56 @@
+{
+  "analysis": "A12",
+  "method": "M1, Magpylib getFT volume/field-gradient force",
+  "software": {
+    "python": "3.11.9",
+    "numpy": "2.3.5",
+    "numpy_license": "BSD-3-Clause",
+    "magpylib": "5.2.3",
+    "magpylib_license": "BSD-3-Clause",
+    "source_sha256": "0279472e22e3e3a43455f7cdb9efd69ddd9d0ce98725f954cf973e5739260701",
+    "motor_model_sha256": "e9475bec37f83fa9e1c78c99968ac599504bd492ee891d4e61f651d94a4b047b"
+  },
+  "solver_settings": {
+    "finite_difference_step_m": 1e-07,
+    "meshes": [
+      [
+        2,
+        2,
+        2
+      ],
+      [
+        4,
+        4,
+        4
+      ],
+      [
+        6,
+        6,
+        6
+      ],
+      [
+        8,
+        8,
+        8
+      ],
+      [
+        10,
+        10,
+        10
+      ],
+      [
+        12,
+        12,
+        12
+      ],
+      [
+        14,
+        14,
+        14
+      ]
+    ]
+  },
+  "F_N": 2686.556116682401,
+  "superseded_flat_plate_N": 3683.044326825324,
+  "bands_declared_in": "validation/A12_inter_array_force.md"
+}

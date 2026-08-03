@@ -14,9 +14,9 @@ methods cannot disagree about the magnets themselves.
 
 Run:  python3 validation/magpylib/check_inter_array_force.py
 
-Note on interpretation: Maxwell stress needs the mean of B**2, the analytic form
-uses the square of the mean B, and mean(B**2) >= mean(B)**2 always. The analytic
-formula should therefore overestimate, which is the direction observed.
+Note on interpretation: mean(B**2) >= mean(B)**2 means a one-point form at the true
+mean field underestimates. The superseded form was high because its assumed 0.55 T was
+not the mean normal field, not because of Jensen's inequality.
 
 Note on 3672 vs 3680 N: `inter_array_attraction()` rounds its pressure to 120.0 kPa
 before reporting, and `validation/fea/build_deck.py` multiplied that rounded pressure
@@ -25,6 +25,10 @@ by the 0.0306 m2 footprint to get the 3672 N it applied. Carrying full precision
 but it is recorded so the two numbers in the repo are traceable to each other.
 """
 
+import hashlib
+import json
+import os
+import platform
 import sys
 from pathlib import Path
 
@@ -77,6 +81,25 @@ def main():
     print()
     print("A12 adopted this value on 2026-07-31. The cause is NOT the Jensen term P17")
     print("blamed -- that acts the other way. See validation/A12_inter_array_force.md.")
+
+    root = Path(__file__).resolve().parents[2]
+    out = dict(
+        analysis="A12", method="M1, Magpylib getFT volume/field-gradient force",
+        software=dict(python=platform.python_version(), numpy=np.__version__,
+                      numpy_license="BSD-3-Clause", magpylib=magpy.__version__,
+                      magpylib_license="BSD-3-Clause",
+                      source_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+                      motor_model_sha256=hashlib.sha256(
+                          (root / "analysis" / "motor_model.py").read_bytes()).hexdigest()),
+        solver_settings=dict(finite_difference_step_m=EPS, meshes=MESHES),
+        F_N=float(force), superseded_flat_plate_N=ANALYTIC_N,
+        bands_declared_in="validation/A12_inter_array_force.md")
+    dest = root / "validation" / "results" / "A12_inter_array_force_M1.json"
+    os.makedirs(dest.parent, exist_ok=True)
+    with open(dest, "w") as fh:
+        json.dump(out, fh, indent=2)
+        fh.write("\n")
+    print(f"-> {dest.relative_to(root)}")
 
 
 if __name__ == "__main__":

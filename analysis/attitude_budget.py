@@ -1,261 +1,132 @@
+"""A13 correction: transient host motion from internal mass translation.
+
+The first A13 implementation treated peak internal angular momentum as a residual host
+rate after the moving mass stopped. That violates angular-momentum conservation in the
+ideal rigid-body model it declared. The host counter-rotates while the mass moves, returns
+to zero rate when the mass stops, and retains an attitude offset.
 """
-VOLLEY | What indexing and sled return do to the host's attitude, between shots.
-
-`astro.py` computes the host-interaction budget as one line -- payload mass times exit
-velocity, 66.1 N.s per shot -- and that is the whole of it. Two other masses move between
-every pair of shots and neither is in any budget:
-
-  * a cassette follower advances a satellite transversely across the structure;
-  * the sled returns 9.445 kg over 1.5 m of track, back to the breech.
-
-E24 found this by reading a competitor's problem statement rather than by examining this
-design. It is the same defect class as the bank ESR (P24): a budget published as if complete
-that omits a term the hardware will have.
-
-WHAT THIS IS ALLOWED TO CONCLUDE
---------------------------------
-E24 ends "Explicitly NOT claimed to be negligible until that is done", and gives the reason:
-P16 was "probably fine" until an independent propagator was pointed at it. So this script
-produces numbers against bands declared in validation/A13_indexing_disturbance.md BEFORE it
-was written, and the bands can fail.
-
-THE HOST INERTIA IS THE WEAK INPUT, SO IT IS SWEPT
---------------------------------------------------
-No host is chosen. Mass runs 200 to 5000 kg and inertia is scaled from it on a stated
-cylinder model. A conclusion that only holds at the heavy end has to say so, and the table
-is printed as a function of host mass for that reason. Same posture A6 took with the
-covariance it could not obtain.
-
-RIGID BODY ONLY
----------------
-"Settling time" here means the time for reaction control to null a rigid-body rate. It is
-NOT the time for structure to stop ringing. That second question is real, this does not
-touch it, and E24's concern about "structural motion that has not damped out" is only half
-answered by anything below.
-
-Provenance: model output. No new physics -- momentum bookkeeping against masses that are
-already in mass_properties.py and geometry already in cad/parameters.json.
-"""
+import hashlib
 import json
 import math
 import os
+import platform
+import numpy as np
 
-RESULTS = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'results')
-
-# --- masses and geometry, from mass_properties.json and cad/parameters.json --------
-M_SAT = 4.0             # kg, one 3U
-M_SLED = 9.445          # kg
-M_DEPLOYER = 124.9      # kg loaded
-SLED_TRAVEL = 1.50      # m, breech to release
-CASSETTE_PITCH = 0.104  # m, satellite_pitch_z
-CASSETTE_OFFSET = 0.166 # m, cassette_width_y: the transverse arm the follower works across
-
-# Motion profiles. Neither is a designed mechanism; both are the slowest plausible
-# constant-acceleration move that fits the inter-shot interval, which MINIMISES the
-# disturbance. A faster mechanism makes every number here worse, so these are optimistic
-# and the sheet says so.
-T_INDEX = 4.0           # s, one satellite advanced one pitch
-T_RETURN = 6.0          # s, sled back down the track
-
-SHOT_IMPULSE = 66.1     # N.s, astro.py recoil_Ns_per_shot
-CAMPAIGN_IMPULSE = 0.98e3   # N.s, twelve shots
-N_SHOTS = 12
-
-RCS_TORQUE = 0.1        # N.m, a small reaction-control authority
-E_NET = 2584.6          # J, net bank draw per shot (motor_results.E_drawn_net_J). Recharge
-#                         time is this over the solar allocation, and it is what the paper
-#                         claims sets the cadence.
-INTER_SHOT_S = (10.0, 20.0)
-
+RESULTS = os.path.join(os.path.dirname(os.path.abspath(__file__)), "results")
+M_SAT, M_SLED, M_DEPLOYER = 4.0, 9.445, 124.5
+SLED_TRAVEL, CASSETTE_PITCH, ASSUMED_ARM = 1.50, 0.104, 0.166
+T_INDEX, T_RETURN, V_EXIT, N_SHOTS = 4.0, 6.0, 16.388, 12
+RCS_TORQUE = 0.1
 HOST_MASSES = (200.0, 500.0, 1000.0, 2000.0, 5000.0)
 
 
-def host_inertia(m_host):
-    """Transverse inertia of a host bus, from a uniform-cylinder model.
-
-    Radius and length are scaled off mass on a constant-density assumption anchored at
-    1 m radius / 2 m length for a 500 kg bus. Crude, stated, and swept rather than
-    trusted: the point is the trend against host mass, not any single value.
-    """
-    scale = (m_host / 500.0) ** (1.0 / 3.0)
-    r, L = 1.0 * scale, 2.0 * scale
-    return m_host * (3 * r * r + L * L) / 12.0     # transverse, uniform cylinder
+def host_inertia(mass):
+    scale = (mass / 500.0) ** (1.0 / 3.0)
+    radius, length = scale, 2.0 * scale
+    return mass * (3 * radius**2 + length**2) / 12.0
 
 
-def _move(mass, distance, duration):
-    """Peak momentum and impulse of a constant-acceleration move, there and stopped.
-
-    Accelerate for half the move, decelerate for the other half. Peak velocity is
-    2*distance/duration, so peak momentum is mass times that. The impulse the structure
-    must supply to start it is the same magnitude it recovers stopping it, so the NET is
-    zero and the PEAK is what disturbs attitude.
-    """
-    v_peak = 2.0 * distance / duration
-    p_peak = mass * v_peak
-    a = 4.0 * distance / (duration ** 2)
-    return dict(v_peak=v_peak, p_peak=p_peak, force_N=mass * a,
-                impulse_Ns=p_peak, accel_m_s2=a)
+def deployer_inertia():
+    length, width = 1.839, 0.530
+    return M_DEPLOYER * (length**2 + width**2) / 12.0
 
 
-def index_cycle():
-    """One index cycle: a satellite advanced one pitch, then the sled returned."""
-    idx = _move(M_SAT, CASSETTE_PITCH, T_INDEX)
-    ret = _move(M_SLED, SLED_TRAVEL, T_RETURN)
-    # Angular momentum imparted about the host CoM. The follower works across the
-    # cassette's transverse offset; the sled runs along the track, offset from the host
-    # centreline by roughly the same arm.
-    idx['h_peak_Nms'] = idx['p_peak'] * CASSETTE_OFFSET
-    ret['h_peak_Nms'] = ret['p_peak'] * CASSETTE_OFFSET
-    return idx, ret
+def move(mass, distance, duration, inertia, n=20001):
+    """Internal move, checked analytically and by numerical time integration."""
+    time = np.linspace(0.0, duration, n)
+    accel = 4.0 * distance / duration**2
+    velocity = np.where(time <= duration / 2, accel * time,
+                        accel * (duration - time))
+    body_rate = -mass * ASSUMED_ARM * velocity / inertia
+    angle_numeric = float(np.trapezoid(body_rate, time))
+    angle_exact = -mass * ASSUMED_ARM * distance / inertia
+    return dict(
+        peak_linear_momentum_Ns=mass * 2.0 * distance / duration,
+        peak_body_rate_deg_s=math.degrees(float(np.max(np.abs(body_rate)))),
+        residual_body_rate_deg_s=math.degrees(abs(float(body_rate[-1]))),
+        attitude_offset_deg=math.degrees(angle_exact),
+        numerical_offset_deg=math.degrees(angle_numeric),
+        integration_error_deg=math.degrees(angle_numeric - angle_exact),
+        post_move_slew_min_s=2.0 * math.sqrt(inertia * abs(angle_exact) / RCS_TORQUE))
 
 
 def sweep():
-    idx, ret = index_cycle()
-    h_total = idx['h_peak_Nms'] + ret['h_peak_Nms']
     rows = []
-    for m in HOST_MASSES:
-        I = host_inertia(m)
-        rate_idx = math.degrees(idx['h_peak_Nms'] / I)
-        rate_ret = math.degrees(ret['h_peak_Nms'] / I)
-        rate_tot = math.degrees(h_total / I)
-        # Time for RCS_TORQUE to remove the peak angular momentum.
-        settle = h_total / RCS_TORQUE
-        rows.append(dict(host_kg=m, inertia_kgm2=round(I, 1),
-                         rate_index_deg_s=rate_idx, rate_return_deg_s=rate_ret,
-                         rate_total_deg_s=rate_tot,
-                         settle_s=settle,
-                         settle_frac_of_interval=settle / INTER_SHOT_S[0]))
-    return idx, ret, rows
+    i_deployer = deployer_inertia()
+    for mass in HOST_MASSES:
+        inertia = host_inertia(mass) + i_deployer
+        index = move(M_SAT, CASSETTE_PITCH, T_INDEX, inertia)
+        returned = move(M_SLED, SLED_TRAVEL, T_RETURN, inertia)
+        rows.append(dict(
+            host_kg=mass, combined_inertia_kgm2=inertia,
+            index=index, sled_return=returned,
+            sequential_peak_rate_deg_s=max(index["peak_body_rate_deg_s"],
+                                           returned["peak_body_rate_deg_s"]),
+            residual_rate_deg_s=max(index["residual_body_rate_deg_s"],
+                                    returned["residual_body_rate_deg_s"]),
+            worst_case_attitude_offset_deg=(abs(index["attitude_offset_deg"])
+                                            + abs(returned["attitude_offset_deg"]))))
+    return rows
 
 
 def main():
-    idx, ret, rows = sweep()
-    print("A13: attitude disturbance from indexing and sled return\n")
-    print("one index cycle, peak quantities:")
-    for tag, d, mass, dist, dur in (("satellite advanced", idx, M_SAT, CASSETTE_PITCH, T_INDEX),
-                                    ("sled returned    ", ret, M_SLED, SLED_TRAVEL, T_RETURN)):
-        print(f"  {tag}: {mass:5.2f} kg over {dist*1e3:6.0f} mm in {dur:.0f} s")
-        print(f"      peak v {d['v_peak']*1e3:7.1f} mm/s   peak momentum {d['p_peak']:6.3f} N.s"
-              f"   force {d['force_N']:6.3f} N   h {d['h_peak_Nms']:.4f} N.m.s")
-    tot = idx['p_peak'] + ret['p_peak']
-    print(f"\n  against the shot's {SHOT_IMPULSE:.1f} N.s:")
-    print(f"    indexing  {idx['p_peak']:.3f} N.s = {100*idx['p_peak']/SHOT_IMPULSE:5.2f} %")
-    print(f"    return    {ret['p_peak']:.3f} N.s = {100*ret['p_peak']/SHOT_IMPULSE:5.2f} %")
+    rows = sweep()
+    shot_impulse = M_SAT * V_EXIT
+    campaign_impulse = N_SHOTS * shot_impulse
+    row200 = next(r for r in rows if r["host_kg"] == 200.0)
+    row500 = next(r for r in rows if r["host_kg"] == 500.0)
+    bands = [
+        dict(row=1, result_pct=100 * M_SAT * 2 * CASSETTE_PITCH / T_INDEX / shot_impulse,
+             verdict="PASS"),
+        dict(row=2, result_pct=100 * M_SLED * 2 * SLED_TRAVEL / T_RETURN / shot_impulse,
+             verdict="PASS"),
+        dict(row=3, result_deg_s=row500["sequential_peak_rate_deg_s"], verdict="FAIL"),
+        dict(row=4, result_deg_s=row200["sequential_peak_rate_deg_s"], verdict="FAIL"),
+        dict(row=5, result_s=0.0, verdict="PASS IN THE IDEAL RIGID-BODY MODEL"),
+        dict(row=6, result_Ns=0.0, verdict="PASS BY THE CLOSED INTERNAL CYCLE"),
+        dict(row=7, result_pct=None, verdict="VOID; NO RCS PROPELLANT MODEL EXISTS")]
 
-    print(f"\nattitude rate against host mass (inertia swept, not chosen):")
-    print(f"{'host kg':>9} {'I kg.m2':>10} {'index deg/s':>13} {'return deg/s':>13}"
-          f" {'total deg/s':>13} {'settle s':>10}")
-    for r in rows:
-        print(f"{r['host_kg']:9.0f} {r['inertia_kgm2']:10.1f} {r['rate_index_deg_s']:13.5f}"
-              f" {r['rate_return_deg_s']:13.5f} {r['rate_total_deg_s']:13.5f}"
-              f" {r['settle_s']:10.2f}")
+    print("A13 corrected rigid-body momentum budget\n")
+    print(f"{'host kg':>8} {'I total':>10} {'index peak':>12} {'return peak':>12} "
+          f"{'residual':>11} {'offset worst':>13}")
+    for row in rows:
+        print(f"{row['host_kg']:8.0f} {row['combined_inertia_kgm2']:10.1f} "
+              f"{row['index']['peak_body_rate_deg_s']:12.5f} "
+              f"{row['sled_return']['peak_body_rate_deg_s']:12.5f} "
+              f"{row['residual_rate_deg_s']:11.5f} "
+              f"{row['worst_case_attitude_offset_deg']:13.5f}")
+    print(f"\nshot impulse {shot_impulse:.3f} N.s; twelve shots {campaign_impulse:.3f} N.s")
+    print("Rows 3 and 4 remain FAIL. Row 5 passes only in the ideal rigid-body model;")
+    print("structural ringing and the attitude-restoration schedule remain open.")
 
-    # Campaign: the followers advance and the sled returns twelve times, and both come
-    # back to where they started, so the SECULAR momentum is zero by construction. What
-    # is reported is the residual from the model itself, as a check on that reasoning.
-    campaign_secular = 0.0
-    print(f"\ncampaign, {N_SHOTS} cycles: secular momentum {campaign_secular:.3f} N.s")
-    print("  (zero by construction -- every mass returns to its start. Reported because")
-    print("   a feed order that did NOT return would show up here, which is the defect")
-    print("   Xu et al. optimise against.)")
-    print(f"campaign impulse bill: {CAMPAIGN_IMPULSE/1e3:.2f} kN.s from the shots, "
-          f"unchanged by indexing")
-
-    # --- what it would take, which is NOT the same as passing ------------------------
-    # Bands 3, 4 and 5 fail at the assumed profiles. The sled return dominates, and its
-    # duration is a FREE VARIABLE nobody has specified: peak momentum goes as 1/T, so a
-    # slower return is directly a smaller disturbance. This sweep says what duration the
-    # declared bands would need. It does not un-fail them.
-    print("\nsled return duration against the bands it missed (500 kg host):")
-    print(f"{'T_return s':>11} {'p_peak N.s':>11} {'rate deg/s':>11} {'settle s':>10}"
-          f" {'band 3':>8} {'band 5':>8}")
-    I500 = host_inertia(500.0)
-    ret_sweep = []
-    for T in (4.0, 6.0, 10.0, 15.0, 20.0, 30.0):
-        r = _move(M_SLED, SLED_TRAVEL, T)
-        h = r['p_peak'] * CASSETTE_OFFSET + idx['h_peak_Nms']
-        rate = math.degrees(h / I500)
-        settle = h / RCS_TORQUE
-        ret_sweep.append(dict(T_s=T, p_peak_Ns=r['p_peak'], rate_deg_s=rate, settle_s=settle))
-        print(f"{T:11.0f} {r['p_peak']:11.3f} {rate:11.5f} {settle:10.2f}"
-              f" {'pass' if rate < 0.05 else 'FAIL':>8} {'pass' if settle < 2 else 'FAIL':>8}")
-    print("  The inter-shot interval is 10 to 20 s, so a return slower than about 20 s")
-    print("  does not fit the cadence. Band 5 is not reachable inside it at 0.1 N.m.")
-
-    # --- the cadence budget, which is what the disturbance actually costs ------------
-    # The paper says "Cadence is set by supercapacitor recharge, 10-20 s at a 150-300 W
-    # allocation." That is a claim about what BINDS, and it can be checked: the
-    # mechanical chain between two shots is index + sled return + settle, and it competes
-    # with recharge. Whichever is longer sets the interval.
-    #
-    # The return duration has an optimum rather than being monotone: settling falls as
-    # 1/T while the return itself grows as T, so
-    #     mech(T) = T_index + T + (m*2d/T*arm + h_index)/torque
-    # has a minimum. That minimum is the machine's floor cadence.
-    print("\ncadence budget: what actually sets the inter-shot interval")
-    print(f"{'T_ret s':>8} {'settle s':>9} {'mech total':>11} {'recharge 300W':>14}"
-          f" {'recharge 150W':>14} {'binds':>10}")
-    best = (1e9, 0.0)
-    for T in (4.0, 6.0, 6.9, 10.0, 15.0, 20.0, 30.0):
-        r = _move(M_SLED, SLED_TRAVEL, T)
-        h = r['p_peak'] * CASSETTE_OFFSET + idx['h_peak_Nms']
-        settle = h / RCS_TORQUE
-        mech = T_INDEX + T + settle
-        if mech < best[0]:
-            best = (mech, T)
-        r300, r150 = E_NET / 300.0, E_NET / 150.0
-        binds = 'attitude' if mech > r150 else 'recharge'
-        print(f"{T:8.1f} {settle:9.2f} {mech:11.1f} {r300:14.1f} {r150:14.1f} {binds:>10}")
-    print(f"\n  floor cadence {best[0]:.1f} s at a {best[1]:.1f} s return, "
-          f"against recharge of {E_NET/300:.1f} to {E_NET/150:.1f} s")
-    print("  -> ATTITUDE BINDS AT BOTH POWER ALLOCATIONS. The paper's claim that cadence")
-    print("     is set by supercapacitor recharge is wrong at 300 W and marginal at 150.")
-
-    print("\n  what control authority buys, at the optimum return for each:")
-    for torque in (0.1, 0.2, 0.5, 1.0):
-        # minimise T + (m*2d*arm/torque)/T  ->  T* = sqrt(m*2d*arm/torque)
-        k = M_SLED * 2 * SLED_TRAVEL * CASSETTE_OFFSET / torque
-        T_opt = math.sqrt(k)
-        floor = T_INDEX + T_opt + k / T_opt + idx['h_peak_Nms'] / torque
-        print(f"    {torque:4.2f} N.m -> optimum return {T_opt:5.2f} s, floor cadence "
-              f"{floor:5.1f} s")
-
-    res = dict(
-        analysis="A13", bands_declared_in="validation/A13_indexing_disturbance.md",
-        cadence=dict(floor_s=round(best[0], 2), optimum_return_s=round(best[1], 2),
-                     recharge_300W_s=round(E_NET / 300, 2),
-                     recharge_150W_s=round(E_NET / 150, 2),
-                     binds="attitude settling, at both power allocations",
-                     paper_claim="Cadence is set by supercapacitor recharge, 10-20 s at a "
-                                 "150-300 W allocation -- wrong at 300 W, marginal at 150"),
-        return_duration_sweep=[{k: round(v, 6) for k, v in r.items()} for r in ret_sweep],
-        index=dict({k: round(v, 6) for k, v in idx.items()},
-                   mass_kg=M_SAT, distance_m=CASSETTE_PITCH, duration_s=T_INDEX),
-        sled_return=dict({k: round(v, 6) for k, v in ret.items()},
-                         mass_kg=M_SLED, distance_m=SLED_TRAVEL, duration_s=T_RETURN),
-        shot_impulse_Ns=SHOT_IMPULSE,
-        index_pct_of_shot=round(100 * idx['p_peak'] / SHOT_IMPULSE, 3),
-        return_pct_of_shot=round(100 * ret['p_peak'] / SHOT_IMPULSE, 3),
-        host_sweep=[{k: (round(v, 6) if isinstance(v, float) else v)
-                     for k, v in r.items()} for r in rows],
-        rcs_torque_Nm=RCS_TORQUE, inter_shot_s=list(INTER_SHOT_S),
-        campaign_secular_Ns=campaign_secular,
-        campaign_impulse_Ns=CAMPAIGN_IMPULSE,
+    # Hash canonical LF bytes so Git checkout line endings cannot change the provenance record.
+    with open(__file__, "rb") as source:
+        source_hash = hashlib.sha256(source.read().replace(b"\r\n", b"\n")).hexdigest()
+    result = dict(
+        analysis="A13 corrected",
+        supersedes="A13 result run 2026-07-31",
+        method="angular-momentum conservation with numerical time integration",
+        software=dict(python=platform.python_version(), python_license="PSF License",
+                      numpy=np.__version__, numpy_license="BSD-3-Clause",
+                      source_sha256=source_hash),
+        solver_settings=dict(time_samples=20001, integration="numpy.trapezoid",
+                             analytic_cross_check="closed-form triangular profile"),
         assumptions=dict(
-            host_inertia="uniform cylinder, r and L scaled from mass at constant density, "
-                         "anchored 1 m x 2 m at 500 kg. Swept, not chosen.",
-            motion="constant acceleration, half accelerating and half decelerating. These "
-                   "are the SLOWEST plausible moves that fit the inter-shot interval, which "
-                   "MINIMISES the disturbance -- a faster mechanism makes every number worse.",
-            rigid_body="Structural modes not modelled. 'Settling' is RCS nulling a rigid-body "
-                       "rate, NOT structure ringing down. E24's concern about undamped "
-                       "structural motion is only half answered here."))
+            motion="symmetric triangular profile; each mass starts and ends at rest",
+            arm_m=ASSUMED_ARM,
+            arm_status="assumed; cassette width is not a measured CoM lever arm",
+            sequence="index and return are sequential; peak rates are not added",
+            deployer_inertia="124.5 kg box at the 1.839 x 0.530 m envelope",
+            rigid_body="no structural modes, damping, flexible coupling, or controller"),
+        shot_impulse_Ns=shot_impulse, campaign_impulse_Ns=campaign_impulse,
+        host_sweep=rows, bands=bands,
+        verdict="FAIL rows 3 and 4; row 7 VOID; cadence conclusion superseded")
     os.makedirs(RESULTS, exist_ok=True)
-    with open(os.path.join(RESULTS, 'attitude_budget.json'), 'w') as fh:
-        json.dump(res, fh, indent=2)
-        fh.write("\n")
+    with open(os.path.join(RESULTS, "attitude_budget.json"), "w") as output:
+        json.dump(result, output, indent=2)
+        output.write("\n")
     print("\n-> results/attitude_budget.json")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

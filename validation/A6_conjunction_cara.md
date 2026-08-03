@@ -1,3 +1,21 @@
+# Correction, 2026-08-03
+
+The 3.707e-8 result below is a maximum over one fixed 5:1:1 covariance shape and a finite
+scale sweep. It is **not** an upper bound over every covariance shape and orientation. At
+the superseded 14.49 km miss geometry, a covariance aligned with the miss vector reaches
+approximately 1.67e-4, above the 1e-4 action threshold.
+
+I also moved the run to the corrected 16.388 m/s operating point. The rated miss distance is
+now 54.9 km. For that geometry I use a covariance-independent bound: the hard-body disc is
+contained in a one-dimensional slab normal to the miss vector, and I maximize the Gaussian
+probability of that slab over its standard deviation. The k=0 result is **4.07e-5**; using the campaign minimum distance alone gives the more conservative **4.4e-5**, below
+1e-4 for the current geometry. This is a bound on collision probability for that propagated
+miss geometry, not evidence that the geometry is robust. P1 remains open and the three
+declared rows remain VOID where the required CDM/CARA evidence does not exist.
+
+Everything below this notice is retained as the superseded 2026-07-31 interpretation.
+
+---
 # A6: Conjunction probability (NASA CARA tools)
 
 **Closes:** `OPEN_PROBLEMS.md` P1, properly this time.
@@ -46,7 +64,7 @@ robust quantity, and re-adopting it as a criterion would repeat the original err
 | Realignment period | 8.1 days ± 10 % (`astro_results.json` `conjunction.realign_days`) |
 
 > **Superseded 2026-07-31 and not used.** Every number above is written at **20.37 m/s**, the
-> operating point the project abandoned when the sled was measured. A band anchored to a
+> operating point the project abandoned when the CAD-derived sled mass was adopted. A band anchored to a
 > superseded value cannot test anything — that is **P19**, and running against it would have
 > been the second time. The replacement below is declared at the current point, before the
 > computation existed.

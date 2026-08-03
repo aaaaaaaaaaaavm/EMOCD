@@ -1,134 +1,192 @@
 {
-  "analysis": "A13",
-  "bands_declared_in": "validation/A13_indexing_disturbance.md",
-  "cadence": {
-    "floor_s": 18.06,
-    "optimum_return_s": 6.9,
-    "recharge_300W_s": 8.62,
-    "recharge_150W_s": 17.23,
-    "binds": "attitude settling, at both power allocations",
-    "paper_claim": "Cadence is set by supercapacitor recharge, 10-20 s at a 150-300 W allocation -- wrong at 300 W, marginal at 150"
+  "analysis": "A13 corrected",
+  "supersedes": "A13 result run 2026-07-31",
+  "method": "angular-momentum conservation with numerical time integration",
+  "software": {
+    "python": "3.11.9",
+    "python_license": "PSF License",
+    "numpy": "2.3.5",
+    "numpy_license": "BSD-3-Clause",
+    "source_sha256": "5784c50dddae19bc4bc055cdad8b780443529eb7b5c106ead6553ef6cf52be3d"
   },
-  "return_duration_sweep": [
-    {
-      "T_s": 4.0,
-      "p_peak_Ns": 7.08375,
-      "rate_deg_s": 0.23778,
-      "settle_s": 12.104305
-    },
-    {
-      "T_s": 6.0,
-      "p_peak_Ns": 4.7225,
-      "rate_deg_s": 0.160781,
-      "settle_s": 8.18463
-    },
-    {
-      "T_s": 10.0,
-      "p_peak_Ns": 2.8335,
-      "rate_deg_s": 0.099182,
-      "settle_s": 5.04889
-    },
-    {
-      "T_s": 15.0,
-      "p_peak_Ns": 1.889,
-      "rate_deg_s": 0.068382,
-      "settle_s": 3.48102
-    },
-    {
-      "T_s": 20.0,
-      "p_peak_Ns": 1.41675,
-      "rate_deg_s": 0.052982,
-      "settle_s": 2.697085
-    },
-    {
-      "T_s": 30.0,
-      "p_peak_Ns": 0.9445,
-      "rate_deg_s": 0.037582,
-      "settle_s": 1.91315
-    }
-  ],
-  "index": {
-    "v_peak": 0.052,
-    "p_peak": 0.208,
-    "force_N": 0.104,
-    "impulse_Ns": 0.208,
-    "accel_m_s2": 0.026,
-    "h_peak_Nms": 0.034528,
-    "mass_kg": 4.0,
-    "distance_m": 0.104,
-    "duration_s": 4.0
+  "solver_settings": {
+    "time_samples": 20001,
+    "integration": "numpy.trapezoid",
+    "analytic_cross_check": "closed-form triangular profile"
   },
-  "sled_return": {
-    "v_peak": 0.5,
-    "p_peak": 4.7225,
-    "force_N": 1.574167,
-    "impulse_Ns": 4.7225,
-    "accel_m_s2": 0.166667,
-    "h_peak_Nms": 0.783935,
-    "mass_kg": 9.445,
-    "distance_m": 1.5,
-    "duration_s": 6.0
+  "assumptions": {
+    "motion": "symmetric triangular profile; each mass starts and ends at rest",
+    "arm_m": 0.166,
+    "arm_status": "assumed; cassette width is not a measured CoM lever arm",
+    "sequence": "index and return are sequential; peak rates are not added",
+    "deployer_inertia": "124.5 kg box at the 1.839 x 0.530 m envelope",
+    "rigid_body": "no structural modes, damping, flexible coupling, or controller"
   },
-  "shot_impulse_Ns": 66.1,
-  "index_pct_of_shot": 0.315,
-  "return_pct_of_shot": 7.144,
+  "shot_impulse_Ns": 65.552,
+  "campaign_impulse_Ns": 786.624,
   "host_sweep": [
     {
       "host_kg": 200.0,
-      "inertia_kgm2": 63.3,
-      "rate_index_deg_s": 0.031235,
-      "rate_return_deg_s": 0.709168,
-      "rate_total_deg_s": 0.740403,
-      "settle_s": 8.18463,
-      "settle_frac_of_interval": 0.818463
+      "combined_inertia_kgm2": 101.33817892888115,
+      "index": {
+        "peak_linear_momentum_Ns": 0.208,
+        "peak_body_rate_deg_s": 0.019521849474086937,
+        "residual_body_rate_deg_s": 0.0,
+        "attitude_offset_deg": -0.039043698948173874,
+        "numerical_offset_deg": -0.039043698948173874,
+        "integration_error_deg": 0.0,
+        "post_move_slew_min_s": 1.66199879663013
+      },
+      "sled_return": {
+        "peak_linear_momentum_Ns": 4.7225,
+        "peak_body_rate_deg_s": 0.443230452602767,
+        "residual_body_rate_deg_s": 0.0,
+        "attitude_offset_deg": -1.3296913578083014,
+        "numerical_offset_deg": -1.3296913578083014,
+        "integration_error_deg": 0.0,
+        "post_move_slew_min_s": 9.699082430828186
+      },
+      "sequential_peak_rate_deg_s": 0.443230452602767,
+      "residual_rate_deg_s": 0.0,
+      "worst_case_attitude_offset_deg": 1.3687350567564753
     },
     {
       "host_kg": 500.0,
-      "inertia_kgm2": 291.7,
-      "rate_index_deg_s": 0.006783,
-      "rate_return_deg_s": 0.153998,
-      "rate_total_deg_s": 0.160781,
-      "settle_s": 8.18463,
-      "settle_frac_of_interval": 0.818463
+      "combined_inertia_kgm2": 329.66843454166667,
+      "index": {
+        "peak_linear_momentum_Ns": 0.208,
+        "peak_body_rate_deg_s": 0.006000904144123235,
+        "residual_body_rate_deg_s": 0.0,
+        "attitude_offset_deg": -0.01200180828824647,
+        "numerical_offset_deg": -0.012001808288246466,
+        "integration_error_deg": 3.1060104311167156e-18,
+        "post_move_slew_min_s": 1.66199879663013
+      },
+      "sled_return": {
+        "peak_linear_momentum_Ns": 4.7225,
+        "peak_body_rate_deg_s": 0.136246489522221,
+        "residual_body_rate_deg_s": 0.0,
+        "attitude_offset_deg": -0.40873946856666304,
+        "numerical_offset_deg": -0.408739468566663,
+        "integration_error_deg": 4.969616689786745e-17,
+        "post_move_slew_min_s": 9.699082430828186
+      },
+      "sequential_peak_rate_deg_s": 0.136246489522221,
+      "residual_rate_deg_s": 0.0,
+      "worst_case_attitude_offset_deg": 0.42074127685490953
     },
     {
       "host_kg": 1000.0,
-      "inertia_kgm2": 926.0,
-      "rate_index_deg_s": 0.002136,
-      "rate_return_deg_s": 0.048506,
-      "rate_total_deg_s": 0.050643,
-      "settle_s": 8.18463,
-      "settle_frac_of_interval": 0.818463
+      "combined_inertia_kgm2": 963.9857148564498,
+      "index": {
+        "peak_linear_momentum_Ns": 0.208,
+        "peak_body_rate_deg_s": 0.0020522178332510904,
+        "residual_body_rate_deg_s": 0.0,
+        "attitude_offset_deg": -0.004104435666502181,
+        "numerical_offset_deg": -0.00410443566650218,
+        "integration_error_deg": 7.765026077791789e-19,
+        "post_move_slew_min_s": 1.66199879663013
+      },
+      "sled_return": {
+        "peak_linear_momentum_Ns": 4.7225,
+        "peak_body_rate_deg_s": 0.046594224603501294,
+        "residual_body_rate_deg_s": 0.0,
+        "attitude_offset_deg": -0.13978267381050394,
+        "numerical_offset_deg": -0.1397826738105039,
+        "integration_error_deg": 2.4848083448933725e-17,
+        "post_move_slew_min_s": 9.699082430828186
+      },
+      "sequential_peak_rate_deg_s": 0.046594224603501294,
+      "residual_rate_deg_s": 0.0,
+      "worst_case_attitude_offset_deg": 0.14388710947700611
     },
     {
       "host_kg": 2000.0,
-      "inertia_kgm2": 2939.8,
-      "rate_index_deg_s": 0.000673,
-      "rate_return_deg_s": 0.015279,
-      "rate_total_deg_s": 0.015952,
-      "settle_s": 8.18463,
-      "settle_frac_of_interval": 0.818463
+      "combined_inertia_kgm2": 2977.8175509630373,
+      "index": {
+        "peak_linear_momentum_Ns": 0.208,
+        "peak_body_rate_deg_s": 0.0006643485173857996,
+        "residual_body_rate_deg_s": 0.0,
+        "attitude_offset_deg": -0.0013286970347715992,
+        "numerical_offset_deg": -0.001328697034771599,
+        "integration_error_deg": 1.9412565194479472e-19,
+        "post_move_slew_min_s": 1.66199879663013
+      },
+      "sled_return": {
+        "peak_linear_momentum_Ns": 4.7225,
+        "peak_body_rate_deg_s": 0.015083585929588644,
+        "residual_body_rate_deg_s": 0.0,
+        "attitude_offset_deg": -0.045250757788765944,
+        "numerical_offset_deg": -0.04525075778876594,
+        "integration_error_deg": 6.212020862233431e-18,
+        "post_move_slew_min_s": 9.699082430828186
+      },
+      "sequential_peak_rate_deg_s": 0.015083585929588644,
+      "residual_rate_deg_s": 0.0,
+      "worst_case_attitude_offset_deg": 0.04657945482353754
     },
     {
       "host_kg": 5000.0,
-      "inertia_kgm2": 13538.0,
-      "rate_index_deg_s": 0.000146,
-      "rate_return_deg_s": 0.003318,
-      "rate_total_deg_s": 0.003464,
-      "settle_s": 8.18463,
-      "settle_frac_of_interval": 0.818463
+      "combined_inertia_kgm2": 13575.969199245605,
+      "index": {
+        "peak_linear_momentum_Ns": 0.208,
+        "peak_body_rate_deg_s": 0.00014572135852647912,
+        "residual_body_rate_deg_s": 0.0,
+        "attitude_offset_deg": -0.00029144271705295824,
+        "numerical_offset_deg": -0.00029144271705295824,
+        "integration_error_deg": 0.0,
+        "post_move_slew_min_s": 1.66199879663013
+      },
+      "sled_return": {
+        "peak_linear_momentum_Ns": 4.7225,
+        "peak_body_rate_deg_s": 0.003308505363660084,
+        "residual_body_rate_deg_s": 0.0,
+        "attitude_offset_deg": -0.009925516090980255,
+        "numerical_offset_deg": -0.009925516090980255,
+        "integration_error_deg": 0.0,
+        "post_move_slew_min_s": 9.699082430828186
+      },
+      "sequential_peak_rate_deg_s": 0.003308505363660084,
+      "residual_rate_deg_s": 0.0,
+      "worst_case_attitude_offset_deg": 0.010216958808033213
     }
   ],
-  "rcs_torque_Nm": 0.1,
-  "inter_shot_s": [
-    10.0,
-    20.0
+  "bands": [
+    {
+      "row": 1,
+      "result_pct": 0.31730534537466437,
+      "verdict": "PASS"
+    },
+    {
+      "row": 2,
+      "result_pct": 7.204204295826213,
+      "verdict": "PASS"
+    },
+    {
+      "row": 3,
+      "result_deg_s": 0.136246489522221,
+      "verdict": "FAIL"
+    },
+    {
+      "row": 4,
+      "result_deg_s": 0.443230452602767,
+      "verdict": "FAIL"
+    },
+    {
+      "row": 5,
+      "result_s": 0.0,
+      "verdict": "PASS IN THE IDEAL RIGID-BODY MODEL"
+    },
+    {
+      "row": 6,
+      "result_Ns": 0.0,
+      "verdict": "PASS BY THE CLOSED INTERNAL CYCLE"
+    },
+    {
+      "row": 7,
+      "result_pct": null,
+      "verdict": "VOID; NO RCS PROPELLANT MODEL EXISTS"
+    }
   ],
-  "campaign_secular_Ns": 0.0,
-  "campaign_impulse_Ns": 980.0,
-  "assumptions": {
-    "host_inertia": "uniform cylinder, r and L scaled from mass at constant density, anchored 1 m x 2 m at 500 kg. Swept, not chosen.",
-    "motion": "constant acceleration, half accelerating and half decelerating. These are the SLOWEST plausible moves that fit the inter-shot interval, which MINIMISES the disturbance -- a faster mechanism makes every number worse.",
-    "rigid_body": "Structural modes not modelled. 'Settling' is RCS nulling a rigid-body rate, NOT structure ringing down. E24's concern about undamped structural motion is only half answered here."
-  }
+  "verdict": "FAIL rows 3 and 4; row 7 VOID; cadence conclusion superseded"
 }

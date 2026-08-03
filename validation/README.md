@@ -12,7 +12,7 @@ internal, and the field one analytic-against-analytic, so not confirmation by a 
 physical method (`OPEN_PROBLEMS.md` E2).
 
 **That has changed, and not uniformly in the project's favour.** A1 put a meshed PDE solve
-against K<sub>t</sub> and agreed to 0.07 %. A4 put CalculiX against the chassis and it passed.
+against K<sub>t</sub> and agreed to 0.03 % after correcting shared quadrature. A4 put CalculiX against the chassis and it passed.
 A12 put two independent numerical methods against the array attraction and found the published
 value **37 % high**. And **A5 failed**: an independent propagator falsified an invariance claim
 that was in the paper's own abstract.
@@ -22,17 +22,17 @@ another model (E4). Each analysis closes a specific named item.
 
 | # | Analysis | Tool | Closes | Status |
 |---|---|---|---|---|
-| A1 | Airgap field, 2-D magnetostatic | scikit-fem + gmsh (FEMM substituted) | E1 (2-D half), E2 (partly) | **RUN 2026-07-29**, verdict **PARTIAL**: K<sub>t</sub> agrees to 0.07 %, two bands missed with causes (P20, P21) |
+| A1 | Airgap field, 2-D magnetostatic | scikit-fem + gmsh (FEMM substituted) | E1 (2-D half), E2 (partly) | **RUN 2026-07-29**, verdict **PARTIAL**: K<sub>t</sub> agrees to 0.03 % after correcting shared quadrature, two bands missed with causes (P20, P21) |
 | A4 | Sled chassis structural | CalculiX ccx 2.21 | **P5, P8** | **RUN 2026-07-28**: as-drawn plate passes all three bands |
 | A5 | Orbital lifetime and seeding | GMAT R2022a | E6, hardens x1.80 | **RUN**, verdict **FAIL** on invariance. See [`../docs/RESULTS.md`](../docs/RESULTS.md) |
 | A9 | Decay rate against flown CubeSats (TLE history) | Space-Track + numpy | **E6, against reality rather than another model** | **NOT RUN**, blocked by network policy here and re-tested 2026-07-31. **Candidate objects now shortlisted** in the sheet, so this is an afternoon elsewhere |
-| A6 | Conjunction probability | scipy 2-D Pc (CARA substituted) | P1 — **not closed** | **RUN 2026-07-31**: P<sub>c</sub> ≤ 3.7e-8 for **any** covariance, two of five bands, three **void** |
+| A6 | Conjunction probability | scipy 2-D Pc (CARA substituted) | P1 — **not closed** | **CORRECTED 2026-08-03**: fixed-shape claim retracted; current slab bound 4.4e-5, two of five bands, three **VOID**, P1 open |
 | A7 | Separation and tip-off | Project Chrono | E7-adjacent | specified, not run |
-| A8 | Pulse-power chain | ngspice / PySpice | E17 | **RUN 2026-07-30** as A8-R, at the current operating point |
-| A10 | Shot against a realistic bank ESR | `motor_model.shot()` | nothing; **opened P26** | **RUN 2026-07-30**: hard ceiling 65 mohm, five of six bands, one void |
-| A11 | Regenerative recovery of sled energy | `motor_model.regen_brake()` | nothing; asks what R5 did not | **RUN 2026-07-31**: 296.6 J recovered, eight of eight bands |
-| A12 | Inter-array attraction, two numerical methods | magpylib + surface Maxwell stress | **P17** | **RUN 2026-07-31**: 2686.6 N adopted, five of five bands |
-| A13 | Indexing and sled-return attitude disturbance | momentum bookkeeping | **E24** | **RUN 2026-07-31**, verdict **FAIL**: four of seven. The sled return is 23x the indexing term and nothing budgets it |
+| A8 | Pulse-power chain | ngspice / PySpice | E17 | **RUN 2026-07-30** as A8-R; now superseded by the 2026-08-03 quadrature correction and not rerun in ngspice |
+| A10 | Shot against a realistic bank ESR | `motor_model.shot()` | nothing; **opened P26** | **RERUN 2026-08-03**: hard ceiling 68 mohm, five of six bands, one VOID |
+| A11 | Regenerative recovery of sled energy | `motor_model.regen_brake()` | nothing; asks what R5 did not | **RERUN 2026-08-03**: 291.4 J recovered, eight of eight bands |
+| A12 | Inter-array attraction, two numerical methods | magpylib + surface Maxwell stress | **P17** | **CORRECTED 2026-08-03**: extended stress plane 2680.0 N vs 2686.6 N volume force; five of five bands |
+| A13 | Indexing and sled-return attitude disturbance | momentum bookkeeping | **E24** | **CORRECTED 2026-08-03**: transient-rate rows 3/4 FAIL, row 7 VOID; ideal residual rate is zero and the cadence conclusion is superseded |
 
 A10 and A11 are cross-checks of the model against its own physics rather than against an
 external tool, which is a weaker class of check and is labelled as one. They are here because each
