@@ -21,14 +21,15 @@ A magazine-fed electromagnetic deployer that ejects unmodified CubeSats from a h
 stage at programmable velocity, aimed at the unserved regime between spring deployers
 (~2 m/s) and propulsive orbital transfer vehicles (hundreds of m/s).
 
-**Status: design study, TRL 2-3.** CAD complete across 9 Fusion 360 documents in three
-generations, STEP exports committed (`cad/`, Gen3 current). **Nine of eleven planned validations
+**Status: design study, TRL 2-3.** Phase I CAD is complete across 9 Fusion 360 documents in three
+generations, with Gen3 STEP exports committed. A provisional Gen4 open assembly exists in Fusion
+but has no rated operating point or repository export yet ([status](docs/GEN4_STATUS.md)). **Nine of eleven planned validations
 have run** — **two of them failed**, one found a published number 37 % high, and one returned
 three rows that could not be evaluated at all. **Nothing has been built and nothing has been measured
 at any scale.**
 **Read `docs/PROVENANCE.md` before citing anything here.**
 
-**[📄 One-page summary](SUMMARY.md)** · **[🧊 Frozen baseline](docs/BASELINE.md)** · **[🗺 Roadmap](docs/ROADMAP.md)** · **[⚠ Open problems](OPEN_PROBLEMS.md)** · **[✓ Validation](docs/VALIDATION_REPORT.md)** · **[🏗 Manufacturing](docs/MANUFACTURING.md)** · **[📐 ADRs](docs/adr/)** · **[📚 Literature](docs/LITERATURE.md)** · **[🎯 Research position](docs/RESEARCH_POSITION.md)** · **[⛔ Velocity ceiling](docs/VELOCITY_CEILING.md)** · **[☠ Kill criteria](docs/KILL_CRITERIA.md)** · **[📦 Payload classes](docs/PAYLOAD_CLASSES.md)** · **[📈 Market](docs/MARKET.md)**
+**[📄 One-page summary](SUMMARY.md)** · **[🧊 Frozen baseline](docs/BASELINE.md)** · **[Gen4 status](docs/GEN4_STATUS.md)** · **[🗺 Roadmap](docs/ROADMAP.md)** · **[⚠ Open problems](OPEN_PROBLEMS.md)** · **[✓ Validation](docs/VALIDATION_REPORT.md)** · **[🏗 Manufacturing](docs/MANUFACTURING.md)** · **[📐 ADRs](docs/adr/)** · **[📚 Literature](docs/LITERATURE.md)** · **[🎯 Research position](docs/RESEARCH_POSITION.md)** · **[⛔ Velocity ceiling](docs/VELOCITY_CEILING.md)** · **[☠ Kill criteria](docs/KILL_CRITERIA.md)** · **[📦 Payload classes](docs/PAYLOAD_CLASSES.md)** · **[📈 Market](docs/MARKET.md)**
 
 <!-- PROGRAMME-HEADER-START -->
 | Repository | Role | You are here |
@@ -311,9 +312,10 @@ flown DSOD, is in [`docs/LANDSCAPE.md`](docs/LANDSCAPE.md).
 - `OPEN_PROBLEMS.md`, known errors in the paper, and unsolved engineering
 - `docs/PROGRAMME.md`, the four repositories and how they relate
 - `docs/BASELINE.md`, the frozen Phase I baseline (generated) and its change-control rule
+- `docs/GEN4_STATUS.md`, provisional open-assembly geometry and the export/performance gate
 - `docs/HISTORY.md`, project timeline since 2021, and how the git history was reconstructed
 - `docs/programme/`, the governing dossier, adopted verbatim, plus its amendment record
-- `docs/adr/`, eighteen architecture decision records
+- `docs/adr/`, nineteen architecture decision records
 - `docs/PHASE_II.md`, deferred work and the gate it must clear to return
 - `docs/MANUFACTURING.md`, tolerance stack, assembly hazard, make-vs-buy
 - `docs/CROSS_INDUSTRY.md`, which open items are actually solved elsewhere

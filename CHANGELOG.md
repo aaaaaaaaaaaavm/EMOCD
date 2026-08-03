@@ -9,6 +9,22 @@ list these changes close) and `docs/DECISION_LOG.md` (why design choices were ma
 
 ---
 
+## 2026-08-03: Gen4 open assembly recorded before performance propagation
+
+| ID | Item | Detail |
+|---|---|---|
+| G4-01 | **The working CAD and the analysed baseline are now separate states** | `EMOCD_Gen4_Open v7` uses the 488 mm sled at s = 300 mm stowed and s = 1200 mm release. The committed STEP, STL, renders, paper and operating point remain the Phase I / Gen3 record. I recorded the split in `docs/GEN4_STATUS.md` instead of attaching the Phase I numbers to new geometry. |
+| G4-02 | **The 900 mm stroke reaches the finite stator edge** | The 340 mm Halbach array is fully over the stator only through s = 1051.5 mm. The final 148.5 mm of acceleration is under partial overlap, with 191.5 mm of array overlap left at release. A shortened constant-thrust calculation would not represent the CAD. P32 and E27 keep the missing operating point visible. |
+| G4-03 | **Release and brake entry no longer overlap in the provisional stationing** | The fin leading face reaches the brake at s = 1222 mm, 22 mm after the provisional release station. Its trailing face clears the brake at s = 1552 mm, giving 330 mm of interaction travel. This is a geometry result only; brake force, thermal response and arrest remain unvalidated. |
+| G4-04 | **The explanatory assembly stays open** | The enclosure is a separate envelope-check configuration. The named operational export selection excludes audit, linked-source, duplicate-brake, construction and released-payload reference occurrences. No Gen4 STEP, STL or render has been exported, and the export gate remains closed pending the finite-stator run. |
+| G4-05 | **The twelve-payload stowed manifest is present in Fusion** | Six port and six starboard payload occurrences are present. That closes the missing-occurrence CAD housekeeping item only; it does not establish mass, feed-mechanism or interference closure. |
+
+**What authorised it.** The Fusion configuration changed the geometry on which thrust, release
+and arrest depend. I recorded the observed state and its consequences without changing a Phase I
+number. ADR-019 keeps the successor assembly separate until the affected calculations are run.
+
+---
+
 ## 2026-08-03: full numerical audit corrections
 
 | ID | Item | Detail |

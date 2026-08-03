@@ -3,7 +3,7 @@
 Two categories: **P-items are errors in the currently published paper** and should be
 fixed first. **E-items are genuinely unsolved engineering.**
 
-Last reviewed 2026-07-30.
+Last reviewed 2026-08-03.
 
 ---
 
@@ -1005,6 +1005,28 @@ either irrelevant or dominant depending on a number nobody has written down.**
 answer is 1200 s, A13's bands 3–5 should be re-declared against it and re-run; **that is a band
 change and belongs declared and dated, not quietly applied to an existing failure.**
 
+### P32. The working Gen4 geometry has no corresponding operating point: HIGH, NEW 2026-08-03
+
+The published Phase I result assumes a uniform 1.30 m active stator and release at 1500 mm.
+`EMOCD_Gen4_Open v7` instead places the same 488 mm sled at s = 300 mm stowed and s = 1200 mm
+release, a 900 mm acceleration stroke. Its 340 mm Halbach array is fully over the stator only
+through s = 1051.5 mm. The final 148.5 mm is a finite-edge region, and 191.5 mm of the array
+remains over the stator at release.
+
+The current 16.388 m/s, 10.53 g, 2851 J gross and 20.99% net values are still reproducible for
+the frozen Phase I geometry. They are not Gen4 results. No public document may attach them to
+the open assembly, and a constant-thrust calculation shortened to 900 mm would not repair the
+mismatch because it would ignore the changing overlap.
+
+The provisional stationing does resolve one geometry conflict: release is at s = 1200 mm and
+the fin enters the brake at s = 1222 mm, leaving 22 mm between the two events. The fin then has
+330 mm of travel through the brake before its trailing edge clears at s = 1552 mm. Those are
+kinematic envelope results, not an arrest or thermal validation.
+
+**What would close it:** E27's position-dependent force calculation, followed by one controlled
+propagation through power, energy, thermal, braking, orbit, paper and validation records. Until
+then the Gen4 export gate stays closed and the Phase I baseline remains the only rated point.
+
 > **Not all of these weigh the same.** Three of the entries below are threats to whether the
 > machine has a reason to exist rather than engineering work, and they are hard to see in a
 > numbered list. [`docs/KILL_CRITERIA.md`](docs/KILL_CRITERIA.md) separates them, with the value
@@ -1433,3 +1455,21 @@ The former statement that each transient decays before the next 10--20 s shot ha
 conduction or radiation model behind it and is removed. A thermal network, contact conductance,
 surface properties, and the resolved P31 cadence are required. The 0.32 m2 radiator number remains
 an assumed 130 W steady rejection case, not a demonstrated campaign transient.
+
+### E27. Gen4 finite-stator force and energy are not modelled: NEW 2026-08-03
+
+The Gen4 working assembly exposes an end effect that the Phase I periodic/uniform-stator model
+does not contain. The array is fully overlapped for 751.5 mm of the 900 mm acceleration stroke,
+then progressively leaves the stator over the final 148.5 mm. At release, the remaining overlap
+is 191.5 mm of a 340 mm array.
+
+An overlap fraction alone is not an accepted force law. End fields, phase progression, winding
+termination, current control and force ripple all matter in the edge region. The Phase I
+regenerative section is also absent from the declared Gen4 operational selection, so its 291.4 J
+credit cannot be carried into a Gen4 efficiency result.
+
+**What would close it:** a position-dependent electromagnetic calculation using the recorded
+Gen4 body bounds and stations, with the implementation, tool version, input hash, numerical
+settings, tolerances and output hash retained. Compare it with the existing periodic result only
+over the fully overlapped interval. Then integrate the force/current trajectory and rerun every
+dependent result before exporting or publishing Gen4 performance.

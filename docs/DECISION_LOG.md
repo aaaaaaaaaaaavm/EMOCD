@@ -148,3 +148,19 @@ provisional filing.
 The decision to recover energy before the eddy brake remains accepted. At the corrected
 operating point the same model returns **291.4 J**, 23.0% of the sled's 1268.3 J, leaving
 **934.7 J** to the brake and giving **20.99%** net electrical-to-payload efficiency.
+
+## 2026-08: Gen4 is an open mechanism before it is a new operating point
+
+The working Fusion assembly now has a separate open configuration, with the enclosure retained
+only for envelope and interface checks. This is the useful public view because the stator, sled,
+feed path, release station and brake remain visible.
+
+The geometry also changes the calculation. The sled moves from s = 300 to 1200 mm, and its
+340 mm Halbach array reaches the end of the finite stator at s = 1051.5 mm. The final 148.5 mm
+of acceleration therefore occurs under partial overlap. I will not apply the Phase I uniform-
+stator result to that assembly, and I will not replace it with a 900 mm constant-thrust estimate.
+
+The Phase I / Gen3 baseline stays frozen and reproducible while Gen4 is analysed separately.
+STEP, STL and public-render export remain gated on the position-dependent force result and a
+checked operational occurrence selection. Recorded formally in ADR-019 and
+[`GEN4_STATUS.md`](GEN4_STATUS.md).

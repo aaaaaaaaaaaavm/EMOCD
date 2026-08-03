@@ -4,7 +4,7 @@ CAD Generation History, Design Rationale, and Audit Record
 
 **Author:** Adityavardhan Mishra · Symbiosis Institute of Technology, Pune
 **PRN:** 23070125054
-**Last updated:** 2026-07-28
+**Last updated:** 2026-08-03
 
 Read alongside:
 - `EMOCD-main/CHANGELOG.md`, analysis and paper change history
@@ -21,6 +21,25 @@ superseded content is marked SUPERSEDED in place.
 
 ---
 
+## 2026-08-03: PROVISIONAL GEN4 OPEN ASSEMBLY, NOT EXPORTED
+
+`EMOCD_Gen4_Open v7` exists in Fusion 360 as a working open-mechanism configuration. It is
+not present in the committed STEP, STL or render set. The repository's Gen3 exports remain the
+Phase I CAD record.
+
+The active configuration uses the 488 mm sled at s = 300 mm stowed and s = 1200 mm release.
+The brake fin enters the x = 1530-1740 mm brake envelope at s = 1222 mm and clears it at
+s = 1552 mm. The 340 mm Halbach array reaches the finite stator edge at s = 1051.5 mm, so the
+final 148.5 mm of acceleration is under partial overlap. This prevents a Gen4 performance
+claim until the position-dependent electromagnetic calculation is complete.
+
+The primary assembly stays open for explanatory views. The enclosure is retained separately
+for envelope checks. `Gen4_Operational_Export` excludes the audit sled, linked source sled,
+duplicate brake, construction diagnostic, enclosure check and released-payload reference.
+No export has been made from that selection. Full state and gate: `docs/GEN4_STATUS.md` and
+ADR-019.
+
+---
 > **Repository verification note (added on import, 2026-07-28).** This file is imported
 > verbatim; nothing in it has been edited. Two checks were run against the STEP exports
 > themselves when they were committed, and both results are recorded in `OPEN_PROBLEMS.md`

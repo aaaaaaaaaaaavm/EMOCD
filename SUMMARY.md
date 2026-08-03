@@ -96,6 +96,7 @@ The scripts are authoritative over the paper, never the reverse.
 
 **[`docs/PROGRAMME.md`](docs/PROGRAMME.md)**: the four repositories of this programme
 **[`docs/BASELINE.md`](docs/BASELINE.md)**: what is frozen, and what may move it
+**[`docs/GEN4_STATUS.md`](docs/GEN4_STATUS.md)**: what exists in the provisional open assembly, and what is not yet calculated
 **[`docs/ROADMAP.md`](docs/ROADMAP.md)**: what happens next, and when
 **[`docs/HISTORY.md`](docs/HISTORY.md)**: the project since 2021, and how this git history was built
 **[`docs/QUALIFICATION_PLAN.md`](docs/QUALIFICATION_PLAN.md)**: the test campaign, specified

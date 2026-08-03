@@ -3,6 +3,12 @@
 > efficiency. A13's former residual-rate/cadence conclusion is superseded, A6's 3.7e-8
 > result is only a fixed-shape sensitivity, and the corrected brake-fin transient is 7 K
 > per shot. Values below that describe earlier audit states are retained as history.
+>
+> **Gen4 boundary, 2026-08-03.** None of these results validates the provisional
+> `EMOCD_Gen4_Open v7` geometry. Its final 148.5 mm of acceleration occurs under partial
+> Halbach/stator overlap, and no position-dependent force result exists. The Phase I / Gen3
+> values remain the only rated point; see `GEN4_STATUS.md`, P32 and E27.
+
 # Validation report: 2026-07-28
 
 Every headline claim in this repository, and what independently checking it produced.

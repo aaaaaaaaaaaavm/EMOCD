@@ -5,9 +5,9 @@
 > placement season running from now. If your actual dates differ, correct this file first;
 > everything downstream is sequenced from it.
 >
-> Last updated **2026-07-31**.
+> Last updated **2026-08-03**.
 
-This project publishes its own defects: **31 numbered problems and 25 open engineering
+This project publishes its own defects: **32 numbered problems and 27 open engineering
 items**. That is deliberate, and it only reads as rigour if there is also a plan for closing
 them. This is that plan.
 
@@ -17,18 +17,25 @@ them. This is that plan.
 
 | | |
 |---|---|
-| Maturity | TRL 2-3. Analysis and CAD complete; **nothing built or measured** |
+| Maturity | TRL 2-3. Phase I analysis and committed Gen3 CAD complete; the Fusion Gen4 open assembly is provisional; **nothing built or measured** |
 | Rated performance | **16.4 m/s at 10.5 g**, from a sled mass computed from CAD solid volumes, not estimated |
 | Efficiency | **21.0 %** electrical-to-payload, net of the regeneration adopted 2026-07-31 (A11) |
 | Validations run | **9 of 11**. A7 (tip-off) and A9 (flown decay) outstanding; A9 is blocked by network policy, not difficulty |
 | Of those nine | **two failed** — A5 (invariance) and A13 (host attitude) — one is PARTIAL (A1), one returned three **void** rows (A6), and one found a published number 37 % high (A12) |
 | Biggest single gap | ~~K<sub>t</sub> single-method~~ closed by A1. Now: **nothing has been measured at any scale** (E4) |
 | Largest open defect | **P26** — the supercapacitor bank cannot source the shot on purchasable cells |
-| Paper | Source and PDF current as of 2026-07-31, 12 pages, zero undefined references |
+| Paper | Source and PDF current as of 2026-08-03, 12 pages, zero undefined references |
 
 ---
 
 ## Next: by end of August 2026
+
+**0. Establish the Gen4 finite-stator operating point.** *Closes P32 and E27; gates every
+Gen4 export and public render.* The working open assembly uses a 900 mm acceleration stroke,
+and the final 148.5 mm occurs after the Halbach array reaches the stator edge. Implement a
+position-dependent force calculation before quoting velocity, energy, efficiency or thermal
+loads for Gen4. Keep the Phase I baseline frozen until the result and affected validations are
+classified. See [`GEN4_STATUS.md`](GEN4_STATUS.md) and ADR-019.
 
 **1. ~~A1, the airgap field.~~ DONE 2026-07-29.** *Closed the 2-D half of E1; gave E2 its
 first electromagnetic FEA.*
