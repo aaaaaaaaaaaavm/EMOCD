@@ -10,7 +10,7 @@ has been adopted and no baseline value has changed.
 
 ## The problem
 
-P15: the Gen3 sled measured from CAD solid volumes is **9.445 kg**, against the 4.86 kg
+P15: the Gen3 sled computed from CAD solid volumes is **9.445 kg**, against the 4.86 kg
 `motor_model.py` used to assume. At that mass the same machine delivers **16.54 m/s**, not the
 headline 20.37.
 
@@ -28,16 +28,16 @@ wherever the magnetic geometry changes.
 
 | Lever | Sled | K<sub>t</sub> | K | Stroke | Exit velocity | J | Peak A | Efficiency | Bank ESR ceiling |
 |---|---|---|---|---|---|---|---|---|---|
-| Superseded 4.86 kg assumption | 4.86 kg | 11.22 | 140 | 1.30 m | **20.38 m/s** | 21.0 | 415 | 34.1 % | 56 mohm |
-| As drawn (the baseline) | 9.45 kg | 11.22 | 140 | 1.30 m | **16.53 m/s** | 21.0 | 347 | 21.2 % | 66 mohm |
-| Pocket 40 % of the titanium | 7.50 kg | 11.22 | 140 | 1.30 m | **17.87 m/s** | 21.0 | 371 | 25.3 % | 63 mohm |
-| Pocket 60 % (aggressive) | 6.53 kg | 11.22 | 140 | 1.30 m | **18.69 m/s** | 21.0 | 385 | 28.0 % | 60 mohm |
-| Magnets 8 to 6 mm | 8.53 kg | 9.30 | 140 | 1.30 m | **15.59 m/s** | 21.0 | 280 | 20.8 % | 82 mohm |
-| Magnets 8 to 5 mm | 8.07 kg | 8.16 | 140 | 1.30 m | **14.88 m/s** | 21.0 | 243 | 20.1 % | 95 mohm |
-| Raise sheet current to 213 kA/m | 9.45 kg | 11.22 | 213 | 1.30 m | **20.40 m/s** | 31.9 | 749 | 18.9 % | 31 mohm |
-| Lengthen the stroke to 1.97 m | 9.45 kg | 11.22 | 140 | 1.97 m | **20.36 m/s** | 21.0 | 470 | 18.8 % | 47 mohm |
-| Two-layer stator (G3-D4) | 9.45 kg | 7.46 | 280 | 1.30 m | **19.07 m/s** | 21.0 | 597 | 18.8 % | 39 mohm |
-| Two-layer + 40 % pocketing | 7.50 kg | 7.46 | 280 | 1.30 m | **20.61 m/s** | 21.0 | 637 | 22.6 % | 36 mohm |
+| Superseded 4.86 kg assumption | 4.86 kg | 11.03 | 140 | 1.30 m | **20.20 m/s** | 21.0 | 405 | 33.9 % | 58 mohm |
+| As drawn (the baseline) | 9.45 kg | 11.03 | 140 | 1.30 m | **16.39 m/s** | 21.0 | 339 | 21.0 % | 68 mohm |
+| Pocket 40 % of the titanium | 7.50 kg | 11.03 | 140 | 1.30 m | **17.72 m/s** | 21.0 | 362 | 25.1 % | 64 mohm |
+| Pocket 60 % (aggressive) | 6.53 kg | 11.03 | 140 | 1.30 m | **18.52 m/s** | 21.0 | 376 | 27.8 % | 62 mohm |
+| Magnets 8 to 6 mm | 8.53 kg | 9.14 | 140 | 1.30 m | **15.46 m/s** | 21.0 | 275 | 20.6 % | 84 mohm |
+| Magnets 8 to 5 mm | 8.07 kg | 8.02 | 140 | 1.30 m | **14.75 m/s** | 21.0 | 238 | 19.9 % | 97 mohm |
+| Raise sheet current to 213 kA/m | 9.45 kg | 11.03 | 213 | 1.30 m | **20.22 m/s** | 31.9 | 730 | 18.8 % | 32 mohm |
+| Lengthen the stroke to 1.97 m | 9.45 kg | 11.03 | 140 | 1.97 m | **20.18 m/s** | 21.0 | 459 | 18.6 % | 48 mohm |
+| Two-layer stator (G3-D4) | 9.45 kg | 7.33 | 280 | 1.30 m | **18.90 m/s** | 21.0 | 583 | 18.6 % | 39 mohm |
+| Two-layer + 40 % pocketing | 7.50 kg | 7.33 | 280 | 1.30 m | **20.43 m/s** | 21.0 | 622 | 22.4 % | 37 mohm |
 
 <!-- LEVER-TABLE-END -->
 
@@ -146,37 +146,37 @@ lighter payload leaves faster and the heavier sled recoils slower, and the sled'
 energy is thrown away in the eddy brake by design (E8), so slowing it costs the mission
 nothing and reduces brake duty.
 
-At the as-drawn 9.445 kg sled and 4.0 kg payload, both at 16.537 m/s, total momentum is
-222.34 kg·m/s and total kinetic energy 1838.3 J. Holding momentum and solving for the energy the
+At the as-drawn 9.445 kg sled and 4.0 kg payload, both at 16.388 m/s, total momentum is
+220.34 kg·m/s and total kinetic energy 1805.4 J. Holding momentum and solving for the energy the
 spring must add, **re-run 2026-07-31 against the current draw and with regeneration applied to
 the recoiling sled**:
 
-| Target payload v | Sled recoils to | Spring energy | Share of the 2881 J shot | Regen recovers | Brake still takes | Net efficiency |
+| Target payload v | Sled recoils to | Spring energy | Share of the 2851 J shot | Regen recovers | Brake still takes | Net efficiency |
 |---|---|---|---|---|---|---|
-| — (today) | 16.54 m/s | 0 | — | 296.6 J | 952.1 J | 21.2 % |
-| 17.50 m/s | 16.13 m/s | 2.6 J | 0.09 % | 296.5 J | 889.1 J | 23.7 % |
-| 18.00 m/s | 15.92 m/s | 6.1 J | 0.21 % | 296.3 J | 857.1 J | 25.0 % |
-| 19.00 m/s | 15.49 m/s | 17.3 J | 0.60 % | 295.9 J | 794.3 J | 27.7 % |
-| 20.00 m/s | 15.07 m/s | 34.1 J | 1.19 % | 295.5 J | 733.2 J | 30.5 % |
-| **20.37 m/s** | **14.91 m/s** | **41.8 J** | **1.45 %** | **295.3 J** | **711.0 J** | **31.6 %** |
+| — (today) | 16.39 m/s | 0 | — | 291.4 J | 934.7 J | 21.0 % |
+| 17.50 m/s | 15.92 m/s | 3.5 J | 0.12 % | 291.0 J | 863.0 J | 23.9 % |
+| 18.00 m/s | 15.71 m/s | 7.4 J | 0.26 % | 290.8 J | 831.3 J | 25.2 % |
+| 19.00 m/s | 15.28 m/s | 19.4 J | 0.68 % | 290.5 J | 769.3 J | 28.0 % |
+| 20.00 m/s | 14.86 m/s | 37.1 J | 1.30 % | 290.1 J | 709.0 J | 30.8 % |
+| **20.37 m/s** | **14.70 m/s** | **45.1 J** | **1.58 %** | **289.9 J** | **687.2 J** | **31.8 %** |
 
-Recovering the entire headline shortfall costs **41.8 J against a 2881 J shot**, and it takes
-electrical-to-payload efficiency from **21.2 % to 31.6 %** — past the 31.5 % the superseded
+Recovering the entire headline shortfall costs **45.1 J against a 2851 J shot**, and it takes
+electrical-to-payload efficiency from **21.0 % to 31.8 %** — past the 31.5 % the superseded
 4.86 kg design claimed, on a machine that weighs twice as much.
 
 **It compounds with regeneration rather than competing with it**, and the mechanism is worth
 stating because it is not obvious. Regenerative recovery is force times distance over a fixed
-240 mm of stator, so it returns about 296 J whatever speed the sled enters at; the kick changes
+240 mm of stator, so it returns about 290 J whatever speed the sled enters at; the kick changes
 what the sled *arrives* with, not what the regen section can take. So the two act on different
 terms: the spring moves energy from the sled to the payload, regeneration takes a fixed slice of
-whatever the sled still has, and the brake absorbs the remainder — 711 J at the full kick,
-against 1291 J with neither.
+whatever the sled still has, and the brake absorbs the remainder — 687 J at the full kick,
+against 1268 J with neither.
 
 ### The constraint that decides it is the payload's g-limit, not the energy
 
 The energy is trivial; the question is whether the push can be delivered without exceeding
-the 25 g qualification limit that "unmodified CubeSat" depends on. Delivering 3.833 m/s to
-4.0 kg is a 15.33 N·s impulse, over a 2 ms release that is 195 g and the option is dead. It
+the 25 g qualification limit that "unmodified CubeSat" depends on. Delivering 3.982 m/s to
+4.0 kg is a 15.93 N·s impulse, over a 2 ms release that is 195 g and the option is dead. It
 is only the interaction *time* that decides this, and time is a design variable. Held at
 exactly 25 g:
 

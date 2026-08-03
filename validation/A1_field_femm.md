@@ -1,3 +1,22 @@
+# Correction, 2026-08-03
+
+I found that both the reference implementation and the FEM post-processor used the same
+invalid winding-thickness quadrature: nine endpoint-inclusive samples multiplied by
+thickness divided by nine. That is neither a midpoint nor a trapezoidal rule. Replacing it
+with nine-point Gauss-Legendre quadrature gives:
+
+| Quantity | FEM | Reference | Ratio |
+|---|---:|---:|---:|
+| Thrust constant | 11.026 N per kA/m | 11.03 N per kA/m | 0.9997 |
+| Ripple | 0.97% | 0.99% | — |
+
+A1 remains **PARTIAL** because the same surface-field and 50 mm stray-field rows still miss.
+The thrust comparison remains within its predeclared band, but the earlier 0.07% agreement
+did not independently test the shared quadrature. The corrected agreement is 0.03%.
+
+The original result remains below as the superseded run record.
+
+---
 # A1: Airgap field, 2-D magnetostatic (FEMM)
 
 > ## RUN 2026-07-29. Verdict **PARTIAL**: five of seven bands, and the one that matters is met

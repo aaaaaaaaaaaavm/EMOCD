@@ -8,21 +8,21 @@ one-half traveling-wave factor inherent to synchronous extraction; this one reso
 the three-phase belt winding directly against the verified field.
 
 Reproduces (paper Secs. IV-B, V-A):
-    thrust constant Kt          11.22 N per kA/m
-    force ripple                +/-1.26 % (6th harmonic)
-    exit velocity (3U)          16.54 m/s at 10.7 g
-    pulse duration              157 ms
-    bank SoC sag                5.2 %
-    energy drawn                2.80 kJ
-    payload KE                  547 J  -> 20 % electrical-to-payload
-    copper heat                 828 J/shot
-    closed-loop dispersion      0.026 m/s (3 sigma) at a 16.2 m/s setpoint
+    thrust constant Kt          11.03 N per kA/m
+    force ripple                +/-0.99 % (6th harmonic)
+    exit velocity (3U)          16.39 m/s at 10.5 g
+    pulse duration              159 ms
+    bank SoC sag                5.3 %
+    energy drawn                2.85 kJ
+    payload KE                  537 J  -> 18.8 % gross electrical-to-payload
+    copper heat                 835 J/shot
+    closed-loop dispersion      0.027 m/s (3 sigma) at a 16.2 m/s setpoint
 
 IMPORTANT: the sled field must TRANSLATE with the sled (np.roll on the field array).
 An early version held the field fixed while commutating the current, which produced
 a near-zero mean thrust. If Kt comes out ~0, check that first.
 
-Provenance: model output, not independently re-derived.
+Provenance: model output, numerically cross-checked by A1; not experimentally validated.
 
 Efficiency is electrical-to-payload. It used to be quoted with the note that the sled's
 kinetic energy "is dissipated in the arrest brake by design and is NOT recovered". The
@@ -59,7 +59,7 @@ RHO_CU = 1.7e-8                 # ohm-m
 
 # --- operating point ----------------------------------------------------------
 M_SAT = 4.0                     # kg, 3U reference payload
-M_SLED = 9.445                  # kg, measured from cad/step/gen3/EMOCD_Sled_Gen3.step
+M_SLED = 9.445                  # kg, computed from cad/step/gen3/EMOCD_Sled_Gen3.step solid volumes
 #                                 (P15). Superseded the 4.86 kg parametric estimate in
 #                                 mass_properties.py on 2026-07-29, under the decision
 #                                 rule declared in validation/A4_sled_structural.md
@@ -76,10 +76,8 @@ V_FLEET = 16.2                  # m/s, closed-loop fleet setpoint.
 #                                 The servo has authority only below the open-loop
 #                                 ceiling; above it, Kc saturates at K_RATED and the
 #                                 Monte Carlo measures shortfall rather than dispersion.
-#                                 Set at 98.2 % of the ceiling -- the same fraction the
-#                                 superseded 20.0 m/s setpoint held against the old
-#                                 20.37 m/s ceiling -- so the headroom argument behind
-#                                 the dispersion claim is unchanged, not re-tuned.
+#                                 Set at 98.85 % of the corrected open-loop ceiling,
+#                                 leaving 0.188 m/s nominal headroom.
 C_BANK, V0 = 6.0, 96.0          # F, V
 R_ESR = 0.012                   # ohm, bank equivalent series resistance.
 #                                 The value the SPICE deck at validation/spice/ uses. It has
@@ -110,10 +108,17 @@ def build_field(n_wave=7):
 
 
 def thrust_constant(nx=240, ny=9, profile=False):
-    """Direct Lorentz integration of a 3-phase belt winding against the real field."""
+    """Direct Lorentz integration of a 3-phase belt winding against the real field.
+
+    The winding-thickness integral uses Gauss-Legendre quadrature.  The superseded
+    implementation sampled both thickness endpoints but multiplied the unweighted sum
+    by ``WIND_THICK / ny``.  That is neither a midpoint nor a trapezoidal rule and biased
+    Kt high by 1.7 %.  Nine Gauss points are converged to the displayed precision.
+    """
     field = build_field()
     xs = np.linspace(0, LAM, nx, endpoint=False)
-    ys = np.linspace(-WIND_THICK / 2, WIND_THICK / 2, ny)
+    y_nodes, y_weights = np.polynomial.legendre.leggauss(ny)
+    ys = y_nodes * WIND_THICK / 2
     X, Y = np.meshgrid(xs, ys)
     By = field.getB(np.stack([X.ravel(), Y.ravel(), np.zeros(X.size)], 1))[:, 1].reshape(ny, nx)
 
@@ -121,7 +126,7 @@ def thrust_constant(nx=240, ny=9, profile=False):
     seq = [(0, +1), (2, -1), (1, +1), (0, -1), (2, +1), (1, -1)]
     ph = np.array([seq[int((x % LAM) // belt)][0] for x in xs])
     sg = np.array([seq[int((x % LAM) // belt)][1] for x in xs])
-    dx, dy = LAM / nx, WIND_THICK / ny
+    dx = LAM / nx
 
     def thrust(shift, phi, K):
         Byx = np.roll(By, +shift, axis=1)          # field translates WITH the sled
@@ -129,7 +134,8 @@ def thrust_constant(nx=240, ny=9, profile=False):
         i = np.array([math.cos(te), math.cos(te - 2 * math.pi / 3),
                       math.cos(te + 2 * math.pi / 3)])
         Jz = K * i[ph] * sg / WIND_THICK
-        return float((Jz[None, :] * Byx).sum() * dx * dy * DEPTH)
+        return float((y_weights[:, None] * Jz[None, :] * Byx).sum()
+                     * dx * (WIND_THICK / 2) * DEPTH)
 
     phis = np.linspace(0, 2 * math.pi, 144, endpoint=False)
     means = [np.mean([thrust(s, p, 45e3) for s in range(0, nx, 10)]) for p in phis]

@@ -15,7 +15,7 @@ Geometry file: `emocd_cross_section.dxf` (same folder). All dimensions verified 
 
 ## Runs & exports (300 dpi PNG screenshots + saved .ans)
 - **Run 1 (I = 0):** open-circuit Halbach field. Export at **300 dpi**: (a) **|B| colour contour** across the airgap region; (b) **flux-line plot** (View to Contour/flux lines, ~30 lines) showing closure through the arrays and the weak-side self-shielding; (c) line plot of **Bz along z = 0 across one wavelength** to compare to the analytic model's **0.694 T double-sided peak** (target: within a few %). Items (a) and (c) are the IEEE §IV-A verification figure (FEA-1).
-- **Run 2 (rated current):** force. Select the two magnet regions to Block integral to **Lorentz force (steady)** to x-force x (1300/48 wavelengths) to compare thrust from Kt = 11.22 N/(kA·m) at 140 kA/m ≈ 1571 N. Ratio = the 2-D FEA check on Kt.
+- **Run 2 (rated current):** force. Select the two magnet regions to Block integral to **Lorentz force (steady)** to x-force x (1300/48 wavelengths) to compare thrust from Kt = 11.03 N/(kA·m) at 140 kA/m ≈ 1544 N. Ratio = the 2-D FEA check on Kt.
 - **Run 3 (stray field, I = 0):** line plots of |B| at 10 / 20 / 50 mm beyond the array back face to compare the **22.7 / 4.3 / 0.4 mT** keep-out profile (FEA-3, §XII). (The 4.7 / 1.0 mT figures previously quoted here were the pre-P3 values; corrected 2026-07-27 against `analysis/results/field_verification.json`.) Add a 1 mm steel sheet (silicon steel M-19) at the septum position and re-run to quantify attenuation.
 
 ## Acceptance band

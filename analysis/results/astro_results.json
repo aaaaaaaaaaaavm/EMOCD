@@ -21,11 +21,11 @@
     "differential_drag_days": 25.0
   },
   "conjunction": {
-    "min_km": 10.1,
-    "median_km": 20.6,
-    "realign_days": 9.9
+    "min_km": 54.9,
+    "median_km": 59.2,
+    "realign_days": 10.0
   },
   "apogee_placement_km": 0.1,
-  "recoil_Ns_per_shot": 66.1,
+  "recoil_Ns_per_shot": 65.6,
   "plane_change_ceiling_deg": 0.12
 }

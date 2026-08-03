@@ -18,7 +18,7 @@ R = os.path.join(ROOT, 'analysis', 'results')
 
 
 def load(name):
-    with open(os.path.join(R, name)) as f:
+    with open(os.path.join(R, name), encoding='utf-8') as f:
         return json.load(f)
 
 
@@ -59,7 +59,7 @@ def main():
         ("Electrical-to-payload efficiency", f"{m['eff_net_pct']:.1f} % (net of regeneration)", "motor_results.eff_net_pct"),
         ("Closed-loop dispersion", f"{m['closed_loop_3sigma']} m/s (3σ)", "motor_results.closed_loop_3sigma"),
         ("Fleet setpoint", f"{m['v_fleet_setpoint']} m/s", "motor_results.v_fleet_setpoint"),
-        ("Sled mass", f"{mp['sled_kg']} kg (measured)", "mass_properties.sled_kg"),
+        ("Sled mass", f"{mp['sled_kg']} kg (computed from CAD solid volumes)", "mass_properties.sled_kg"),
         ("Dry / loaded mass", f"{mp['dry_kg']} / {mp['loaded_kg']} kg", "mass_properties.dry_kg"),
         ("Lifetime multiplier, mean activity", f"x{a['lifetime']['mean']['multiplier']}", "astro_results.lifetime.mean"),
         ("Recoil per shot", f"{a['recoil_Ns_per_shot']} N·s", "astro_results.recoil_Ns_per_shot"),
@@ -77,7 +77,7 @@ def main():
     if args.check:
         if not os.path.exists(path):
             raise SystemExit("docs/BASELINE.md missing -- run without --check to generate it.")
-        with open(path) as f:
+        with open(path, encoding='utf-8') as f:
             old = value_rows(f.read())
         new = value_rows(body)
         drift = [(o, n) for o, n in zip(old, new) if o != n]
@@ -89,7 +89,8 @@ def main():
         print(f"baseline holds: {len(new)} values match the scripts")
         return
 
-    with open(path, 'w') as f:
+    with open(path, 'w', encoding='utf-8') as f:
+
         f.write(body)
     print(f"docs/BASELINE.md written from analysis/results/ at {commit} ({len(rows)} values)")
 
@@ -126,7 +127,7 @@ FOOTER = """
    high, qualifies, and stays Phase I even though correcting it moves three coupled numbers.
 2. **A validation outcome against a band declared before its run.** This is how the baseline
    last moved: `validation/A4_sled_structural.md` fixed the consequence of each sled-mass
-   outcome *before* the analysis ran, the measurement landed in the ≥ 6.80 kg branch, and the
+   outcome *before* the analysis ran, the CAD result landed in the ≥ 6.80 kg branch, and the
    scripts followed the rule rather than a preference.
 3. **A defect that makes a Phase I deliverable wrong.** A paper that states something the
    scripts contradict is a defect regardless of which is right.

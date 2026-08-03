@@ -1,3 +1,11 @@
+# Operating-point correction, 2026-08-03
+
+After correcting the shared thrust quadrature, I reran the same regenerative-braking model.
+It returns **291.4 J**, 23.0% of the sled's 1268.3 J, and leaves **934.7 J** for the eddy
+brake. Net electrical-to-payload efficiency is **20.99%**. The eight predeclared bands remain
+satisfied. The 2026-07-31 numbers below are retained as the superseded run record.
+
+---
 # A11: how much of the sled's energy the motor can take back
 
 **Closes:** nothing. **Opens:** whether the 2025 arrest decision was read wider than it argued.

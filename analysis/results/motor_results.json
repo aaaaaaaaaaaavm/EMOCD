@@ -1,41 +1,41 @@
 {
-  "Kt_N_per_kA": 11.22,
-  "ripple_pct": 1.26,
+  "Kt_N_per_kA": 11.03,
+  "ripple_pct": 0.99,
   "K_rated_kA": 140.0,
   "regen": {
     "s_m": 0.24,
-    "F_brake": 1413.448,
+    "F_brake": 1389.255,
     "K_kA": 140.0,
     "mult_of_rated": 1.0,
-    "W_mech": 339.309,
-    "Q_copper": 15.177,
-    "Q_esr": 8.156,
-    "E_recovered": 296.614,
-    "Q_converter": 16.207,
-    "Q_aux": 3.124,
-    "t_ms": 15.62,
-    "v_end": 14.199,
-    "I_peak": 225.3,
-    "KE_sled_in": 1291.419,
-    "KE_to_brake": 952.126,
-    "frac_recovered_pct": 22.968
+    "W_mech": 333.643,
+    "Q_copper": 15.322,
+    "Q_esr": 7.79,
+    "E_recovered": 291.429,
+    "Q_converter": 15.916,
+    "Q_aux": 3.154,
+    "t_ms": 15.77,
+    "v_end": 14.068,
+    "I_peak": 219.183,
+    "KE_sled_in": 1268.296,
+    "KE_to_brake": 934.67,
+    "frac_recovered_pct": 22.978
   },
-  "regen_copper_pessimistic_J": 82.2,
-  "regen_E_recovered_pessimistic_J": 235.9,
-  "E_drawn_net_J": 2584.6,
-  "eff_net_pct": 21.16,
+  "regen_copper_pessimistic_J": 83.0,
+  "regen_E_recovered_pessimistic_J": 230.1,
+  "E_drawn_net_J": 2559.5,
+  "eff_net_pct": 20.99,
   "shot": {
-    "F_cmd": 1413.448,
-    "v_exit": 16.537,
-    "a_g": 10.716,
-    "t_ms": 157.3,
-    "I_peak": 346.771,
-    "sag_pct": 5.354,
-    "E_drawn": 2881.217,
-    "Q_copper": 827.853,
-    "Q_esr": 85.578,
-    "KE_payload": 546.922,
-    "eff_pct": 18.982,
+    "F_cmd": 1389.255,
+    "v_exit": 16.388,
+    "a_g": 10.533,
+    "t_ms": 158.6,
+    "I_peak": 338.816,
+    "sag_pct": 5.296,
+    "E_drawn": 2850.895,
+    "Q_copper": 834.695,
+    "Q_esr": 82.834,
+    "KE_payload": 537.129,
+    "eff_pct": 18.841,
     "J_Amm2": 21.0
   },
   "v_fleet_setpoint": 16.2,
@@ -43,20 +43,20 @@
   "closed_loop_3sigma": 0.0271,
   "family": {
     "1U": {
-      "v_exit": 18.5,
-      "a_g": 13.4
+      "v_exit": 18.3,
+      "a_g": 13.2
     },
     "3U": {
-      "v_exit": 16.5,
-      "a_g": 10.7
+      "v_exit": 16.4,
+      "a_g": 10.5
     },
     "6U": {
-      "v_exit": 14.5,
-      "a_g": 8.3
+      "v_exit": 14.4,
+      "a_g": 8.1
     },
     "12U": {
-      "v_exit": 13.1,
-      "a_g": 6.7
+      "v_exit": 13.0,
+      "a_g": 6.6
     }
   }
 }

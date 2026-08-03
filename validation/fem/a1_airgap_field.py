@@ -2,7 +2,7 @@
 
 WHY THIS ANALYSIS EXISTS
 ------------------------
-K_t = 11.22 N per kA/m sets exit velocity, efficiency and every downstream astrodynamic
+K_t = 11.03 N per kA/m sets exit velocity, efficiency and every downstream astrodynamic
 number in this project. It has only ever been checked analytic-against-analytic: a closed-form
 travelling-wave model against magpylib. Both superpose analytic solutions for uniformly
 magnetised blocks; neither solves a field equation. E2 asks for confirmation by a *different
@@ -41,10 +41,13 @@ They are not restated here and must not be widened.
 Run:  python3 validation/fem/a1_airgap_field.py
 """
 
+import hashlib
 import json
 import math
+import platform
 import os
 import sys
+from pathlib import Path
 
 import gmsh
 import numpy as np
@@ -207,7 +210,8 @@ def thrust_constant(mesh, az, nx=240, ny=9):
     field solver, which is what A1 exists to test.
     """
     xs = np.linspace(0, mm.LAM, nx, endpoint=False)
-    ys = np.linspace(-mm.WIND_THICK / 2, mm.WIND_THICK / 2, ny)
+    y_nodes, y_weights = np.polynomial.legendre.leggauss(ny)
+    ys = y_nodes * mm.WIND_THICK / 2
     X, Y = np.meshgrid(xs, ys)
     _, By = B_at(mesh, az, X.ravel(), Y.ravel())
     By = By.reshape(ny, nx)
@@ -216,7 +220,7 @@ def thrust_constant(mesh, az, nx=240, ny=9):
     seq = [(0, +1), (2, -1), (1, +1), (0, -1), (2, +1), (1, -1)]
     ph = np.array([seq[int((x % mm.LAM) // belt)][0] for x in xs])
     sg = np.array([seq[int((x % mm.LAM) // belt)][1] for x in xs])
-    dx, dy = mm.LAM / nx, mm.WIND_THICK / ny
+    dx = mm.LAM / nx
 
     def thrust(shift, phi, K):
         Byx = np.roll(By, +shift, axis=1)          # field translates WITH the sled
@@ -224,7 +228,9 @@ def thrust_constant(mesh, az, nx=240, ny=9):
         i = np.array([math.cos(te), math.cos(te - 2 * math.pi / 3),
                       math.cos(te + 2 * math.pi / 3)])
         Jz = K * i[ph] * sg / mm.WIND_THICK
-        return float((Jz[None, :] * Byx).sum() * dx * dy * mm.DEPTH)
+        return float((y_weights[:, None] * Jz[None, :] * Byx).sum()
+                     * dx * (mm.WIND_THICK / 2) * mm.DEPTH)
+
 
     phis = np.linspace(0, 2 * math.pi, 144, endpoint=False)
     means = [np.mean([thrust(s, p, 45e3) for s in range(0, nx, 10)]) for p in phis]
@@ -287,6 +293,11 @@ def main():
     res = dict(
         analysis='A1', method='2-D magnetostatic FEM, vector potential, P1 Lagrange',
         solver=f'scikit-fem {__import__("skfem").__version__} + gmsh {gmsh.__version__ if hasattr(gmsh,"__version__") else "4.15"}',
+        software=dict(python=platform.python_version(), numpy=np.__version__,
+                      scikit_fem=__import__('skfem').__version__,
+                      scikit_fem_license='BSD', gmsh=gmsh.__version__, gmsh_license='GPLv2+',
+                      source_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+                      motor_model_sha256=hashlib.sha256(Path(mm.__file__).read_bytes()).hexdigest()),
         note_on_solver=('The run sheet names FEMM. FEMM is Windows-only and was not available; '
                         'this is a meshed differential-FEM solve of the same 2-D problem, which '
                         'is what E2 asks for. Recorded rather than presented as FEMM.'),

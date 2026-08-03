@@ -2,6 +2,16 @@
   "analysis": "A1",
   "method": "2-D magnetostatic FEM, vector potential, P1 Lagrange",
   "solver": "scikit-fem 12.0.2 + gmsh 4.15.2",
+  "software": {
+    "python": "3.11.9",
+    "numpy": "2.3.5",
+    "scikit_fem": "12.0.2",
+    "scikit_fem_license": "BSD",
+    "gmsh": "4.15.2",
+    "gmsh_license": "GPLv2+",
+    "source_sha256": "b749323a587f1cc866dcd7550ad0c8357a647cbddf804116ec8be15eb77066c7",
+    "motor_model_sha256": "e9475bec37f83fa9e1c78c99968ac599504bd492ee891d4e61f651d94a4b047b"
+  },
   "note_on_solver": "The run sheet names FEMM. FEMM is Windows-only and was not available; this is a meshed differential-FEM solve of the same 2-D problem, which is what E2 asks for. Recorded rather than presented as FEMM.",
   "bands_declared_in": "validation/A1_field_femm.md",
   "mesh_elements": 140750,
@@ -35,9 +45,9 @@
     },
     {
       "quantity": "thrust_at_140kA_N",
-      "fem": 1571.9015,
-      "reference": 1570.8,
-      "ratio": 1.0007,
+      "fem": 1543.6762,
+      "reference": 1544.2,
+      "ratio": 0.9997,
       "band": "+/-10%",
       "within_band": true
     },
@@ -66,10 +76,10 @@
       "within_band": false
     }
   ],
-  "Kt_N_per_kA": 11.228,
-  "Kt_reference": 11.22,
-  "ripple_pct": 1.25,
-  "ripple_reference": 1.26,
+  "Kt_N_per_kA": 11.026,
+  "Kt_reference": 11.03,
+  "ripple_pct": 0.97,
+  "ripple_reference": 0.99,
   "surface_fundamental_T": 0.9312,
   "surface_fundamental_vs_double_sided": 0.9994,
   "bands_missed": [

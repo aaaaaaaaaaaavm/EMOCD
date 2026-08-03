@@ -48,16 +48,16 @@ G = 9.81
 # Kt is recomputed from the field model wherever the magnetic geometry changes; the values
 # here are the ones docs/DESIGN_OPTIONS_exit_velocity.md derived that way in 2026-07-28.
 LEVERS = [
-    ("Superseded 4.86 kg assumption", 4.86, 11.22e-3, 140e3, 1.30, 0.010, "the number the paper used to carry"),
-    ("As drawn (the baseline)", 9.445, 11.22e-3, 140e3, 1.30, 0.010, "P15, measured from the Gen3 solids"),
-    ("Pocket 40 % of the titanium", 7.50, 11.22e-3, 140e3, 1.30, 0.010, "no such chassis has been designed"),
-    ("Pocket 60 % (aggressive)", 6.53, 11.22e-3, 140e3, 1.30, 0.010, "unsupported: A4 passed the as-drawn plate"),
-    ("Magnets 8 to 6 mm", 8.53, 9.30e-3, 140e3, 1.30, 0.010, "moves backwards"),
-    ("Magnets 8 to 5 mm", 8.07, 8.16e-3, 140e3, 1.30, 0.010, "moves backwards further"),
-    ("Raise sheet current to 213 kA/m", 9.445, 11.22e-3, 213e3, 1.30, 0.010, "52 % thermal overload"),
-    ("Lengthen the stroke to 1.97 m", 9.445, 11.22e-3, 140e3, 1.97, 0.010, "+673 mm of envelope (P9)"),
-    ("Two-layer stator (G3-D4)", 9.445, 7.46e-3, 280e3, 1.30, 0.020, "gap 12 to 22 mm, current doubles"),
-    ("Two-layer + 40 % pocketing", 7.50, 7.46e-3, 280e3, 1.30, 0.020, "the only row that met the old target"),
+    ("Superseded 4.86 kg assumption", 4.86, 11.0258e-3, 140e3, 1.30, 0.010, "the number the paper used to carry"),
+    ("As drawn (the baseline)", 9.445, 11.0258e-3, 140e3, 1.30, 0.010, "P15, computed from the Gen3 solid volumes"),
+    ("Pocket 40 % of the titanium", 7.50, 11.0258e-3, 140e3, 1.30, 0.010, "no such chassis has been designed"),
+    ("Pocket 60 % (aggressive)", 6.53, 11.0258e-3, 140e3, 1.30, 0.010, "unsupported: A4 passed the as-drawn plate"),
+    ("Magnets 8 to 6 mm", 8.53, 9.14e-3, 140e3, 1.30, 0.010, "moves backwards"),
+    ("Magnets 8 to 5 mm", 8.07, 8.02e-3, 140e3, 1.30, 0.010, "moves backwards further"),
+    ("Raise sheet current to 213 kA/m", 9.445, 11.0258e-3, 213e3, 1.30, 0.010, "131 % more winding heat at equal pulse duration"),
+    ("Lengthen the stroke to 1.97 m", 9.445, 11.0258e-3, 140e3, 1.97, 0.010, "+673 mm of envelope (P9)"),
+    ("Two-layer stator (G3-D4)", 9.445, 7.33e-3, 280e3, 1.30, 0.020, "gap 12 to 22 mm, current doubles"),
+    ("Two-layer + 40 % pocketing", 7.50, 7.33e-3, 280e3, 1.30, 0.020, "the only row that met the old target"),
 ]
 
 ESR_CEILING_MAX = 0.30          # ohm, bisection bracket; nothing plausible sits above this

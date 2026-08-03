@@ -1,7 +1,7 @@
 {
-  "v_exit": 16.537,
-  "Kt_N_per_kA": 11.22,
+  "v_exit": 16.388,
+  "Kt_N_per_kA": 11.03,
   "sled_kg": 9.445,
-  "E_drawn_J": 2881.2,
-  "E_recovered_J": 296.6
+  "E_drawn_J": 2850.9,
+  "E_recovered_J": 291.4
 }

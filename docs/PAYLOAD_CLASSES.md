@@ -24,37 +24,37 @@ length sets thrust and sled mass together: a shorter array is a lighter sled *an
 
 | Payload | Mass | Moving mass with the 9.445 kg sled | Acceleration | Exit velocity |
 |---|---|---|---|---|
-| ChipSat / femtosat | 0.005 kg | 9.45 kg | 15.2 g | 19.7 m/s |
-| PocketQube 1P | 0.250 kg | 9.70 kg | 14.9 g | 19.5 m/s |
-| ThinSat | 0.280 kg | 9.72 kg | 14.8 g | 19.4 m/s |
-| PocketQube 3P | 0.750 kg | 10.20 kg | 14.1 g | 19.0 m/s |
-| TubeSat | 0.750 kg | 10.20 kg | 14.1 g | 19.0 m/s |
-| 1U CubeSat | 1.330 kg | 10.78 kg | 13.4 g | 18.5 m/s |
-| 3U CubeSat | 4.000 kg | 13.45 kg | 10.7 g | 16.5 m/s |
-| 6U CubeSat | 8.000 kg | 17.45 kg | 8.3 g | 14.5 m/s |
-| 12U CubeSat | 12.000 kg | 21.45 kg | 6.7 g | 13.1 m/s |
+| ChipSat / femtosat | 0.005 kg | 9.45 kg | 15.0 g | 19.6 m/s |
+| PocketQube 1P | 0.250 kg | 9.70 kg | 14.6 g | 19.3 m/s |
+| ThinSat | 0.280 kg | 9.72 kg | 14.6 g | 19.3 m/s |
+| PocketQube 3P | 0.750 kg | 10.20 kg | 13.9 g | 18.8 m/s |
+| TubeSat | 0.750 kg | 10.20 kg | 13.9 g | 18.8 m/s |
+| 1U CubeSat | 1.330 kg | 10.78 kg | 13.1 g | 18.3 m/s |
+| 3U CubeSat | 4.000 kg | 13.45 kg | 10.5 g | 16.4 m/s |
+| 6U CubeSat | 8.000 kg | 17.45 kg | 8.1 g | 14.4 m/s |
+| 12U CubeSat | 12.000 kg | 21.45 kg | 6.6 g | 13.0 m/s |
 
 ### Deployer mass per customer, which moves by a factor of thirty
 
 | Payload | Envelope, mm | Per load | Deployer kg per satellite | |
 |---|---|---|---|---|
 | ChipSat / femtosat | 35 x 35 x 2.5 | 13322 | **0.006** | **beyond the mechanism** |
-| PocketQube 1P | 50 x 50 x 50 | 326 | **0.236** | **beyond the mechanism** |
-| ThinSat | 114 x 114 x 25.4 | 123 | **0.625** |  |
-| PocketQube 3P | 50 x 50 x 150 | 108 | **0.712** |  |
-| TubeSat | 88 x 88 x 127 | 41 | **1.876** |  |
-| 1U CubeSat | 100 x 100 x 100 | 40 | **1.923** |  |
-| 3U CubeSat | 340 x 100 x 100 | 12 | **6.408** |  |
-| 6U CubeSat | 340 x 200 x 100 | 6 | **12.817** |  |
-| 12U CubeSat | 340 x 200 x 200 | 3 | **25.633** |  |
+| PocketQube 1P | 50 x 50 x 50 | 326 | **0.235** | **beyond the mechanism** |
+| ThinSat | 114 x 114 x 25.4 | 123 | **0.622** |  |
+| PocketQube 3P | 50 x 50 x 150 | 108 | **0.708** |  |
+| TubeSat | 88 x 88 x 127 | 41 | **1.866** |  |
+| 1U CubeSat | 100 x 100 x 100 | 40 | **1.913** |  |
+| 3U CubeSat | 340 x 100 x 100 | 12 | **6.375** |  |
+| 6U CubeSat | 340 x 200 x 100 | 6 | **12.750** |  |
+| 12U CubeSat | 340 x 200 x 200 | 3 | **25.500** |  |
 
 ### Shortening the magnet array, which buys nothing
 
 | Array length | K<sub>t</sub> | Sled mass | Force | Acceleration, 3U | Exit velocity |
 |---|---|---|---|---|---|
-| 340 mm | 11.22 | 9.45 kg | 1413 N | 10.7 g | 16.5 m/s |
-| 240 mm | 7.92 | 7.18 kg | 998 N | 9.1 g | 15.2 m/s |
-| 150 mm | 4.95 | 5.15 kg | 624 N | 7.0 g | 13.3 m/s |
+| 340 mm | 11.03 | 9.45 kg | 1389 N | 10.5 g | 16.4 m/s |
+| 240 mm | 7.78 | 7.18 kg | 981 N | 8.9 g | 15.1 m/s |
+| 150 mm | 4.86 | 5.15 kg | 613 N | 6.8 g | 13.2 m/s |
 
 <!-- PAYLOAD-TABLES-END -->
 

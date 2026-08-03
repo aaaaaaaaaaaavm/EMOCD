@@ -64,9 +64,10 @@ PITCH_Z = 104.0                 # mm
 BAY_MM3 = (CASSETTES * (CASSETTE_LEN_X - DRIVE_BAY_X) * CASSETTE_WID_Y
            * SATS_PER_CASSETTE * PITCH_Z)
 
-DEPLOYER_DRY_KG = 76.9          # mass_properties.json, EXCLUDING enclosure, radiator and
-#                                 avionics packaging (P10), so every kg-per-satellite
-#                                 figure below is optimistic.
+DEPLOYER_DRY_KG = 76.5          # mass_properties.json. Several packaging line items remain
+#                                 parametric rather than measured, so every kg-per-satellite
+#                                 figure remains provisional.
+
 
 # (tag, mass kg, bounding box mm, note)
 # Bounding boxes are the packing envelope, so cylinders are boxed: a TubeSat stows in the

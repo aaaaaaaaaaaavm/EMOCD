@@ -1,8 +1,8 @@
 {
   "pack_efficiency": 0.562,
   "bay_mm3": 72612384,
-  "deployer_dry_kg": 76.9,
-  "F_cmd": 1413.4,
+  "deployer_dry_kg": 76.5,
+  "F_cmd": 1389.3,
   "mechanism_shot_limit": 200,
   "classes": [
     {
@@ -13,8 +13,8 @@
         35,
         2.5
       ],
-      "a_g": 15.2,
-      "v_exit": 19.7,
+      "a_g": 15.0,
+      "v_exit": 19.6,
       "n_per_load": 13322,
       "kg_per_satellite": 0.006,
       "mechanism_limited": true,
@@ -28,10 +28,10 @@
         50,
         50
       ],
-      "a_g": 14.9,
-      "v_exit": 19.5,
+      "a_g": 14.6,
+      "v_exit": 19.3,
       "n_per_load": 326,
-      "kg_per_satellite": 0.236,
+      "kg_per_satellite": 0.235,
       "mechanism_limited": true,
       "note": "PocketQube standard, 1P"
     },
@@ -43,10 +43,10 @@
         114,
         25.4
       ],
-      "a_g": 14.8,
-      "v_exit": 19.4,
+      "a_g": 14.6,
+      "v_exit": 19.3,
       "n_per_load": 123,
-      "kg_per_satellite": 0.625,
+      "kg_per_satellite": 0.622,
       "mechanism_limited": false,
       "note": "ThinSat published envelope"
     },
@@ -58,10 +58,10 @@
         50,
         150
       ],
-      "a_g": 14.1,
-      "v_exit": 19.0,
+      "a_g": 13.9,
+      "v_exit": 18.8,
       "n_per_load": 108,
-      "kg_per_satellite": 0.712,
+      "kg_per_satellite": 0.708,
       "mechanism_limited": false,
       "note": "PocketQube standard, 3P"
     },
@@ -73,10 +73,10 @@
         88,
         127
       ],
-      "a_g": 14.1,
-      "v_exit": 19.0,
+      "a_g": 13.9,
+      "v_exit": 18.8,
       "n_per_load": 41,
-      "kg_per_satellite": 1.876,
+      "kg_per_satellite": 1.866,
       "mechanism_limited": false,
       "note": "Boxed from the 88 mm cylinder"
     },
@@ -88,10 +88,10 @@
         100,
         100
       ],
-      "a_g": 13.4,
-      "v_exit": 18.5,
+      "a_g": 13.1,
+      "v_exit": 18.3,
       "n_per_load": 40,
-      "kg_per_satellite": 1.923,
+      "kg_per_satellite": 1.913,
       "mechanism_limited": false,
       "note": "Typical flight mass, CDS allows 2 kg"
     },
@@ -103,10 +103,10 @@
         100,
         100
       ],
-      "a_g": 10.7,
-      "v_exit": 16.5,
+      "a_g": 10.5,
+      "v_exit": 16.4,
       "n_per_load": 12,
-      "kg_per_satellite": 6.408,
+      "kg_per_satellite": 6.375,
       "mechanism_limited": false,
       "note": "The reference payload, and the only one laid out"
     },
@@ -118,10 +118,10 @@
         200,
         100
       ],
-      "a_g": 8.3,
-      "v_exit": 14.5,
+      "a_g": 8.1,
+      "v_exit": 14.4,
       "n_per_load": 6,
-      "kg_per_satellite": 12.817,
+      "kg_per_satellite": 12.75,
       "mechanism_limited": false,
       "note": "Arithmetic only, no cassette exists"
     },
@@ -133,10 +133,10 @@
         200,
         200
       ],
-      "a_g": 6.7,
-      "v_exit": 13.1,
+      "a_g": 6.6,
+      "v_exit": 13.0,
       "n_per_load": 3,
-      "kg_per_satellite": 25.633,
+      "kg_per_satellite": 25.5,
       "mechanism_limited": false,
       "note": "Arithmetic only, no cassette exists"
     }
@@ -144,27 +144,27 @@
   "sled_scaling": [
     {
       "array_mm": 340,
-      "Kt_N_per_kA": 11.22,
+      "Kt_N_per_kA": 11.03,
       "sled_kg": 9.45,
-      "F_N": 1413.0,
-      "a_g": 10.7,
-      "v_exit": 16.5
+      "F_N": 1389.0,
+      "a_g": 10.5,
+      "v_exit": 16.4
     },
     {
       "array_mm": 240,
-      "Kt_N_per_kA": 7.92,
+      "Kt_N_per_kA": 7.78,
       "sled_kg": 7.18,
-      "F_N": 998.0,
-      "a_g": 9.1,
-      "v_exit": 15.2
+      "F_N": 981.0,
+      "a_g": 8.9,
+      "v_exit": 15.1
     },
     {
       "array_mm": 150,
-      "Kt_N_per_kA": 4.95,
+      "Kt_N_per_kA": 4.86,
       "sled_kg": 5.15,
-      "F_N": 624.0,
-      "a_g": 7.0,
-      "v_exit": 13.3
+      "F_N": 613.0,
+      "a_g": 6.8,
+      "v_exit": 13.2
     }
   ]
 }

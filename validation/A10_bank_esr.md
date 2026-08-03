@@ -1,3 +1,14 @@
+# Operating-point correction, 2026-08-03
+
+I reran the same model after correcting the shared thrust quadrature. At 12 mohm the shot
+now gives 16.388 m/s, 338.8 A peak, 2850.9 J gross draw, and 82.8 J ESR loss. It completes
+at 68 mohm and fails at 69 mohm, so the hard ceiling moves from 65 to **68 mohm** and remains
+inside the declared 60--77 mohm band. The commercial 116--185 mohm strings still cannot
+source the shot. Five rows remain PASS and row 4 remains VOID.
+
+The 2026-07-30 table below is retained as the superseded operating-point record.
+
+---
 # A10: what the shot does at a realistic bank ESR
 
 **Closes:** nothing. **Opens:** whether the pulse-power chain closes at all.
@@ -116,7 +127,7 @@ Five of six. Row 4 is recorded void rather than passed: it assumed a number that
 if the shot runs, and it does not. Writing bands in advance is what makes that visible instead
 of quietly reinterpreting the row.
 
-The measured 65 mohm sits below the 76.8 mohm derived from `V^2/4R`, and the reason is that
+The numerically found 65 mohm ceiling sits below the 76.8 mohm derived from `V^2/4R`, and the reason is that
 the derivation used 96 V while the bank has already sagged to about 90 V by the time peak
 power is demanded. Recomputing the ceiling at the sagged voltage gives 28.9 kW against 30.0 kW
 required, which is the failure the integrator reports.
