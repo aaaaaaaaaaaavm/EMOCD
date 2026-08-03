@@ -37,6 +37,7 @@ $SUDO apt-get install -y --no-install-recommends \
     texlive-latex-base \
     texlive-latex-recommended \
     texlive-fonts-recommended \
+    lmodern \
     poppler-utils
 
 echo "==> python"

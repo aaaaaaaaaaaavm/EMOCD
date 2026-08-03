@@ -3,8 +3,9 @@
 \documentclass[9pt,a4paper]{extarticle}
 \usepackage[top=9mm,bottom=8mm,left=11mm,right=11mm]{geometry}
 \usepackage[T1]{fontenc}
-%% microtype omitted: pdfTeX font expansion needs scalable Type1 fonts, and the minimal
-%% texlive set installs bitmap fonts -- "auto expansion is only possible with scalable fonts".
+\usepackage{lmodern}
+%% Latin Modern supplies scalable Type 1 outlines. The default EC fonts fall back to Type 3
+%% bitmaps in the minimal TeX install and look soft when the PDF is rendered on screen.
 \usepackage[hidelinks]{hyperref}
 \pagestyle{empty}
 
@@ -19,7 +20,7 @@
      \setlength{\parsep}{0pt}\setlength{\topsep}{1pt}}}%
   {\end{list}}
 \newcommand{\cvsection}[1]{%
-  \vspace{1.0ex}{\normalsize\bfseries\scshape #1}\\[-1.3ex]
+  \vspace{1.0ex}{\normalsize\bfseries\MakeUppercase{#1}}\\[-1.3ex]
   \rule{\linewidth}{0.4pt}\vspace{0.4ex}}
 %% Title on its own line, then subtitle and date sharing the next one. The earlier version
 %% put the date on line 1 with \hfill, which overflowed whenever the title was long and pushed
