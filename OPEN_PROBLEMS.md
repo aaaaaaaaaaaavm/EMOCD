@@ -23,7 +23,7 @@ own rated velocity of **20.37 m/s**, `analysis/astro.py` gives **4.6 km**.
 
 Worse, the quantity is fragile. Sweeping ejection velocity:
 
-| Δv (m/s) | min approach (km) |
+| Î”v (m/s) | min approach (km) |
 |---|---|
 | 20.00 | 37.5 |
 | 20.37 (rated) | **4.6** |
@@ -102,7 +102,7 @@ radiation between shots relieves. Same correction applies to the coil: 0.28 K pe
 > `analysis/*.py` or `paper/paper.tex` has been changed** on the strength of the CAD.
 
 ### P5. CAD sled mass contradicts the parametric assumption: RESOLVED 2026-07-29
-> **RESOLVED.** `motor_model.M_SLED` and `sizing.M_SLED` now carry the measured **9.445 kg**
+> **RESOLVED.** `motor_model.M_SLED` and `sizing.M_SLED` now carry the CAD-derived **9.445 kg**
 > (P15), not the 4.86 kg parametric estimate. A4 ran, the drawn plate passed all three
 > structural bands, and the measurement fell in the decision rule's ≥ 6.80 kg branch, so the
 > rule resolved this rather than a judgement call. **Caveat carried forward:** 9.445 kg is
@@ -116,7 +116,7 @@ Original item follows for the audit trail.
 > passes every declared band: 0.0194 mm airgap closure against a 0.025 mm per-plate budget,
 > 33.7 MPa against 587 allowable, first mode 3408 Hz against >200. So there is **no
 > structural argument for the chassis being lighter than drawn**, a lighter one has to be
-> designed (rib-stiffened), not assumed. Combined with P15's measured 9.445 kg, the decision
+> designed (rib-stiffened), not assumed. Combined with P15's CAD-derived 9.445 kg, the decision
 > rule's ≥6.80 kg branch stands and the machine as it exists delivers **16.53 m/s**.
 The first-pass Fusion sled (6 mm Ti-6Al-4V chassis, stiffness-driven by the ±0.05 mm gap
 tolerance under 3.7 kN inter-array attraction — 2.69 kN since A12 — **no structural FEA behind it**) implies a
@@ -142,7 +142,7 @@ extend past release, which drives the envelope length (see P9). Source:
 
 ### P8. Exit velocity provisionally 17.88 m/s pending sled structural FEA: RESOLVED 2026-07-29
 > **RESOLVED, and not at 17.88 m/s.** That figure came from the 7.50 kg CAD estimate. The
-> measured mass is 9.445 kg, so the rated velocity is **16.537 m/s at 10.7 g**, now
+> CAD-derived mass is 9.445 kg, so the rated velocity is **16.537 m/s at 10.7 g**, now
 > propagated into `analysis/`, `paper/paper.tex`, the figures and every front page. The
 > machine is no longer acceleration-limited: at 10.7 g against a 25 g cap it is
 > thrust-and-mass limited, which changes what recovering velocity means (mass or current,
@@ -203,7 +203,7 @@ the outcome here. If the submitted build was in fact compiled from the corrected
 
 ### P12. The paper contradicts the CAD in two places: RESOLVED 2026-07-29
 > **RESOLVED in `paper/paper.tex`.** The Limitations section no longer says masses derive
-> from a parametric model rather than detailed CAD; it states what the CAD measured and what
+> from a parametric model rather than detailed CAD; it states what the CAD solid-volume calculation gives and what
 > that costs. The ESPA-Grande envelope is no longer asserted as a capability, the
 > requirement statement, the Fig. 2 caption and the accommodation section now record 1839 mm
 > against the ~1270 mm class and name it an open packaging problem (P9). The mounting-interface
@@ -302,7 +302,7 @@ from `sizing.py`).
 |---|---|---|
 | `mass_properties.py` parametric | 4.86 kg | 20.37 m/s |
 | P5's CAD figure | 7.50 kg | 17.87 m/s |
-| **Gen3 geometry, measured** | **9.445 kg** | **16.53 m/s** at 10.7 g, 19.0 % efficiency |
+| **Gen3 geometry, CAD solid-volume result** | **9.445 kg** | **16.53 m/s** at 10.7 g, 19.0 % efficiency |
 
 The method reproduces P8 exactly when fed 7.50 kg, it returns 17.87 m/s against P8's stated
 17.88, so the discrepancy is in the mass, not the method. Dominated by two chassis plates
@@ -515,7 +515,7 @@ analysis has not been run".
 ---
 
 ### P19. Every validation run predates the operating point they validate: HIGH, NEW 2026-07-29
-Adopting the measured 9.445 kg sled moved the rated velocity from 20.37 to 16.537 m/s. The
+Adopting the CAD-derived 9.445 kg sled moved the rated velocity from 20.37 to 16.537 m/s. The
 three analyses that have actually been run were all executed at the **old** point, so none of
 them currently validates the design as it stands:
 
@@ -1335,7 +1335,7 @@ running frequency. At the as-drawn 9.445 kg sled (a = 105 m/s^2):
 | 6th harmonic through the 109 Hz fixed mode | 0.87 m/s | 8.3 ms | 3.6 mm |
 | fundamental through 109 Hz | 5.23 m/s | 49.8 ms | 130 mm |
 
-So both modes are crossed inside the first 4-50 ms of a 157.3 ms stroke, twelve times per
+So both modes are crossed inside the first 4-50 ms of a 158.6 ms stroke, twelve times per
 campaign, and the crossings happen in the first few millimetres of travel where the sled is
 still adjacent to the breech and the launch-lock hardware.
 
@@ -1408,3 +1408,28 @@ claimed to be negligible until that is done.
 > problem statement finds their gaps, not yours.**
 >
 > Full working, the three fixes and what each costs: [`validation/A13_indexing_disturbance.md`](validation/A13_indexing_disturbance.md).
+
+### E25. A13 now leaves attitude restoration and structural settling open: CORRECTED 2026-08-03
+
+The corrected rigid-body budget does not leave a residual angular rate after an internal mass
+starts and stops. It leaves a transient rate and an attitude offset. At the assumed 166 mm
+lever arm, the 500 kg example reaches about 0.136 deg/s during sled return and finishes about
+0.42 deg from its initial attitude. The 200 kg example reaches about 0.443 deg/s and 1.37 deg.
+
+The declared transient-rate rows remain FAIL. The ideal residual-rate row passes, but that does
+not establish structural settling. No controller, thruster geometry, wheel/RCS authority,
+flexible-body mode, damping ratio, or firing schedule closes the attitude offset before the next
+trigger. The previous 8.2 s rate-null and 18.1 s cadence floor are superseded. P31's 10--20 s
+versus 1200 s cadence contradiction remains unresolved.
+
+### E26. Brake-fin transient temperature across a campaign is not modelled: NEW 2026-08-03
+
+The thermal calculation previously used a 300 x 80 x 4 mm copper fin. The Gen3 STEP and the
+validation mass table specify 120 x 80 x 4 mm, 0.344 kg. Correcting that input raises the
+adiabatic increment from about 3 K to about 7 K per shot and the twelve-shot no-cooling bound
+to about 85 K.
+
+The former statement that each transient decays before the next 10--20 s shot had no transient
+conduction or radiation model behind it and is removed. A thermal network, contact conductance,
+surface properties, and the resolved P31 cadence are required. The 0.32 m2 radiator number remains
+an assumed 130 W steady rejection case, not a demonstrated campaign transient.

@@ -1,3 +1,8 @@
+> **Numerical audit correction, 2026-08-03.** The current operating point is 11.03 N per
+> kA/m, 16.388 m/s, 10.53 g, 291.4 J recovered, 934.7 J to the brake, and 20.99% net
+> efficiency. A13's former residual-rate/cadence conclusion is superseded, A6's 3.7e-8
+> result is only a fixed-shape sensitivity, and the corrected brake-fin transient is 7 K
+> per shot. Values below that describe earlier audit states are retained as history.
 # Results, in charts
 
 Everything here is drawn by GitHub from text, no image files. Every value traces to a
@@ -38,7 +43,7 @@ asked: 240 mm of added stator returns 296.6 J, **23.0 % of the sled's energy**, 
 sheet-current rating and with peak current below the shot's own. **952 J still goes to the
 brake**, which is why this supplements the arrest decision rather than replacing it.
 
-Efficiency was 32 % until 2026-07-29; adopting the measured 9.445 kg sled moved it to 20 %,
+Efficiency was 32 % until 2026-07-29; adopting the CAD-derived 9.445 kg sled moved it to 20 %,
 because more of the same mechanical work goes into a mass that is braked away and the longer
 157 ms pulse accrues more copper loss. The ESR correction of 2026-07-30 moved it to 19 %.
 Regeneration moved it to **21.2 %**. Every one of those steps is a correction to a published
@@ -113,7 +118,7 @@ xychart-beta
 ```
 
 Every class now sits well inside the 25 g qualification limit, the 1U case peaks at 13.4 g,
-against 23.4 g before the sled mass was measured. The machine is no longer
+against 23.4 g before the CAD-derived sled mass was adopted. The machine is no longer
 acceleration-limited but **thrust-and-mass limited**, so more than half the qualification
 margin goes unused and recovering velocity means removing mass or raising current, not
 shortening the stroke. Source:
@@ -164,7 +169,7 @@ differences of large numbers and remain the least trustworthy row here.
 ## The sled mass conflict: settled 2026-07-29
 
 Two estimates of the same part disagreed by 94 %, and the headline exit velocity hung off
-which one was right. **The measurement won, and the rule that decided it was written first.**
+which one was right. **The CAD calculation won, and the rule that decided it was written first.**
 
 ```mermaid
 xychart-beta
@@ -185,7 +190,7 @@ runs:
 | **≥ 6.80 kg** | **The headline changes and the paper changes materially** | **fired** |
 
 Fixing the thresholds in advance was the point, because after the run the temptation is to
-pick whichever threshold preserves the nicer number. The measurement came in at **9.445 kg**,
+pick whichever threshold preserves the nicer number. The CAD result came in at **9.445 kg**,
 well past the top band; A4 then ran and found the drawn plate passes all three structural
 bands, so nothing forces a lighter chassis either. `analysis/` moved first and the paper
 followed, the first time a script value has changed in this project.
@@ -239,7 +244,7 @@ GMAT R2022a was installed and run headless. This is the first number in this pro
 produced by something other than its own scripts.
 
 > **Read this section as history, not as current validation.** Every GMAT run below was
-> propagated at **20.37 m/s**, the rated velocity before the measured sled mass was adopted
+> propagated at **20.37 m/s**, the rated velocity before the CAD-derived sled mass was adopted
 > on 2026-07-29. The current point is 16.54 m/s and the script multiplier is x1.62, so the
 > absolute numbers here no longer describe the design. **What does survive is the
 > falsification**, P16 is about the shape of the model, not the velocity, and a uniform

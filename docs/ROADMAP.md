@@ -18,8 +18,8 @@ them. This is that plan.
 | | |
 |---|---|
 | Maturity | TRL 2-3. Analysis and CAD complete; **nothing built or measured** |
-| Rated performance | **16.5 m/s at 10.7 g**, from a sled mass measured in CAD, not estimated |
-| Efficiency | **21.2 %** electrical-to-payload, net of the regeneration adopted 2026-07-31 (A11) |
+| Rated performance | **16.4 m/s at 10.5 g**, from a sled mass computed from CAD solid volumes, not estimated |
+| Efficiency | **21.0 %** electrical-to-payload, net of the regeneration adopted 2026-07-31 (A11) |
 | Validations run | **9 of 11**. A7 (tip-off) and A9 (flown decay) outstanding; A9 is blocked by network policy, not difficulty |
 | Of those nine | **two failed** — A5 (invariance) and A13 (host attitude) — one is PARTIAL (A1), one returned three **void** rows (A6), and one found a published number 37 % high (A12) |
 | Biggest single gap | ~~K<sub>t</sub> single-method~~ closed by A1. Now: **nothing has been measured at any scale** (E4) |
@@ -33,8 +33,8 @@ them. This is that plan.
 **1. ~~A1, the airgap field.~~ DONE 2026-07-29.** *Closed the 2-D half of E1; gave E2 its
 first electromagnetic FEA.*
 A meshed 2-D magnetostatic FEM (scikit-fem P1 + gmsh, 141 k elements) gives
-**K<sub>t</sub> = 11.228 N per kA/m against 11.22 (ratio 1.0007**) with ripple 1.25 %
-against 1.26 %. FEMM was not needed; a differential-FEM solve is what E2 actually asked for.
+**K<sub>t</sub> = 11.026 N per kA/m against 11.03 (ratio 0.9997**) with ripple 0.97 %
+against 0.99 %. FEMM was not needed; a differential-FEM solve is what E2 actually asked for.
 Two of seven bands missed, both with causes identified and **neither a model error**: P20 (the
 run sheet's array-surface reference was mis-specified, against the correct double-sided value
 the FEM matches to 0.06 %) and P21 (2-D has infinite depth and cannot test far field).
@@ -60,8 +60,8 @@ sheet declares ≤5 °/s citing NRCSD-E, and the sibling NRCSD ICD says 2 °/s.
 
 **5. ~~Cost the momentum-transfer release properly.~~ DONE 2026-07-31.** *Attacks P8 from a
 new direction.* Re-modelled against the current draw and with regeneration applied to the
-recoiling sled: the two **compound** rather than compete, taking efficiency **21.2 to 31.6 %**
-and brake duty **1291 to 711 J**, for 41.8 J of spring energy and 43 mm of guided rail. It
+recoiling sled: the two **compound** rather than compete, taking efficiency **21.0 to 31.8 %**
+and brake duty **1268 to 687 J**, for 45.1 J of spring energy and 46 mm of guided rail. It
 still defers as **PII-1**, and `docs/DESIGN_OPTIONS_exit_velocity.md` now states why the risk
 is not comparable to regeneration's: this one adds a cocked spring to the release path and its
 failure mode is a tumbling customer satellite.
@@ -82,7 +82,7 @@ time for the low-activity leg; schedule it, do not babysit it.
 No GMAT, no CARA, no Space-Track, so a 2-D P<sub>c</sub> against `astro.py`'s own propagator
 with an assumed covariance. **Three of five bands came back void**: at 14 to 63 km miss
 distances P<sub>c</sub> underflows and a spread of zeros is not a number. The run found
-something better instead — **P<sub>c</sub> ≤ 3.7e-8 for *any* covariance**, 2700x below any
+a corrected result instead — the old 3.7e-8 value is only a fixed-shape sensitivity. A covariance-independent slab bound is **4.4e-5 at the campaign-minimum geometry**, below any
 action threshold. A bound is not a probability, so A6-as-specified still stands.
 
 **9. Run A9, decay against flown CubeSats.** `validation/A9_tle_decay.md`, bands already
@@ -119,7 +119,7 @@ flowchart LR
 |---|---|
 | Concept | complete, `docs/adr/`, `DECISION_LOG.md` |
 | Analysis | complete, `analysis/`, **611 result fields** across eight scripts |
-| **Simulation** | **where the project is.** **9 of 11** validations run, all at the current operating point since A8-R closed half of P19 |
+| **Simulation** | **where the project is.** **9 of 11** validations run, A5 and the ngspice A8 run now predate the 2026-08-03 quadrature correction; A1 and A10--A13 were propagated |
 | Prototype | **specified, none built**: `docs/BENCHTOP_TESTS.md` |
 | Experiment | specified, none run |
 | Repeatability | **no rung yet.** Nothing has been run twice by anyone |

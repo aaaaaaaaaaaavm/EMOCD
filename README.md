@@ -1,5 +1,13 @@
 # VOLLEY: an electromagnetic orbital CubeSat deployer
 
+> **Numerical audit correction, 2026-08-03.** I corrected the winding-thickness quadrature
+> and propagated the rated point to **11.03 N per kA/m, 16.388 m/s, 10.53 g, 20.99% net
+> efficiency, and 65.552 N s per shot**. I also corrected A13's internal-momentum physics,
+> replaced A6's fixed-shape covariance claim with a valid current-geometry slab bound,
+> extended A12's stress plane, removed a 0.344 kg brake-fin double count, and corrected the
+> fin thermal mass. Superseded values remain visible in their validation records and
+> change log.
+
 <p align="center">
   <img src="cad/renders/exterior_closed.png" alt="VOLLEY deployer, closed, mounted on its ESPA interface" width="100%">
 </p>
@@ -51,7 +59,7 @@ modified, the magnets ride the sled, not the payload.
 </tr>
 <tr>
 <td width="50%"><a href="cad/renders/exterior_aft_mounting.png"><img src="cad/renders/exterior_aft_mounting.png" alt="Aft ESPA mounting interface"></a><br><sub><b>Aft mounting.</b> Ø460 mm ring flange, Ø400 mm bolt circle, 24 holes, four gussets.</sub></td>
-<td width="50%"><a href="cad/renders/seq2_midstroke.png"><img src="cad/renders/seq2_midstroke.png" alt="Sled at mid-stroke"></a><br><sub><b>Mid-stroke.</b> Sled under thrust, payload still cradled, 157.3 ms from breech to release.</sub></td>
+<td width="50%"><a href="cad/renders/seq2_midstroke.png"><img src="cad/renders/seq2_midstroke.png" alt="Sled at mid-stroke"></a><br><sub><b>Mid-stroke.</b> Sled under thrust, payload still cradled, 158.6 ms from breech to release.</sub></td>
 </tr>
 </table>
 
@@ -65,17 +73,17 @@ geometry ([why](cad/stl/README.md)).
 ```mermaid
 flowchart LR
     A["Cassette feed<br/>12 x 3U, two cassettes"] --> B["Retention gate<br/>preload into structure"]
-    B --> C["Accelerate<br/>1.3 m, 10.7 g, 157.3 ms"]
+    B --> C["Accelerate<br/>1.3 m, 10.5 g, 158.6 ms"]
     C --> D["Coast &amp; trim<br/>0.2 m"]
-    D --> E["Release at 1500 mm<br/>16.54 m/s"]
+    D --> E["Release at 1500 mm<br/>16.39 m/s"]
     E --> F["Eddy brake<br/>1530-1740 mm"]
     F --> G["Sled recovered<br/>reusable, next shot"]
     E -.->|"payload departs"| H["Own orbit<br/>x1.62 lifetime"]
 ```
 
 The satellite is never modified: the magnets ride the sled, not the payload. The sled leaves
-release carrying 1291 J; 240 mm of stator past that point takes **296 J of it back into the
-bank**, and the eddy brake absorbs the remaining 952 J. Efficiency is quoted
+release carrying 1268 J; 240 mm of stator past that point takes **291 J of it back into the
+bank**, and the eddy brake absorbs the remaining 935 J. Efficiency is quoted
 electrical-to-payload, net of that credit.
 
 ## Headline results (all model outputs, not measurements)
@@ -83,8 +91,8 @@ electrical-to-payload, net of that credit.
 > ### The pulse-power chain does not close on purchasable cells
 >
 > **Found 2026-07-30, and stated here rather than left in the defect log.** The supercapacitor
-> bank is modelled at 12 mΩ. Commercial cells of this capacitance give **116 to 185 mΩ**, and
-> the shot stops completing above **65 mΩ**: a source behind resistance R cannot deliver more
+> bank is modelled at 12 mÎ©. Commercial cells of this capacitance give **116 to 185 mÎ©**, and
+> the shot stops completing above **65 mÎ©**: a source behind resistance R cannot deliver more
 > than V²/4R, and this one is asked for 30 kW.
 >
 > **Exit velocity, stroke time and dispersion are unaffected** and the mechanical design is not
@@ -95,14 +103,14 @@ electrical-to-payload, net of that credit.
 
 | Quantity | Value | Source |
 |---|---|---|
-| Thrust constant | 11.22 N per kA/m, ±1.26 % ripple, **confirmed by FEM to 0.07 %** | `analysis/motor_model.py`, A1 |
-| Exit velocity, 3U | **16.54 m/s at 10.7 g** | `analysis/motor_model.py` |
-| Electrical to payload efficiency | 21.2 % (2.58 kJ net of regeneration, 547 J delivered) | `analysis/motor_model.py` |
+| Thrust constant | 11.03 N per kA/m, ±0.99 % ripple, **independently computed by FEM to 0.03 %** | `analysis/motor_model.py`, A1 |
+| Exit velocity, 3U | **16.39 m/s at 10.5 g** | `analysis/motor_model.py` |
+| Electrical to payload efficiency | 21.0 % (2.56 kJ net of regeneration, 537 J delivered) | `analysis/motor_model.py` |
 | Closed-loop dispersion | 0.027 m/s (3σ) at a 16.2 m/s setpoint to ±0.10 km apogee | `analysis/motor_model.py` |
 | Orbital lifetime multiplier | x1.62 at mean activity, **not invariant, see P16** | `analysis/astro.py` |
 | Constellation seeding | 30° in 1.4-6.9 days vs 25 days by differential drag | `analysis/astro.py` |
-| Dry / loaded mass | 76.9 kg / 124.9 kg | `analysis/mass_properties.py` |
-| Recoil per shot | 66.1 N·s | `analysis/astro.py` |
+| Dry / loaded mass | 76.5 kg / 124.5 kg | `analysis/mass_properties.py` |
+| Recoil per shot | 65.6 N·s | `analysis/astro.py` |
 | Track first mode | 109 Hz fixed-fixed (target >70) | `analysis/sizing.py` |
 | Energy closure | 100.0 % accounted | `analysis/sizing.py` |
 
@@ -123,14 +131,14 @@ electrical-to-payload, net of that credit.
 > | **≥ 6.80 kg** | **the headline changes and the paper changes materially** |
 >
 > A4 has since run, the drawn plate passes all three structural bands, so nothing forces a
-> lighter chassis, and the measurement landed in the third branch. The scripts moved
+> lighter chassis, and the CAD result landed in the third branch. The scripts moved
 > first, then the paper. Writing the rule down in advance is what made that a procedure
 > rather than a preference.
 >
 > **What this costs and does not cost.** Exit velocity is down 19 % and efficiency from
 > 32 % to 20 %, and to 19 % after the ESR correction of 2026-07-30 (P24); regeneration has
-> since taken it to 21.2 % (A11). The lifetime multiplier is down only 10 %, x1.80 to x1.62, because lifetime
-> is a weak function of Δv, the mission case survives better than the machine spec does.
+> then took it to 21.2 % (A11); the corrected quadrature now gives 21.0 %. The lifetime multiplier is down only 10 %, x1.80 to x1.62, because lifetime
+> is a weak function of Î”v, the mission case survives better than the machine spec does.
 > 9.445 kg is the **as-drawn, unpocketed** geometry, and A4 reports a 17x stress margin, so
 > a rib-stiffened chassis would recover mass. Nobody has designed one
 > ([`docs/ROADMAP.md`](docs/ROADMAP.md)).
@@ -142,7 +150,7 @@ electrical-to-payload, net of that credit.
 
 Three results have independent cross-checks: the Halbach field model (analytic vs
 magpylib, agreeing to three digits, and again vs a meshed magnetostatic FEM, a PDE
-solve rather than another superposition, agreeing on the thrust constant to 0.07 %),
+solve rather than another superposition, agreeing on the corrected thrust constant to 0.03 %),
 and orbital decay (orbit-averaged vs Cowell RK4, 99.4 %). Everything else is
 single-sourced.
 
@@ -163,8 +171,8 @@ them on a Debian/Ubuntu machine and verifies each one before exiting.
 
 <table>
 <tr>
-<td width="50%"><img src="paper/figures/F01_shot.png" alt="Shot simulation: force, velocity, current"><br><sub><b>The shot.</b> Force, velocity and current through the 157.3 ms stroke (<code>motor_model.py</code>).</sub></td>
-<td width="50%"><img src="paper/figures/F04_life.png" alt="Orbital lifetime with and without the boost"><br><sub><b>Lifetime.</b> Boosted vs unboosted decay, the x1.80 multiplier is the claim, not the absolute years (<code>astro.py</code>).</sub></td>
+<td width="50%"><img src="paper/figures/F01_shot.png" alt="Shot simulation: force, velocity, current"><br><sub><b>The shot.</b> Force, velocity and current through the 158.6 ms stroke (<code>motor_model.py</code>).</sub></td>
+<td width="50%"><img src="paper/figures/F04_life.png" alt="Orbital lifetime with and without the boost"><br><sub><b>Lifetime.</b> Boosted vs unboosted decay, the x1.62 multiplier at mean activity is the current model result, not the absolute years (<code>astro.py</code>).</sub></td>
 </tr>
 </table>
 
@@ -180,16 +188,16 @@ where possible. Four analyses were actually run; three could not be.
   enters the same multiplicative slot, so *both* halves of that claim were tested by a sweep
   that could not have detected a problem (**P16**).
 - **CalculiX** cleared the chassis on all three structural bands, which is what settled the
-  sled mass at the measured **9.445 kg** and moved the headline to 16.54 m/s (**P15**).
-- **ngspice** confirmed the shot model to 0.03 % and then, re-run at the current operating
+  sled mass at the CAD-derived **9.445 kg** and moved the headline to 16.54 m/s (**P15**), before the quadrature correction moved it to 16.39 m/s.
+- **ngspice** reproduced the then-current shot model to 0.03 % and then, re-run at the then-current operating
   point, found a loss the analytic model had no term for at all: the bank's own series
   resistance, 86 J a shot (**P24**). Corrected, the two methods agree on peak current to
   0.01 %. It also found the quoted bank sag is state-of-charge, not the terminal voltage the
   drive sees.
-- **A1 and A8 are at the current operating point. A5 predates it** (**P19**) and needs
+- **A1 and A10--A13 have been propagated to the corrected point. A5 and the ngspice A8 run predate it** (**P19**) and needs
   re-running. A4 survives, its load being magnetostatic and velocity-independent.
-- **A1 has run (2026-07-29).** A meshed 2-D magnetostatic FEM gives K<sub>t</sub> = 11.228 N
-  per kA/m against the model's 11.22, **ratio 1.0007**, ripple 1.25 % against 1.26 %. The
+- **A1 has run (2026-07-29).** A meshed 2-D magnetostatic FEM gives K<sub>t</sub> = 11.026 N
+  per kA/m against the model's 11.03, **ratio 0.9997**, ripple 0.97 % against 0.99 %. The
   number every headline descends from is no longer checked only analytic-against-analytic.
   Two of seven bands missed, both with identified causes and neither a model error (P20, P21).
 - **Not run:** A6, A7, A9.
@@ -202,17 +210,17 @@ Two that carry the argument:
 ```mermaid
 pie showData
     title Energy per shot (J) - sizing.py energy_closure
-    "Sled KE to the eddy brake" : 952
-    "Payload KE, the useful output" : 547
-    "Copper loss, shot + regen" : 843
-    "Converter loss" : 113
-    "Bank ESR loss" : 94
+    "Sled KE to the eddy brake" : 935
+    "Payload KE, the useful output" : 537
+    "Copper loss, shot + regen" : 850
+    "Converter loss" : 111
+    "Bank ESR loss" : 91
     "Auxiliary" : 35
 ```
 
-547 J reaches the payload out of a **net 2585 J**: 2881 J leaves the bank and 296 J returns.
-That is the 21.2 %. Efficiency fell with the heavier sled twice over, because more of the same
-mechanical work goes into a mass that is then braked away and the longer 157 ms pulse accrues
+537 J reaches the payload out of a **net 2560 J**: 2851 J leaves the bank and 291 J returns.
+That is the 21.0 %. Efficiency fell with the heavier sled twice over, because more of the same
+mechanical work goes into a mass that is then braked away and the longer 159 ms pulse accrues
 more copper loss at unchanged current density. Regeneration is the first thing that has moved
 it the other way.
 
@@ -278,7 +286,7 @@ authority are undisclosed, which is why the recoil budget is parametric. Obtaini
 thruster impulse budget and coast duration is the single data exchange that converts this
 analysis from parametric to specific, for any candidate vehicle, Indian or otherwise.
 
-Recoil is the satellite's momentum only, **66.1 N·s** per shot, nulled by a few grams of cold
+Recoil is the satellite's momentum only, **65.6 N·s** per shot, nulled by a few grams of cold
 gas. Comparison against fielded deployers and transfer vehicles, including Dhruva Space's
 flown DSOD, is in [`docs/LANDSCAPE.md`](docs/LANDSCAPE.md).
 

@@ -11,9 +11,9 @@ deployers have flown thousands of times and their tip-off performance is publish
 - Geometry and masses: `cad/step/gen3/EMOCD_Sled_Gen3.step`,
   `cad/step/gen3/EMOCD_Payload_3U_Gen3.step`,
   `cad/parameters.json` (payload CDS corner rails, sled cradle, release at x = 1500 mm)
-- Release conditions: exit velocity **16.537 m/s at 10.72 g** (`docs/BASELINE.md`). The sheet
+- Release conditions: exit velocity **16.388 m/s at 10.53 g** (`docs/BASELINE.md`). The sheet
   said 20.37 m/s at 16.3 g until 2026-07-31; that is the operating point abandoned when the
-  sled was measured (P15), and running against it would have been **P19** a third time.
+  CAD-derived sled mass was adopted (P15), and running against it would have been **P19** a third time.
 - Contact: rail-on-cradle friction, coefficient stated as an assumption
 
 ## Acceptance band, **tightened 2026-07-31, before running**

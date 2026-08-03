@@ -18,7 +18,7 @@ hand-maintained. Recorded as an authorised amendment in `docs/programme/ADOPTION
   redesign work with nowhere to go except the flagship itself. A Phase II track inside the
   flagship is a soft boundary, one `git checkout` from an edit to the frozen baseline, and
   §2 requires that baseline to hold for the duration of Phase I.
-- **Four hand-maintained repositories.** Rejected as the failure §4 warns about. `16.537 m/s`
+- **Four hand-maintained repositories.** Rejected as the failure §4 warns about. `16.388 m/s`
   appears in nine places in the flagship alone; four hand-maintained copies would diverge, and
   this project has already produced two such forks (ADR-015).
 - **Branches instead of repositories.** Rejected for Phase II on the same soft-boundary
@@ -35,5 +35,5 @@ regenerate, never to reconcile.
 
 ## Validation
 The exported paper companion was verified to reproduce standalone: run from a clean copy it
-returns `v_exit = 16.537`, matching the flagship. The cross-link header is emitted from one
+returns `v_exit = 16.388`, matching the flagship. The cross-link header is emitted from one
 source, so it cannot drift between the four.

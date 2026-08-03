@@ -50,7 +50,7 @@ guided rail.
 **Re-run 2026-07-31 with regeneration in the model, and the two compound.** Regeneration takes a
 fixed ~296 J over the 240 mm of regen stator whatever speed the sled enters at, so the kick and
 the recovery act on different terms rather than competing. Together they take
-electrical-to-payload efficiency from **21.2 % to 31.6 %** and brake duty from **1291 J with
+electrical-to-payload efficiency from **21.0 % to 31.8 %** and brake duty from **1268 J with
 neither to 711 J with both**. That is past the 31.5 % the superseded 4.86 kg design claimed, on a
 sled twice the mass.
 
@@ -64,7 +64,7 @@ spring, not a shock event. Full working in
 > says 2 °/s, and that must be resolved first.~~ **Resolved 2026-07-31: no conflict, two
 > different deployers. The band is now the flown NRCSD figure of 2 °/s** rather than the
 > provisional NRCSD-E 5 °/s, which makes this criterion materially harder (P30). Plus a mechanism concept that resets twelve
-> times and has a safing path for a cocked 42 J spring through the existing three-inhibit
+> times and has a safing path for a cocked 45 J spring through the existing three-inhibit
 > chain.
 
 **Why it is not Phase I:** it adds a mechanism to the release path, the one place ADR-008
@@ -80,14 +80,14 @@ one**, which is why the 60 % pocketing row in `DESIGN_OPTIONS_exit_velocity.md` 
 
 > **Entry criterion.** A rib-stiffened design that meets A4's three declared bands, 0.025 mm
 > airgap closure per plate, 587 MPa allowable, first mode > 200 Hz, at a mass whose exit
-> velocity beats 16.537 m/s by more than the ±20 % uncertainty on K<sub>t</sub>. Anything
+> velocity beats 16.388 m/s by more than the ±20 % uncertainty on K<sub>t</sub>. Anything
 > inside that uncertainty is not yet a demonstrated gain.
 
 ### PII-3: Two-layer stator (G3-D4)
 
 Gen1 built two layers (324 conductors), Gen2 and Gen3 one (162). The decision is flagged open
 in `cad/parameters.json` and **sits upstream of K<sub>t</sub>**. Doubling the winding widens
-the magnetic gap 12 to 22 mm and drops K<sub>t</sub> from 11.22 to 7.46 N per kA/m, but sheet
+the magnetic gap 12 to 22 mm and drops K<sub>t</sub> from 11.03 to 7.33 N per kA/m, but sheet
 current doubles at unchanged current density: **20.61 m/s at a 7.50 kg sled, J still
 21 A/mm²**. The stator does not ride the sled, so its copper costs dry mass, not velocity.
 
@@ -205,7 +205,7 @@ stop the numbers forking, which they briefly did.
 | **PII-8** | **VOLLEY as a free-flyer.** A long deployed track plus release at perigee reaches TLI and Mars-class C3 without exceeding CubeSat qualification. Three unsolved problems in front of it: airgap straightness at 0.7 to 2 ppm over a deployed structure, a 294 kJ shot against a bank that already fails at 2.88, and whether 25 g survives review as a *sustained* load rather than a transient |
 | **PII-9** | **The lunar case.** Where this technology has always belonged, and the O'Neill mass driver it descends from. 1.33 MJ/kg to lunar orbit, so 15 kW launches a tonne a day. The payload is ore, so the g-limit that governs this entire design disappears |
 | **PII-10** | **Magazine indexing disturbance** (E24). Designing an indexing sequence that minimises attitude disturbance. The *bookkeeping* half is an error correction and belongs upstream in Phase I; only the optimisation belongs in the lab |
-| **PII-11** | **[A deployable track, and the side-rail layout](https://github.com/aaaaaaaaaaaavm/VOLLEY-lab/blob/main/PII-11_deployable_track.md).** A telescoping track long enough to accelerate *and* regeneratively arrest the sled reaches **48 % electrical-to-payload efficiency against 21.2 %**, deletes the eddy brake, closes P28, and stows at 1150 mm — **inside** the ESPA Grande envelope this design misses by 44 %. The only option in the programme that improves velocity and envelope together. The side-rail half loses on thrust in every variant priced and is there because it drives the tip-off moment to zero |
+| **PII-11** | **[A deployable track, and the side-rail layout](https://github.com/aaaaaaaaaaaavm/VOLLEY-lab/blob/main/PII-11_deployable_track.md).** A telescoping track long enough to accelerate *and* regeneratively arrest the sled reaches **48 % electrical-to-payload efficiency against 21.0 %**, deletes the eddy brake, closes P28, and stows at 1150 mm — **inside** the ESPA Grande envelope this design misses by 44 %. The only option in the programme that improves velocity and envelope together. The side-rail half loses on thrust in every variant priced and is there because it drives the tip-off moment to zero |
 
 > **Entry criterion for PII-8, PII-9 and PII-11: none, deliberately.** None is a candidate for
 > this baseline. The correct outcome for the thesis is that all stay closed until the Phase I

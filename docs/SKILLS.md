@@ -57,7 +57,7 @@ the rest.
 
 | Claim | Evidence | Strength |
 |---|---|---|
-| Python numerical work | Six scripts in [`analysis/`](../analysis/), numpy/scipy, reproducible from a clean checkout, JSON outputs | **Strong.** Verified to reproduce `v_exit = 16.537` from a clean copy |
+| Python numerical work | Six scripts in [`analysis/`](../analysis/), numpy/scipy, reproducible from a clean checkout, JSON outputs | **Strong.** Reproduced `v_exit = 16.388` from a clean copy |
 | Refusing to duplicate a source of truth | [`paper/make_figures.py`](../paper/make_figures.py) imports the analysis rather than reimplementing it; [`tools/export_companion.py`](../tools/export_companion.py) generates the companion repos so they cannot drift; `_check_operating_point()` in `sizing.py` exits with a diagnostic if two modules disagree | **Strong.** Each guard exists because that exact divergence had already happened |
 | Regression guarding | [`tools/make_baseline.py`](../tools/make_baseline.py) `--check` compares 20 frozen values against live script output; [`check_links.py`](../tools/check_links.py) every link and the shared repo table; [`check_artifacts.py`](../tools/check_artifacts.py) every built artifact against its source, by commit time rather than mtime so it survives a clone | **Strong.** Each was verified against a real failure rather than assumed to work: the baseline check against injected drift, the artifact check against the commit where a stale PDF actually shipped |
 | Applied AI systems | **Outside this repository.** RAG retrieval pipeline, vector store and role-based dashboards shipped for a telecom CRM at Avisys | Moderate, no artefact here |

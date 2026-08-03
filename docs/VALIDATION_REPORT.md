@@ -1,3 +1,8 @@
+> **Numerical audit correction, 2026-08-03.** The current operating point is 11.03 N per
+> kA/m, 16.388 m/s, 10.53 g, 291.4 J recovered, 934.7 J to the brake, and 20.99% net
+> efficiency. A13's former residual-rate/cadence conclusion is superseded, A6's 3.7e-8
+> result is only a fixed-shape sensitivity, and the corrected brake-fin transient is 7 K
+> per shot. Values below that describe earlier audit states are retained as history.
 # Validation report: 2026-07-28
 
 Every headline claim in this repository, and what independently checking it produced.
@@ -186,7 +191,7 @@ resistance with peak current *falling* as resistance rose. Logged separately as 
 
 ---
 
-## 4. Sled mass: measured from the Gen3 CAD (A4, partial)
+## 4. Sled mass: computed from Gen3 CAD solid volumes (A4, partial)
 
 Exact solid volumes from the OpenCASCADE kernel, multiplied by material densities. The
 magnet density (7500 kg/m³) is the repo's own, from `sizing.py`.
@@ -203,7 +208,7 @@ magnet density (7500 kg/m³) is the repo's own, from `sizing.py`.
 | **Total as drawn** | | | | **9.445** |
 
 **The method reproduces the existing claim exactly.** Fed 7.50 kg, the shot model returns
-17.87 m/s, the 17.88 m/s that P8 states. Fed the measured 9.445 kg, it returns **16.53 m/s
+17.87 m/s, the 17.88 m/s that P8 states. Fed the CAD-derived 9.445 kg, it returns **16.53 m/s
 at 10.7 g and 19.6 % efficiency**.
 
 What this is not: it is not the structural FEA A4 specifies. It measures the sled *as
@@ -261,7 +266,7 @@ attraction only, no launch or arrest loads.
 | Analysis | Status |
 |---|---|
 | **A1** airgap field, magnetostatic FEA | **RUN 2026-07-29, thrust band met at ratio 1.001.** See section 5. |
-| **A4** sled structural | **Run**: see section 4b. Mass measured, stiffness/stress/modal computed. What remains is the optimisation question: the lightest chassis meeting the constraint, which needs a rib-stiffened study. |
+| **A4** sled structural | **Run**: see section 4b. Mass computed from CAD solids, stiffness/stress/modal computed. What remains is the optimisation question: the lightest chassis meeting the constraint, which needs a rib-stiffened study. |
 | **A6** conjunction P<sub>c</sub> | **Not run.** Needs a covariance that does not exist for an unflown satellite (E18), and the CARA tools are MATLAB. |
 | **A7** separation and tip-off | **Not run.** Recorded here as "Project Chrono is not installable", **that verdict is now in doubt**: `pychrono` ships on conda-forge rather than PyPI and lists linux-64, so a failed `pip install` is the likely cause. Retry before treating A7 as blocked. Tip-off remains a model output with no multibody model behind it, and the acceptance band it would be judged against may itself be mis-sourced (`docs/LANDSCAPE.md`). |
 | Thermal, contamination, EMC, host stage | Unchanged, E5, E11, E12 stand. |
@@ -278,7 +283,7 @@ solids gives **9.445 kg**, which drives exit velocity to **16.53 m/s**: below th
 that P8 already flags as provisional.
 
 A4's pre-declared decision rule says a mass at or above 6.80 kg means "17.88 m/s becomes the
-headline and the paper changes materially". The measurement lands well beyond that
+headline and the paper changes materially". The CAD result lands well beyond that
 threshold. It does not settle the design question, pocketed plates would weigh less, and
 the stiffness constraint is unevaluated, but **whichever way the FEA goes, 20.37 m/s is not
 supported by the geometry that currently exists.** Recorded as P15.
@@ -363,7 +368,7 @@ Detail: [`validation/results/A1_femm.json`](../validation/results/A1_femm.json).
 
 **The performance claim has been settled, downward.** The headline 20.37 m/s rested on a
 4.86 kg sled the drawn geometry does not support. A4 ran, the plate passed all three
-structural bands, and the measured 9.445 kg fell in the decision rule's ≥ 6.80 kg branch, so
+structural bands, and the CAD-derived 9.445 kg fell in the decision rule's ≥ 6.80 kg branch, so
 `analysis/` moved to **16.537 m/s at 10.7 g**, and the paper and figures followed. This is
 the first script value this project has changed, and it was authorised by a rule written
 before the analysis that triggered it.

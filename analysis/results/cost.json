@@ -60,13 +60,6 @@
       "finished_INR": 20218
     },
     {
-      "part": "Brake Cu fin + ring spring",
-      "material": "Copper",
-      "kg": 1.2,
-      "raw_INR": 1440,
-      "finished_INR": 3600
-    },
-    {
       "part": "Cassette shells (2x Al sheet eq.)",
       "material": "Aluminium",
       "kg": 8.853,
@@ -95,14 +88,14 @@
       "finished_INR": 9900
     },
     {
-      "part": "Sled CAD reconciliation (P15, measured 9.445 kg)",
+      "part": "Sled CAD reconciliation (P15, CAD-derived 9.445 kg)",
       "material": "Ti-6Al-4V",
       "kg": 4.586,
       "raw_INR": 20638,
       "finished_INR": 82552
     }
   ],
-  "fabricated_subtotal_INR": 268655,
+  "fabricated_subtotal_INR": 265055,
   "bought_in": {
     "Supercapacitor cells (32 series, 190 F)": 240000,
     "SiC bridge + gate drive": 180000,
@@ -114,13 +107,13 @@
     "Fasteners, A-286 pins, misc": 40000
   },
   "bought_in_subtotal_INR": 1080000,
-  "total_INR": 1348655,
-  "per_satellite_INR": 112388,
+  "total_INR": 1345055,
+  "per_satellite_INR": 112088,
   "sensitivity": [
     {
       "item": "Avionics, sequencer, IMU",
-      "share_pct": 23.7,
-      "total_if_2x_pct": 23.7
+      "share_pct": 23.8,
+      "total_if_2x_pct": 23.8
     },
     {
       "item": "Supercapacitor cells (32 series, 190 F)",
@@ -129,8 +122,8 @@
     },
     {
       "item": "SiC bridge + gate drive",
-      "share_pct": 13.3,
-      "total_if_2x_pct": 13.3
+      "share_pct": 13.4,
+      "total_if_2x_pct": 13.4
     },
     {
       "item": "Ti-6Al-4V (material + machining)",
@@ -159,8 +152,8 @@
     },
     {
       "item": "Harness, connectors, EMC",
-      "share_pct": 4.4,
-      "total_if_2x_pct": 4.4
+      "share_pct": 4.5,
+      "total_if_2x_pct": 4.5
     },
     {
       "item": "Aluminium (material + machining)",
@@ -174,13 +167,13 @@
     },
     {
       "item": "PEEK (material + machining)",
-      "share_pct": 1.9,
-      "total_if_2x_pct": 1.9
+      "share_pct": 2.0,
+      "total_if_2x_pct": 2.0
     },
     {
       "item": "Copper (material + machining)",
-      "share_pct": 1.7,
-      "total_if_2x_pct": 1.7
+      "share_pct": 1.4,
+      "total_if_2x_pct": 1.4
     },
     {
       "item": "Steel (material + machining)",

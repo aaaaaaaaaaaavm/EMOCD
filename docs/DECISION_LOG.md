@@ -142,3 +142,9 @@ Concept and results released via LinkedIn and this repository. Detailed operatin
 was deliberately withheld from the public post but **is** disclosed by publishing these
 scripts. See `OPEN_PROBLEMS.md` E14, this is irreversible and was not preceded by a
 provisional filing.
+
+### 2026-08-03 correction to the regeneration addendum
+
+The decision to recover energy before the eddy brake remains accepted. At the corrected
+operating point the same model returns **291.4 J**, 23.0% of the sled's 1268.3 J, leaving
+**934.7 J** to the brake and giving **20.99%** net electrical-to-payload efficiency.

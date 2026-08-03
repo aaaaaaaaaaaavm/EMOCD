@@ -1,3 +1,8 @@
+> **Numerical audit correction, 2026-08-03.** The current operating point is 11.03 N per
+> kA/m, 16.388 m/s, 10.53 g, 291.4 J recovered, 934.7 J to the brake, and 20.99% net
+> efficiency. A13's former residual-rate/cadence conclusion is superseded, A6's 3.7e-8
+> result is only a fixed-shape sensitivity, and the corrected brake-fin transient is 7 K
+> per shot. Values below that describe earlier audit states are retained as history.
 # Project notes: context for working on this repo
 
 Start here before changing anything.
@@ -73,7 +78,7 @@ python3 astro.py              # ~10 min (decay integrations + 30-day propagation
 ```
 
 Dependency order: `mass_properties.py` produces the sled mass that `motor_model.py`
-hard-codes as `M_SLED`. It currently carries the 9.445 kg measured from the Gen3 CAD
+hard-codes as `M_SLED`. It currently carries the 9.445 kg CAD-derived from the Gen3 CAD
 solids, not the 4.86 kg parametric estimate that preceded it (P15). If you change the mass model, update that
 constant and re-run the motor model, then the paper.
 
@@ -91,7 +96,7 @@ constant and re-run the motor model, then the paper.
   by A11:** 240 mm of added stator downstream of release returns **296.6 J, 23.0 % of the
   sled's 1291 J**, at the same sheet-current rating. 952 J still goes to the brake, so the
   arrest decision above is unaffected. Efficiency is electrical-to-payload net of that credit,
-  **21.2 %** at the measured sled mass (19.0 % before regeneration; 32 % at the superseded
+  **21.2 %** at the CAD-derived sled mass (19.0 % before regeneration; 32 % at the superseded
   4.86 kg parametric estimate). The old line stays struck through rather than deleted: the
   claim was published for five years and a reader should be able to see it change.
 - Attached mode carries no CMGs or thrusters; the host stage absorbs recoil.

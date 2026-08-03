@@ -26,7 +26,7 @@ deployer selling *programmable per-satellite velocity* should be able to state w
 velocity buys as a region.
 
 E24 is the sharper one, because it was found by reading someone else's problem statement rather
-than by examining this design. This project budgets 66.1 N·s of recoil from the shot and nothing
+than by examining this design. This project budgets 65.6 N·s of recoil from the shot and nothing
 at all from moving a few kilograms of satellite across the structure between every pair of
 shots. The quantity that matters is residual attitude rate at trigger, and it does not exist
 anywhere in this repository.

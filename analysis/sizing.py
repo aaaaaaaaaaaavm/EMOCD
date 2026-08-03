@@ -45,33 +45,33 @@ MU0 = 4e-7 * math.pi
 # silent fork between the two is exactly how a stale operating point survives -- so
 # _check_operating_point() below asserts agreement against motor_model's own output
 # whenever results/motor_results.json is present.
-M_SLED = 9.445         # kg, measured Gen3 CAD (P15); was 4.86 parametric until 2026-07-29
+M_SLED = 9.445         # kg, computed from Gen3 CAD solid volumes (P15); was 4.86 parametric until 2026-07-29
 M_SAT = 4.0            # kg
-V_EXIT = 16.537        # m/s
-E_DRAWN = 2881.2       # J per shot, bank terminal draw including ESR dissipation
-F_CMD = 1413.4         # N
-T_PULSE = 0.1573       # s, acceleration-zone duration
-Q_COPPER = 827.9       # J per shot, winding I^2R over the pulse
-Q_ESR = 85.6           # J per shot, bank ESR dissipation. Was a literal 160 J estimate in
+V_EXIT = 16.388        # m/s
+E_DRAWN = 2850.9       # J per shot, bank terminal draw including ESR dissipation
+F_CMD = 1389.3         # N
+T_PULSE = 0.1586       # s, acceleration-zone duration
+Q_COPPER = 834.7       # J per shot, winding I^2R over the pulse
+Q_ESR = 82.8           # J per shot, bank ESR dissipation. Was a literal 160 J estimate in
 #                        thermal_campaign() until A8-R put a computed number against it.
-SAG_FRAC = 0.0535      # bank state-of-charge droop actually reached at C_SELECTED
+SAG_FRAC = 0.05296     # bank state-of-charge droop actually reached at C_SELECTED
 CONV_EFF = 0.95        # power converter
 P_AUX = 200.0          # W
 ACCEL_ZONE = 1.30      # m
 BRAKE_CAP_G = 200      # g, taper-limited sled deceleration
 
 # --- regenerative braking after release (A11, adopted under ADOPTION.md Amendment 3) ---
-# The sled used to carry its whole 1291 J into the brake. It now gives back the first
+# The sled used to carry its whole kinetic energy into the brake. It now gives back the first
 # 240 mm of it through added stator at the same sheet-current rating that bounds
 # acceleration. Every figure here comes from motor_model.regen_brake() and is checked
 # against its JSON by _check_operating_point().
 S_REGEN = 0.240        # m of added stator downstream of the 1500 mm release point
-E_RECOVERED = 296.6    # J per shot returned to the bank cells
-KE_TO_BRAKE = 952.1    # J per shot still arriving at the eddy brake (was 1291.4)
-Q_COPPER_REGEN = 15.2  # J, winding I^2R during the 15.6 ms braking pulse
-Q_ESR_REGEN = 8.2      # J, bank ESR on the way back IN
-Q_CONV_REGEN = 16.2    # J, converter loss on the recovered power
-Q_AUX_REGEN = 3.1      # J, hotel load over the braking pulse
+E_RECOVERED = 291.4    # J per shot returned to the bank cells
+KE_TO_BRAKE = 934.7    # J per shot still arriving at the eddy brake
+Q_COPPER_REGEN = 15.3  # J, winding I^2R during the 15.8 ms braking pulse
+Q_ESR_REGEN = 7.8      # J, bank ESR on the way back IN
+Q_CONV_REGEN = 15.9    # J, converter loss on the recovered power
+Q_AUX_REGEN = 3.2      # J, hotel load over the braking pulse
 
 
 def capacitor_sizing(E=E_DRAWN, V0=96.0, sag_frac=SAG_FRAC, C_selected=6.0):
@@ -230,7 +230,7 @@ def thermal_campaign(n_shots=12, Q_coil=None, Q_fin=None, Q_esr=None,
     # does NOT pass is geometry: 240 mm of regen stator plus a 300 mm fin do not both
     # fit the 339 mm arrest section, and no repartitioned layout has been drawn. That
     # is logged rather than resolved here by quietly shortening the fin.
-    fin_mass = 0.004 * 0.08 * 0.30 * 8960
+    fin_mass = 0.004 * 0.08 * 0.12 * 8960  # Gen3 STEP: 120 x 80 x 4 mm Cu fin
     fin_dT = Q_fin / (fin_mass * 385)
     # radiator to reject the burst average over the following orbit
     P_avg = 130.0

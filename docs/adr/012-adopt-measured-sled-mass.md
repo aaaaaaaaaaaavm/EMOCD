@@ -1,4 +1,4 @@
-# ADR-012: Adopt the measured 9.445 kg sled
+# ADR-012: Adopt the CAD-derived 9.445 kg sled
 
 **Status:** Accepted · **Date:** 2026-07-29 · **Phase:** I (error correction)
 
@@ -38,6 +38,12 @@ lifetime multiplier x1.80 to x1.62. Three second-order effects that were not obv
 come out. Nobody has designed that chassis.
 
 ## Validation
-A4 (CalculiX, run, all bands pass). The measurement method reproduces P8's 17.88 m/s exactly
+A4 (CalculiX, run, all bands pass). The CAD-mass computation reproduces P8's 17.88 m/s exactly
 when fed 7.50 kg, so the discrepancy is in the mass and not the method. Re-running A5 and A8
 at the current point is on the roadmap.
+
+## Numerical correction, 2026-08-03
+
+The mass decision remains accepted. Correcting a shared winding-thickness quadrature moves
+the operating point from 16.537 m/s at 10.72 g to **16.388 m/s at 10.53 g**. This is an
+error correction downstream of the decision, not a reversal of the CAD-mass adoption.

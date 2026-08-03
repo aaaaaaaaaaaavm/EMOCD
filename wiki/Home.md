@@ -48,9 +48,9 @@ GitHub renders STL natively. Derived meshes; `cad/step/gen3/` is the master geom
 ```mermaid
 flowchart LR
     A["Cassette feed<br/>12 x 3U"] --> B["Retention gate"]
-    B --> C["Accelerate<br/>1.3 m, 10.7 g"]
+    B --> C["Accelerate<br/>1.3 m, 10.5 g"]
     C --> D["Coast &amp; trim"]
-    D --> E["Release<br/>16.54 m/s"]
+    D --> E["Release<br/>16.39 m/s"]
     E --> F["Eddy brake"]
     F --> G["Sled recovered"]
     E -.->|"payload departs"| H["Own orbit<br/>x1.62 lifetime"]
@@ -73,25 +73,25 @@ All figures are script outputs, not measurements.
 
 | Quantity | Value | Script |
 |---|---|---|
-| Thrust constant | 11.22 N per kA/m, ±1.26 % ripple | `motor_model.py` |
-| Exit velocity, 3U | **16.54 m/s at 10.7 g** | `motor_model.py` |
-| Electrical to payload efficiency | 21.2 % (2.58 kJ net of regeneration, 547 J delivered) | `motor_model.py` |
+| Thrust constant | 11.03 N per kA/m, ±0.99 % ripple | `motor_model.py` |
+| Exit velocity, 3U | **16.39 m/s at 10.5 g** | `motor_model.py` |
+| Electrical to payload efficiency | 21.0 % (2.56 kJ net of regeneration, 537 J delivered) | `motor_model.py` |
 | Closed-loop dispersion | 0.027 m/s (3σ) at a 16.2 m/s setpoint to ±0.10 km apogee | `motor_model.py` |
 | Orbital lifetime multiplier | x1.62 at mean activity, **not invariant, see P16** | `astro.py` |
 | Constellation seeding | 30° in 1.4-6.9 days vs 25 days by differential drag | `astro.py` |
-| Dry / loaded mass | 76.9 kg / 124.9 kg | `mass_properties.py` |
-| Recoil per shot | 66.1 N·s | `astro.py` |
+| Dry / loaded mass | 76.5 kg / 124.5 kg | `mass_properties.py` |
+| Recoil per shot | 65.6 N·s | `astro.py` |
 | Track first mode | 109 Hz fixed-fixed (target >70) | `sizing.py` |
 | Energy closure | 100.0 % accounted | `sizing.py` |
 
-Payload family (`motor_model.py`): 1U 18.5 m/s at 13.4 g · 3U 16.5 m/s at 10.7 g ·
+Payload family (`motor_model.py`): 1U 18.5 m/s at 13.4 g · 3U 16.4 m/s at 10.5 g ·
 6U 14.5 m/s at 8.3 g · 12U 13.1 m/s at 6.7 g. The 6U and 12U cases are force-limited
 consequences of the 3U design, not designed variants (see E9).
 
 > **These numbers moved down on 2026-07-29.** The headline was 20.37 m/s at 16.3 g against
 > a 4.86 kg parametric sled; exact solid volumes from the Gen3 CAD give **9.445 kg** (P15).
 > The consequence of each mass band was declared in `validation/A4_sled_structural.md`
-> **before** the structural analysis ran, and the measurement landed in the ≥ 6.80 kg
+> **before** the structural analysis ran, and the CAD result landed in the ≥ 6.80 kg
 > branch, "the headline changes and the paper changes materially". A4 has since run and
 > the drawn plate passes all three bands, so nothing forces a lighter chassis. Scripts moved
 > first, then the paper. 9.445 kg is the as-drawn, unpocketed geometry and A4 reports a 17x
@@ -143,8 +143,8 @@ These were argued out and should not be silently reopened; reasoning is in
 - **Eddy-current brake for arrest.** Motor regeneration alone cannot stop the sled,
   braking force is bounded by the same thrust constant as acceleration.
 - **Most of the sled's kinetic energy is dissipated; 23 % of it is recovered.** 240 mm of
-  stator downstream of release returns 296 J of the sled's 1291 J to the bank, and the brake
-  takes the other 952 J. The 21.2 % figure is electrical-to-payload net of that. This page
+  stator downstream of release returns 291 J of the sled's 1268 J to the bank, and the brake
+  takes the other 935 J. The 21.0 % figure is electrical-to-payload net of that. This page
   said "not recovered" until 2026-07-31, which was wider than the decision it rested on.
 - **No CMGs or thrusters in attached mode**; the host stage absorbs recoil.
 - **Two transverse cassettes of six**, alternating feed to keep the centre of mass

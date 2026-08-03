@@ -29,3 +29,9 @@ the dispersion figure meaningless**, and nothing detected that before the guard 
 ## Validation
 `motor_model.py` raises if `mc['mean'] < V_FLEET - 0.05`. E7 remains open: the dispersion still
 rests on *assumed* sensor noise, and A7 plus benchtop B-3 would test it.
+
+## Numerical correction, 2026-08-03
+
+The fleet setpoint remains 16.2 m/s. Correcting the shared thrust quadrature moves the
+open-loop ceiling from 16.537 to **16.388 m/s**, leaving 0.188 m/s of nominal headroom.
+The decision remains accepted; the headroom fraction is now 98.85%, not 98.2%.

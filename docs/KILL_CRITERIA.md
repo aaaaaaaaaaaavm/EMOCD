@@ -24,10 +24,10 @@ rocket equation is unkind to VOLLEY here.
 |---|---|
 | Propellant for 16.5 m/s on a 4 kg 3U, cold gas at Isp 60 s | **0.111 kg** |
 | A COTS 3U cold-gas module, wet, including tank, valves and drive | **0.5 to 1.2 kg** |
-| VOLLEY's share, 76.9 kg over 12 satellites | **6.41 kg** |
+| VOLLEY's share, 76.5 kg over 12 satellites | **6.38 kg** |
 | **Ratio** | **VOLLEY is about 8x heavier for the same delta-v** |
 
-And 76.9 kg **excludes the enclosure, radiator and avionics** (P10). At a plausible 20 kg of
+The 76.5 kg rollup includes parametric enclosure, thermal and avionics lumps, but none is physically measured and the packaging masses remain provisional. At a plausible 20 kg of
 missing mass the figure becomes 8.08 kg per satellite.
 
 > **Kill threshold: above roughly 2 kg per satellite, a rational customer buys a propulsion
@@ -172,7 +172,7 @@ of the interval. **The same failure is dominant or irrelevant depending on which
 
 ## 6. Host recoil
 
-66.1 N·s per shot, about **0.98 kN·s** for a full manifest, roughly half a kilogram of
+65.6 N·s per shot, **0.787 kN·s** for a full manifest, about 0.37 kg of
 hydrazine-class propellant for the host to null.
 
 > **Kill threshold: if a host will not accept the momentum and the pointing disturbance, nobody

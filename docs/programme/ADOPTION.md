@@ -122,7 +122,7 @@ Four things bound it:
    sweep. **If the run misses them, the design change does not happen** and this amendment
    lapses. An authorised change that is also allowed to move its own target is not a change
    control, it is a formality.
-3. **`v_exit` must not move.** Regeneration acts after release. If 16.537 m/s changes by so much
+3. **`v_exit` must not move.** Regeneration acts after release. If 16.388 m/s changes by so much
    as a rounding digit, the model has coupled the loss ledger to the performance claim and the
    change is reverted rather than explained.
 4. **The packaging question stays open.** The 240 mm of stator is assumed to fit the arrest

@@ -1,6 +1,6 @@
 {
-  "dry_kg": 76.9,
-  "loaded_kg": 124.9,
+  "dry_kg": 76.5,
+  "loaded_kg": 124.5,
   "cg_m": 0.44,
   "sled_kg": 9.45,
   "sled_parametric_kg": 4.86,
@@ -41,8 +41,8 @@
       1.42
     ],
     [
-      "Brake Cu fin + ring spring",
-      1.2,
+      "Fixed brake hardware + ring spring (moving Cu fin is in sled)",
+      0.86,
       1.4
     ],
     [
@@ -91,7 +91,7 @@
       0.75
     ],
     [
-      "Sled CAD reconciliation (P15, measured 9.445 kg)",
+      "Sled CAD reconciliation (P15, CAD-derived 9.445 kg)",
       4.59,
       0.15
     ]

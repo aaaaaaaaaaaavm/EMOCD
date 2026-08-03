@@ -5,7 +5,7 @@ WHY THIS SCRIPT EXISTS
 ----------------------
 My older resumes disagree with this repository and with each other. One describes VOLLEY as
 "coilgun-based", superseded since mid-2025 (ADR-003). Another quotes "10-50 m/s" where the model
-gives 16.5 m/s at the rated point and 13.1-18.5 m/s across the payload family. A third carries a
+gives 16.4 m/s at the rated point and 13.0-18.3 m/s across the payload family. A third carries a
 different email address.
 
 That is the same class of failure as the paper drifting from the scripts, and it gets the same
@@ -110,14 +110,14 @@ calibration, 2nd globally at IREC 2025. Seeking propulsion, structures, or test 
   \item Architected a magazine-fed \textbf{ironless double-sided Halbach linear synchronous motor}
         that ejects \textbf{unmodified} 3U CubeSats at \textbf{@V_EXIT@\,m/s} (@V_FAM_LO@--@V_FAM_HI@\,m/s
         across the 1U--12U family) at \textbf{@A_PEAK_G@\,g} on \textbf{@ENERGY_KJ@\,kJ} per shot ---
-        eight times a spring, inside standard CubeSat qualification loads.
+        6.6 times the fastest published spring, inside standard CubeSat qualification loads.
   \item Selected the LSM over a coilgun in a documented architecture trade: a coilgun needs a
         conductive armature on the customer satellite, and its velocity advantage is capped by the
         payload's own g-limit. Verified against published work reaching 321\,m/s at
         $\sim$1350\,g --- roughly 100$\times$ CubeSat qualification.
   \item Derived the thrust constant \textbf{@KT@\,N per kA/m} from a winding-resolved model, then
         \textbf{wrote a 2-D magnetostatic FEM from the weak form} (scikit-fem, gmsh, 141k elements)
-        to check it independently: agreement to \textbf{0.07\,\%}.
+        to check it independently: agreement to \textbf{0.03\,\%}.
   \item Closed the system at \textbf{@MASS_DRY@\,kg dry}, and \textbf{published every defect found}
         --- 46 numbered open problems, with acceptance bands declared before each analysis ran.
         \textbf{Retracted my own claims when evidence went against them}: an independent propagator
@@ -216,7 +216,7 @@ def main():
         "@A_PEAK_G@":  f"{f['a_peak_g']:.1f}",
         "@ENERGY_KJ@": f"{f['energy_kJ']:.2f}",
         "@KT@":        f"{f['kt']:.2f}",
-        "@MASS_DRY@":  f"{f['mass_dry']:.0f}",
+        "@MASS_DRY@":  f"{f['mass_dry']:.1f}",
     }
     out = TEMPLATE
     for k, v in subs.items():

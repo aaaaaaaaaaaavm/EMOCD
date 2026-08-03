@@ -4,7 +4,7 @@
 > Every value below is read from the scripts at generation time, so this file cannot silently
 > disagree with them. Regenerate after any authorised baseline change.
 >
-> Flagship commit at generation: `fff034e` · Phase **I** · governed by
+> Flagship commit at generation: `d82877a` · Phase **I** · governed by
 > [`docs/programme/ENGINEERING_PROGRAMME.md`](programme/ENGINEERING_PROGRAMME.md)
 
 This is the engineering baseline the Phase I deliverables (portfolio, IEEE paper, thesis)
@@ -18,29 +18,29 @@ what makes "stable" mean something.
 
 | Quantity | Value | Source field |
 |---|---|---|
-| Thrust constant | **11.22 N per kA/m, ±1.26 % ripple** | `motor_results.Kt_N_per_kA` |
-| Exit velocity, 3U | **16.537 m/s** | `motor_results.shot.v_exit` |
-| Payload acceleration | **10.72 g** | `motor_results.shot.a_g` |
-| Pulse duration | **157.3 ms** | `motor_results.shot.t_ms` |
-| Peak current | **347 A** | `motor_results.shot.I_peak` |
-| Bank sag | **5.35 %** | `motor_results.shot.sag_pct` |
-| Energy drawn per shot, gross | **2881 J** | `motor_results.shot.E_drawn` |
-| Energy recovered per shot | **297 J (23.0 % of sled KE)** | `motor_results.regen.E_recovered` |
-| Energy drawn per shot, net | **2585 J** | `motor_results.E_drawn_net_J` |
-| Sled energy to the brake | **952 J** | `motor_results.regen.KE_to_brake` |
-| Copper loss per shot | **843 J (shot + regen)** | `motor_results.shot.Q_copper` |
-| Payload kinetic energy | **547 J** | `motor_results.shot.KE_payload` |
-| Electrical-to-payload efficiency | **21.2 % (net of regeneration)** | `motor_results.eff_net_pct` |
+| Thrust constant | **11.03 N per kA/m, ±0.99 % ripple** | `motor_results.Kt_N_per_kA` |
+| Exit velocity, 3U | **16.388 m/s** | `motor_results.shot.v_exit` |
+| Payload acceleration | **10.53 g** | `motor_results.shot.a_g` |
+| Pulse duration | **158.6 ms** | `motor_results.shot.t_ms` |
+| Peak current | **339 A** | `motor_results.shot.I_peak` |
+| Bank sag | **5.30 %** | `motor_results.shot.sag_pct` |
+| Energy drawn per shot, gross | **2851 J** | `motor_results.shot.E_drawn` |
+| Energy recovered per shot | **291 J (23.0 % of sled KE)** | `motor_results.regen.E_recovered` |
+| Energy drawn per shot, net | **2560 J** | `motor_results.E_drawn_net_J` |
+| Sled energy to the brake | **935 J** | `motor_results.regen.KE_to_brake` |
+| Copper loss per shot | **850 J (shot + regen)** | `motor_results.shot.Q_copper` |
+| Payload kinetic energy | **537 J** | `motor_results.shot.KE_payload` |
+| Electrical-to-payload efficiency | **21.0 % (net of regeneration)** | `motor_results.eff_net_pct` |
 | Closed-loop dispersion | **0.0271 m/s (3σ)** | `motor_results.closed_loop_3sigma` |
 | Fleet setpoint | **16.2 m/s** | `motor_results.v_fleet_setpoint` |
-| Sled mass | **9.45 kg (measured)** | `mass_properties.sled_kg` |
-| Dry / loaded mass | **76.9 / 124.9 kg** | `mass_properties.dry_kg` |
+| Sled mass | **9.45 kg (computed from CAD solid volumes)** | `mass_properties.sled_kg` |
+| Dry / loaded mass | **76.5 / 124.5 kg** | `mass_properties.dry_kg` |
 | Lifetime multiplier, mean activity | **x1.62** | `astro_results.lifetime.mean` |
-| Recoil per shot | **66.1 N·s** | `astro_results.recoil_Ns_per_shot` |
-| Phase realignment period | **9.9 days** | `astro_results.conjunction.realign_days` |
+| Recoil per shot | **65.6 N·s** | `astro_results.recoil_Ns_per_shot` |
+| Phase realignment period | **10.0 days** | `astro_results.conjunction.realign_days` |
 | Energy closure | **100.0 %** | `sizing.energy_closure.closure_pct` |
 | Track first mode | **109.0 Hz fixed-fixed** | `sizing.track_mode.fixed_fixed_Hz` |
-| Recurring hardware cost | **₹1,348,655 per unit (all prices assumed)** | `cost.total_INR` |
+| Recurring hardware cost | **₹1,345,055 per unit (all prices assumed)** | `cost.total_INR` |
 
 ## Change control
 
@@ -50,7 +50,7 @@ what makes "stable" mean something.
    high, qualifies, and stays Phase I even though correcting it moves three coupled numbers.
 2. **A validation outcome against a band declared before its run.** This is how the baseline
    last moved: `validation/A4_sled_structural.md` fixed the consequence of each sled-mass
-   outcome *before* the analysis ran, the measurement landed in the ≥ 6.80 kg branch, and the
+   outcome *before* the analysis ran, the CAD result landed in the ≥ 6.80 kg branch, and the
    scripts followed the rule rather than a preference.
 3. **A defect that makes a Phase I deliverable wrong.** A paper that states something the
    scripts contradict is a defect regardless of which is right.

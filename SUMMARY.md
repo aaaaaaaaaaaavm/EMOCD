@@ -28,11 +28,11 @@ constellation phase spacing in **1.4-6.9 days** against roughly 25 for different
 
 | | | |
 |---|---|---|
-| Exit velocity, 3U | **16.5 m/s at 10.7 g** | **6.6x the fastest published spring** (NRCSD-E specifies 0.5-2.5 m/s; the widely quoted "8x" is against 2 m/s and is the softer comparison). The ceiling is the payload's g-limit, not the machine: 25.3 m/s at the 25 g cap, see [`VELOCITY_CEILING.md`](docs/VELOCITY_CEILING.md). From a sled mass *measured* in CAD (9.445 kg), not estimated, the earlier 4.86 kg parametric estimate gave 20.4 m/s |
+| Exit velocity, 3U | **16.4 m/s at 10.5 g** | **6.6x the fastest published spring** (NRCSD-E specifies 0.5-2.5 m/s; the widely quoted "8x" is against 2 m/s and is the softer comparison). The ceiling is the payload's g-limit, not the machine: 25.3 m/s at the 25 g cap, see [`VELOCITY_CEILING.md`](docs/VELOCITY_CEILING.md). From a sled mass computed from CAD solid volumes (9.445 kg), not estimated, the earlier 4.86 kg parametric estimate gave 20.4 m/s |
 | Velocity dispersion | **0.027 m/s (3σ)** | Closed-loop, at a 16.2 m/s setpoint. Rests on *assumed* sensor noise (E7), the differentiator, and the least validated part |
-| Thrust constant | **11.22 N per kA/m** | Winding-resolved, and **confirmed 2026-07-29 by a meshed magnetostatic FEM to 0.07 %**, a PDE solve, not another superposition |
-| Energy per shot | **2.88 kJ gross, 2.58 kJ net**, 21.2 % electrical-to-payload | Under one watt-hour. 296 J of the sled's 1291 J comes back through 240 mm of regen stator ([A11](validation/A11_regen_braking.md), adopted 2026-07-31); the brake still takes 952 J |
-| System mass | **76.9 kg dry**, 124.9 kg loaded | **6.4 kg of deployer per 3U satellite**, the same class as canisterized dispensers at ~2 kg/U |
+| Thrust constant | **11.03 N per kA/m** | Winding-resolved, and **independently computed by a meshed magnetostatic FEM to 0.03 %**, a PDE solve, not another superposition |
+| Energy per shot | **2.85 kJ gross, 2.56 kJ net**, 21.0 % electrical-to-payload | Under one watt-hour. 291 J of the sled's 1268 J comes back through 240 mm of regen stator ([A11](validation/A11_regen_braking.md), adopted 2026-07-31); the brake still takes 935 J |
+| System mass | **76.5 kg dry**, 124.5 kg loaded | **6.38 kg of deployer per 3U satellite**, the same class as canisterized dispensers at ~2 kg/U |
 | Recurring hardware | ~₹1.35 M per unit, ₹112 k per satellite | **Every price assumed, no quotations.** Useful part: avionics + energy storage are ~42 % of cost and the magnet set only ~5 %, which holds even at 2x price errors |
 | Envelope | 1839 mm closed | **Exceeds the ESPA-Grande class by ~44 %.** Open packaging problem (P9) |
 
@@ -49,8 +49,8 @@ results are mixed on purpose:
 | **A5 FAILED** | an independent propagator falsified an invariance claim that was in the paper's own abstract (P16) |
 | **A12** | found the inter-array force feeding the structural FEA **37 % high** — and that the explanation first written for it was backwards |
 | **A6** | returned three rows **void**: the quantity they tested does not exist at these separations |
-| **A13 FAILED** | the sled returning to the breech disturbs host attitude 23x more than the magazine indexing everyone was worried about, and nothing budgets it (E24) |
-| A1, A4, A8, A10, A11 | passed, partially or fully, with every miss logged as a numbered defect |
+| **A13 FAILED / corrected** | transient return rate still misses rows 3 and 4, but the ideal residual rate is zero; the former 18.1 s cadence floor is superseded, while attitude restoration and structural settling remain open (E25) |
+| A1, A4, A10, A11, A12 | passed, partially or fully, with every miss logged; the ngspice A8 run now predates the corrected operating point |
 
 **A7 (tip-off) and A9 (decay against flown CubeSats) are outstanding.** A9 is the only analysis
 anywhere in this project that compares the model against something that actually happened, and
@@ -58,10 +58,10 @@ it is blocked by network policy rather than by difficulty.
 
 ## Where it sits against what flies
 
-| | Δv | Programmable | Satellite mods | Status |
+| | Î”v | Programmable | Satellite mods | Status |
 |---|---|---|---|---|
 | Spring deployers, P-POD, ISIPOD, **Dhruva DSOD** | 1-2 m/s | no | none | flown, thousands deployed |
-| **VOLLEY** | 16.5 m/s | **yes** | **none** | design study |
+| **VOLLEY** | 16.4 m/s | **yes** | **none** | design study |
 | Transfer vehicles, ION, Vigoride | 100s m/s | yes | mounting | flown, commercial |
 
 Dhruva Space's DSOD is the closest comparator and it already flies, space-qualified on
@@ -82,7 +82,7 @@ feed, a serial command link, and an authorized firing window.
   capacity, falling to **22 %** and **13 %** on the announced 550 kg and 900 kg variants, so
   early flights are dedicated demonstrations and later ones ordinary manifest items.
 
-Recoil is the satellite's momentum only, **66.1 N·s** per shot, nulled by a few grams of cold
+Recoil is the satellite's momentum only, **65.6 N·s** per shot, nulled by a few grams of cold
 gas.
 
 ## What makes this repository worth opening

@@ -32,7 +32,7 @@ unmodified CubeSat. Springs cannot, and OTVs solve a different problem at a diff
 > 3U. See [`KILL_CRITERIA.md`](KILL_CRITERIA.md) threat 1 and
 > [`PAYLOAD_CLASSES.md`](PAYLOAD_CLASSES.md), where smaller payloads reverse it.
 
-**Mass per satellite is the surprise, and it is not embarrassing.** VOLLEY's 76.9 kg dry
+**Mass per satellite is the surprise, and it is not embarrassing.** VOLLEY's 76.5 kg dry
 carries twelve 3U satellites, **6.4 kg of deployer per satellite**. Planetary Systems'
 canisterized dispensers run about 2 kg per U (12 kg for 6U, 24 kg for 12U, 54 kg for 27U),
 so a 3U-equivalent slot is in the same 6 kg neighbourhood. A magazine-fed electromagnetic
@@ -129,7 +129,7 @@ than a physics one.
 | Concept occupies a genuinely unserved regime | **yes** |
 | Mass per satellite competitive with fielded dispensers | **yes**, with P10 outstanding |
 | Programmable velocity, no satellite modification | **yes**, and unique |
-| Delivers the velocity it advertises | **yes, since 2026-07-29**: it now advertises the 16.54 m/s the measured geometry gives |
+| Delivers the velocity it advertises | **yes, since 2026-07-29**: it now advertises the 16.39 m/s the CAD geometry gives |
 | Gentler tip-off than a spring | **unproven**: A7 not run |
 | Dispersion better than a spring | **unproven**: rests on assumed sensor noise (E7) |
 | Anything built or measured | **no** |

@@ -49,7 +49,7 @@ and `OPEN_PROBLEMS.md` P13.
 2. **Cross-check every dimension against `parameters.json`** before quoting it.
 3. **No Fusion masses.** Mass authority is `analysis/mass_properties.py`, and even that is
    incomplete (P10).
-4. **The sled mass conflict is resolved (2026-07-29).** The scripts now carry the measured 9.445 kg and the headline is 16.54 m/s. Historical note follows: 20.37 m/s assumed a 4.86 kg sled; the Gen3
+4. **The sled mass conflict is resolved (2026-07-29).** The scripts now carry the CAD-derived 9.445 kg and the headline is 16.39 m/s. Historical note follows: 20.37 m/s assumed a 4.86 kg sled; the Gen3
    geometry implies ~7.50 kg and a provisional 17.88 m/s. Quote neither without the
    conflict (P5, P8). `validation/A4_sled_structural.md` is the analysis that settles it.
 5. **The ESPA envelope claim is not supported.** 1839 mm installed against a ~1270 mm class

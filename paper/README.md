@@ -2,19 +2,19 @@
 
 `paper.tex` is the source. `VOLLEY_IEEE_Conference.pdf` is the last compiled build.
 
-**Built 2026-07-29** from the current source with pdfTeX 3.141592653 (TeX Live 2023):
-10 pages, zero undefined references, zero missing figures. Source and PDF agree.
+**Built 2026-08-03** from the current source with pdfTeX 3.141592653 (TeX Live 2023):
+12 pages, zero undefined references, zero missing figures. Source and PDF agree. The
+one-page CV was regenerated from `analysis/results/*.json` and rebuilt in the same environment.
 
-To rebuild: `pdflatex paper.tex` twice from this directory (twice, so cross-references
-resolve), or upload `paper.tex`, `IEEEtran.cls` and `figures/` to Overleaf.
+To rebuild: run `pdflatex paper.tex` from this directory until the cross-references settle
+(three passes from a clean build), or upload `paper.tex`, `IEEEtran.cls` and `figures/` to Overleaf.
 
-## What changed on 2026-07-29
+## What changed in the current build
 
 Three groups, all traceable to `CHANGELOG.md` and the P-items in `OPEN_PROBLEMS.md`:
 
-1. **The rated point moved.** The sled mass was measured at 9.445 kg from the Gen3 CAD
-   solids, against the 4.86 kg the parametric model assumed (P15). Exit velocity is now
-   16.5 m/s at 10.7 g, efficiency 20 %, lifetime multiplier x1.62, dry mass 76.9 kg. This
+1. **The rated point moved.** The sled mass was computed as 9.445 kg from the Gen3 CAD solid volumes, against the 4.86 kg the parametric model assumed (P15). Exit velocity is now
+   16.4 m/s at 10.5 g, efficiency 21.0 %, lifetime multiplier x1.62, dry mass 76.5 kg. This
    was not a judgement call after the fact: `validation/A4_sled_structural.md` fixed the
    consequence of each mass band **before** the structural analysis ran, and the ≥ 6.80 kg
    branch is the one that fired.

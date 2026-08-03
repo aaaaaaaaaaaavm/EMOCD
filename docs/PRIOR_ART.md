@@ -100,7 +100,7 @@ transfers, with a cost term for **attitude disturbance caused by the transfers t
 shifting centre of mass degrades platform pointing and therefore release accuracy.
 
 > **This is a gap in the present work, and it was found by reading their problem statement rather
-> than by examining this design.** This project budgets recoil from the *shot* (66.1 N·s) and has
+> than by examining this design.** This project budgets recoil from the *shot* (65.6 N·s) and has
 > nothing on disturbance from **magazine indexing between shots**. Opened as **E24**.
 
 ### Zhao, Zhang, Zhao, Li, Zhang, Yang, Yue *et al.* (2025): *Simulation Analysis and Experimental Verification of the Transport Characteristics of a High-Volume CubeSat Storage Device*

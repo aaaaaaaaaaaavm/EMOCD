@@ -3,8 +3,8 @@
     "C_required_F": 6.0,
     "C_selected_F": 6.0,
     "consistent": true,
-    "C_for_4p9pct_sag_F": 6.54,
-    "sag_pct": 5.35,
+    "C_for_4p9pct_sag_F": 6.47,
+    "sag_pct": 5.3,
     "cells_series": 32,
     "cell_V": 3.0,
     "cell_F": 190
@@ -32,10 +32,10 @@
     "roller_pair_N": 1482.0
   },
   "abort_latch": {
-    "load_N": 420.0,
+    "load_N": 413.0,
     "fastener": "M4 A-286",
     "capacity_N": 7900.0,
-    "margin": 8.4
+    "margin": 8.6
   },
   "retention_gate": {
     "load_kN": 5.89,
@@ -65,24 +65,24 @@
     "within_rating": true
   },
   "thermal": {
-    "campaign_kJ": 24.4,
+    "campaign_kJ": 24.3,
     "bulk_rise_K": 1.8,
-    "fin_mass_kg": 0.86,
-    "fin_adiabatic_dT_K": 3.0,
+    "fin_mass_kg": 0.34,
+    "fin_adiabatic_dT_K": 7.0,
     "radiator_m2": 0.32
   },
   "energy_closure": {
-    "KE_payload_J": 547.0,
-    "KE_sled_J": 1291.0,
-    "KE_to_brake_J": 952.0,
-    "regen_recovered_J": 297.0,
-    "copper_J": 843.0,
-    "esr_J": 94.0,
-    "converter_J": 113.0,
+    "KE_payload_J": 537.0,
+    "KE_sled_J": 1268.0,
+    "KE_to_brake_J": 935.0,
+    "regen_recovered_J": 291.0,
+    "copper_J": 850.0,
+    "esr_J": 91.0,
+    "converter_J": 111.0,
     "aux_J": 35.0,
-    "accounted_J": 2583.0,
-    "drawn_gross_J": 2881.2,
-    "drawn_net_J": 2584.6,
+    "accounted_J": 2558.0,
+    "drawn_gross_J": 2850.9,
+    "drawn_net_J": 2559.5,
     "closure_pct": 100.0
   },
   "pole_pitch": {
@@ -93,9 +93,9 @@
     "64mm": 0.302
   },
   "track_length": {
-    "1.0m": 13.0,
-    "1.2m": 14.5,
-    "1.5m": 16.5,
-    "1.8m": 18.3
+    "1.0m": 12.9,
+    "1.2m": 14.4,
+    "1.5m": 16.4,
+    "1.8m": 18.2
   }
 }

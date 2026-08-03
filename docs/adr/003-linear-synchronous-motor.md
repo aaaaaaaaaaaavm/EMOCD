@@ -55,6 +55,6 @@ sets the ceiling: a synchronous machine's thrust is bounded by the same constant
 directions, which is why arrest needs a separate mechanism (ADR-005).
 
 ## Validation
-K<sub>t</sub> = 11.22 N per kA/m from `analysis/motor_model.py`, currently checked only
+K<sub>t</sub> = 11.03 N per kA/m from `analysis/motor_model.py`, currently checked only
 analytic-against-analytic, **this is the weakest link in the project and A1 is the top
 roadmap item.** The dispersion claim rests on E7's assumed sensor noise and needs A7.
