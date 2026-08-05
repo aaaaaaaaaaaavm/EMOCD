@@ -79,14 +79,36 @@ Declared before the template exists. Each is capable of failing.
 
 | # | Question | Band | What a miss means |
 |---|---|---|---|
-| 1 | Inclination spread across the twelve, Case A | **≤ 0.13°** | if the campaign produces more, the propagator disagrees with the rocket equation and one of them is wrong |
-| 2 | Apogee spread across the twelve, Case A | **≥ 100 km** | the altitude lever is the one that works; below this the "twelve different orbits" claim weakens badly |
-| 3 | RAAN spread from the impulses alone, at epoch | **≤ 0.75°** | same test as band 1, on the other in-plane-normal axis |
+| 1 | **Largest inclination change of any one satellite**, Case A | **≤ 0.13°** | if the propagator produces more, it disagrees with the rocket equation and one of them is wrong |
+| 2 | **Altitude extent**: highest apogee minus lowest perigee, Case A | **≥ 100 km** | the altitude lever is the one that works; below this the "twelve different orbits" claim weakens badly |
+| 3 | **Largest RAAN change of any one satellite** from the impulse alone | **≤ 0.75°** | same test as band 1, on the other cross-track axis |
 | 4 | RAAN spread after 90 days, from differential J2 | **≥ 5°** | **the band that carries the actual product claim.** Predicted 13–22° |
 | 5 | GMAT boosted SMA against `astro.boosted_elements` at epoch | **within 0.5 %** | a fork between the two codes, which is what P19 and A5 exist to catch |
 | 6 | Minimum inter-object separation over 90 days | **> 100 m at all times** | a deployment that puts its own satellites into conjunction is not a deployment |
 | 7 | Campaign duration | **exactly 12 × 1200 s = 4.0 h** | consistency with ADR-020; a miss means the script and the ADR disagree |
 | 8 | Case B: host Δv per degree of plane change | **report**; VOID as a capability claim | POEM's authority is undisclosed (E5) |
+
+### Three of these eight bands were corrected on 2026-08-05, before the run
+
+**Bands 1 and 3 named a fleet spread while their limits were computed as single-shot maxima.**
+The physical ceiling is per satellite: 0.123° of inclination and 0.74° of RAAN for one shot
+spending its entire Δv on plane change. A campaign firing one satellite cross-track and another
+anti-cross-track doubles the *spread* to 0.246° and 1.46° without either satellite exceeding the
+ceiling. **The limits are unchanged — 0.13° and 0.75° — and only the named quantity is corrected**,
+which is the narrowest possible fix and the one least able to hide a moved goalpost.
+
+**Band 2 was mis-specified differently.** As first declared it read *"apogee spread across the
+twelve ≥ 100 km"*, which does not measure what it was for. A prograde impulse at a circular orbit
+raises apogee by 58.9 km and leaves
+perigee alone; a retrograde impulse lowers perigee by 58.6 km and leaves *apogee* alone. So the
+apogee spread alone is only ~59 km and the band would have failed for a reason that has nothing
+to do with the machine. The quantity that carries the claim is the **altitude extent**, highest
+apogee to lowest perigee, which is ~117 km.
+
+**A15 has not run.** Correcting a band before any result exists, with the correction dated and
+the original stated, is the same act `validation/A7_separation_chrono.md` performed under **P30**
+— the rule working rather than being bent. Had this been found after a run, the failure would
+have stood and the mis-specification would have become a numbered defect.
 
 **Band 4 is the one to watch.** It is the only band here whose failure would damage the product
 argument rather than the model. If differential J2 does not separate the planes — because drag

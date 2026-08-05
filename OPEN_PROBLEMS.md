@@ -1119,6 +1119,28 @@ for that reason and for the absence of a materials list.
 Shielding the payload is the option that should be resisted: it adds mass to the customer's
 satellite, which is the modification the architecture exists to avoid.
 
+### P35. The GMAT script generator is pinned to a superseded operating point: LOW, NEW 2026-08-05
+
+`validation/gmat/build_scripts.py` carries `DV = 20.37` under a header saying the operating point
+is "identical to `astro.py` __main__ and `conjunction()` defaults". **It is not.** `astro.py`'s
+`conjunction()` default is now `dv=16.388`, three corrections later. Anyone regenerating the A5 or
+A6 inputs today gets scripts at a velocity the project abandoned on 2026-07-29.
+
+**It is LOW because nothing currently reads it wrongly.** A5 and A6 *were* run at 20.37 and their
+sheets say so, so the generator matches the results it produced. The defect is that the file
+claims to track `astro.py` and silently does not, which is the same failure class as the stray
+`results/sizing.json` and the stale companion generator: **a second copy of an operating point
+that nothing regenerates.**
+
+**Deliberately not fixed by editing `DV`.** Changing it would make regenerated scripts differ from
+the ones whose results are recorded, which trades one dishonesty for another. A15 therefore got
+its own generator, `build_poem_campaign.py`, which reads Δv from `motor_results.json` at run time
+and cannot go stale.
+
+**What would close it:** either re-run A5 and A6 at the current point and update the generator
+together, or mark `DV` explicitly as the frozen historical value those two analyses were run at
+and delete the claim that it tracks `astro.py`. The second is honest and costs nothing.
+
 > **Not all of these weigh the same.** Three of the entries below are threats to whether the
 > machine has a reason to exist rather than engineering work, and they are hard to see in a
 > numbered list. [`docs/KILL_CRITERIA.md`](docs/KILL_CRITERIA.md) separates them, with the value
