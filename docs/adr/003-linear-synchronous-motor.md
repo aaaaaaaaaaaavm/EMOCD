@@ -19,12 +19,31 @@ ejection velocity with dispersion small against its astrodynamic effect.
 Ironless double-sided Halbach linear synchronous motor driving a reusable sled.
 
 ## Alternatives
-- **Coilgun (induction or reluctance).** Rejected. It needs a conductive armature, either bolted
+- **Coilgun (induction or reluctance).** Rejected. ~~It needs a conductive armature, either bolted
   to the customer satellite, breaking the no-modification requirement (ADR-006), or separated as a
-  sabot with its own release event; it offers no abort; and **no published coilgun demonstrates
-  velocity dispersion at the level this application needs.**
+  sabot with its own release event;~~ **struck 2026-08-05, see below**; it offers no abort; and
+  **no published coilgun demonstrates velocity dispersion at the level this application needs.**
   Its one advantage (very high velocity) is erased by the payload's own g-limit, which caps
   useful exit velocity near 26-35 m/s regardless of launcher.
+
+  > **Amended 2026-08-05. The armature clause was wrong, and my own other paper is what shows
+  > it.** It presented a false choice: armature bolted to the customer, or a sabot with its own
+  > release event. There is a third option, and I adopted it myself in *Electromagnetic Launch
+  > System for Vertical Silo-Based Missile Deployment* — an **inductive cradle**, a reusable
+  > element the payload couples to and never carries, selected there over a conducting sabot
+  > because it avoids rail ablation and suits repeated cycling. That is architecturally the same
+  > move as this project's reusable sled.
+  >
+  > So "a coilgun must touch the payload" is false, and a reader who finds both papers — and
+  > [`../SKILLS.md`](../SKILLS.md) points at both — can reasonably ask why VOLLEY rejected
+  > coilguns for needing something the sibling paper shows they do not need.
+  >
+  > **The decision is unaffected, because this was never the load-bearing argument.** What
+  > separates the two machines is control and acceleration, not where the conductor sits:
+  > sequential coil triggering is fire-and-commit, a synchronous machine commands current against
+  > a measured position, and Feng et al. run 1352 g mean against this design's 10.53 g. Those are
+  > the reasons, and they are stated above and in the table below. The armature clause is struck
+  > rather than rewritten because it was doing rhetorical work it could not support.
 
   > **Amended 2026-07-30, after reading the papers.** Two statements here were weaker than they
   > read, and one of them was simply wrong. See [`../PRIOR_ART.md`](../PRIOR_ART.md).

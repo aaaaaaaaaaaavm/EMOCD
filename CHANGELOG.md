@@ -9,6 +9,24 @@ list these changes close) and `docs/DECISION_LOG.md` (why design choices were ma
 
 ---
 
+## 2026-08-05 (second pass): reading the silo paper, and what it says about ADR-003
+
+| ID | Item | Detail |
+|---|---|---|
+| ADR3-01 | **ADR-003's armature clause was wrong and my own other paper is what shows it** | It rejected the coilgun partly because "it needs a conductive armature, either bolted to the customer satellite or separated as a sabot with its own release event." That is a false choice. *Electromagnetic Launch System for Vertical Silo-Based Missile Deployment* considers exactly this trade and selects an **inductive cradle** — reusable, never carried by the payload — over a conducting sabot, to avoid rail ablation and suit repeated cycling. Architecturally that is the same move as this project's reusable sled. Struck rather than rewritten, because it was doing rhetorical work it could not support. |
+| ADR3-02 | **The decision is unaffected** | The load-bearing reasons were never about where the conductor sits: sequential coil triggering is fire-and-commit against a synchronous machine commanding current on measured position, and Feng et al. run 1352 g mean against 10.53 g here. Both were already stated in the ADR and both stand. `docs/SKILLS.md` points readers at both papers, so a reader could have found this before I did. |
+| SILO-01 | **Two of Table III's four rate-of-fire rows do not follow from its own caption** | The caption fixes `t_index = 1.5 s` and the text gives `t_cycle = E_input/P + t_index`. The 1 MW optimistic row prints **18.5 rounds/min** where the stated method gives **15.00** (it implies t_index = 0.74 s), and the 500 kW optimistic row prints **8.6** where the method gives **9.23** (implying 1.98 s). The 18.5 propagates into that paper's abstract and conclusion, so its headline cadence is high by 23 %. `SKILLS.md` had already corrected the 1 MW figure; the 500 kW row had not been noticed. Recorded in `docs/SKILLS.md` because that paper has no defect log of its own. |
+| SILO-02 | **Its abstract claims an EMI analysis its body does not contain** | The abstract says g-load tolerance, **electromagnetic coupling** and pulsed-power thermal management "are identified and analyzed". Section IX lists six challenges and electromagnetic coupling is not among them. |
+| E12-01 | **The pair is the argument for closing E12** | Two electromagnetic launch studies and no EMI calculation in either: one dropped an architecture partly on electromagnetic grounds it never computed, the other lists the analysis in its abstract without performing it. The question has now also been asked from outside the project. E12 records what a first-pass scoping calculation needs and notes that **P33 has just supplied the missing inputs** — phase current and winding inductance — so the `dI/dt`, the field at the payload envelope, the induced EMF and the spectral knee are all computable from `analysis/results/` without new apparatus. T-6 remains the measurement. |
+
+**What authorised it.** ADR3-01 is a correction to a published argument in an architecture
+decision record, which is the class this project fixes in place with the original struck and
+visible. The SILO items are defects in a document cited on my CV and described in `SKILLS.md`;
+recording them where the paper is described is the only defect log it has. No VOLLEY operating
+point, band or verdict moved.
+
+---
+
 ## 2026-08-05: the coilgun's real rejection reason, and the inductance behind it
 
 | ID | Item | Detail |

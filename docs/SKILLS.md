@@ -87,6 +87,36 @@ architecture solved for a different payload.
 | Scale | 500 kg booster class, 50 m/s exit, **2.50-4.17 MJ per launch** across a sourced 15-25 % efficiency band, **10.6-15.0 cycles/min** on a 1 MW supply, *corrected; the paper prints 18.5* |
 | Method | First-order energy, ballistic and g-load analysis. Names its own next step: ANSYS structural validation plus a subscale coilgun efficiency test |
 
+### Two defects in it, found 2026-08-05 and recorded here because it has no defect log of its own
+
+**Two of Table III's four rate-of-fire rows do not follow from its own caption.** The caption
+fixes `t_index = 1.5 s` and the text gives `t_cycle = E_input/P + t_index`, `ROF = 60/t_cycle`.
+Applying that:
+
+| Generator | η | t_recharge | ROF as specified | Printed |
+|---|---|---:|---:|---:|
+| 500 kW | 15 % | 8.34 s | 6.10 | 6.1 |
+| 500 kW | 25 % | 5.00 s | **9.23** | **8.6**, which implies t_index = 1.98 s |
+| 1 MW | 15 % | 4.17 s | 10.58 | 10.6 |
+| 1 MW | 25 % | 2.50 s | **15.00** | **18.5**, which implies t_index = 0.74 s |
+
+The 18.5 propagates into the abstract ("10-18 launches per minute") and the conclusion
+("10.6-18.5 rounds per minute"), so the headline cadence claim is high by 23 %. The 8.6 is wrong
+in the conservative direction and had not been noticed at all. Neither error touches the energy
+analysis, which is the paper's substance; both are in the number a reader quotes.
+
+**The abstract claims an analysis the paper does not contain.** It states that "key engineering
+challenges — g-load tolerance, **electromagnetic coupling**, and pulsed power thermal management
+— are identified and analyzed." Section IX lists six challenges and electromagnetic coupling is
+not among them, nor does it appear anywhere in the body.
+
+That is the same gap this repository carries as **E12**, and the pair is worth stating plainly:
+**two electromagnetic launch studies, and neither contains an EMI calculation.** One dropped an
+architecture partly on electromagnetic grounds without computing them
+([`HISTORY.md`](HISTORY.md#why-the-coilgun-was-actually-dropped)); the other lists the analysis in
+its abstract without performing it. Nothing about that is fatal to either paper, and it is the
+strongest available argument for closing E12 rather than carrying it.
+
 **The reason it belongs next to VOLLEY.** It selects a **coilgun**; VOLLEY
 [rejects one](adr/003-linear-synchronous-motor.md). That is the same trade resolved in opposite
 directions, and the thing that decides it is the payload:

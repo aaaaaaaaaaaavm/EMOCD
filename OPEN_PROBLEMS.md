@@ -1214,6 +1214,29 @@ budget for customer optics exists.
 Static magnetic keep-out is computed. Induced currents from switching transients in
 adjacent payloads are discussed but not calculated.
 
+> **Sharpened 2026-08-05, and it is now the oldest unquantified thing in the project.** Two
+> separate facts landed on this item on the same day. First, the mid-2025 decision to drop the
+> coilgun rested partly on the electromagnetic environment being unacceptable for an unmodified
+> CubeSat, and **that judgement has no working behind it** anywhere in my notebooks or here
+> ([`docs/HISTORY.md`](docs/HISTORY.md#why-the-coilgun-was-actually-dropped)). Second, my
+> sole-authored silo-launch paper lists "electromagnetic coupling" among the challenges its
+> abstract says are "identified and analyzed", and its body never returns to the subject
+> ([`docs/SKILLS.md`](docs/SKILLS.md)).
+>
+> **So an architecture was rejected on EMI grounds that were never computed, and the successor
+> architecture has never had its own EMI computed either.** The question has also now been asked
+> from outside the project, by a systems engineer wanting to know what the emissions do to the
+> payload and to the launch vehicle's communications, which is exactly the pair this item covers
+> and has never answered.
+>
+> **What a first pass needs, and it is not a test campaign:** the phase current and winding
+> inductance now exist (**P33**, `analysis/drive_electrical.py`), so the commutation and PWM
+> `dI/dt`, the armature-reaction field at the payload envelope, the induced EMF in a
+> representative victim loop, and the spectral knee against UHF and S-band are all computable
+> from quantities already in `analysis/results/`. That is a scoping calculation, not T-6, and it
+> would establish whether the static Halbach field or the switching transient is the term that
+> actually matters. T-6 remains the measurement, and nothing here substitutes for it.
+
 ### E13. Two numbers in source documents were never traced
 - The "780 deg/s" tumble rate from a third-party document. Falsified as
   implausible (would require a ~7.6 m line-of-action offset on a 1 m vehicle) but its
