@@ -3,7 +3,7 @@
 Two categories: **P-items are errors in the currently published paper** and should be
 fixed first. **E-items are genuinely unsolved engineering.**
 
-Last reviewed 2026-08-03.
+Last reviewed 2026-08-05.
 
 ---
 
@@ -1026,6 +1026,57 @@ kinematic envelope results, not an arrest or thermal validation.
 **What would close it:** E27's position-dependent force calculation, followed by one controlled
 propagation through power, energy, thermal, braking, orbit, paper and validation records. Until
 then the Gen4 export gate stays closed and the Phase I baseline remains the only rated point.
+
+### P33. The paper credits a winding inductance nobody had computed: MEDIUM, NEW 2026-08-05
+
+`paper/paper.tex` says the drive switches at 20-40 kHz, "high enough that the current ripple is
+filtered by the winding inductance and low enough to keep switching loss within the converter's
+97 J/shot budget." **There was no inductance anywhere in this repository.** No henry in
+`analysis/`, and no phase current either: `motor_model.shot()` integrates in *sheet* current
+(A/m), and the `I_peak` it reports is the **DC-link current drawn from the bank**, not the
+current in a conductor. Every "peak current" figure in this project, including the lever table in
+`docs/DESIGN_OPTIONS_exit_velocity.md` and A10's ESR ceiling, is that DC-link number.
+
+The gap is structural rather than clerical. A sheet-current model is turns-invariant: the same
+126 kA/m can be wound as many turns at low current or few at high current, L scales as N², phase
+current as 1/N, and the stored field energy is the same either way. **So the model cannot
+produce an inductance, and the claim above could not have been checked when it was written.**
+
+`analysis/drive_electrical.py` closes it on the one constraint that does fix the turns count:
+the inverter has to synthesise the phase voltage the machine demands at rated speed, out of a
+96 V bus sagged to 90.9 V. The required volt-amps are invariant under the turns count, so the
+design point follows without a new winding assumption.
+
+| | |
+|---|---|
+| Armature-reaction field energy | **2.058 J** (harmonic sum over the belt distribution) |
+| Peak phase current | **373.2 A**, against the 338.8 A DC-link figure quoted everywhere |
+| Phase inductance | **19.70 µH** |
+| Phase resistance | **25.18 mΩ** |
+| Electrical time constant | **0.782 ms**, fast against the 158.6 ms stroke |
+| Modulation index at exit | **1.00**, by construction |
+| Ripple at 20 kHz | **60.9 A pp, 16.3 % of peak** |
+| Ripple at 40 kHz | **30.5 A pp, 8.2 % of peak** |
+
+**Half the paper's sentence survives and half does not.** The loss half is fine: the ripple adds
+**3.71 J to an 834.7 J** copper budget at 20 kHz, four tenths of one percent, so nothing in the
+thermal or energy record moves. The filtering half does not: **16 % peak-to-peak ripple at
+20 kHz is not a filtered current**, and the sentence asserts it of the whole 20-40 kHz range.
+Only the top of that range is defensible.
+
+**Two consequences that are not in any document.** First, the SiC devices carry the phase
+current, so they are being selected against **373 A** and the repository only ever wrote down
+339 A; the paper specifies the 1200 V rating and never a current rating. Second, exit velocity
+and phase current are locked together through the bus: more velocity means more back-EMF, which
+means fewer turns, which means more current, which lands on the bank ESR ceiling **P26** already
+tracks. That coupling is real but it is **not a new velocity ceiling** — the machine can be
+rewound for any speed, it just pays in current — and it should not be written up as one.
+
+**What would close it:** a winding layout with an actual turns count, conductor cross-section
+and end-turn geometry, at which point L stops being inferred from an energy balance and becomes
+a property of drawn hardware. The 2-D energy method here omits end turns entirely, so 19.70 µH
+is a **lower bound** and the ripple figures are upper bounds. `docs/PHASE_II.md` PII-7 and the
+segmentation decision in **P29** both move it: energising less stator cuts L and R together.
 
 > **Not all of these weigh the same.** Three of the entries below are threats to whether the
 > machine has a reason to exist rather than engineering work, and they are hard to see in a

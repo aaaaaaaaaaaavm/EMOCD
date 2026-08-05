@@ -9,6 +9,30 @@ list these changes close) and `docs/DECISION_LOG.md` (why design choices were ma
 
 ---
 
+## 2026-08-05: the coilgun's real rejection reason, and the inductance behind it
+
+| ID | Item | Detail |
+|---|---|---|
+| HIST-01 | **The recorded reason for the pivotal architecture change was incomplete** | `DECISION_LOG.md` and ADR-003 both explained the mid-2025 coilgun-to-LSM switch through velocity accuracy. My 2021-2025 notebooks give two different reasons and they come first: the acceleration is enormous and the electromagnetic environment is severe, and either one defeats the point of carrying an **unmodified** CubeSat. Added to `docs/HISTORY.md` in the notebook's own words, with the seven constraints the motor answered at once. |
+| HIST-02 | **One half of that judgement is now a number and the other never was** | ADR-003 already carries the acceleration comparison: Feng et al. run 1352 g mean over a 3.9 m barrel against this design's 10.53 g peak. **The EMI half has no working behind it anywhere**, in this repository or the notebooks. It was an instinct about pulsed megaampere discharges beside unshielded commercial electronics. `E12` already records the near half of the gap; the file now says so rather than implying the decision was quantified. |
+| P33-01 | **`paper.tex` credited a winding inductance that did not exist** | The drive section said 20-40 kHz is "high enough that the current ripple is filtered by the winding inductance". There was no henry anywhere in `analysis/`, and no phase current either: `motor_model.shot()` integrates in *sheet* current and its `I_peak` is the **DC-link** current, not a conductor current. Logged as **P33**. |
+| P33-02 | **The model cannot produce an inductance, which is why nobody had** | A sheet-current model is turns-invariant: the same 126 kA/m winds as many turns at low current or few at high, L scales as N², phase current as 1/N, stored field energy is unchanged. The claim could not have been checked when it was written. |
+| P33-03 | **The bus closes it** | `analysis/drive_electrical.py`. The inverter must synthesise the phase voltage the machine demands at rated speed from a 96 V bus sagged to 90.9 V, and the required volt-amps are invariant under the turns count, so the design point follows with no new winding assumption. Armature field energy **2.058 J** by harmonic sum over the actual belt distribution; **373.2 A** peak phase current, **19.70 µH**, **25.18 mΩ**, τ = **0.782 ms**, modulation index 1.00 at exit. |
+| P33-04 | **Half the paper's sentence survives** | Ripple adds **3.71 J to an 834.7 J** copper budget at 20 kHz, so the loss claim is fine and no thermal or energy number moves. But ripple is **16.3 % peak-to-peak at 20 kHz** and 8.2 % at 40 kHz, and 16 % is not a filtered current. The sentence asserted it of the whole range; only the top of the range is defensible. Corrected in the manuscript and the PDF rebuilt. |
+| P33-05 | **Two things nobody had written down** | The SiC devices carry **373 A**, not the 339 A quoted everywhere, and the paper specifies a 1200 V rating and no current rating. And exit velocity couples to phase current through the bus, landing on the ESR ceiling **P26** already tracks. That coupling is **not** a new velocity ceiling and is not written up as one: the machine can be rewound for any speed, it just pays in current. |
+| STALE-01 | **`KILL_CRITERIA.md` §5 still carried the superseded A13 conclusion** | The 2026-08-03 correction reached §6 but not §5, which went on quoting 0.16 °/s residual, an 8.2 s null, an 18.1 s cadence floor and the counter-mass route. Rewritten to the corrected transient-rate result, with the withdrawn cadence conclusion stated as withdrawn. |
+| STALE-02 | **`DECISION_LOG.md` cited a comparator struck four lines above it** | The line read "32 % electrical-to-payload efficiency against the coilgun's 1-2 %". The 1-2 % was withdrawn on 2026-07-30 and never removed here, and 32 % predates both the sled-mass adoption and the quadrature correction. Replaced with 20.99 %, and the efficiency comparison is explicitly **not** restated as a reason for the decision, because Feng's 14.9-19.9 % is this design's own range. |
+| STALE-03 | **ADR-003 carried a pre-quadrature operating point and called A1 unrun** | 10.7 g and 2.80 kJ moved to 10.53 g and 2.85 kJ gross / 2.56 kJ net. Its validation note still called Kt "checked only analytic-against-analytic" and A1 "the top roadmap item"; A1 has run and agrees to 0.03 %. |
+| STALE-04 | **Counts and per-satellite mass** | 31 numbered defects to **33** in `KILL_CRITERIA.md`, 32 to **33** in `ROADMAP.md`. The 6.41 kg per satellite in `KILL_CRITERIA.md`, `MARKET.md` and `PAYLOAD_CLASSES.md` prose predated the brake-fin correction; `payload_family.json` gives **6.375**. `BASELINE.md` was stamped at `d82877a` while carrying post-`d82877a` values, and is regenerated. |
+
+**What authorised it.** HIST-01 and HIST-02 are record corrections: the repository stated an
+incomplete reason for its most load-bearing decision. P33 is a defect in a published claim, which
+`docs/BASELINE.md` change control admits as Phase I error correction. No operating point, band or
+verdict moved; the ripple loss is four tenths of one percent of the copper budget and the frozen
+baseline still holds at 23 values. The STALE items are propagation the 2026-08-03 audit missed.
+
+---
+
 ## 2026-08-03: Gen4 open assembly recorded before performance propagation
 
 | ID | Item | Detail |

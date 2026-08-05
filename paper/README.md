@@ -2,7 +2,7 @@
 
 `paper.tex` is the source. `VOLLEY_IEEE_Conference.pdf` is the last compiled build.
 
-**Built 2026-08-03** from the current source with pdfTeX 3.141592653 (TeX Live 2023):
+**Built 2026-08-05** from the current source with pdfTeX 3.141592653 (TeX Live 2023):
 12 pages, zero undefined references, zero missing figures. Source and PDF agree. The
 one-page CV was regenerated from `analysis/results/*.json` and rebuilt in the same environment.
 

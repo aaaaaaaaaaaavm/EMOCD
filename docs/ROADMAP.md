@@ -5,9 +5,9 @@
 > placement season running from now. If your actual dates differ, correct this file first;
 > everything downstream is sequenced from it.
 >
-> Last updated **2026-08-03**.
+> Last updated **2026-08-05**.
 
-This project publishes its own defects: **32 numbered problems and 27 open engineering
+This project publishes its own defects: **33 numbered problems and 27 open engineering
 items**. That is deliberate, and it only reads as rigour if there is also a plan for closing
 them. This is that plan.
 

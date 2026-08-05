@@ -1,0 +1,53 @@
+{
+  "method": "armature-reaction field energy, harmonic sum; turns closed on the bus voltage",
+  "inputs": {
+    "v_exit": 16.388,
+    "F_cmd": 1389.255,
+    "P_mech_W": 22767.110940000002,
+    "P_copper_W": 5262.894073139975,
+    "sag_pct": 5.296,
+    "V_bus_sagged": 90.91584,
+    "V_phase_available_peak": 52.49028469760095,
+    "K_amplitude_A_per_m": 126000.0,
+    "energised_length_m": 1.3
+  },
+  "field_energy_J": 2.058113546648762,
+  "sheet_harmonics": {
+    "1": 0.9549299312591221,
+    "5": 0.19098729525556699,
+    "7": 0.1364204316227644,
+    "11": 0.0868147869982476,
+    "13": 0.0734596729006925,
+    "17": 0.056176969154638184,
+    "19": 0.05026463753339437,
+    "23": 0.04152495374693644
+  },
+  "commutation_Hz": 341.4166666666667,
+  "phase_current_peak_A": 373.2493081950929,
+  "phase_inductance_H": 1.9697451732456676e-05,
+  "phase_resistance_ohm": 0.025184616793253775,
+  "back_emf_peak_V": 40.66470754733886,
+  "resistive_drop_V": 9.40014079524049,
+  "reactive_drop_V": 15.77152332749536,
+  "electrical_tau_s": 0.0007821223524724446,
+  "modulation_index_at_exit": 1.0,
+  "didt_commutation_A_per_s": 800688.5124895457,
+  "didt_pwm_A_per_s": 4873726.881219616,
+  "ripple": {
+    "20000": {
+      "pp_A": 60.921586015245204,
+      "pct_of_peak": 16.32195550739031,
+      "rms_A": 17.58654704268038,
+      "extra_copper_W": 23.367796287624287,
+      "extra_copper_J": 3.7061324912172116
+    },
+    "40000": {
+      "pp_A": 30.460793007622602,
+      "pct_of_peak": 8.160977753695155,
+      "rms_A": 8.79327352134019,
+      "extra_copper_W": 5.841949071906072,
+      "extra_copper_J": 0.9265331228043029
+    }
+  },
+  "copper_loss_J": 834.695
+}

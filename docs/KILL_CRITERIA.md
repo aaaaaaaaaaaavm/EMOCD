@@ -1,6 +1,6 @@
 # What would make VOLLEY pointless
 
-`OPEN_PROBLEMS.md` lists 31 numbered defects of very different weight. Most are engineering work.
+`OPEN_PROBLEMS.md` lists 33 numbered defects of very different weight. Most are engineering work.
 A few are threats to whether the machine has any reason to exist, and they are hard to see when
 they sit in a numbered list next to a stale cross-reference.
 
@@ -35,7 +35,7 @@ missing mass the figure becomes 8.08 kg per satellite.
 > and cold-gas modules at 0.5 to 1.2 kg. It is not a sourced industry figure and should be
 > refined before it carries any more weight than it already does.
 
-**Status at 3U: crossed.** 6.41 kg against a 2 kg threshold.
+**Status at 3U: crossed.** 6.375 kg against a 2 kg threshold.
 
 ### What closes it, and it is not an engineering fix
 
@@ -43,7 +43,7 @@ Smaller payloads. The deployer mass is fixed; the number of satellites it carrie
 
 | Payload | Fits the existing magazine volume | Deployer mass per satellite |
 |---|---|---|
-| 3U CubeSat | 12 | 6.41 kg, **fails** |
+| 3U CubeSat | 12 | 6.375 kg, **fails** |
 | 1U | 40 | 1.92 kg, marginal |
 | TubeSat | 41 | 1.88 kg, marginal |
 | PocketQube 3P | 108 | 0.71 kg, passes |
@@ -141,32 +141,37 @@ the structure.
 > the deterministic-placement claim collapses, and deterministic placement is the entire
 > differentiator against a spring.
 
-**Status: MODELLED 2026-07-31 as A13, and it FAILED.** Open as **E24**.
+**Status: MODELLED 2026-07-31 as A13, CORRECTED 2026-08-03, and it still FAILS.** Open as
+**E24**.
 
-**The indexing is fine and the sled return is not.** Advancing a satellite costs 0.31 % of the
-shot impulse; returning the 9.445 kg sled down 1.5 m of track costs **7.14 %**, twenty-three times
-as much, and it is in no budget anywhere in this repository. At a 500 kg host that is **0.16 °/s**
-residual, needing **8.2 s** to null against a 10–20 s inter-shot interval.
+**The indexing is fine and the sled return is not.** Advancing a satellite one cassette pitch
+moves 4 kg; returning the 9.445 kg sled down 1.5 m of track is the term that dominates, and it was
+in no budget anywhere in this repository until A13 ran.
 
-**Costed 2026-07-31, and the answer is not mechanical.** The disturbance does not threaten the
-rate at trigger — nothing is fired during an index cycle — it threatens the *cadence*, because the
-rate has to be nulled before the next shot.
+**What the first version of A13 got wrong.** It read the peak angular momentum of a mass *while
+it was moving* as a residual host rate *after* it stopped, which violates angular-momentum
+conservation in its own ideal rigid-body model. A rigid host counter-rotates during the move and
+returns to zero rate when the mass stops. What it keeps is an **attitude offset**, not a rate.
 
-| Route | Buys | Costs |
-|---|---|---|
-| **Accept an 18.1 s floor** | nothing to build | **free if the ConOps cadence is ≥ 18.1 s.** `astro.py` already models the deployment at **1200 s**, at which this is free thirty times over |
-| Raise host control authority | 0.5 N·m → 10.2 s floor | a **fifth item on a four-item interface spec**, and it narrows the host set the generic-interface positioning depends on |
-| Counter-mass | removes the momentum at source | **~9.4 kg**, taking 6.41 kg/satellite to 7.2 — on the threat above |
+| Host | Index peak | Return peak | Residual ideal rate | Worst-case offset |
+|---|---:|---:|---:|---:|
+| 200 kg | 0.0195 °/s | **0.4427 °/s** | 0 | 1.367° |
+| 500 kg | 0.0060 °/s | **0.1362 °/s** | 0 | 0.421° |
 
-**A published claim fell out of costing it.** The paper said cadence is set by supercapacitor
-recharge. Recharge is 8.6 s at 300 W and 17.2 s at 150; the mechanical chain floors at **18.1 s**.
-**Attitude settling binds at both allocations** and the paper attributed the cadence to the wrong
-subsystem. Corrected.
+**The declared bands still fail**, on transient peak rate rather than residual: rows 3 and 4 are
+**FAIL**, row 5 passes *only inside the ideal rigid-body model* because structural ringing is not
+modelled (**E25**), and row 7 is **VOID** — there is no attitude controller, thruster geometry or
+propellant model from which to compute a propellant change.
 
-**Status: the threshold turns on a number nobody has written down.** The repository carries
+**The cadence conclusion that used to sit here is withdrawn.** The 8.2 s rate-null time, the
+18.1 s cadence floor, the 6.9 s return optimum and the counter-mass recommendation all followed
+from the residual-rate error and do not survive it. Attitude restoration now depends on a
+controller and a schedule that this project has not specified, so there is no floor to quote.
+
+**What the threshold turns on is still a number nobody has written down.** The repository carries
 **two** inter-shot intervals — 10–20 s in the paper, 1200 s in `astro.py`'s conjunction model —
-and never reconciles them (**P31**). At 1200 s this is a non-issue; at 18.1 s the settling is 45 %
-of the interval. **The same failure is dominant or irrelevant depending on which is the ConOps.**
+and never reconciles them (**P31**). That contradiction is untouched by the correction, and it
+still decides whether this failure is operationally significant or a rounding error.
 
 ---
 

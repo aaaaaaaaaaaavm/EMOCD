@@ -78,7 +78,7 @@ this one.
 The deployer's mass is fixed. The number of customers it carries is not, and
 [`KILL_CRITERIA.md`](KILL_CRITERIA.md) threat 1 is the one that decides whether VOLLEY has a
 reason to exist. Against a cold-gas module at 0.5 to 1.2 kg giving the same 16.5 m/s, the **3U
-configuration loses by about 8x** at 6.41 kg per satellite, and the **PocketQube configuration
+configuration loses by about 8x** at 6.375 kg per satellite, and the **PocketQube configuration
 wins by 2 to 5x** at 0.236 kg. That is the entire commercial argument, and it turns on payload
 class rather than on any machine parameter.
 

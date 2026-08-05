@@ -7,6 +7,14 @@ The concept was built around a coilgun from 2021. The requirement that broke it 
 velocity but **velocity accuracy**: the value proposition is a programmable per-satellite
 ejection velocity with dispersion small against its astrodynamic effect.
 
+> **Amended 2026-08-05.** That is a true reason and it is not the one that actually stopped the
+> coilgun. The 2021-2025 notebooks give two, both about the payload rather than the launcher:
+> the acceleration is enormous, and the electromagnetic environment is severe, and either defeats
+> the point of carrying an **unmodified** CubeSat.
+> [`../HISTORY.md`](../HISTORY.md#why-the-coilgun-was-actually-dropped) records the chain in the
+> notebook's own words. The acceleration half is the table below. The EMI half has never been
+> calculated in this project; **E12** carries the gap.
+
 ## Decision
 Ironless double-sided Halbach linear synchronous motor driving a reusable sled.
 
@@ -40,8 +48,8 @@ Ironless double-sided Halbach linear synchronous motor driving a reusable sled.
   > | | Feng et al. 2025 | This design |
   > |---|---|---|
   > | Payload interface | Aluminium **armature coils** on the payload | Magnets on a reusable sled; satellite untouched |
-  > | Acceleration | 3.9 m barrel to **1352 g** mean; >600 kN peak on 20 kg to **~3060 g** | 91 m/s² = 9.3 g mean, 10.7 g peak |
-  > | Energy per shot | **6.91 MJ** | 2.80 kJ |
+  > | Acceleration | 3.9 m barrel to **1352 g** mean; >600 kN peak on 20 kg to **~3060 g** | 9.2 g mean, 10.53 g peak |
+  > | Energy per shot | **6.91 MJ** | 2.85 kJ gross, 2.56 kJ net |
   >
   > A standard CubeSat qualifies to ~14 g quasi-static. Feng's design is ~100x that, and needs 2470x
   > the energy per shot. Neither is a secondary payload on an upper stage, and neither is a defect in
@@ -55,6 +63,10 @@ sets the ceiling: a synchronous machine's thrust is bounded by the same constant
 directions, which is why arrest needs a separate mechanism (ADR-005).
 
 ## Validation
-K<sub>t</sub> = 11.03 N per kA/m from `analysis/motor_model.py`, currently checked only
-analytic-against-analytic, **this is the weakest link in the project and A1 is the top
-roadmap item.** The dispersion claim rests on E7's assumed sensor noise and needs A7.
+K<sub>t</sub> = 11.03 N per kA/m from `analysis/motor_model.py`. **A1 has since run** (2026-07-29,
+rerun after the 2026-08-03 quadrature correction) and a meshed 2-D FEM agrees to **0.03 %**, so
+this is no longer analytic-against-analytic and no longer the weakest link; A1's verdict remains
+**PARTIAL** on two field rows. Nothing has been measured, which is now the weakest link (**E4**).
+The dispersion claim rests on E7's assumed sensor noise and needs A7. The drive that has to
+deliver this K<sub>t</sub> is quantified in `analysis/drive_electrical.py`; its winding inductance
+was unexamined until 2026-08-05 (**P33**).

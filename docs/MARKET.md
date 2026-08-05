@@ -102,7 +102,7 @@ built into a revenue model, and doing so would require quotations this project d
 A market document that argues one way is a brochure. These come from
 [`KILL_CRITERIA.md`](KILL_CRITERIA.md) and [`../OPEN_PROBLEMS.md`](../OPEN_PROBLEMS.md):
 
-- **At 3U it loses to a cold-gas module on mass by about 8x.** 6.41 kg of deployer per satellite
+- **At 3U it loses to a cold-gas module on mass by about 8x.** 6.375 kg of deployer per satellite
   against 0.5–1.2 kg for a module delivering the same velocity. That threshold is **crossed**, and
   the answer is payload class rather than engineering: at PocketQube the machine spends 0.24 kg
   per satellite and wins by 2 to 5x ([`PAYLOAD_CLASSES.md`](PAYLOAD_CLASSES.md)). No cassette,

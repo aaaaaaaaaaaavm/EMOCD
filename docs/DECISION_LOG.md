@@ -52,7 +52,16 @@ traction exceeds 150 m/s) and inverts every cost: high drive efficiency, continu
 servo control instead of fire-and-commit timing, and (decisively) a **reusable sled**
 that carries the magnets so the customer satellite carries nothing.
 
-Verified outcome: 32 % electrical-to-payload efficiency against the coilgun's 1-2 %.
+Verified outcome: **20.99 %** electrical-to-payload efficiency, net of regeneration, at the
+2026-08-03 operating point. **This line used to read "32 % against the coilgun's 1-2 %" and both
+halves were dead.** The 1-2 % comparator was struck four lines above on 2026-07-30 and never
+removed from here; the 32 % predates the sled-mass adoption and the quadrature correction. The
+efficiency comparison is **not** a reason this decision was made and is not restated as one:
+Feng et al. report 14.9-19.9 % for a multi-stage coilgun, which is this design's own range.
+
+The reasons that were load-bearing, and the ones my 2021-2025 notebooks actually give, are
+acceleration and the electromagnetic environment at the payload. See
+[`HISTORY.md`](HISTORY.md#why-the-coilgun-was-actually-dropped) and ADR-003.
 
 ## 2025: Iron-core to ironless stator
 An iron-core double-sided stator computed to roughly 65 kg of laminations plus 32 kg of
