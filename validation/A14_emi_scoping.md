@@ -3,11 +3,99 @@
 **Advances:** `OPEN_PROBLEMS.md` **E12**, open since the first defect sweep and the oldest
 unquantified item in the project. **Does not close it** — E12 closes on T-6, a measurement.
 
-> ## BANDS DECLARED 2026-08-05. NOT YET RUN.
+> ## RUN 2026-08-05. Verdict **six of eight PASS, one FAIL, one VOID as declared**
 >
-> Everything below the "Acceptance bands" heading was written and committed **before**
-> `validation/emi/emi_scoping.py` existed. `git log` is the evidence. No result appears in this
-> file yet, and no band in it may be widened once one does.
+> Bands were committed at **`c274473`**, before `validation/emi/emi_scoping.py` existed. `git log`
+> is the evidence. No band was widened.
+>
+> **Band 4 FAILS, and it fails by 611×.** The static Halbach field at the payload's nearest face
+> is **61.1 mT** — 1357× Earth's field and 611× a magnetometer's full scale. The switching
+> transient, which is what everyone including me assumed was the problem, is **not** the dominant
+> term. Results below.
+
+## Result, 2026-08-05
+
+| # | Question | Band | Result | Verdict |
+|---|---|---|---:|---|
+| 1 | EMF from commutation, 10 cm² loop at the nearest face | < 50 mV | **11.83 mV** | **PASS** |
+| 2 | EMF from 20 kHz PWM ripple, same loop and station | < 50 mV | **36.01 mV** | **PASS, narrowly** |
+| 3 | Worst of the above against the digital threshold | < 400 mV | 36.01 mV | **PASS** |
+| 4 | Static field at the nearest face vs magnetometer full scale | ≤ 100 µT | **61.08 mT** | **FAIL, ×611** |
+| 5 | Static field at CoM and far face, multiples of Earth | report; VOID | 10.3× / 7.6× | **VOID as declared** |
+| 6 | Spectral margin below the SiC knee at every comms band | > 40 dB | **56 dB** worst | **PASS** |
+| 7 | Radiation efficiency at the 20–40 kHz fundamental | < 1e-6 | **6.0e-8** | **PASS** |
+| 8 | Coilgun-to-VOLLEY induced-EMF ratio at equal geometry | > 100× | **666×** | **PASS** |
+
+### The field at each station
+
+| Station | Behind the array back face | AC armature field | Static field | EMF, commutation | EMF, 20 kHz ripple |
+|---|---:|---:|---:|---:|---:|
+| Payload nearest face | 6 mm | 5.515 mT | **61.081 mT** | 11.83 mV | 36.01 mV |
+| Payload centre of mass | 56 mm | 0.0079 mT | 0.463 mT | 0.017 mV | 0.052 mV |
+| Payload far face | 106 mm | 0.0000 mT | 0.341 mT | 0.000 mV | 0.000 mV |
+
+### What this actually found
+
+**The dominant term is the permanent magnets, not the drive.** That is the opposite of what the
+question is usually asked about, and it is the finding worth carrying: the payload's nearest face
+sits 6 mm behind a Halbach array and sees 61 mT, while the entire switching transient produces
+36 mV in an unshielded loop at the same place. A customer worried about the *inverter* is worried
+about the wrong thing.
+
+**Band 2 passes narrowly and that matters.** 36 mV against a 50 mV threshold is 1.4× of margin, on
+an upper-bound calculation with no shielding and no payload structure. At 40 kHz the ripple halves
+and so does the EMF, to about 18 mV. **This corroborates P33 independently**: the 20 kHz end of
+the declared switching range is defensible on loss but marginal on coupling, and the design should
+sit at the top of the range.
+
+**Comms is not a live concern.** The SiC knee is 6.4–15.9 MHz, putting UHF 56–72 dB below it, GPS
+L1 80–96 dB and S-band 86–102 dB, and the 1.839 m structure has a radiation efficiency of
+**1.5e-8 to 6.0e-8** at its own drive frequency — it cannot radiate at the fundamental. The
+credible coupling path to a launch vehicle's communications is **conducted, through a shared power
+bus**, not radiated, which is a specification problem rather than a physics one.
+
+### The two far stations are in a regime this model gets wrong, and P3 says so
+
+The decay sweep behind the array is exponential to about 40 mm and then flattens into an
+edge-effect tail: 61.1 mT at 6 mm, 7.8 at 16 mm, 2.2 at 26 mm, then 0.62, 0.46, 0.34 mT at 42, 56
+and 106 mm. **P3 already records that this model's 20 mm and 50 mm stray values do not reproduce
+the paper's**, attributing it to sensitivity to modelled array length, with edge effects
+dominating the far field. That is exactly the regime the CoM and far-face rows sit in.
+
+**So band 4's failure is solid and bands 5's numbers are not.** The nearest-face value is in the
+exponential near field, where the 10 mm station reproduces exactly and P3 says the model is
+sound. The CoM and far-face figures inherit P3's uncertainty, which is a second and independent
+reason band 5 is VOID rather than a soft pass.
+
+### Band 8: the 2021 judgement was right, and it was still not justified
+
+Per Feng et al.'s stage parameters, a coilgun stage discharges **392 kA** at a 217 Hz equivalent
+rate, giving **355.6 mV** in the same loop at the same 0.3 m standoff against VOLLEY's 0.534 mV —
+a ratio of **666×**. The band asked for > 100×, so the electromagnetic half of the 2025
+architecture decision holds.
+
+**It holds by a margin nobody had computed.** `docs/HISTORY.md` records that the judgement was an
+instinct about pulsed megaampere discharges next to unshielded electronics. The instinct was
+correct. It was still an instinct, and 666× is the first number this project has ever put behind
+it. Both halves of that sentence belong in the record.
+
+Both sides of the ratio use the same crude infinite-wire model so the comparison is symmetric.
+VOLLEY's three-phase fields largely cancel at distance, so that model **overstates** VOLLEY and
+the true ratio is larger than 666×. The absolute VOLLEY figures in the table above use the
+harmonic-decay model, not the wire model.
+
+### Consequences, taken from the rule fixed before the run
+
+Outcome 1 was the declared case: bands 1–3 pass and band 4 fails, so the dominant term is static
+and E12 splits. The AC half is scoped and hands off to T-6 for confirmation. **The static half
+becomes a new numbered defect**, because a 3U payload cannot fly a magnetometer in this magazine
+without a keep-out or a shield, and that is a payload compatibility constraint belonging in the
+interface specification rather than an appendix.
+
+**This analysis does not close E12.** E12 closes on T-6, which is a measurement, and nothing here
+is measured.
+
+---
 
 ## Why this analysis exists
 

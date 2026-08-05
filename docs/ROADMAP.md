@@ -7,7 +7,7 @@
 >
 > Last updated **2026-08-05**.
 
-This project publishes its own defects: **33 numbered problems and 27 open engineering
+This project publishes its own defects: **34 numbered problems and 27 open engineering
 items**. That is deliberate, and it only reads as rigour if there is also a plan for closing
 them. This is that plan.
 
@@ -20,7 +20,7 @@ them. This is that plan.
 | Maturity | TRL 2-3. Phase I analysis and committed Gen3 CAD complete; the Fusion Gen4 open assembly is provisional; **nothing built or measured** |
 | Rated performance | **16.4 m/s at 10.5 g**, from a sled mass computed from CAD solid volumes, not estimated |
 | Efficiency | **21.0 %** electrical-to-payload, net of the regeneration adopted 2026-07-31 (A11) |
-| Validations run | **9 of 11**. A7 (tip-off) and A9 (flown decay) outstanding; A9 is blocked by network policy, not difficulty |
+| Validations run | **10 of 12**. A7 (tip-off) and A9 (flown decay) outstanding; A9 is blocked by network policy, not difficulty |
 | Of those nine | **two failed** — A5 (invariance) and A13 (host attitude) — one is PARTIAL (A1), one returned three **void** rows (A6), and one found a published number 37 % high (A12) |
 | Biggest single gap | ~~K<sub>t</sub> single-method~~ closed by A1. Now: **nothing has been measured at any scale** (E4) |
 | Largest open defect | **P26** — the supercapacitor bank cannot source the shot on purchasable cells |

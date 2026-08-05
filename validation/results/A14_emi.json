@@ -1,0 +1,153 @@
+{
+  "analysis": "A14",
+  "method": "scoping calculation from analysis/results/, no measurement",
+  "bands_declared_commit": "c274473",
+  "inputs": {
+    "phase_current_peak_A": 373.2493081950929,
+    "phase_inductance_H": 1.9697451732456676e-05,
+    "commutation_Hz": 341.4166666666667,
+    "K_amplitude_A_per_m": 126000.0,
+    "loop_area_m2": 0.001,
+    "array_back_face_z_m": 0.014
+  },
+  "stations": {
+    "payload_near_face": {
+      "z_m": 0.02,
+      "behind_array_back_face_mm": 6.0,
+      "B_ac_T": 0.005514981929753577,
+      "B_static_T": 0.0610810225903062,
+      "B_static_mT": 61.0810225903062,
+      "static_x_earth": 1357.3560575623599,
+      "static_x_magnetometer_fullscale": 610.8102259030619,
+      "emf_commutation_V": 0.011830652008691841,
+      "emf_pwm_V": {
+        "20kHz": 0.036006115872599775,
+        "40kHz": 0.036006115872599775
+      }
+    },
+    "payload_com": {
+      "z_m": 0.07,
+      "behind_array_back_face_mm": 56.00000000000001,
+      "B_ac_T": 7.926671994828855e-06,
+      "B_static_T": 0.00046288325690286414,
+      "B_static_mT": 0.46288325690286414,
+      "static_x_earth": 10.286294597841424,
+      "static_x_magnetometer_fullscale": 4.628832569028641,
+      "emf_commutation_V": 1.700417139209984e-05,
+      "emf_pwm_V": {
+        "20kHz": 5.1751515048509355e-05,
+        "40kHz": 5.1751515048509355e-05
+      }
+    },
+    "payload_far_face": {
+      "z_m": 0.12,
+      "behind_array_back_face_mm": 106.0,
+      "B_ac_T": 1.1393053855563616e-08,
+      "B_static_T": 0.0003406527431860222,
+      "B_static_mT": 0.34065274318602223,
+      "static_x_earth": 7.570060959689382,
+      "static_x_magnetometer_fullscale": 3.406527431860222,
+      "emf_commutation_V": 2.4440198934156913e-08,
+      "emf_pwm_V": {
+        "20kHz": 7.43827672495244e-08,
+        "40kHz": 7.43827672495244e-08
+      }
+    }
+  },
+  "comms": {
+    "UHF": {
+      "f_Hz": 400000000.0,
+      "knee_lo_Hz": 6366197.7236758135,
+      "knee_hi_Hz": 15915494.309189534,
+      "margin_dB_min": 56.0095943874431,
+      "margin_dB_max": 71.9271947343246
+    },
+    "GPS_L1": {
+      "f_Hz": 1575420000.0,
+      "knee_lo_Hz": 6366197.7236758135,
+      "knee_hi_Hz": 15915494.309189534,
+      "margin_dB_min": 79.82304891626953,
+      "margin_dB_max": 95.74064926315103
+    },
+    "S_band": {
+      "f_Hz": 2200000000.0,
+      "knee_lo_Hz": 6366197.7236758135,
+      "knee_hi_Hz": 15915494.309189534,
+      "margin_dB_min": 85.62410196721285,
+      "margin_dB_max": 101.54170231409437
+    }
+  },
+  "radiation_efficiency": {
+    "20000": 1.5051578360875637e-08,
+    "40000": 6.020631344350255e-08
+  },
+  "coilgun": {
+    "stage_capacitance_F": 0.01799479166666667,
+    "stage_peak_current_A": 391861.6535916159,
+    "equivalent_Hz": 216.61378585448207,
+    "comparison_radius_m": 0.3,
+    "B_coilgun_T": 0.2612411023944106,
+    "B_volley_T": 0.00024883287213006195,
+    "emf_coilgun_V": 0.3555555555555556,
+    "emf_volley_V": 0.0005337923416596971,
+    "ratio": 666.0933996356005
+  },
+  "bands": [
+    {
+      "band": 1,
+      "question": "EMF from commutation, 10 cm2 loop at the nearest face",
+      "limit_V": 0.05,
+      "result_V": 0.011830652008691841,
+      "verdict": "PASS"
+    },
+    {
+      "band": 2,
+      "question": "EMF from 20 kHz PWM ripple, same loop and station",
+      "limit_V": 0.05,
+      "result_V": 0.036006115872599775,
+      "verdict": "PASS"
+    },
+    {
+      "band": 3,
+      "question": "Worst of the above against the digital threshold",
+      "limit_V": 0.4,
+      "result_V": 0.036006115872599775,
+      "verdict": "PASS"
+    },
+    {
+      "band": 4,
+      "question": "Static field at the nearest face vs magnetometer full scale",
+      "limit_T": 0.0001,
+      "result_T": 0.0610810225903062,
+      "verdict": "FAIL"
+    },
+    {
+      "band": 5,
+      "question": "Static field at CoM and far face, multiples of Earth",
+      "verdict": "VOID; no materials list exists for a magnetisation threshold",
+      "com_x_earth": 10.286294597841424,
+      "far_x_earth": 7.570060959689382
+    },
+    {
+      "band": 6,
+      "question": "Spectral margin below the SiC knee at every comms band",
+      "limit_dB": 40,
+      "result_dB": 56.0095943874431,
+      "verdict": "PASS"
+    },
+    {
+      "band": 7,
+      "question": "Radiation efficiency of the structure at the fundamental",
+      "limit": 1e-06,
+      "result": 6.020631344350255e-08,
+      "verdict": "PASS"
+    },
+    {
+      "band": 8,
+      "question": "Coilgun-to-VOLLEY induced-EMF ratio at equal geometry",
+      "limit": 100.0,
+      "result": 666.0933996356005,
+      "verdict": "PASS"
+    }
+  ]
+}

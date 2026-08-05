@@ -1,6 +1,6 @@
 # What would make VOLLEY pointless
 
-`OPEN_PROBLEMS.md` lists 33 numbered defects of very different weight. Most are engineering work.
+`OPEN_PROBLEMS.md` lists 34 numbered defects of very different weight. Most are engineering work.
 A few are threats to whether the machine has any reason to exist, and they are hard to see when
 they sit in a numbered list next to a stale cross-reference.
 

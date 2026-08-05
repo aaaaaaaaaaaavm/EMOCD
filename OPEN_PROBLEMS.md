@@ -1078,6 +1078,40 @@ a property of drawn hardware. The 2-D energy method here omits end turns entirel
 is a **lower bound** and the ripple figures are upper bounds. `docs/PHASE_II.md` PII-7 and the
 segmentation decision in **P29** both move it: energising less stator cuts L and R together.
 
+### P34. A payload carrying a magnetometer cannot fly in this magazine: HIGH, NEW 2026-08-05
+
+**Found by A14, against a band declared before the run.** The payload's nearest face sits **6 mm**
+behind the Halbach array back face — `cad/parameters.json` puts the array back face at z = 14 mm
+and a 3U payload at z = 20 to 120 mm — and the static field there is **61.1 mT**. That is
+**1357× Earth's field** and **611× the full scale of the class of magnetometer a CubeSat carries
+to sense Earth's field.**
+
+**This is a payload compatibility constraint and it is not in the interface specification.**
+`paper.tex` §on the interface lists four things VOLLEY asks of a host and publishes a magnetic
+keep-out radius for the *host*. Nothing anywhere states what the deployer does to the satellite
+inside it. A customer flying a magnetometer, a magnetorquer, a fluxgate, or anything with
+soft-magnetic structure is affected, and "the satellite is never modified" — the central claim of
+this project — is doing quiet work here that it has not earned.
+
+**What A14 did and did not establish.** The 61.1 mT figure is in the exponential near field where
+the model reproduces the 10 mm station exactly, so it is sound. The centre-of-mass and far-face
+figures, 0.463 and 0.341 mT, sit in the edge-effect tail that **P3** already records this model
+getting wrong, so the *extent* of the affected volume is not established. A14's band 5 is VOID
+for that reason and for the absence of a materials list.
+
+**What would close it,** in the order that costs least:
+
+1. **State the exposure.** Compute the field over the payload envelope with a model whose far
+   field is trustworthy, which means resolving P3 first. Publish it as a payload environment
+   specification rather than a host keep-out.
+2. **Decide whether it is a constraint or a defect.** Exposure lasts one shot plus dwell time in
+   the cradle, so a saturated magnetometer recovers; **remanent magnetisation of soft-magnetic
+   parts does not.** That distinction needs a materials list and is the question worth answering.
+3. **T-6** measures it. Its priority rises on this result.
+
+Shielding the payload is the option that should be resisted: it adds mass to the customer's
+satellite, which is the modification the architecture exists to avoid.
+
 > **Not all of these weigh the same.** Three of the entries below are threats to whether the
 > machine has a reason to exist rather than engineering work, and they are hard to see in a
 > numbered list. [`docs/KILL_CRITERIA.md`](docs/KILL_CRITERIA.md) separates them, with the value
@@ -1229,13 +1263,29 @@ adjacent payloads are discussed but not calculated.
 > payload and to the launch vehicle's communications, which is exactly the pair this item covers
 > and has never answered.
 >
-> **What a first pass needs, and it is not a test campaign:** the phase current and winding
-> inductance now exist (**P33**, `analysis/drive_electrical.py`), so the commutation and PWM
-> `dI/dt`, the armature-reaction field at the payload envelope, the induced EMF in a
-> representative victim loop, and the spectral knee against UHF and S-band are all computable
-> from quantities already in `analysis/results/`. That is a scoping calculation, not T-6, and it
-> would establish whether the static Halbach field or the switching transient is the term that
-> actually matters. T-6 remains the measurement, and nothing here substitutes for it.
+> **SCOPED 2026-08-05 as A14, and it found the dominant term is not the one anyone was asking
+> about.** Six of eight declared bands pass, one fails, one is void as declared.
+>
+> | | |
+> |---|---|
+> | Induced EMF, 10 cm² loop at the payload's nearest face | **11.8 mV** commutation, **36.0 mV** at 20 kHz ripple |
+> | Static Halbach field at the same face | **61.1 mT**, 1357× Earth, **611× magnetometer full scale** |
+> | Comms margin below the SiC knee | 56 dB at UHF, 86–102 dB at S-band |
+> | Radiation efficiency at the fundamental | 6.0e-8 — the structure cannot radiate at its own drive frequency |
+> | Coilgun comparator | **666×** VOLLEY at equal geometry |
+>
+> **The switching transient is not the problem; the permanent magnets are.** The AC half of this
+> item is now scoped and hands off to T-6 for confirmation. The static half became **P34**, which
+> is a payload compatibility constraint rather than an emissions question.
+>
+> Two things A14 established as side effects. **Band 2 passes by only 1.4×** on an
+> upper-bound calculation, halving at 40 kHz, which independently corroborates **P33**'s finding
+> that only the top of the declared switching range is defensible. And the credible path to a
+> launch vehicle's communications is **conducted, through a shared power bus**, not radiated —
+> a specification problem, not a physics one.
+>
+> **E12 is not closed by this.** A14 is a scoping calculation from quantities already in
+> `analysis/results/`; nothing in it is measured, and E12 closes on T-6.
 
 ### E13. Two numbers in source documents were never traced
 - The "780 deg/s" tumble rate from a third-party document. Falsified as

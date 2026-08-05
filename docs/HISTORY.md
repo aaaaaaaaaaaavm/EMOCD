@@ -106,18 +106,30 @@ standard CubeSat's quasi-static qualification. That comparison was made in 2026 
 work, five years after the decision. In 2021 it was a judgement call, and it happened to be the
 right one.
 
-**The EMI half has never been calculated, here or in the notebooks.** I went looking for the
-working behind "the EMI environment is awful" and there is none. It was an instinct about
+**The EMI half had never been calculated, here or in the notebooks.** I went looking for the
+working behind "the EMI environment is awful" and there was none. It was an instinct about
 megaampere-class pulsed discharges sitting next to unshielded commercial electronics, and an
-instinct is not evidence. `OPEN_PROBLEMS.md` **E12** already records the near half of the gap,
-induced currents in adjacent payloads from switching transients, as discussed but not computed.
-The far half was not written down anywhere until a systems engineer asked me directly what the
-EMI does to the payload and to the launch vehicle's communications. He had not read this file or
-the coilgun history, and the question still had no answer in the repository.
+instinct is not evidence. The far half of the question was not written down anywhere until a
+systems engineer asked me directly what the EMI does to the payload and to the launch vehicle's
+communications. He had not read this file or the coilgun history, and the question still had no
+answer in the repository.
 
-An architecture decision that turned out to be correct is not the same as an architecture
-decision that was justified at the time. This one was correct on acceleration and unjustified on
-EMI, and both belong on the record.
+**Computed 2026-08-05 as A14, nine years late, and the instinct was right.** A coilgun stage
+discharging 392 kA induces **355.6 mV** in a 10 cm² unshielded loop at 0.3 m against VOLLEY's
+0.534 mV at the same geometry — a ratio of **666×**, against a band declared at 100×. The
+electromagnetic half of the 2025 decision holds.
+
+**Being right is not the same as being justified**, and the record should not blur them. The
+number arrived nine years after the decision it supports, and until it did, an architecture had
+been rejected on grounds nobody in this project could have defended if asked. That is the part
+worth keeping.
+
+A14 also found the thing I was not looking for. **The dominant electromagnetic term in VOLLEY is
+not the drive at all — it is the permanent magnets.** The payload's nearest face sits 6 mm behind
+a Halbach array in a 61 mT field, 611× the full scale of the magnetometer a CubeSat carries, while
+the entire switching transient produces 36 mV. That is **P34**, and it is a constraint on which
+satellites can fly in the magazine, which is a more awkward finding than the one I set out to
+check.
 
 ---
 
