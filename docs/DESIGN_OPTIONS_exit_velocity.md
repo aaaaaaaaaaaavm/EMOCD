@@ -11,8 +11,8 @@ has been adopted and no baseline value has changed.
 ## The problem
 
 P15: the Gen3 sled computed from CAD solid volumes is **9.445 kg**, against the 4.86 kg
-`motor_model.py` used to assume. At that mass the same machine delivers **16.54 m/s**, not the
-headline 20.37.
+`motor_model.py` used to assume. At that mass the same machine delivered **16.54 m/s** against the headline 20.37, and the
+2026-08-03 quadrature correction has since moved it to **16.39 m/s**.
 
 ## What each lever actually buys
 
@@ -257,7 +257,8 @@ not equally sensitive. Driving `astro.py` directly at 450 km:
 
 | Exit velocity | Boosted lifetime | Multiplier |
 |---|---|---|
-| 16.54 m/s (as-drawn) | 2.120 yr | **x1.624** |
+| 16.39 m/s (as-drawn, current) | 2.111 yr | **x1.618** |
+| 16.54 m/s (before the quadrature correction) | 2.120 yr | x1.624 |
 | 17.88 m/s (P8) | 2.198 yr | x1.684 |
 | 20.37 m/s (headline) | 2.348 yr | **x1.799** |
 

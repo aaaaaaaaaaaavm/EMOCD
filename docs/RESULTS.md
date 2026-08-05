@@ -245,7 +245,7 @@ produced by something other than its own scripts.
 
 > **Read this section as history, not as current validation.** Every GMAT run below was
 > propagated at **20.37 m/s**, the rated velocity before the CAD-derived sled mass was adopted
-> on 2026-07-29. The current point is 16.54 m/s and the script multiplier is x1.62, so the
+> on 2026-07-29. The current point is 16.39 m/s and the script multiplier is x1.62, so the
 > absolute numbers here no longer describe the design. **What does survive is the
 > falsification**, P16 is about the shape of the model, not the velocity, and a uniform
 > density scale cannot move a ratio at any Δv. Re-running A5 is scheduled in
