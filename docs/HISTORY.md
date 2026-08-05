@@ -54,7 +54,7 @@ generically against any restartable stage.
 deliver a programmable exit velocity at the dispersion this application needs; a synchronous
 machine commands current against measured position. Everything downstream, the Halbach array,
 the reusable sled, the eddy brake, the supercapacitor bank, follows from this one decision.
-Recorded in `docs/DECISION_LOG.md`.
+Recorded in `docs/DECISION_LOG.md`, and the reason I actually dropped the coilgun is below.
 
 **2025-2026, three CAD generations.** Gen1 established the geometry. Gen2 was the first
 structured revision. Gen3 rebuilt the parameter set from the actual geometry and is current.
@@ -65,6 +65,59 @@ by Gen3.
 analysis was rebuilt from scratch and four errors found, an independent propagator falsified a
 claim in the paper's own abstract, and the sled mass measured from CAD moved the headline exit
 velocity from 20.37 to 16.54 m/s. All of it is in `CHANGELOG.md` and `OPEN_PROBLEMS.md`.
+
+---
+
+## Why the coilgun was actually dropped
+
+**Added 2026-08-05, from my 2021-2025 notebooks.** The reason on record until now has been
+incomplete. `docs/DECISION_LOG.md` and ADR-003 both explain the change through velocity
+accuracy: a coilgun fires and commits, a synchronous machine commands current against a
+measured position. That is true, and it is not what stopped me. The notebook chain is shorter
+and it is about the payload:
+
+> Coilgun. This can produce the velocity, but the acceleration is enormous and the EMI
+> environment is awful.
+>
+> That defeats the whole point of supporting unmodified CubeSats.
+
+Both objections land on the same requirement. A satellite nobody is allowed to modify turns up
+with the qualification envelope it already has, and it turns up with its own electronics,
+harness and radio. A launcher that shakes it past its structural qual, or floods it with
+switching transients, has quietly taken the modification back out of the customer's hands and
+put it into mine. That is the one thing this concept is not allowed to do.
+
+So the motor was not chosen because it was elegant. It was chosen because one architecture
+answered several constraints at once:
+
+- lower peak acceleration
+- a smoother force profile
+- controllability, because thrust is commanded rather than timed
+- a reusable carriage, so the magnets stay with the machine
+- programmable exit velocity
+- less EMI than a pulsed coilgun
+- and, out of all of the above, a CubeSat that flies unmodified
+
+### Which half of that is calculated, and which half is not
+
+**The acceleration half is a number now.** ADR-003 carries it: Feng et al.'s on-orbit coilgun
+runs 1352 g mean over a 3.9 m barrel against this design's 10.5 g peak, about a hundred times a
+standard CubeSat's quasi-static qualification. That comparison was made in 2026 from published
+work, five years after the decision. In 2021 it was a judgement call, and it happened to be the
+right one.
+
+**The EMI half has never been calculated, here or in the notebooks.** I went looking for the
+working behind "the EMI environment is awful" and there is none. It was an instinct about
+megaampere-class pulsed discharges sitting next to unshielded commercial electronics, and an
+instinct is not evidence. `OPEN_PROBLEMS.md` **E12** already records the near half of the gap,
+induced currents in adjacent payloads from switching transients, as discussed but not computed.
+The far half was not written down anywhere until a systems engineer asked me directly what the
+EMI does to the payload and to the launch vehicle's communications. He had not read this file or
+the coilgun history, and the question still had no answer in the repository.
+
+An architecture decision that turned out to be correct is not the same as an architecture
+decision that was justified at the time. This one was correct on acceleration and unjustified on
+EMI, and both belong on the record.
 
 ---
 
