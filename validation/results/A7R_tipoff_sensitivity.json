@@ -1,0 +1,66 @@
+{
+  "analysis": "A7-R",
+  "status": "REDUCED ANALYSIS. A7 REMAINS UNRUN -- see the run sheet",
+  "substitution": "Project Chrono unavailable, and the release mechanism it would simulate is undefined in this repository. This computes the tolerance the mechanism must hold instead of inventing one.",
+  "bands_declared": "2026-07-31, tightened to 2 deg/s before any run (P30)",
+  "inputs": {
+    "m_sat": 4.0,
+    "a_g": 10.533,
+    "F_push_N": 413.1737778,
+    "com_offset_m": 0.07,
+    "I_transverse_kgm2": 0.04198008333333334,
+    "band_primary_deg_s": 2.0,
+    "band_secondary_deg_s": 5.0
+  },
+  "angular_impulse_budget_Nms": 0.001465381348856526,
+  "duration_tolerance": [
+    {
+      "case": "full push unbalanced",
+      "force_N": 413.1737778,
+      "max_duration_s": 5.0666379122230306e-05,
+      "max_duration_us": 50.6663791222303
+    },
+    {
+      "case": "10 % of push unbalanced",
+      "force_N": 41.31737778,
+      "max_duration_s": 0.000506663791222303,
+      "max_duration_us": 506.663791222303
+    },
+    {
+      "case": "1 % of push unbalanced",
+      "force_N": 4.131737778,
+      "max_duration_s": 0.005066637912223031,
+      "max_duration_us": 5066.637912223031
+    },
+    {
+      "case": "force ripple only",
+      "force_N": 4.09042040022,
+      "max_duration_s": 0.005117816072952555,
+      "max_duration_us": 5117.816072952555
+    },
+    {
+      "case": "1 N residual (latch, harness, friction)",
+      "force_N": 1.0,
+      "max_duration_s": 0.02093401926937894,
+      "max_duration_us": 20934.01926937894
+    }
+  ],
+  "force_tolerance": [
+    {
+      "duration_s": 1e-05,
+      "max_force_N": 2093.401926937894
+    },
+    {
+      "duration_s": 0.0001,
+      "max_force_N": 209.34019269378942
+    },
+    {
+      "duration_s": 0.001,
+      "max_force_N": 20.934019269378943
+    },
+    {
+      "duration_s": 0.01,
+      "max_force_N": 2.093401926937894
+    }
+  ]
+}
