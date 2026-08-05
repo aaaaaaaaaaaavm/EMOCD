@@ -976,7 +976,14 @@ with no multibody model behind it and a payload centre of mass 70 mm off the thr
 document, record which document, which revision, and whether a tighter comparator exists in the
 same family.* One line, and it would have caught this.
 
-### P31. The repository carries two different inter-shot cadences and reconciles neither: MEDIUM, NEW 2026-07-31
+### P31. The repository carries two different inter-shot cadences and reconciles neither: **RESOLVED 2026-08-05 by ADR-020**
+
+> **The ConOps interval is 1200 s.** Adopted in [`docs/adr/020-inter-shot-cadence.md`](docs/adr/020-inter-shot-cadence.md) because it is the number `astro.py`'s conjunction model,
+> the realignment period and the deployment safety case were already computed against, so
+> adopting it invalidates nothing, while 10-20 s would require re-running A6 against a
+> geometry never evaluated. **A13's failed bands are NOT re-declared against it** -- this
+> entry's own instruction, that doing so is a band change belonging declared and dated, is
+> followed. Rows 3 and 4 remain FAIL; what changed is their operational significance.
 Found while costing A13's failure, and it decides whether that failure matters.
 
 | Where | Interval | For what |

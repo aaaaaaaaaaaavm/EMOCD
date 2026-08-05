@@ -48,6 +48,7 @@ benefits is advocacy, not a decision record, and one with no validation path vio
 | [017](017-four-repositories.md) | Four repositories, two of them generated | Accepted | I |
 | [018](018-programme-name.md) | VOLLEY is the programme name; EMOCD_ remains the part prefix | Accepted | Programme |
 | [019](019-gen4-open-assembly-before-export.md) | Keep Gen4 open assembly separate from the Phase I baseline | Accepted | Gen4 transition |
+| [020](020-inter-shot-cadence.md) | The inter-shot cadence is 1200 s, closing P31 | Accepted | Load-bearing |
 
 Every decision in `DECISION_LOG.md` appears above. ADRs 012-018 record decisions that were
 never written down anywhere before.
