@@ -1,40 +1,48 @@
 {
   "case": "R1",
+  "tool": "GMAT R2022a",
+  "days": 90,
+  "rows": 60474,
   "bands": [
     {
-      "band": "1 max |d inc| per satellite",
-      "limit": "<= 0.13 deg",
-      "result": 42.121991,
-      "verdict": "FAIL"
-    },
-    {
-      "band": "2 altitude extent",
-      "limit": ">= 100 km",
-      "result": 114.60409664069812,
+      "band": 1,
+      "question": "max |d inc| per sat",
+      "limit": "<=0.13 deg",
+      "result": 0.12289400000000228,
       "verdict": "PASS"
     },
     {
-      "band": "3 max |d RAAN| at epoch",
-      "limit": "<= 0.75 deg",
-      "result": 0.7314969999999903,
+      "band": 2,
+      "question": "altitude extent",
+      "limit": ">=100 km",
+      "result": 117.16863504689081,
       "verdict": "PASS"
     },
     {
-      "band": "4 RAAN spread after 90 d",
-      "limit": ">= 5 deg",
-      "result": 359.75212952999993,
+      "band": 3,
+      "question": "max |d RAAN| at epoch",
+      "limit": "<=0.75 deg",
+      "result": 0.15681399999999712,
       "verdict": "PASS"
     },
     {
-      "band": "5 GMAT SMA vs astro.py",
-      "limit": "<= 0.5 %",
-      "result": 1.4676549749744867,
-      "verdict": "FAIL"
+      "band": 4,
+      "question": "RAAN spread 90 d",
+      "limit": ">=5 deg",
+      "result": 367.0395254770002,
+      "verdict": "PASS"
+    },
+    {
+      "band": 5,
+      "question": "GMAT SMA vs astro.py",
+      "limit": "<=0.5 %",
+      "result": 7.1103619803608985e-09,
+      "verdict": "PASS"
     }
   ],
-  "raan_spread_90d_deg": 359.75212952999993,
-  "altitude_extent_km": 114.60409664069812,
-  "band6": "NOT EVALUATED: report set carries elements, not Cartesian positions",
+  "raan_spread_90d_deg": 367.0395254770002,
+  "altitude_extent_km": 117.16863504689081,
+  "band6": "NOT EVALUATED: report set carries Keplerian elements, not Cartesian positions",
   "band7": "4.00 h by construction",
   "band8": "Case B not generated"
 }

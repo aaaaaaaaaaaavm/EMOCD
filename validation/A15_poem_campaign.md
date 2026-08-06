@@ -35,6 +35,48 @@ deployment story this project tells survives an independent propagator.
 > A15 asks is secular J2 drift, which does not need that resolution. **That is a change to the
 > analysis and it is recorded here rather than made quietly.**
 
+## Result, R1, 2026-08-06: **five of five evaluable bands PASS — and band 4's prediction was wrong by 28x**
+
+GMAT R2022a, 90 days, twelve satellites, 60 474 rows each. Bands committed at `e067da8`.
+
+| # | Question | Band | Predicted | GMAT | Verdict |
+|---|---|---|---:|---:|---|
+| 1 | Max inclination change, any one satellite | ≤ 0.13° | 0.1229° | **0.1229°** | **PASS** |
+| 2 | Altitude extent | ≥ 100 km | 117.2 km | **117.2 km** | **PASS** |
+| 3 | Max RAAN change at epoch | ≤ 0.75° | 0.1568° | **0.1568°** | **PASS** |
+| 4 | RAAN spread after 90 days | ≥ 5° | 13.2° | **367.0°** | **PASS** |
+| 5 | GMAT SMA vs `astro.boosted_elements` | ≤ 0.5 % | — | **0.0000 %** | **PASS** |
+
+Bands 6, 7 and 8 were **not evaluated**: band 6 needs Cartesian positions the report set does not
+carry, band 7 is a property of the script rather than a GMAT output, band 8's Case B is not
+generated. They are open, not passed.
+
+### Band 4 passed, and my prediction of it was badly wrong
+
+**367° against 13.2°.** The analytic prediction assumed nodal regression at a *fixed* semi-major
+axis, so the differential was frozen at the 0.147 °/day the initial 59 km spread produces. GMAT
+propagates with drag, and drag makes the spread **grow**: the satellites left with lower perigees
+decay faster, the semi-major axes diverge, and the RAAN rate difference widens with them. The
+final SMA range is **6770 to 6848 km, a 78 km spread against the 59 km it started with.**
+
+So the mechanism is not differential J2 at fixed altitude. It is **drag-amplified differential
+J2**, and it is roughly 28 times stronger over 90 days than the frozen-altitude estimate.
+
+**This is a pass that should be read carefully.** The band asked for ≥ 5° and got 367°, but a
+number that far from prediction means the model behind the prediction was incomplete, not that
+the design is 28 times better than thought. Two consequences follow and neither is comfortable:
+
+- **367° is more than a full revolution of relative nodal position.** The planes do not simply
+  spread — they wrap, so pairs of satellites re-align in RAAN at some point during the campaign.
+  A15 band 6 was the one that would have caught whether that matters, and it could not be
+  evaluated.
+- **The spread is a decay artefact as much as a design feature.** Satellites separating in plane
+  because they are falling at different rates is not the same product claim as satellites placed
+  in different planes, and `SUMMARY.md` and the paper should not conflate them.
+
+`docs/RESULTS.md` and the deployment framing need this distinction before either quotes a plane
+spread.
+
 ## The question, and the thing it is easy to get wrong
 
 VOLLEY's pitch is "twelve satellites, twelve different orbits". This analysis asks an independent
