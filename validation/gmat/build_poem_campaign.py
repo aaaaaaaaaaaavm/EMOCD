@@ -151,7 +151,8 @@ def build_case(case_id, cfg, dv, epoch, days, outdir, tmpl):
             "Create ReportFile rep{n};\n"
             "GMAT rep{n}.Filename = '{o}/{case}/{n}.txt';\n"
             "GMAT rep{n}.Add = {{{n}.UTCGregorian, {n}.Earth.SMA, {n}.Earth.ECC, "
-            "{n}.EarthMJ2000Eq.INC, {n}.EarthMJ2000Eq.RAAN, {n}.Earth.Altitude}};\n"
+            "{n}.EarthMJ2000Eq.INC, {n}.EarthMJ2000Eq.RAAN, {n}.Earth.Altitude, "
+            "{n}.EarthMJ2000Eq.X, {n}.EarthMJ2000Eq.Y, {n}.EarthMJ2000Eq.Z}};\n"
             "GMAT rep{n}.WriteHeaders = true;\n"
             "GMAT rep{n}.Precision = 12;\n".format(n=name, o=outdir, case=case_id.lower()))
 

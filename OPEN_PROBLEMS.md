@@ -68,6 +68,25 @@ device derating discussion still holds at the higher current (it should, 96 V ra
 1200 V devices, but the current rating of the bridge and busbars needs restating).
 
 ### P3. Far-field stray values don't reproduce exactly: LOW PRIORITY
+
+> **QUANTIFIED 2026-08-05 by `analysis/far_field_sensitivity.py`.** P3's diagnosis was right and
+> the size of it was not known. Sweeping `build_field(n_wave)` from 3 to 15 wavelengths against a
+> converged reference:
+>
+> | Station | Deviation at the default n=7 (336 mm) | Converged |
+> |---|---:|---:|
+> | 10 mm | **0.64 %** | 22.688 mT |
+> | 20 mm | 4.36 % | 4.290 mT |
+> | 50 mm | **374 %** | 0.104 mT |
+>
+> **The 10 mm value is converged and the 50 mm value is not remotely.** At n=7 it is 0.49 mT
+> against a converged 0.104, and it is still 16 % out at n=13. The paper's 1.0 mT corresponds to
+> an array shorter than the CAD's 340 mm. **No 50 mm stray figure in this project should be
+> cited**, including the 0.4 mT in `field_verification.json`, until the array length is set to
+> the CAD value and the model converged.
+>
+> This needs no mesh: magpylib's Cuboid is an exact analytic solution for a uniformly magnetised
+> block, so the field is already three-dimensional. What was missing was the convergence check.
 **RESOLVED 2026-07-23, see CHANGELOG.md P2-03.**
 Paper quotes 22.7 / 4.7 / 1.0 mT at 10 / 20 / 50 mm. `verify_field.py` reproduces
 22.7 mT at 10 mm exactly but gives 4.3 and 0.4 mT at 20 and 50 mm. Likely sensitivity
@@ -560,6 +579,25 @@ correction belongs in the *next* run sheet.
 value and against the **fundamental**, not a raw peak. Two references need naming, not one.
 
 ### P21. Stray field at 50 mm: 2-D cannot test the far field: LOW, NEW 2026-07-29
+
+> **QUANTIFIED 2026-08-05 by `analysis/far_field_sensitivity.py`.** P3's diagnosis was right and
+> the size of it was not known. Sweeping `build_field(n_wave)` from 3 to 15 wavelengths against a
+> converged reference:
+>
+> | Station | Deviation at the default n=7 (336 mm) | Converged |
+> |---|---:|---:|
+> | 10 mm | **0.64 %** | 22.688 mT |
+> | 20 mm | 4.36 % | 4.290 mT |
+> | 50 mm | **374 %** | 0.104 mT |
+>
+> **The 10 mm value is converged and the 50 mm value is not remotely.** At n=7 it is 0.49 mT
+> against a converged 0.104, and it is still 16 % out at n=13. The paper's 1.0 mT corresponds to
+> an array shorter than the CAD's 340 mm. **No 50 mm stray figure in this project should be
+> cited**, including the 0.4 mT in `field_verification.json`, until the array length is set to
+> the CAD value and the model converged.
+>
+> This needs no mesh: magpylib's Cuboid is an exact analytic solution for a uniformly magnetised
+> block, so the field is already three-dimensional. What was missing was the convergence check.
 The second A1 band miss. FEM gives 0.93 mT against a 0.4 mT reference, ratio **2.32** against
 a factor-2 band.
 
@@ -1086,6 +1124,13 @@ is a **lower bound** and the ripple figures are upper bounds. `docs/PHASE_II.md`
 segmentation decision in **P29** both move it: energising less stator cuts L and R together.
 
 ### P34. A payload carrying a magnetometer cannot fly in this magazine: HIGH, NEW 2026-08-05
+
+> **EXTENT BOUNDED 2026-08-05.** `analysis/far_field_sensitivity.py` profiles the field outward
+> from the thrust line. It falls below magnetometer full scale only at **z = 251 mm** and below
+> Earth's own field at **z = 332 mm**. The 3U payload envelope spans z = 20 to 120 mm, so
+> **every part of the payload sits above magnetometer full scale** -- 610.8x at the near face and
+> still 3.4x at the far face. This is not a near-face problem with a safe interior; it is the
+> whole satellite.
 
 **Found by A14, against a band declared before the run.** The payload's nearest face sits **6 mm**
 behind the Halbach array back face — `cad/parameters.json` puts the array back face at z = 14 mm
