@@ -1,0 +1,127 @@
+{
+  "analysis": "A17",
+  "bands_declared_commit": "13b4b3b",
+  "caveat": "SDOF per mode, normalised so amplification is independent of modal mass. The ripple force travels with the sled; this moving-load aspect is not modelled, and band 4 additionally assumes a uniform-beam effective mass of half the distributed 20 kg.",
+  "ripple_amplitude_N": 13.7536245,
+  "sled_acceleration_m_s2": 103.32874674600224,
+  "modes": {
+    "pinned_pinned_Hz": 48.0,
+    "fixed_fixed_Hz": 109.0,
+    "EI_kNm2": 63.3,
+    "target_Hz": 70
+  },
+  "q_sweep": [
+    20,
+    50,
+    100,
+    200,
+    350,
+    500
+  ],
+  "cases": [
+    {
+      "case": "6th harmonic through the pinned mode",
+      "f_mode_Hz": 48.0,
+      "harmonic": 6,
+      "sweep_rate_Hz_s": 12916.093343250279,
+      "v_at_crossing_m_s": 0.38400000000000006,
+      "t_at_crossing_s": 0.0037162939849055793,
+      "distance_into_stroke_m": 0.0007135284451018714,
+      "force_amplitude_N": 13.7536245,
+      "amplification": {
+        "20": 1.092763997244594,
+        "50": 1.116726152046017,
+        "100": 1.1249058083286245,
+        "200": 1.1289897834161142,
+        "350": 1.13074341317476,
+        "500": 1.1314448955610026
+      },
+      "static_deflection_m": 1.5120806355384727e-05,
+      "peak_disp_m": 1.7108359167566415e-05,
+      "peak_disp_pct_of_gap_budget": 34.216718335132825
+    },
+    {
+      "case": "6th harmonic through the fixed mode",
+      "f_mode_Hz": 109.0,
+      "harmonic": 6,
+      "sweep_rate_Hz_s": 12916.093343250279,
+      "v_at_crossing_m_s": 0.872,
+      "t_at_crossing_s": 0.008439084257389751,
+      "distance_into_stroke_m": 0.0036794407362219315,
+      "force_amplitude_N": 13.7536245,
+      "amplification": {
+        "20": 2.96431246211871,
+        "50": 3.207054010693802,
+        "100": 3.2947539871409233,
+        "200": 3.3384464510665266,
+        "350": 3.3579378416280643,
+        "500": 3.365770674370079
+      },
+      "static_deflection_m": 2.9322731960951443e-06,
+      "peak_disp_m": 9.86935913265846e-06,
+      "peak_disp_pct_of_gap_budget": 19.73871826531692
+    },
+    {
+      "case": "fundamental through the fixed mode",
+      "f_mode_Hz": 109.0,
+      "harmonic": 1,
+      "sweep_rate_Hz_s": 2152.6822238750465,
+      "v_at_crossing_m_s": 5.232,
+      "t_at_crossing_s": 0.05063450554433851,
+      "distance_into_stroke_m": 0.13245986650398955,
+      "force_amplitude_N": 13.7536245,
+      "amplification": {
+        "20": 6.510195744243942,
+        "50": 7.507316352620219,
+        "100": 7.9506164008582205,
+        "200": 8.183854738063776,
+        "350": 8.286055665053485,
+        "500": 8.328071888236284
+      },
+      "static_deflection_m": 2.9322731960951443e-06,
+      "peak_disp_m": 2.442018197302873e-05,
+      "peak_disp_pct_of_gap_budget": 48.84036394605746
+    }
+  ],
+  "q_for_2x": {
+    "6th harmonic through the pinned mode": null,
+    "6th harmonic through the fixed mode": 20,
+    "fundamental through the fixed mode": 20
+  },
+  "bands": [
+    {
+      "band": 1,
+      "q": "Amplification at the 109 Hz fixed mode, Q <= 200",
+      "result": 3.3384464510665266,
+      "verdict": "FAIL"
+    },
+    {
+      "band": 2,
+      "q": "Amplification at the 48 Hz pinned mode, Q <= 200",
+      "result": 1.1289897834161142,
+      "verdict": "PASS"
+    },
+    {
+      "band": 3,
+      "q": "Q at which amplification first reaches 2x",
+      "result": {
+        "6th harmonic through the pinned mode": null,
+        "6th harmonic through the fixed mode": 20,
+        "fundamental through the fixed mode": 20
+      },
+      "verdict": "REPORT -- the deliverable"
+    },
+    {
+      "band": 4,
+      "q": "Peak displacement vs the +/-0.05 mm gap budget",
+      "result_pct": 48.84036394605746,
+      "verdict": "FAIL"
+    },
+    {
+      "band": 5,
+      "q": "Amplification at the fundamental crossing of 109 Hz",
+      "result": 8.183854738063776,
+      "verdict": "FAIL"
+    }
+  ]
+}

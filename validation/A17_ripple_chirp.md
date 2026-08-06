@@ -2,9 +2,72 @@
 
 **Closes:** `OPEN_PROBLEMS.md` **E23**.
 
-> ## BANDS DECLARED 2026-08-05. NOT YET RUN.
+> ## RUN 2026-08-05. Verdict **FAIL — three of five bands, and E23's own argument is falsified**
 >
-> Committed before `analysis/chirp_response.py` existed.
+> Bands committed at **`13b4b3b`**, before `analysis/chirp_response.py` existed. None widened.
+>
+> **E23 predicted this would be benign. It is not.** The sweep is *not* too fast for resonant
+> buildup at the 109 Hz fixed-fixed mode, and the failure does not go away at any plausible Q.
+
+## Result, 2026-08-05
+
+Ripple amplitude **13.75 N** on 1389.3 N, sled acceleration 103.33 m/s². Peak dynamic
+amplification, normalised so it is independent of modal mass:
+
+| Crossing | Sweep rate | Q=20 | Q=50 | Q=100 | Q=200 | Q=350 | Q=500 |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| 6th harmonic → 48 Hz pinned | 12 916 Hz/s | 1.09 | 1.12 | 1.13 | **1.13** | 1.13 | 1.13 |
+| 6th harmonic → 109 Hz fixed | 12 916 Hz/s | 2.96 | 3.21 | 3.30 | **3.34** | 3.36 | 3.37 |
+| **Fundamental → 109 Hz fixed** | 2 153 Hz/s | 6.51 | 7.51 | 7.95 | **8.18** | 8.29 | 8.33 |
+
+| # | Question | Band | Result | Verdict |
+|---|---|---|---:|---|
+| 1 | Amplification at 109 Hz, Q ≤ 200 | < 2× | **3.34×** | **FAIL** |
+| 2 | Amplification at 48 Hz, Q ≤ 200 | < 2× | 1.13× | **PASS** |
+| 3 | Q at which amplification reaches 2× | report | **≤ 20 for both fixed-mode crossings** | reported |
+| 4 | Peak displacement vs the ±0.05 mm gap budget | < 25 % | **49 %** | **FAIL** |
+| 5 | Amplification at the fundamental crossing | < 2× | **8.18×** | **FAIL** |
+
+### Why E23's argument fails, and it is not about Q
+
+E23 reasoned that transit through any plausible half-power bandwidth takes about a millisecond,
+too fast for buildup, and that the answer therefore hinged on a Q the repository does not have.
+**Q is not the variable that matters here.** Between Q = 20 and Q = 500 the amplification at the
+fundamental crossing moves only from 6.51 to 8.33 — it is already saturated at the lowest damping
+anyone would assign to bolted aluminium.
+
+What governs it is the **normalised sweep rate**, `rate/f²`. For the 6th harmonic through 48 Hz
+that is 5.6 and the response barely builds. For the fundamental through 109 Hz it is **0.18**: the
+excitation dwells near resonance for many cycles and the mode has time to respond regardless of
+damping. **Band 3's answer is therefore that there is no Q low enough to make this benign**, which
+is the opposite of what the item expected.
+
+**The fundamental is the dangerous crossing, not the 6th harmonic**, and E23's table only listed
+it in passing. It happens at 5.23 m/s, 50.6 ms into the stroke, 132.5 mm along — well clear of the
+breech, contradicting E23's remark that the crossings occur while the sled is still next to the
+launch-lock hardware. That was true of the 6th-harmonic crossings and not of the one that matters.
+
+### What is robust here and what is not
+
+**The amplification figures are robust.** They are dimensionless and independent of modal mass, so
+they do not depend on the effective-mass assumption.
+
+**Band 4's displacement is not.** It uses a uniform-beam effective mass of half the distributed
+20 kg, and more importantly **the ripple force travels with the sled** — a moving load on a beam,
+which this SDOF model does not represent. 49 % of the gap budget is an indication that the
+coupling is worth taking seriously, not a number to design against.
+
+### Consequence
+
+**E23 is closed as an analysis and becomes a design driver.** `sizing.py`'s static "above 70 Hz to
+clear the launch primary band" is necessary and not sufficient: the track also has to survive an
+8× amplified ripple excitation at its own fixed-fixed mode, twelve times per campaign. That needs
+a damping specification, which the project does not have, and it makes **T-2's sine sweep a
+pass/fail qualification item rather than a signature comparison.**
+
+Logged as a new numbered defect.
+
+---
 
 ## Why
 

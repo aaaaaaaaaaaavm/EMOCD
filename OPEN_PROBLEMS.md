@@ -1141,6 +1141,29 @@ and cannot go stale.
 together, or mark `DV` explicitly as the frozen historical value those two analyses were run at
 and delete the claim that it tracks `astro.py`. The second is honest and costs nothing.
 
+### P36. The track has no dynamic design case, and A17 says it needs one: HIGH, NEW 2026-08-05
+
+`sizing.py::track_first_mode()` checks the track against one static target -- above 70 Hz to clear
+the launch primary band. **A17 shows that is necessary and not sufficient.** Every shot chirps the
+force ripple through the 109 Hz fixed-fixed mode, and the mode amplifies it **8.18x** at the
+fundamental crossing, twelve times per campaign.
+
+**It does not go away with damping.** Amplification moves from 6.51 at Q = 20 to 8.33 at Q = 500,
+so no plausible bolted-aluminium Q rescues it. The governing parameter is the normalised sweep
+rate `rate/f^2 = 0.18`, slow enough for the mode to respond fully regardless of Q.
+
+**What the project does not have:** any damping specification, loss factor or Q for the track; a
+moving-load model, since the ripple force travels with the sled and A17's SDOF does not represent
+that; and a dynamic acceptance criterion beside the static 70 Hz one.
+
+**What would close it:** a damping specification with a measurement behind it, and a moving-load
+response model. **T-2's sine sweep becomes a pass/fail qualification item rather than a signature
+comparison** on this result, and that belongs in `docs/QUALIFICATION_PLAN.md`.
+
+**Not a kill criterion.** A17's displacement estimate -- 49 % of the +/-0.05 mm gap budget --
+rests on an assumed effective mass and the unmodelled moving load, so it shows the coupling
+matters without establishing that it breaks anything.
+
 > **Not all of these weigh the same.** Three of the entries below are threats to whether the
 > machine has a reason to exist rather than engineering work, and they are hard to see in a
 > numbered list. [`docs/KILL_CRITERIA.md`](docs/KILL_CRITERIA.md) separates them, with the value
@@ -1490,7 +1513,18 @@ Not quantified here, it depends on the track-to-array standoff and the conductiv
 whatever is actually there, and the standoff is not a single number in `cad/parameters.json`.
 The check is cheap once that geometry is pinned, and it belongs with A1.
 
-### E23. Force-ripple harmonics sweep the track's own structural modes every shot: NEW 2026-07-29
+### E23. Force-ripple harmonics sweep the track's own structural modes every shot: **CLOSED 2026-08-05 by A17, and it FAILED**
+
+> **This item predicted the answer would be benign. It is not.** Peak amplification is **8.18x**
+> at the fundamental crossing of the 109 Hz fixed-fixed mode and **3.34x** at the 6th-harmonic
+> crossing, against a declared band of 2x. **Q is not the variable that matters**: between Q = 20
+> and Q = 500 the fundamental case moves only from 6.51 to 8.33, saturated at the lowest damping
+> anyone would assign to bolted aluminium. What governs it is the normalised sweep rate
+> `rate/f^2`, which is 0.18 at that crossing -- slow enough for the mode to respond fully.
+>
+> The dangerous crossing is the **fundamental at 5.23 m/s, 132.5 mm into the stroke**, not the
+> 6th harmonic near the breech this entry emphasised. Opened as **P36**. See
+> [`validation/A17_ripple_chirp.md`](validation/A17_ripple_chirp.md).
 > **The cogging half retires; the sweep half does not.** Ironless construction has zero cogging
 > by design, so the largest ripple source in an iron-core machine is absent. But E23 is about
 > the *electrical* ripple chirping through the modes, and industrial stages run at constant
@@ -1609,7 +1643,15 @@ conduction or radiation model behind it and is removed. A thermal network, conta
 surface properties, and the resolved P31 cadence are required. The 0.32 m2 radiator number remains
 an assumed 130 W steady rejection case, not a demonstrated campaign transient.
 
-### E27. Gen4 finite-stator force and energy are not modelled: NEW 2026-08-03
+### E27. Gen4 finite-stator force and energy are not modelled: **CLOSED 2026-08-05 by A16**
+
+> **Run against bands declared at `13b4b3b`.** Thrust per metre of overlapped array is 4086.0 N/m;
+> at full overlap that reproduces `F_cmd` to **0.000 %**, the self-consistency test the analysis
+> turns on. Force at release falls to **782.5 N**, 56.3 % of full. **Work over the 900 mm stroke
+> is 1205.3 J and exit velocity is 13.390 m/s -- 81.7 % of the Phase I 16.388.** The stationing
+> costs 18.3 % of velocity, and because the method omits end fields, winding termination and
+> phase-progression disturbance, **that is an upper bound.** See
+> [`validation/A16_gen4_finite_stator.md`](validation/A16_gen4_finite_stator.md).
 
 The Gen4 working assembly exposes an end effect that the Phase I periodic/uniform-stator model
 does not contain. The array is fully overlapped for 751.5 mm of the 900 mm acceleration stroke,
