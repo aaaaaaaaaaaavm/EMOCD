@@ -1,9 +1,9 @@
 # Running the A15 POEM campaign in GMAT
 
-The scripts are generated and cross-checked here. **GMAT is not installed in the environment
-this repository is developed in**, so the run happens on your machine and the reports come back.
-Until they do, `validation/A15_poem_campaign.md` says *generated and cross-checked, not
-executed*, and A15 must not be described as a run.
+**GMAT R2022a is installed in the development environment as of 2026-08-06** at
+`/opt/gmat/GMAT/R2022a`, so the scripts are now validated by execution rather than by
+inspection. The first delivery did **not** run: `ReportFile` has no `ReportStepSize` field and
+all three scripts were rejected at parse time. That is fixed.
 
 ## 1. Regenerate, if anything upstream changed
 

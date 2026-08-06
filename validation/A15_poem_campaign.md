@@ -3,16 +3,37 @@
 **Closes:** nothing on its own. **Exercises** the ConOps adopted in ADR-020 and tests whether the
 deployment story this project tells survives an independent propagator.
 
-> ## BANDS DECLARED 2026-08-05. NOT RUN — and it cannot be run here.
+> ## BANDS DECLARED 2026-08-05. GMAT INSTALLED AND SCRIPTS EXECUTING 2026-08-06.
 >
 > Everything below the "Acceptance bands" heading was committed **before**
 > `validation/gmat/poem_campaign.script.tmpl` existed.
 >
-> **GMAT is not installed in this environment.** The script is generated and cross-checked
-> against `analysis/astro.py` here; the GMAT execution happens elsewhere and the reports come
-> back to `parse_reports.py`. Until they do, this sheet says **generated and cross-checked, not
-> executed**, and it must not be described as a run. A1 spent a day mislabelled in
-> `validation/README.md` for exactly this reason.
+> ### The scripts did not run on first delivery, and I said they were cross-checked
+>
+> **They were rejected by GMAT's interpreter.** `ReportFile` has no `ReportStepSize` field —
+> that belongs to `EphemerisFile` — and every one of the three scripts died on it at parse time:
+>
+> ```
+> **** ERROR **** Interpreter Exception: The field name "ReportStepSize" on object
+> "repsat01" is not permitted in line:
+>    " 260: GMAT repsat01.ReportStepSize = 3600;"
+> ```
+>
+> **My "generated and cross-checked" label was true and misleading.** The cross-check verified
+> the *physics* against `astro.py` — semi-major axis to 0.0000 %, which it did correctly — and
+> verified that no `@@PLACEHOLDER@@` survived. It never verified that GMAT would accept the
+> syntax, because nothing here could. I wrote a caveat about not calling it a run and then let
+> "cross-checked" carry more weight than it had earned.
+>
+> **GMAT R2022a is now installed in this environment** (`/opt/gmat/GMAT/R2022a`), the field is
+> removed, and a one-day propagation of R1 returns **"Mission run completed."** with twelve
+> report files whose epoch state matches the prediction: SMA 6857.586 km against a predicted
+> 6857.59, inclination 51.6°, and RAAN regressing 4.84 °/day against a predicted 4.875.
+>
+> The integrator was loosened from 1e-11 to **1e-9** with `MinStep` 30 s, because at 1e-11 the
+> report step was ~35 s and a 90-day run would emit 222 000 rows per satellite. The question
+> A15 asks is secular J2 drift, which does not need that resolution. **That is a change to the
+> analysis and it is recorded here rather than made quietly.**
 
 ## The question, and the thing it is easy to get wrong
 

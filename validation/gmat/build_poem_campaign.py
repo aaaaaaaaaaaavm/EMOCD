@@ -153,7 +153,7 @@ def build_case(case_id, cfg, dv, epoch, days, outdir, tmpl):
             "GMAT rep{n}.Add = {{{n}.UTCGregorian, {n}.Earth.SMA, {n}.Earth.ECC, "
             "{n}.EarthMJ2000Eq.INC, {n}.EarthMJ2000Eq.RAAN, {n}.Earth.Altitude}};\n"
             "GMAT rep{n}.WriteHeaders = true;\n"
-            "GMAT rep{n}.ReportStepSize = 3600;\n".format(n=name, o=outdir))
+            "GMAT rep{n}.Precision = 12;\n".format(n=name, o=outdir))
 
     mapping = dict(
         CASE_ID=case_id, ALT_KM='%.0f' % (alt_m / 1000.0), INC_DEG=inc,

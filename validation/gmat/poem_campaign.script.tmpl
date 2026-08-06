@@ -46,8 +46,8 @@ Create Propagator LEOProp;
 GMAT LEOProp.FM = LEOForces;
 GMAT LEOProp.Type = @@INTEGRATOR@@;
 GMAT LEOProp.InitialStepSize = 60;
-GMAT LEOProp.Accuracy = 1e-11;
-GMAT LEOProp.MinStep = 0.001;
+GMAT LEOProp.Accuracy = 1e-9;
+GMAT LEOProp.MinStep = 30;
 GMAT LEOProp.MaxStep = 2700;
 
 @@REPORT_BLOCK@@
