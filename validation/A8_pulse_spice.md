@@ -32,6 +32,35 @@ at `40e09f9`.
 The copper-loss band is loosest because the analytic model uses a single temperature and
 the simulation will not.
 
+## A8-R2: bands declared 2026-08-05, before re-running
+
+**Third declaration, and the reason is P19 again.** A8's original bands were set at the 20.37 m/s
+point. A8-R's were set at 16.537 m/s. The 2026-08-03 quadrature correction moved the operating
+point a third time, to 16.388 m/s, and `validation/README.md` has been carrying A8 as
+"superseded by the quadrature correction and not rerun" ever since.
+
+**The deck is also stale.** `validation/spice/emocd_shot.cir` hardcodes `F=1413.448`, the
+pre-quadrature commanded force; the current value is **1389.255 N**. Its `Pcu=5263` happens to
+still be right. Both are updated from `motor_results.json` before this runs.
+
+Rewriting the earlier bands to fit the new numbers would destroy the only thing a declared band
+is worth, so they are left where they are and these are new.
+
+| Quantity | Reference | Band | Why this width |
+|---|---|---|---|
+| Peak current | 338.816 A | ±10 % | unchanged from A8-R; the quantity has not become harder to predict |
+| Bank sag over the shot | 5.296 % | ±1.5 percentage points | unchanged |
+| Energy drawn from the bank | 2850.9 J | ±5 % | unchanged |
+| Copper loss per shot | 834.7 J | ±15 % | loosest, because the analytic model uses a single temperature |
+| Pulse duration to release | 158.6 ms | ±10 % | unchanged |
+| Energy closure | 100 % accounted | 98–102 % | unchanged |
+
+**What this tests.** ngspice integrates the same shot through an independent circuit
+formulation — node voltages carrying mechanical state — rather than `motor_model.shot()`'s
+Python loop. A disagreement is either a modelling fork or an integrator artefact, and both are
+worth knowing. It is *not* an independent physical method: the constants come from
+`motor_model.py`.
+
 ## A8-R: re-run at the current operating point, bands declared 2026-07-30 before running
 
 The bands above were set against the 20.37 m/s point and the 4.86 kg parametric sled. P15 moved
