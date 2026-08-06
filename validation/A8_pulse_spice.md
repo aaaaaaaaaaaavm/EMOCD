@@ -61,6 +61,31 @@ Python loop. A disagreement is either a modelling fork or an integrator artefact
 worth knowing. It is *not* an independent physical method: the constants come from
 `motor_model.py`.
 
+### A8-R2 result, 2026-08-05: **six of six bands PASS**
+
+ngspice ran the updated deck. Bands were committed at `1e15b0a`, before the deck was touched.
+
+| Quantity | Band reference | ngspice | Deviation | Verdict |
+|---|---:|---:|---:|---|
+| Peak current | 338.816 A ±10 % | **338.80 A** | 0.005 % | **PASS** |
+| Bank sag | 5.296 % ±1.5 pp | **5.294 %** | 0.002 pp | **PASS** |
+| Energy drawn | 2850.9 J ±5 % | **2849.7 J** | 0.04 % | **PASS** |
+| Copper loss | 834.7 J ±15 % | **834.7 J** | 0.00 % | **PASS** |
+| Pulse duration | 158.6 ms ±10 % | **158.63 ms** | 0.02 % | **PASS** |
+| Energy closure | 98–102 % | **100.02 %** | — | **PASS** |
+
+Exit velocity comes out at **16.391 m/s** against the model's 16.388, a 0.016 % agreement.
+
+**What this is worth, stated honestly.** The agreement is very close because it should be: the
+deck takes `F`, `Pcu`, `m`, `eta` and `R_esr` from `motor_model.py` rather than deriving them, so
+this tests the **integration**, not the physics. Copper loss agrees to 0.00 % by construction —
+the deck carries it as a constant. What is genuinely tested is that an independent circuit
+formulation, with node voltages carrying mechanical state and a real ESR in the loop, reaches the
+same exit velocity, peak current and bank sag as a Python loop. It does.
+
+**A8 is no longer stale.** `validation/README.md` had carried it as superseded by the quadrature
+correction and not rerun since 2026-08-03. It is now current at 16.388 m/s.
+
 ## A8-R: re-run at the current operating point, bands declared 2026-07-30 before running
 
 The bands above were set against the 20.37 m/s point and the 4.86 kg parametric sled. P15 moved

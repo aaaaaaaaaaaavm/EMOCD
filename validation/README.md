@@ -28,7 +28,7 @@ another model (E4). Each analysis closes a specific named item.
 | A9 | Decay rate against flown CubeSats (TLE history) | Space-Track + numpy | **E6, against reality rather than another model** | **NOT RUN**, blocked by network policy here and re-tested 2026-07-31. **Candidate objects now shortlisted** in the sheet, so this is an afternoon elsewhere |
 | A6 | Conjunction probability | scipy 2-D Pc (CARA substituted) | P1 — **not closed** | **CORRECTED 2026-08-03**: fixed-shape claim retracted; current slab bound 4.4e-5, two of five bands, three **VOID**, P1 open |
 | A7 | Separation and tip-off | Project Chrono | E7-adjacent | **still specified, not run.** **A7-R RUN 2026-08-05** instead: Chrono is unavailable and the release mechanism is undefined, so the tolerance was computed rather than the rate — the full push may act unbalanced for only **50.7 µs** before the 2 °/s band breaks |
-| A8 | Pulse-power chain | ngspice / PySpice | E17 | **RUN 2026-07-30** as A8-R; now superseded by the 2026-08-03 quadrature correction and not rerun in ngspice |
+| A8 | Pulse-power chain | ngspice / PySpice | E17 | **RERUN 2026-08-05** as A8-R2 at the corrected point: six of six bands, exit velocity agrees to 0.016 % |
 | A10 | Shot against a realistic bank ESR | `motor_model.shot()` | nothing; **opened P26** | **RERUN 2026-08-03**: hard ceiling 68 mohm, five of six bands, one VOID |
 | A11 | Regenerative recovery of sled energy | `motor_model.regen_brake()` | nothing; asks what R5 did not | **RERUN 2026-08-03**: 291.4 J recovered, eight of eight bands |
 | A12 | Inter-array attraction, two numerical methods | magpylib + surface Maxwell stress | **P17** | **CORRECTED 2026-08-03**: extended stress plane 2680.0 N vs 2686.6 N volume force; five of five bands |
