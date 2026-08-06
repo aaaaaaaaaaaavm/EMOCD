@@ -149,11 +149,11 @@ def build_case(case_id, cfg, dv, epoch, days, outdir, tmpl):
                 da=drag_area(PAYLOAD_MASS, BC)))
         rep_blocks.append(
             "Create ReportFile rep{n};\n"
-            "GMAT rep{n}.Filename = '{o}/{n}.txt';\n"
+            "GMAT rep{n}.Filename = '{o}/{case}/{n}.txt';\n"
             "GMAT rep{n}.Add = {{{n}.UTCGregorian, {n}.Earth.SMA, {n}.Earth.ECC, "
             "{n}.EarthMJ2000Eq.INC, {n}.EarthMJ2000Eq.RAAN, {n}.Earth.Altitude}};\n"
             "GMAT rep{n}.WriteHeaders = true;\n"
-            "GMAT rep{n}.Precision = 12;\n".format(n=name, o=outdir))
+            "GMAT rep{n}.Precision = 12;\n".format(n=name, o=outdir, case=case_id.lower()))
 
     mapping = dict(
         CASE_ID=case_id, ALT_KM='%.0f' % (alt_m / 1000.0), INC_DEG=inc,
@@ -165,6 +165,7 @@ def build_case(case_id, cfg, dv, epoch, days, outdir, tmpl):
         F107=F107, F107A=F107A, KP=KP, INTEGRATOR=INTEGRATOR, DAYS=days,
         SPACECRAFT_BLOCK='\n'.join(sc_blocks), REPORT_BLOCK='\n'.join(rep_blocks),
         PROP_LIST=', '.join(['poem'] + names))
+    os.makedirs(os.path.join(outdir, case_id.lower()), exist_ok=True)
     path = os.path.join(outdir, 'a15_poem_%s.script' % case_id.lower())
     with open(path, 'w', encoding='utf-8') as f:
         f.write(fill(tmpl, mapping))
