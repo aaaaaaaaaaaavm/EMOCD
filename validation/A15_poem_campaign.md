@@ -35,7 +35,40 @@ deployment story this project tells survives an independent propagator.
 > A15 asks is secular J2 drift, which does not need that resolution. **That is a change to the
 > analysis and it is recorded here rather than made quietly.**
 
-## Result, R1, 2026-08-06: **five of five evaluable bands PASS — and band 4's prediction was wrong by 28x**
+## Result, all three cases, 2026-08-06
+
+GMAT R2022a, 90 days, twelve satellites per case, ~60 000 rows each. Bands at `e067da8`.
+
+| | R1 450/51.6 | R2 350/55.2 | R3 350/9.6 | Band |
+|---|---:|---:|---:|---|
+| 1 max inclination change | 0.1229° | 0.1220° | 0.1220° | ≤ 0.13° **PASS** |
+| 2 altitude extent | 117.2 km | 114.6 km | 114.6 km | ≥ 100 km **PASS** |
+| 3 max RAAN change at epoch | 0.1568° | 0.1486° | 0.7315° | ≤ 0.75° **PASS** |
+| 4 RAAN spread at 90 d | 367.0° | 364.8° | 366.2° | ≥ 5° **PASS** |
+| 5 SMA vs `astro.boosted_elements` | 0.0000 % | 0.0000 % | 0.0000 % | ≤ 0.5 % **PASS** |
+| 6 min inter-object separation | 2.275 km | 3.763 km | 22.578 km | **NOT RELIABLY EVALUATED** |
+
+**R3 exercises band 3 hardest**, reaching 0.7315° against a 0.75° limit — the low-inclination
+case gives the largest RAAN change per cross-track shot, as predicted, and very nearly fails.
+
+### Band 6 is not a pass and is not recorded as one
+
+The minimum separations above are **sampled**, and the sampling is far too coarse to mean
+anything: 4031 samples over 90 days is one point every **1929 s against a 5560 s orbital
+period — 2.9 samples per orbit.** Two objects closing at kilometres per second can pass each
+other entirely between samples.
+
+So 2.275 km is *a distance seen at three arbitrary points per orbit*, not a minimum. **Band 6
+remains unevaluated**, and the honest statement is that A15 has not established inter-object
+safety. Closing it needs a real conjunction screen with adaptive refinement near candidate
+minima — which is what `astro.py`'s `conjunction()` already does at 0.25 s sampling, and what
+**A6** exists for. A6 returned three VOID rows and **P1 is still open**.
+
+**This matters because of band 4.** 367° of nodal spread means the planes wrap and pairs
+re-align during the campaign, so close approaches are plausible rather than hypothetical, and
+band 6 was the band written to catch exactly that.
+
+## Result, R1 detail: **band 4's prediction was wrong by 28x**
 
 GMAT R2022a, 90 days, twelve satellites, 60 474 rows each. Bands committed at `e067da8`.
 
