@@ -1209,6 +1209,31 @@ comparison** on this result, and that belongs in `docs/QUALIFICATION_PLAN.md`.
 rests on an assumed effective mass and the unmodelled moving load, so it shows the coupling
 matters without establishing that it breaks anything.
 
+### P37. The retention gates were sized against a quasi-static load, not the launch environment: HIGH, NEW 2026-08-06
+
+**Found by A18 band 9, against a band declared before the run.** `sizing.py` sizes the retention
+gate at **5.9 kN** through two D6 A-286 pins at MoS 1.2. Miles' equation on the GEVS protoflight
+spectrum (14.1 g_rms, 0.16 g^2/Hz) at the track's 109 Hz fixed-fixed mode gives **11.7 kN at
+Q = 10 and 20.2 kN at Q = 30** -- two to three and a half times the load the gates were sized for.
+
+| Q | 3-sigma load | vs sized | MoS |
+|---:|---:|---:|---:|
+| 10 | 11.7 kN | 1.98x | 0.56 |
+| 20 | 16.5 kN | 2.80x | **0.10** |
+| 30 | 20.2 kN | 3.43x | **-0.10** |
+
+**The pins may not be undersized; the load case was.** 5.9 kN is quasi-static. Random vibration
+through a lightly damped 109 Hz mode is a different problem, and the claimed MoS 1.2 collapses to
+0.10 at Q = 20 and goes negative at Q = 30, past the pins' 18.2 kN shear capacity.
+
+**This compounds P36.** Both turn on a structural Q this project has never specified or measured,
+and both make the same test decisive. `docs/QUALIFICATION_PLAN.md` already calls T-1 *"the single
+most likely qualification failure"*; **it is now a predicted failure rather than a ranked risk.**
+
+**What would close it:** a damping specification with measurement behind it, then resize the gates
+against the random-vibration case, or isolate the cassette stack so the mode does not drive the
+pins. **This is analysis only -- T-1 closes the test half of E10 and nothing here substitutes.**
+
 > **Not all of these weigh the same.** Three of the entries below are threats to whether the
 > machine has a reason to exist rather than engineering work, and they are hard to see in a
 > numbered list. [`docs/KILL_CRITERIA.md`](docs/KILL_CRITERIA.md) separates them, with the value
@@ -1321,7 +1346,10 @@ The payload family table is arithmetic from the same thrust constant. No mechani
 cassette, or structural design exists for larger classes.
 
 ### E10. Launch restraint is drawn but not analysed
-Retention gate pin sizing exists (two D6 A-286, margin 1.2) and the breech launch-lock
+
+> **ANALYSIS HALF CLOSED 2026-08-06 by A18, and it FAILED.** Miles' equation on the GEVS
+> spectrum gives 11.7-20.2 kN through the retention pins against the 5.9 kN they were sized for.
+> Opened as **P37**. T-1 closes the test half and nothing here substitutes for it.Retention gate pin sizing exists (two D6 A-286, margin 1.2) and the breech launch-lock
 blocks are now modelled in CAD (`cad/parameters.json` `track`: `launch_lock`, x = 30-50
 mm, 2 off). The rest, escapement caging, cam lock, tolerance stack-up under vibration,
 is drawn or described, not analysed.
@@ -1479,7 +1507,11 @@ input, with an explicitly documented assumption as the fallback. Until that is d
 figure from this project should be quoted as anything but conditional on its assumption.
 
 ### E19. Eddy-current heating inside the magnet blocks is not modelled: NEW 2026-07-29
-> **Cross-industry review 2026-07-29** (`docs/CROSS_INDUSTRY.md`): this is a named, well-studied
+
+> **CLOSED 2026-08-06 by A18, benign by a factor of 400.** 25.2 W of eddy loss in 3.67 kg of
+> NdFeB over a 158.6 ms pulse is **0.0025 K per shot, 0.030 K per campaign** against a 1 K band.
+> **Segmentation is not needed**: the trade is real for steady-state rotating machines and
+> irrelevant to a 159 ms pulse at 341 Hz.> **Cross-industry review 2026-07-29** (`docs/CROSS_INDUSTRY.md`): this is a named, well-studied
 > loss mechanism in PM machines, and **magnet segmentation is the standard mitigation, which
 > reduces thrust and mechanical robustness.** That is a design option this project did not
 > previously have. Item stays open: the literature is steady-state rotating machines, and
@@ -1505,7 +1537,12 @@ grows with current density, so it works directly against the "raise sheet curren
 calls thermally hard for the winding alone.
 
 ### E20. The brake's force-time profile does not exist: NEW 2026-07-29
-`sizing.py` asserts a 200 g deceleration **cap**, used to size the magnet bond. No script
+
+> **CLOSED 2026-08-06 by A18.** Velocity-proportional eddy drag gives a peak of **15.1 kN at
+> 162.9 g** at a 0.5 T pole field, arresting in 124 mm and 40 ms, with energy matching
+> `regen.KE_to_brake` to 0.005 %. **Bands hold only for a 0.4-0.5 T pole field**: below it the
+> sled overruns the 210 mm envelope, above it the 200 g cap is exceeded. The pole field is a
+> specification nothing in `cad/parameters.json` states.`sizing.py` asserts a 200 g deceleration **cap**, used to size the magnet bond. No script
 anywhere simulates the arrest: there is no force against velocity, no force against
 position, no peak, and no duration. `legacy/c3_c4_em.py` sizes the brake by energy, not by
 transient.
@@ -1539,7 +1576,12 @@ covers outgassing and contamination. Neither covers the roller-to-rail interface
 lubricant, coating, or material pair is specified for it in `cad/parameters.json`.
 
 ### E22. Parasitic eddy drag on the track structure is not in the thrust model: REFRAMED 2026-07-29
-> **Reframed as a design rule rather than an analysis** (`docs/CROSS_INDUSTRY.md`): vendor
+
+> **CLOSED 2026-08-06 by A18 as the design rule it was reframed to be: no conductive structure
+> within 20 mm of the array back face**, where drag is 0.285 % of thrust. At 10 mm it is 3.9 %
+> and at 5 mm **14.5 %**. Applying the rule to every part needs a 3-D minimum-distance check
+> against the assembly, which A18 does not perform -- the track longerons reach 6 mm axially but
+> sit outside the array's half-width, so they are laterally clear rather than axially.> **Reframed as a design rule rather than an analysis** (`docs/CROSS_INDUSTRY.md`): vendor
 > ironless motors keep conductive structure out of the magnet track's field. Specify a minimum
 > standoff and check the CAD against it, cheaper than the computation this item implied.
 The eddy brake works because a moving Halbach field drags on a nearby stationary conductor.
@@ -1678,6 +1720,11 @@ versus 1200 s cadence contradiction remains unresolved.
 
 ### E26. Brake-fin transient temperature across a campaign is not modelled: NEW 2026-08-03
 
+> **CLOSED 2026-08-06 by A18, and ADR-020 is what closed it.** All sixteen swept
+> (emissivity, contact-conductance) pairs fully decay between shots at the 1200 s cadence, so
+> peak fin temperature is always one shot's rise: **34.1 C** against a 150 C band. Even bare
+> copper at the lowest conductance clears 934.7 J in 1200 s. **At the paper's former 10-20 s it
+> would not have**, so this is a result about the cadence rather than the fin.
 The thermal calculation previously used a 300 x 80 x 4 mm copper fin. The Gen3 STEP and the
 validation mass table specify 120 x 80 x 4 mm, 0.344 kg. Correcting that input raises the
 adiabatic increment from about 3 K to about 7 K per shot and the twelve-shot no-cooling bound

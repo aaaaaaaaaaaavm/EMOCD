@@ -1,6 +1,6 @@
 # Validation plan
 
-Independent cross-checks of the claims in `analysis/`. **Twelve of the fourteen below have run.**
+Independent cross-checks of the claims in `analysis/`. **Fourteen of the sixteen below have run.**
 **Two of them failed**, two are partial, one returned three rows that could not be evaluated at
 all, and one found a published number 37 % high.
 
@@ -36,6 +36,7 @@ another model (E4). Each analysis closes a specific named item.
 | A14 | EMI scoping: payload coupling and comms | `drive_electrical` + magpylib | advances **E12**; **opened P34** | **RUN 2026-08-05**, verdict **PARTIAL**: six of eight bands, band 4 **FAIL** at 611x, band 5 VOID. The dominant term is the static magnet field, not the drive |
 | A16 | Gen4 finite-stator thrust vs sled station | magpylib | **E27** | **RUN 2026-08-05**: full-overlap thrust reproduces `F_cmd` to 0.000 %; Gen4 reaches **13.390 m/s, 81.7 % of Phase I**, an upper bound |
 | A17 | Ripple chirp through the track modes | scipy SDOF | **E23**; **opened P36** | **RUN 2026-08-05**, verdict **FAIL**: 8.18x amplification at the fundamental crossing of the 109 Hz mode, and Q is not the variable that saves it |
+| A18 | Brake, magnet eddy, fin transient, launch restraint, standoff | numpy + Miles | **E20, E19, E26, E22**, and E10's analysis half; **opened P37** | **RUN 2026-08-06**: E19/E26/E22 pass, E20 passes only for a 0.4-0.5 T pole field, **E10 FAILS at every Q** |
 
 A10 and A11 are cross-checks of the model against its own physics rather than against an
 external tool, which is a weaker class of check and is labelled as one. They are here because each
